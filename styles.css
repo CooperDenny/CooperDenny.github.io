@@ -6,10 +6,17 @@ header {
     background-image: url('images/header-background.jpg');
     background-size: cover;
     background-position: center;
+    background-color: #23414f; /* Ensures header color */
+    color: white; /* Text color for readability */
+}
+
+.navbar {
+    background-color: #23414f; /* Navbar background color */
 }
 
 .navbar-brand {
     font-weight: bold;
+    color: white; /* Navbar brand text color */
 }
 
 section {
@@ -17,9 +24,9 @@ section {
 }
 
 footer {
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    background-color: #23414f; /* Footer background color */
+    color: white; /* Text color for readability */
+    text-align: center;
 }
 
 .card {
@@ -29,4 +36,9 @@ footer {
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background-color: #23414f; /* Replace with your desired color */
+    border-color: #23414f; /* Make sure the border color matches */
 }

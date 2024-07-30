@@ -6,14 +6,39 @@
     <title>The Melbourne Pedestrian Counting System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        header {
+            background-color: #23414f;
+        }
+        footer {
+            background-color: #23414f;
+        }
+        .navbar {
+            background-color: #23414f;
+        }
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 140px);
+            overflow: hidden;
+        }
+        section {
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
-    <header class="bg-dark text-white text-center py-5">
+    <header class="bg-header text-white text-center py-5">
         <div class="container">
             <h1>The Melbourne Pedestrian Counting System</h1>
         </div>
     </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-navbar sticky-top">
         <div class="container">
             <a class="navbar-brand" href="../index.html">Cooper Denny</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,7 +91,7 @@
             <iframe title="Pedestrian Analysis" width="900" height="560.25" src="https://app.powerbi.com/view?r=eyJrIjoiMTdlMDVjYTItODBmMC00ZWQxLWFhNmItYzQ3NzMxYzlmNzJmIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9" frameborder="0" allowFullScreen="true"></iframe>
         </div>
     </section>
-    <footer class="bg-dark text-white text-center py-3">
+    <footer class="bg-footer text-white text-center py-3">
         <p>&copy; 2024 Cooper Denny</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -74,4 +99,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
