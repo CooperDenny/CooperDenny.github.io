@@ -4,38 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cooper Denny - Data Scientist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Cooper Denny</h1>
-        <p>Data Scientist | Project Enthusiast</p>
+    <header class="bg-dark text-white text-center py-5">
+        <div class="container">
+            <img src="images/profile-photo.jpg" alt="Cooper Denny" class="rounded-circle mb-3" style="width: 150px;">
+            <h1>Cooper Denny</h1>
+            <p class="lead">Data Scientist | Project Enthusiast</p>
+        </div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="#about">About Me</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Cooper Denny</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Me</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
-    <section id="about">
-        <h2>About Me</h2>
-        <p>I am a qualified Data Scientist with a passion for learning through hands-on projects and self-directed work. I am currently working on various projects including 'The Melbourne Pedestrian Counting System'.</p>
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="text-center">About Me</h2>
+            <p class="text-center">I am a qualified Data Scientist with a passion for learning through hands-on projects and self-directed work. I am currently working on various projects including 'The Melbourne Pedestrian Counting System'.</p>
+        </div>
     </section>
-    <section id="projects">
-        <h2>Projects</h2>
-        <ul>
-            <li><a href="projects/melbourne-pedestrian-counting.html">The Melbourne Pedestrian Counting System</a></li>
-            <!-- Add more projects as needed -->
-        </ul>
+    <section id="projects" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center">Projects</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">The Melbourne Pedestrian Counting System</h5>
+                            <p class="card-text">A Power BI dashboard displaying daily and hourly pedestrian counts, differentiated by day, week, and year, with sensor data mapping.</p>
+                            <a href="projects/melbourne-pedestrian-counting.html" class="btn btn-primary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more project cards as needed -->
+            </div>
+        </div>
     </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Email: cooper.denny@icloud.com</p>
-        <!-- Add more contact info if needed -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <h2 class="text-center">Contact</h2>
+            <p class="text-center">Email: <a href="mailto:cooper.denny@example.com">cooper.denny@example.com</a></p>
+        </div>
     </section>
-    <footer>
+    <footer class="bg-dark text-white text-center py-3">
         <p>&copy; 2024 Cooper Denny</p>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
