@@ -3,14 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Victorian Property Prices Dashboard</title>
+    <title>The Melbourne Pedestrian Counting System</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Ensure the html and body take up the full viewport height */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        /* Header and footer styles */
+        header {
+            height: 80px; /* Adjust based on your header's height */
+        }
+        footer {
+            height: 60px; /* Adjust based on your footer's height */
+        }
+        /* Container to manage iframe positioning */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 140px); /* Adjust to fit the viewport height minus header and footer */
+            overflow: hidden; /* Hide scrollbars on container */
+        }
+        /* Iframe styling */
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        /* Adjust section padding to avoid overlap */
+        section {
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-dark text-white text-center py-5">
         <div class="container">
-            <h1>Victorian Property Prices Dashboard</h1>
+            <h1>Australian Arbitrage Odds Finder</h1>
         </div>
     </header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -35,26 +67,8 @@
         </div>
     </nav>
     <section class="py-5">
-        <div class="container">
-            <h2>Project Overview</h2>
-            <p>The Victorian Property Prices Dashboard is an interactive Power BI project designed to offer comprehensive insights into the Victorian property market. This project highlights advanced data visualization techniques and dynamic interactions to facilitate the exploration of property price trends.</p>
-            <h3>Features:</h3>
-            <ul>
-                <li>Dynamic map visualization of sold properties</li>
-                <li>Filterable slicers to analyze data by region, suburb, and property attributes</li>
-                <li>Interactive tables displaying property prices, locations, and key attributes</li>
-            </ul>
-            <h3>Data Source:</h3>
-            <p>The data for this project was sourced from Kaggle, providing a detailed dataset of Victorian property sales.</p>
-            <h3>Data Preparation:</h3>
-            <p>For data preparation, I used Power BI to clean and preprocess the data, including:</p>
-            <ul>
-                <li>Filtering out irrelevant entries and correcting errors</li>
-                <li>Transforming data to facilitate in-depth analysis and visualization</li>
-                <li>Creating calculated columns and measures for enhanced insights</li>
-            </ul>
-            <h3>Dashboard:</h3>
-            <iframe title="Victorian Property Prices Analysis" width="900" height="560.25" src="https://app.powerbi.com/view?r=eyJrIjoiMmM1YmQwNzMtMzkwOS00NWYxLWJlZDItZTAzOWZiMTQ0MmFkIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9" frameborder="0" allowFullScreen="true"></iframe>
+        <div class="iframe-container">
+            <iframe title="H2H Arbitrage Finder" src="H2H-Arbitrage-Finder-knit.html" allowfullscreen="true"></iframe>
         </div>
     </section>
     <footer class="bg-dark text-white text-center py-3">
@@ -65,3 +79,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
