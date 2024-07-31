@@ -21,6 +21,10 @@
         .navbar {
             background-color: #23414f;
         }
+        .btn-primary {
+    background-color: #23414f; /* Replace with your desired color */
+    border-color: #23414f; /* Make sure the border color matches */
+}
         .iframe-container {
             position: relative;
             width: 100%;
@@ -34,6 +38,21 @@
         }
         section {
             padding: 0;
+        }
+        .csv-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .csv-description img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -52,22 +71,30 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About Me</a>
+                        <a class="nav-link" href="../index.html#about">About Me</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
+                        <a class="nav-link" href="../index.html#projects">Projects</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#education">Education</a>
+                        <a class="nav-link" href="../index.html#education">Education</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="../index.html#experience">Experience</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <section class="py-5">
+        <div class="container text-center mb-4">
+            <div class="card p-4">
+                <div class="csv-description">
+                    <p>Download the CSV file containing the data used in the analysis</p>
+                </div>
+                <a href="brownlow_data.csv" class="btn btn-primary" download>Download</a>
+            </div>
+        </div>
         <div class="iframe-container">
             <iframe title="2023 AFL Brownlow Prediction Model" src="AFL.Brownlow.Prediction.Model.html" allowfullscreen="true"></iframe>
         </div>
@@ -80,3 +107,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+
