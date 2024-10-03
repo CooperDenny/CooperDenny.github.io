@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFL Brownlow Prediction Model</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        header {
+            background-color: #23414f;
+        }
+        footer {
+            background-color: #23414f;
+        }
+        .navbar {
+            background-color: #23414f;
+        }
+        .btn-primary {
+    background-color: #23414f; /* Replace with your desired color */
+    border-color: #23414f; /* Make sure the border color matches */
+}
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 140px);
+            overflow: hidden;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+        section {
+            padding: 0;
+        }
+        .csv-description {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .csv-description img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-header text-white text-center py-5">
+        <div class="container">
+            <h1>2023 AFL Brownlow Prediction Model</h1>
+        </div>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">Cooper Denny</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="py-5">
+        <div class="container text-center mb-4">
+            <div class="card p-4">
+                <div class="csv-description">
+                    <p>Download the CSV file containing the data used in the analysis</p>
+                </div>
+                <a href="brownlow_data.csv" class="btn btn-primary" download>Download</a>
+            </div>
+        </div>
+        <div class="iframe-container">
+            <iframe title="2024 AFL Brownlow Prediction Model" src="AFL.Brownlow.Prediction.Model.2024.html" allowfullscreen="true"></iframe>
+        </div>
+    </section>
+    <footer class="bg-footer text-white text-center py-3">
+        <p>&copy; 2024 Cooper Denny</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
