@@ -56,12 +56,6 @@
     <section class="py-5">
         <div class="container">
           <iframe title="Pedestrian Analysis" width="900" height="560.25" src="https://app.powerbi.com/view?r=eyJrIjoiMTdlMDVjYTItODBmMC00ZWQxLWFhNmItYzQ3NzMxYzlmNzJmIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9" frameborder="0" allowFullScreen="true"></iframe>
-            
-            <!-- Embed Jupyter Notebook here -->
-            <h2>Analysis and Code Implementation</h2>
-            <iframe src="https://github.com/CooperDenny/MelbournePedestrianCountingSystem/blob/main/Pedestrian%20Data.ipynb" width="100%" height="600" frameborder="0"></iframe>
-            <!-- Replace the src attribute with the link to your notebook -->
-
             <h2>Project Overview</h2>
             <p>The Melbourne Pedestrian Counting System is a comprehensive Power BI dashboard designed to analyze pedestrian movement patterns in Melbourne. This project showcases advanced data visualization and analysis techniques to provide insights into pedestrian traffic trends.</p>
             <h3>Features:</h3>
@@ -75,19 +69,13 @@
             <h3>Data Source:</h3>
             <p>The data was sourced from <a href="https://pedestrian.melbourne.vic.gov.au">pedestrian.melbourne.vic.gov.au</a>, which provides hourly pedestrian counts from numerous sensors since January 2010.</p>
             <h3>Data Preparation:</h3>
-            <p>To prepare the data for analysis, I utilized R for data cleaning, which involved:</p>
-            <ul>
-                <li>Binding multiple CSV files</li>
-                <li>Fixing inconsistent date formats</li>
-                <li>Handling null and negative values</li>
-                <li>Pivoting the data from wide to long form</li>
-            </ul>
-            <p>This cleaned data formed the foundation for my analysis in Power BI, enabling the creation of new variables and measures such as 4-week and 52-week averages.</p>
+            <p>I utilised Python for data collection and transformation, preparing the data adequately for analysis. My GitHub repository containing the Jupyter Notebook and other files can be found <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem">here</a>.</p>
+            <p>This data formed the foundation for my analysis in Power BI, enabling the creation of new variables and measures such as 4-week and 52-week averages.</p>
             <h3>Dashboard:</h3>
             <p>The dashboard consists of two main pages:</p>
             <ul>
-                <li><strong>Daily Pedestrian Counts:</strong> Focuses on displaying the total pedestrian counts on a daily basis.</li>
-                <li><strong>Average Pedestrian Counts Per Hour:</strong> Provides insights into the average pedestrian traffic per hour, categorized by day of the week, weekday/weekend, and year.</li>
+                <li><strong>Daily Pedestrian Count:</strong> Focuses on displaying the total pedestrian counts on a daily basis.</li>
+                <li><strong>Pedestrian Count Summary:</strong> Provides insights into the average pedestrian traffic per hour, categorized by day of the week, weekday/weekend, and year.</li>
             </ul>
         </div>
     </section>
@@ -99,4 +87,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-
