@@ -18,7 +18,7 @@
         }
 
         /* Header styling */
-        #header, #paginationContainer {
+        #header {
             background-color: #C70039;
             color: white;
             padding: 20px;
@@ -97,15 +97,18 @@
             justify-content: center;
             align-items: center;
             margin-top: 20px;
+            background-color: #C70039; /* Background color for pagination */
+            padding: 10px; /* Add padding */
+            border-radius: 10px; /* Round the corners */
         }
 
         .pagination button {
             padding: 10px 15px;
             margin: 5px;
             cursor: pointer;
-            background-color: #C70039;
+            background-color: white;
             border: none;
-            color: white;
+            color: #C70039;
             border-radius: 5px;
             font-size: 1rem;
         }
@@ -116,6 +119,7 @@
 
         .pagination button:hover {
             background-color: #900C3F;
+            color: white; /* Change text color on hover */
         }
 
         .pagination button[disabled] {
@@ -128,6 +132,44 @@
             padding: 6px;
             border-radius: 4px;
             border: 1px solid #ccc;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 600px) {
+            #tableContainer {
+                width: 95%; /* Make the table container wider on mobile */
+            }
+
+            table {
+                display: block; /* Display table as block */
+                overflow-x: auto; /* Enable horizontal scrolling */
+                white-space: nowrap; /* Prevent wrapping */
+            }
+
+            thead {
+                display: none; /* Hide the header on small screens */
+            }
+
+            tbody tr {
+                display: block; /* Make each row a block element */
+                margin-bottom: 10px; /* Add space between rows */
+                border: 1px solid #ddd; /* Add border for clarity */
+                background-color: rgba(255, 255, 255, 0.8); /* Make background slightly transparent */
+            }
+
+            tbody td {
+                display: flex; /* Use flex for better alignment */
+                justify-content: space-between; /* Space out content */
+                padding: 10px; /* Increase padding for touch targets */
+                border: none; /* Remove borders for clarity */
+                text-align: left; /* Align text to the left */
+            }
+
+            tbody td::before {
+                content: attr(data-label); /* Use data-label for headers */
+                font-weight: bold; /* Bold the labels */
+                margin-right: 10px; /* Add space after the label */
+            }
         }
     </style>
 </head>
@@ -156,12 +198,10 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div id="paginationContainer">
-        <div class="pagination" id="paginationControls">
-            <button id="prevPage" onclick="prevPage()">Previous</button>
-            <span id="pageDisplay"></span>
-            <button id="nextPage" onclick="nextPage()">Next</button>
-        </div>
+    <div class="pagination" id="paginationControls">
+        <button id="prevPage" onclick="prevPage()">Previous</button>
+        <span id="pageDisplay"></span>
+        <button id="nextPage" onclick="nextPage()">Next</button>
     </div>
 
     <script>
@@ -202,7 +242,7 @@
                 const filterCell = document.createElement('th');
                 const select = document.createElement('select');
                 select.setAttribute('id', `filter-${header}`);
-                select.setAttribute('onchange', `filterColumn()`);
+                select.setAttribute('onchange', `filterColumn('${header}')`);
 
                 const allOption = document.createElement('option');
                 allOption.value = '';
@@ -222,21 +262,10 @@
             });
         }
 
-        function filterColumn() {
-            const filters = {};
-            const headers = Object.keys(data[0]);
-
-            headers.forEach(header => {
-                const filterValue = document.getElementById(`filter-${header}`).value;
-                if (filterValue) {
-                    filters[header] = filterValue;
-                }
-            });
-
+        function filterColumn(column) {
+            const filterValue = document.getElementById(`filter-${column}`).value;
             filteredData = data.filter(row => {
-                return Object.keys(filters).every(header => {
-                    return row[header] === filters[header];
-                });
+                return filterValue === '' || row[column] === filterValue;
             });
 
             currentPage = 1;
@@ -266,6 +295,7 @@
                 Object.keys(row).forEach(header => {
                     const td = document.createElement('td');
                     td.textContent = row[header];
+                    td.setAttribute('data-label', header); // Set data-label for mobile view
                     tr.appendChild(td);
                 });
                 tableBody.appendChild(tr);
@@ -281,6 +311,13 @@
             document.getElementById('nextPage').disabled = currentPage === totalPages;
         }
 
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                generateTable(currentPage);
+            }
+        }
+
         function nextPage() {
             const totalPages = Math.ceil(filteredData.length / rowsPerPage);
             if (currentPage < totalPages) {
@@ -289,15 +326,8 @@
             }
         }
 
-        function prevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                generateTable(currentPage);
-            }
-        }
-
+        // Initial load
         loadTable();
     </script>
 </body>
 </html>
-
