@@ -153,13 +153,14 @@ body {
 
 /* Hero Section */
 .hero {
-    height: 80vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
     position: relative;
     overflow: hidden;
-    padding-top: 80px;
+    padding-top: 100px;
+    padding-bottom: 2rem;
 }
 
 .hero::before {
@@ -671,6 +672,7 @@ body {
     color: white;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    text-align: left;
 }
 
 .contact-method:hover {
@@ -830,6 +832,12 @@ body {
         visibility: visible;
     }
 
+    .hero {
+        min-height: 100vh;
+        padding-top: 120px;
+        padding-bottom: 2rem;
+    }
+
     .hero-content {
         grid-template-columns: 1fr;
         text-align: center;
@@ -901,6 +909,9 @@ body {
     .contact-hero {
         grid-template-columns: 1fr;
         gap: 3rem;
+    }
+
+    .contact-content {
         text-align: center;
     }
 
