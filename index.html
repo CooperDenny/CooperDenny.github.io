@@ -4,270 +4,459 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cooper Denny - Data Scientist</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        header {
-            background-image: url('images/header-background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-color: #23414f;
-            color: white;
-        }
-
-        .navbar {
-            background-color: #23414f;
-        }
-
-        .navbar-brand {
-            font-weight: bold;
-            color: white;
-        }
-
-        section {
-            padding: 2rem 0;
-        }
-
-        footer {
-            background-color: #23414f;
-            color: white;
-            text-align: center;
-        }
-
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-primary {
-            background-color: #23414f;
-            border-color: #23414f;
-        }
-
-        .company-logo {
-            max-width: 150px;
-            height: auto;
-            margin: 10px;
-        }
-        
-        .tweet-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-blockquote.twitter-tweet {
-    max-width: 500px; /* Adjust as needed */
-    margin: 0 auto; /* Center the blockquotes */
-}
-    </style>
 </head>
 <body>
-    <header class="bg-header text-white text-center py-5">
-        <div class="container">
-            <img src="images/profile-photo.jpg" alt="Cooper Denny" class="rounded-circle mb-3" style="width: 220px;">
-            <h1>Cooper Denny</h1>
-            <p class="lead">Data Scientist | Melbourne, Victoria</p>
-        </div>
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-navbar sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Cooper Denny</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Cooper Denny</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About Me</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#education">Education</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#experience">Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#tweets">Tweets</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav-links">
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
-    <section id="about" class="py-5">
+
+    <!-- Hero Section -->
+    <header class="hero">
         <div class="container">
-            <h2 class="text-center">About Me</h2>
-            <p class="text-center">I am a qualified Data Scientist, and I am always eager to learn more in this field through hands-on work, projects, and self-directed learning.</p>
-            <div class="text-center">
-                <p>
-                    Contact:<br>
-                    Email: <a href="mailto:cooper.denny@icloud.com">cooper.denny@icloud.com</a><br>
-                    GitHub: <a href="https://github.com/CooperDenny">@CooperDenny</a><br>
-                    LinkedIn: <a href="https://www.linkedin.com/in/cooperdenny">Cooper Denny</a><br>
-                    X: <a href="https://x.com/coopercdenny">@CooperCDenny</a>
+            <div class="hero-content">
+                <div class="hero-image">
+                    <img src="images/profile-photo.jpg" alt="Cooper Denny" class="profile-image">
+                </div>
+                <div class="hero-text">
+                    <h1>Cooper Denny</h1>
+                    <p class="subtitle">Data Scientist | Melbourne, Victoria</p>
+                    <p class="description">
+                        Junior Data Scientist at PlayHQ Sports.
+                        Passionate about leveraging data to solve complex problems in sports and beyond through advanced analytics, 
+                        predictive modelling, and interactive dashboards.
+                    </p>
+
+                    <div class="cta-buttons">
+                        <a href="#experience" class="btn primary">
+                            <i class="fas fa-briefcase"></i>
+                            View Experience
+                        </a>
+                        <a href="#contact" class="btn secondary">
+                            <i class="fas fa-envelope"></i>
+                            Get in Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Professional Experience</h2>
+            </div>
+
+            <div class="experience-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-logo">
+                                <img src="https://resources.wa-cricket.pulselive.com/wa-cricket/photo/2023/10/11/acf4f93a-d52a-4cfb-af5a-d969e2069d67/PlayHQ-logo.png" alt="PlayHQ Sports Logo">
+                            </div>
+                            <div class="timeline-main-info">
+                                <h3>Junior Data Scientist</h3>
+                                <p class="company">PlayHQ Sports</p>
+                            </div>
+                            <div class="timeline-meta">
+                                <p class="period">Nov 2024 - Present</p>
+                                <span class="job-type">Full Time</span>
+                            </div>
+                        </div>
+                        <div class="timeline-body">
+                            <p class="timeline-summary">
+                                Supporting PlayHQ's mission to power community sport across Australia through data-driven insights and cross-functional collaboration.
+                            </p>
+                            <div class="timeline-achievements">
+                                <ul>
+                                    <li>Building data products that empower community sport across Australia - supporting tens of thousands of games every week through analytics and insights</li>
+                                    <li>Cross-functional collaboration with Product, Engineering, Finance and Community teams to deliver data-driven solutions using SQL, Python, dbt, Snowflake, and Tableau</li>
+                                    <li>End-to-end data work - from refactoring models and building dashboards to analysing user behaviour and designing data pipelines for our first-party data platform</li>
+                                    <li>Impact-driven analysis - running regressions on participant churn/retention, defining success metrics, and translating complex data into actionable business insights</li>
+                                    <li>Startup environment working with cloud technologies and modern data stack, moving quickly to solve problems from first principles while supporting PlayHQ's mission in community sport</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-logo">
+                                <img src="https://cdn.revolutionise.com.au/logos/ndf9nf5hluhzmmpk.png" alt="Boccia Australia Logo">
+                            </div>
+                            <div class="timeline-main-info">
+                                <h3>Data Support and App Developer</h3>
+                                <p class="company">Boccia Australia</p>
+                            </div>
+                            <div class="timeline-meta">
+                                <p class="period">Jul 2024 - Sep 2024</p>
+                                <span class="job-type">Contract</span>
+                            </div>
+                        </div>
+                        <div class="timeline-body">
+                            <p class="timeline-summary">
+                                Enhanced R Shiny application for Paralympic Boccia analysis, integrated Snowflake data architecture, and contributed to Australia's historic Paralympic performance (two silver medals).
+                            </p>
+                            <div class="timeline-achievements">
+                                <ul>
+                                    <li>Enhanced R Shiny application for Pairs and Teams match analysis</li>
+                                    <li>Integrated historical match data into Snowflake for scalable analytics</li>
+                                    <li>Collaborated with AIS, VIS, and Paralympics Australia analysts</li>
+                                    <li>Contributed to Australia's best-ever Paralympic Boccia performance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-logo">
+                                <img src="https://vis.org.au/uploads/2020/VIS-main-logo.png" alt="Victorian Institute of Sport Logo">
+                            </div>
+                            <div class="timeline-main-info">
+                                <h3>Data Science Intern</h3>
+                                <p class="company">Victorian Institute of Sport</p>
+                            </div>
+                            <div class="timeline-meta">
+                                <p class="period">Jul 2023 - Oct 2023</p>
+                                <span class="job-type">Internship</span>
+                            </div>
+                        </div>
+                        <div class="timeline-body">
+                            <p class="timeline-summary">
+                                Developed custom R Shiny performance analysis application, replacing expensive commercial software and providing real-time athlete monitoring capabilities.
+                            </p>
+                            <div class="timeline-achievements">
+                                <ul>
+                                    <li>Built R Shiny application replacing Hudl Sportscode</li>
+                                    <li>Created interactive, filterable performance dashboards</li>
+                                    <li>Cleaned and integrated historical match data</li>
+                                    <li>Collaborated with stakeholders in high-performance environment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <div class="timeline-logo">
+                                <img src="https://www.dwtuition.com.au/wp-content/uploads/2018/08/cropped-DW-Tuition-1.jpg" alt="DW Tuition Logo">
+                            </div>
+                            <div class="timeline-main-info">
+                                <h3>Maths & English Tutor</h3>
+                                <p class="company">DW Tuition</p>
+                            </div>
+                            <div class="timeline-meta">
+                                <p class="period">Mar 2021 - Nov 2024</p>
+                                <span class="job-type">Casual</span>
+                            </div>
+                        </div>
+                        <div class="timeline-body">
+                            <p class="timeline-summary">
+                                Provided personalised tutoring for VCE Mathematics, General Mathematics, 
+                                and primary/secondary Maths and English, both in-person and online.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Education</h2>
+            </div>
+            
+            <div class="education-card">
+                <div class="education-logo">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Monash_University_logo.svg" alt="Monash University Logo">
+                </div>
+                <div class="education-content">
+                    <h3>Bachelor of Applied Data Science</h3>
+                    <p class="education-institution">Monash University</p>
+                    <p class="education-period">Feb 2021 - Jun 2024</p>
+                    <div class="education-details">
+                        <div class="detail-item">
+                            <strong>GPA:</strong> 3.292 | <strong>WAM:</strong> 77.600
+                        </div>
+                        <p>Acquired skills in R and Python, data analysis, data visualisation, machine learning, and mathematical modelling. Developed the ability to present complex data science projects clearly and concisely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+                <p class="section-description">
+                    A selection of data science projects showcasing predictive modelling, 
+                    sports analytics, and interactive dashboards.
                 </p>
             </div>
-        </div>
-    </section>
-    <section id="projects" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center">Projects</h2>
-        <div class="row flex-row flex-nowrap overflow-auto">
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">2024 AFL Brownlow Prediction Model</h5>
-                        <p class="card-text">An ordinal logistic regression model predicting 2024 AFL Brownlow Medal votes using comprehensive player statistics, team metrics, and historical data.</p>
-                        <a href="projects/afl-brownlow-predictor-2024.html" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Australian Arbitrage Betting Odds Finder</h5>
-                        <p class="card-text">Using the Odds API to identify arbitrage opportunities in H2H betting markets by Australian bookmakers.</p>
-                        <a href="projects/h2h-arbitrage-finder-project.html" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">The Melbourne Pedestrian Counting System</h5>
-                        <p class="card-text">A Power BI dashboard showing daily and hourly pedestrian counts in Melbourne, with sensor data mapping by day, week, and year.</p>
-                        <a href="projects/melbourne-pedestrian-counting.html" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Victorian Property Prices Dashboard</h5>
-                        <p class="card-text">An interactive Power BI dashboard delivering insights into the Victorian property market with dynamic map visualizations and filterable slicers.</p>
-                        <a href="projects/victorian-property-prices-dashboard.html" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">2023 AFL Brownlow Prediction Model</h5>
-                        <p class="card-text">An ordinal logistic regression model predicting 2023 AFL Brownlow Medal votes.</p>
-                        <a href="projects/afl-brownlow-predictor.html" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">CricketStatsHub</h5>
-                        <p class="card-text">A repository containing batting and bowling cricket data (summarised by innings) from a variety of international and domestic competitions.</p>
-                        <a href="https://github.com/CooperDenny/CricketStatsHub" class="btn btn-primary">View Project</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Add more project cards as needed -->
-        </div>
-    </div>
-</section>
 
-    <section id="education" class="py-5">
-        <div class="container">
-            <h2 class="text-center" style="text-decoration: underline;">Education</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-12 text-center">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Monash_University_logo.svg" alt="Monash University Logo" class="company-logo" style="transform: scale(2); display: block; margin: 50px auto 50px;">
-                    <h4 class="text-center">Bachelor of Applied Data Science</h4>
-                    <p class="text-center">Monash University<br>Feb 2021 - Jun 2024</p>
-                    <p class="text-center">●	3.292 GPA, 77.600 WAM</p>
-                    <p class="text-center">●	Acquired valuable skills in R and Python, as well as data analysis, data visualisation, machine learning, and mathematical modeling.</p>
-                    <p class="text-center">●	Developed the ability to present complex data science projects and results in a clear and concise manner, preparing me to tackle data-driven problems across various domains.</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>2024 AFL Brownlow Prediction Model</h3>
+                        <p>Ordinal logistic regression model predicting AFL Brownlow Medal votes using comprehensive player statistics, team metrics, and historical data.</p>
+                        <div class="project-tags">
+                            <span class="tag">R</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Sports Analytics</span>
+                        </div>
+                        <a href="projects/afl-brownlow-predictor-2024.html" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Australian Arbitrage Betting Finder</h3>
+                        <p>API-driven system identifying arbitrage opportunities in H2H betting markets across Australian bookmakers using real-time odds data.</p>
+                        <div class="project-tags">
+                            <span class="tag">R</span>
+                            <span class="tag">API</span>
+                            <span class="tag">Finance</span>
+                        </div>
+                        <a href="projects/h2h-arbitrage-finder-project.html" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Melbourne Pedestrian Counting System</h3>
+                        <p>Interactive Power BI dashboard analysing pedestrian traffic patterns across Melbourne CBD with temporal and spatial visualisations.</p>
+                        <div class="project-tags">
+                            <span class="tag">Power BI</span>
+                            <span class="tag">Data Visualisation</span>
+                            <span class="tag">Python</span>
+                        </div>
+                        <a href="projects/melbourne-pedestrian-counting.html" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Victorian Property Prices Dashboard</h3>
+                        <p>Comprehensive Power BI dashboard providing insights into Victorian property market trends with interactive maps and filterable analysis tools.</p>
+                        <div class="project-tags">
+                            <span class="tag">Power BI</span>
+                            <span class="tag">Real Estate</span>
+                            <span class="tag">Geospatial</span>
+                        </div>
+                        <a href="projects/victorian-property-prices-dashboard.html" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>2023 AFL Brownlow Prediction Model</h3>
+                        <p>Ordinal logistic regression model predicting 2023 AFL Brownlow Medal votes with comprehensive statistical analysis.</p>
+                        <div class="project-tags">
+                            <span class="tag">R</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Sports Analytics</span>
+                        </div>
+                        <a href="projects/afl-brownlow-predictor.html" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>CricketStatsHub</h3>
+                        <p>Comprehensive cricket statistics repository containing batting and bowling data from international and domestic competitions with standardised formats.</p>
+                        <div class="project-tags">
+                            <span class="tag">Data Engineering</span>
+                            <span class="tag">Sports Data</span>
+                            <span class="tag">GitHub</span>
+                        </div>
+                        <a href="https://github.com/CooperDenny/CricketStatsHub" class="project-link">
+                            View Project <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <section id="experience" class="py-5 bg-light">
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-dark">
         <div class="container">
-            <h2 class="text-center" style="text-decoration: underline;">Experience</h2>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <img src="https://resources.wa-cricket.pulselive.com/wa-cricket/photo/2023/10/11/acf4f93a-d52a-4cfb-af5a-d969e2069d67/PlayHQ-logo.png" alt="PlayHQ Sports Logo" class="company-logo" style="transform: scale(2); display: block; margin: 50px auto 50px;">
-                    <h4 class="text-center">Junior Data Scientist</h4>
-                    <p class="text-center">PlayHQ Sports · Full Time<br>Nov 2024 - Present<br>Melbourne, Victoria, Australia</p>
+            <div class="contact-hero">
+                <div class="contact-content">
+                    <h2>Ready to Connect?</h2>
+                    <p>Let's discuss data science opportunities, sports analytics projects, or innovative collaborations.</p>
+                    
+                    <div class="contact-methods">
+                        <a href="mailto:cooper.denny@icloud.com" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="method-info">
+                                <h3>Email</h3>
+                                <span>cooper.denny@icloud.com</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.linkedin.com/in/cooperdenny" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="method-info">
+                                <h3>LinkedIn</h3>
+                                <span>/in/cooperdenny</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://github.com/CooperDenny" class="contact-method">
+                            <div class="method-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="method-info">
+                                <h3>GitHub</h3>
+                                <span>@CooperDenny</span>
+                            </div>
+                        </a>
+                        
+                        <a href="https://x.com/coopercdenny" class="contact-method">
+                            <div class="method-icon">
+                                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </div>
+                            <div class="method-info">
+                                <h3>X</h3>
+                                <span>@CooperCDenny</span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <img src="https://cdn.revolutionise.com.au/logos/ndf9nf5hluhzmmpk.png" alt="Boccia Australia Logo" class="company-logo" style="transform: scale(2); display: block; margin: 50px auto 50px;">
-                    <h4 class="text-center">Data Support and App Developer</h4>
-                    <p class="text-center">Boccia Australia · Contract<br>Jul 2024 - Sep 2024<br>Melbourne, Victoria, Australia</p>
-                    <p class="text-center">●	Enhanced the R Shiny application for Boccia to include Pairs and Teams match data analysis, ensuring timely deployment before the 2024 Paris Paralympic Games.</p>
-                    <p class="text-center">●	Used R to clean and combine historical match data from CSV files into a consolidated match database table, integrated into Snowflake for efficient data management and scalable, high-performance analytics with real-time insights and secure data sharing.</p>
-                    <p class="text-center">●	Incorporated feedback from coaches and athletes to improve app functionality and usability, optimizing performance data collection and analysis.</p>
-                    <p class="text-center">●	Collaborated with analysts from the Australian Institute of Sport, Victorian Institute of Sport, and Paralympics Australia to ensure high standards in performance analysis.</p>
-                    <p class="text-center">●	Contributed to Australia’s success at the 2024 Paris Paralympic Games, where the team won two silver medals in Boccia, surpassing the previous best of bronze.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                  <img src="https://vis.org.au/uploads/2020/VIS-main-logo.png" alt="Victorian Institute of Sport Logo" class="company-logo" style="transform: scale(2); display: block; margin: 50px auto 50px;">
-                    <h4 class="text-center">Data Science Intern</h4>
-                    <p class="text-center">Victorian Institute of Sport · Internship<br>Jul 2023 - Oct 2023<br>Albert Park, Victoria, Australia</p>
-                    <p class="text-center">●	Developed an R Shiny application for Boccia athletes, coaches, and analysts to collect, aggregate, and analyze performance data, replacing Hudl Sportscode to save thousands of dollars in subscription costs and offering a fully customizable, more powerful solution.</p>
-                    <p class="text-center">●	Created interactive, filterable dashboards using R's data manipulation and visualization tools, enabling real-time performance monitoring.</p>
-                    <p class="text-center">●	Provided a user-friendly interface to support better decision-making and optimize training strategies, eliminating the need for expensive software solutions.</p>
-                    <p class="text-center">●	Cleaned and reworked previously coded match data CSV files from Hudl Sportscode into a format that integrated seamlessly with the new application.</p>
-                    <p class="text-center">●	Collaborated with stakeholders to ensure the application met the requirements for performance analysis in a high-performance sports environment.</p>
-                    <p class="text-center">●	Utilised analytical and critical thinking skills to refine app features, ensuring accuracy and efficiency in data presentation.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <img src="https://www.dwtuition.com.au/wp-content/uploads/2018/08/cropped-DW-Tuition-1.jpg" alt="DW Tuition Logo" class="company-logo" style="transform: scale(2); display: block; margin: 50px auto 50px;">
-                    <h4 class="text-center">Maths & English Tutor</h4>
-                    <p class="text-center">DW Tuition · Casual<br>Mar 2021 - Nov 2024<br>Rowville, Victoria, Australia</p>
-                    <p class="text-center">●	Provide one-on-one and group tutoring for a range of subjects, including VCE General Maths, VCE Mathematical Methods, Year 7-10 Maths and English, and Primary School Maths and English, both in-person and via Zoom.</p>
-                    <p class="text-center">●	Tailor teaching approaches to meet each student's unique needs and learning style, fostering a supportive and engaging learning environment.</p>
-                    <p class="text-center">●	Build strong foundational skills and encourage active participation and questioning to support student success.</p>
-                    <p class="text-center">●	Commit to helping students achieve their potential through personalized guidance and support, boosting their confidence and academic performance.</p>
+                
+                <div class="contact-visual">
+                    <div class="data-visualization">
+                        <div class="chart-container">
+                            <div class="chart-bar" style="height: 60%;"></div>
+                            <div class="chart-bar" style="height: 85%;"></div>
+                            <div class="chart-bar" style="height: 40%;"></div>
+                            <div class="chart-bar" style="height: 95%;"></div>
+                            <div class="chart-bar" style="height: 70%;"></div>
+                            <div class="chart-bar" style="height: 50%;"></div>
+                        </div>
+                        <div class="data-points">
+                            <div class="data-point"></div>
+                            <div class="data-point"></div>
+                            <div class="data-point"></div>
+                            <div class="data-point"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-   <section id="tweets" class="py-5">
-    <div class="container">
-        <h2 class="text-center">Recent Tweets</h2>
-        <div class="tweet-container d-flex flex-row flex-nowrap overflow-auto text-center">
-            <blockquote class="twitter-tweet">
-                <p lang="en" dir="ltr">My prediction model has Patrick Cripps leading the Brownlow Medal count after Round 21 <a href="https://twitter.com/hashtag/AFL?src=hash&amp;ref_src=twsrc%5Etfw">#AFL</a> <a href="https://twitter.com/hashtag/BrownlowMedal?src=hash&amp;ref_src=twsrc%5Etfw">#BrownlowMedal</a> <a href="https://t.co/YdRedcr3dT">pic.twitter.com/YdRedcr3dT</a></p>
-                &mdash; Cooper Denny (@CooperCDenny) <a href="https://twitter.com/CooperCDenny/status/1820408868687782262?ref_src=twsrc%5Etfw">August 5, 2024</a>
-            </blockquote>
-            <blockquote class="twitter-tweet">
-                <p lang="en" dir="ltr"><a href="https://twitter.com/hashtag/AFL?src=hash&amp;ref_src=twsrc%5Etfw">#AFL</a> Offence &amp; Defence Ranks - After Round 16 2024 <a href="https://t.co/jDWO6Lmorq">pic.twitter.com/jDWO6Lmorq</a></p>
-                &mdash; Cooper Denny (@CooperCDenny) <a href="https://twitter.com/CooperCDenny/status/1808035751839649807?ref_src=twsrc%5Etfw">July 2, 2024</a>
-            </blockquote>
-            <!-- Add more tweet blockquotes if needed -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Cooper Denny. All rights reserved.</p>
         </div>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-</section>
-    <footer class="bg-footer text-white text-center py-3">
-        <p>&copy; 2024 Cooper Denny</p>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu after clicking
+                    navLinks.classList.remove('active');
+                    navToggle.classList.remove('active');
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for fade-in animation
+        document.querySelectorAll('.project-card, .timeline-item, .contact-item, .education-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>

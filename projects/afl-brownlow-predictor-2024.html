@@ -3,100 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AFL Brownlow Prediction Model</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../styles.css">
+    <title>2024 AFL Brownlow Prediction Model - Cooper Denny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        html, body {
+        /* CSS Variables and Base Styles */
+        :root {
+            --primary: #ffffff;
+            --secondary: #f8fafc;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --accent-secondary: #10b981;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-light: #94a3b8;
+            --bg-primary: #1e293b;
+            --bg-secondary: #334155;
+            --bg-tertiary: #475569;
+            --bg-card: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.15);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 20px 40px rgba(59, 130, 246, 0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            height: 100%;
+            box-sizing: border-box;
         }
-        header {
-            background-color: #23414f;
+
+        html {
+            scroll-behavior: smooth;
         }
-        footer {
-            background-color: #23414f;
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            font-size: 16px;
+            overflow-x: hidden;
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
         .navbar {
-            background-color: #23414f;
-        }
-        .btn-primary {
-    background-color: #23414f; /* Replace with your desired color */
-    border-color: #23414f; /* Make sure the border color matches */
-}
-        .iframe-container {
-            position: relative;
+            position: fixed;
+            top: 0;
             width: 100%;
-            height: calc(100vh - 140px);
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            background: rgba(30, 41, 59, 0.98);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+            background: linear-gradient(135deg, #60a5fa, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-light);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Project-specific styles */
+        .project-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            color: white;
+            text-align: center;
+            padding: 8rem 0 4rem;
+            position: relative;
             overflow: hidden;
         }
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(236, 72, 153, 0.03) 0%, transparent 50%);
         }
-        section {
-            padding: 0;
+
+        .project-header .container {
+            position: relative;
+            z-index: 2;
         }
-        .csv-description {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .project-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #60a5fa, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .project-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            line-height: 1.6;
+        }
+
+        .download-card-header {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .download-card-header:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
+        }
+
+        .download-card-header h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 1rem;
         }
-        .csv-description img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
+
+        .download-card-header p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.6;
         }
-        .card {
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        .btn-download {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            font-size: 1rem;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .project-content {
+            background: var(--bg-primary);
+            padding: 0;
+        }
+
+        .dashboard-section {
+            background: var(--bg-primary);
+            padding: 0;
+        }
+
+        .iframe-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            border-radius: 12px;
+            background: white;
+        }
+
+        /* Mobile navigation toggle */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--primary);
+            margin: 2px 0;
+            transition: var(--transition);
+        }
+
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(30, 41, 59, 0.95);
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: var(--transition);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .project-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .project-header {
+                padding: 6rem 0 3rem;
+            }
+            
+            .iframe-container iframe {
+                height: 60vh;
+            }
+
+            .nav-container {
+                padding: 1rem;
+            }
+
+            .download-card-header {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="bg-header text-white text-center py-5">
-        <div class="container">
-            <h1>2024 AFL Brownlow Prediction Model</h1>
-        </div>
-    </header>
-    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="../index.html">Cooper Denny</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">Cooper Denny</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Home</a>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#experience">Experience</a></li>
+                <li><a href="../index.html#education">Education</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
-    <section class="py-5">
-        <div class="container text-center mb-4">
-            <div class="card p-4">
-                <div class="csv-description">
-                    <p>Download the CSV file containing the data used in the analysis</p>
-                </div>
-                <a href="brownlow_data.csv" class="btn btn-primary" download>Download</a>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="container">
+            <h1>2024 AFL Brownlow Prediction Model</h1>
+            <p class="project-subtitle">Advanced machine learning model predicting Brownlow Medal votes using comprehensive player statistics and team metrics</p>
+            
+            <!-- Download Card in Header -->
+            <div class="download-card-header">
+                <h3>Dataset Download</h3>
+                <p>Access the comprehensive dataset containing all player statistics, team metrics, and historical data used in building this predictive model.</p>
+                <a href="brownlow_data_2024.csv" class="btn-download" download>
+                    <i class="fas fa-download"></i>
+                    Download Dataset
+                </a>
             </div>
         </div>
-        <div class="iframe-container">
-            <iframe title="2024 AFL Brownlow Prediction Model" src="AFL.Brownlow.Prediction.Model.2024.html" allowfullscreen="true"></iframe>
+    </header>
+
+    <!-- Project Content -->
+    <section class="project-content">
+        <div class="container">
+            <!-- Dashboard -->
+            <div class="dashboard-section">
+                <div class="iframe-container">
+                    <iframe title="2024 AFL Brownlow Prediction Model" src="AFL.Brownlow.Prediction.Model.2024.html" allowfullscreen="true"></iframe>
+                </div>
+            </div>
         </div>
     </section>
-    <footer class="bg-footer text-white text-center py-3">
-        <p>&copy; 2024 Cooper Denny</p>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Cooper Denny. All rights reserved.</p>
+        </div>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu after clicking
+                    navLinks.classList.remove('active');
+                    navToggle.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
-
