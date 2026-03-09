@@ -163,10 +163,13 @@ body::before {
     background: rgba(255, 255, 255, 0.90);
 }
 
-[data-theme="light"] .nav-links {
+[data-theme="light"] .navbar.scrolled {
     background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.1);
+}
+
+[data-theme="light"] .nav-links {
     backdrop-filter: blur(20px) saturate(180%);
-    border-top: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 [data-theme="light"] .nav-links a {
@@ -174,7 +177,7 @@ body::before {
 }
 
 .navbar.scrolled {
-    background: rgba(var(--bg-primary-rgb, 15, 23, 42), 0.95);
+    background: rgba(15, 23, 42, 0.95);
     box-shadow: var(--shadow-glow);
     border-bottom-color: var(--accent);
 }
@@ -805,17 +808,19 @@ body::before {
 }
 
 .contact-hero {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4rem;
-    align-items: center;
+    display: block;
+}
+
+.contact-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
 }
 
 .contact-methods {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .contact-method {
@@ -830,6 +835,19 @@ body::before {
     color: var(--text-secondary);
     transition: var(--transition);
     backdrop-filter: blur(10px);
+}
+
+.method-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.method-info span {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    display: block;
+    line-height: 1.3;
 }
 
 .contact-method:hover {
@@ -920,7 +938,6 @@ body::before {
         left: 0;
         width: 100%;
         height: calc(100vh - 80px);
-        background: var(--bg-primary);
         backdrop-filter: blur(20px);
         flex-direction: column;
         justify-content: flex-start;
@@ -932,7 +949,6 @@ body::before {
         visibility: hidden;
         transition: var(--transition);
         z-index: 999;
-        border-top: 1px solid var(--border);
     }
     
     .nav-links.active {
@@ -958,11 +974,6 @@ body::before {
     
     .contact-methods {
         grid-template-columns: 1fr;
-    }
-    
-    .contact-hero {
-        grid-template-columns: 1fr;
-        text-align: center;
     }
     
     .timeline-header {
@@ -1890,11 +1901,8 @@ body::before {
 .contact-hero {
     position: relative;
     z-index: 2;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
-    min-height: 70vh;
+    display: block;
+    min-height: auto;
 }
 
 .contact-content h2 {
@@ -2003,6 +2011,10 @@ body::before {
 .method-info span {
     font-size: 0.875rem;
     color: #94a3b8;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    display: block;
+    line-height: 1.3;
 }
 
 /* Enhanced Data Visualization with Sports Metrics */
@@ -2143,7 +2155,6 @@ body::before {
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(30, 41, 59, 0.95);
         flex-direction: column;
         padding: 2rem;
         box-shadow: var(--shadow-lg);
@@ -2232,11 +2243,6 @@ body::before {
 
     .section-header h2 {
         font-size: 2rem;
-    }
-
-    .contact-hero {
-        grid-template-columns: 1fr;
-        gap: 3rem;
     }
 
     .contact-content {
