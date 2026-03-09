@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -24,6 +25,12 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -39,7 +46,7 @@
                     <p class="subtitle">Data Scientist | Melbourne, Victoria</p>
                     <p class="description">
                         Junior Data Scientist at PlayHQ Sports.
-                        Passionate about leveraging data to solve complex problems in sports and beyond through advanced analytics, 
+                        Passionate about leveraging data to solve complex problems in sports and beyond through advanced analytics,
                         predictive modelling, and interactive dashboards.
                     </p>
 
@@ -54,6 +61,31 @@
                         </a>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Floating Data Elements -->
+        <div class="floating-elements">
+            <div class="floating-chart chart-1">
+                <svg viewBox="0 0 100 60" class="mini-chart">
+                    <path d="M10,50 Q30,20 50,30 T90,10" stroke="var(--accent)" stroke-width="2" fill="none"/>
+                </svg>
+                <span class="chart-label">Sports Analytics</span>
+            </div>
+            <div class="floating-chart chart-2">
+                <svg viewBox="0 0 60 60" class="mini-chart">
+                    <circle cx="30" cy="30" r="20" fill="none" stroke="var(--accent-secondary)" stroke-width="3" stroke-dasharray="125.6" stroke-dashoffset="31.4"/>
+                </svg>
+                <span class="chart-label">94% Accuracy</span>
+            </div>
+            <div class="floating-chart chart-3">
+                <div class="bar-chart-mini">
+                    <div class="bar" style="height: 40%"></div>
+                    <div class="bar" style="height: 70%"></div>
+                    <div class="bar" style="height: 55%"></div>
+                    <div class="bar" style="height: 85%"></div>
+                </div>
+                <span class="chart-label">Data Insights</span>
             </div>
         </div>
     </header>
@@ -170,7 +202,7 @@
             <div class="section-header">
                 <h2>Education</h2>
             </div>
-            
+
             <div class="education-card">
                 <div class="education-logo">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Monash_University_logo.svg" alt="Monash University Logo">
@@ -196,7 +228,7 @@
             <div class="section-header">
                 <h2>Featured Projects</h2>
                 <p class="section-description">
-                    A selection of data science projects showcasing predictive modelling, 
+                    A selection of data science projects showcasing predictive modelling,
                     sports analytics, and interactive dashboards.
                 </p>
             </div>
@@ -204,6 +236,9 @@
             <div class="projects-grid">
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
                         <h3>2024 AFL Brownlow Prediction Model</h3>
                         <p>Ordinal logistic regression model predicting AFL Brownlow Medal votes using comprehensive player statistics, team metrics, and historical data.</p>
                         <div class="project-tags">
@@ -219,6 +254,9 @@
 
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
                         <h3>Australian Arbitrage Betting Finder</h3>
                         <p>API-driven system identifying arbitrage opportunities in H2H betting markets across Australian bookmakers using real-time odds data.</p>
                         <div class="project-tags">
@@ -234,6 +272,9 @@
 
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
                         <h3>Melbourne Pedestrian Counting System</h3>
                         <p>Interactive Power BI dashboard analysing pedestrian traffic patterns across Melbourne CBD with temporal and spatial visualisations.</p>
                         <div class="project-tags">
@@ -249,6 +290,9 @@
 
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
                         <h3>Victorian Property Prices Dashboard</h3>
                         <p>Comprehensive Power BI dashboard providing insights into Victorian property market trends with interactive maps and filterable analysis tools.</p>
                         <div class="project-tags">
@@ -264,6 +308,9 @@
 
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
                         <h3>2023 AFL Brownlow Prediction Model</h3>
                         <p>Ordinal logistic regression model predicting 2023 AFL Brownlow Medal votes with comprehensive statistical analysis.</p>
                         <div class="project-tags">
@@ -279,6 +326,9 @@
 
                 <div class="project-card">
                     <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
                         <h3>CricketStatsHub</h3>
                         <p>Comprehensive cricket statistics repository containing batting and bowling data from international and domestic competitions with standardised formats.</p>
                         <div class="project-tags">
@@ -302,7 +352,7 @@
                 <div class="contact-content">
                     <h2>Ready to Connect?</h2>
                     <p>Let's discuss data science opportunities, sports analytics projects, or innovative collaborations.</p>
-                    
+
                     <div class="contact-methods">
                         <a href="mailto:cooper.denny@icloud.com" class="contact-method">
                             <div class="method-icon">
@@ -313,7 +363,7 @@
                                 <span>cooper.denny@icloud.com</span>
                             </div>
                         </a>
-                        
+
                         <a href="https://www.linkedin.com/in/cooperdenny/" class="contact-method">
                             <div class="method-icon">
                                 <i class="fab fa-linkedin"></i>
@@ -323,7 +373,7 @@
                                 <span>/in/cooperdenny/</span>
                             </div>
                         </a>
-                        
+
                         <a href="https://github.com/CooperDenny" class="contact-method">
                             <div class="method-icon">
                                 <i class="fab fa-github"></i>
@@ -333,7 +383,7 @@
                                 <span>@CooperDenny</span>
                             </div>
                         </a>
-                        
+
                         <a href="https://x.com/coopercdenny" class="contact-method">
                             <div class="method-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -347,25 +397,6 @@
                         </a>
                     </div>
                 </div>
-                
-                <div class="contact-visual">
-                    <div class="data-visualization">
-                        <div class="chart-container">
-                            <div class="chart-bar" style="height: 60%;"></div>
-                            <div class="chart-bar" style="height: 85%;"></div>
-                            <div class="chart-bar" style="height: 40%;"></div>
-                            <div class="chart-bar" style="height: 95%;"></div>
-                            <div class="chart-bar" style="height: 70%;"></div>
-                            <div class="chart-bar" style="height: 50%;"></div>
-                        </div>
-                        <div class="data-points">
-                            <div class="data-point"></div>
-                            <div class="data-point"></div>
-                            <div class="data-point"></div>
-                            <div class="data-point"></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -373,11 +404,33 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Cooper Denny. All rights reserved.</p>
+            <p>&copy; 2026 Cooper Denny. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
+        // Theme Management
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Add theme transition effect
+            body.classList.add('theme-transitioning');
+            setTimeout(() => {
+                body.classList.remove('theme-transitioning');
+            }, 500);
+        });
+
         // Mobile navigation toggle
         const navToggle = document.querySelector('.nav-toggle');
         const navLinks = document.querySelector('.nav-links');
@@ -406,34 +459,103 @@
             });
         });
 
-        // Navbar background change on scroll
+        // Navbar background change on scroll with enhanced effects
+        let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > 100) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
+
+            // Hide/show navbar on scroll
+            if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+
+            lastScrollY = currentScrollY;
         });
 
-        // Fade in animation on scroll
+        // Enhanced fade in animation on scroll with stagger
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
+                    setTimeout(() => {
+                        entry.target.classList.add('fade-in');
+                    }, index * 100);
                 }
             });
         }, observerOptions);
 
         // Observe elements for fade-in animation
-        document.querySelectorAll('.project-card, .timeline-item, .contact-item, .education-card').forEach(el => {
+        document.querySelectorAll('.project-card, .timeline-item, .education-card').forEach(el => {
             observer.observe(el);
         });
+
+        // Floating charts animation
+        function animateFloatingCharts() {
+            const charts = document.querySelectorAll('.floating-chart');
+
+            charts.forEach((chart, index) => {
+                chart.style.animationDelay = `${index * 0.5}s`;
+            });
+        }
+
+        // Initialize floating charts animation
+        animateFloatingCharts();
+
+        // Particle system for enhanced visual effects
+        function createParticles() {
+            const particleContainer = document.createElement('div');
+            particleContainer.className = 'particle-system';
+            document.body.appendChild(particleContainer);
+
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 20) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Interactive project cards with 3D tilt effect
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', handleMouseMove);
+            card.addEventListener('mouseleave', handleMouseLeave);
+        });
+
+        function handleMouseMove(e) {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(0)`;
+        }
+
+        function handleMouseLeave(e) {
+            e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        }
     </script>
 </body>
 </html>
