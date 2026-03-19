@@ -281,6 +281,7 @@ body::before {
 .theme-toggle .fa-moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
+    color: #f59e0b;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {

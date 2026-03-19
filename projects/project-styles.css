@@ -185,6 +185,7 @@ body {
 
 .theme-toggle .fa-moon {
     display: block;
+    color: #f59e0b;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {

@@ -132,6 +132,18 @@ a:hover {
     text-decoration: underline !important;
 }
 
+/* Download bar button — override the global `a` colour */
+.rmd-download-bar a {
+    color: white !important;
+    text-decoration: none !important;
+}
+
+.rmd-download-bar a:hover {
+    color: white !important;
+    text-decoration: none !important;
+    opacity: 0.9;
+}
+
 /* ---- Code blocks ---- */
 pre {
     background: var(--bg-code) !important;
