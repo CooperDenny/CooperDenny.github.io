@@ -2835,9 +2835,121 @@ display: none;
 
 
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="rmd-styles.css">
 </head>
 
 <body>
+<!-- Site Navigation -->
+<nav class="site-nav" style="
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    z-index: 9999;
+    transition: all 0.3s ease;
+    font-family: Inter, sans-serif;
+">
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.875rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    ">
+        <a href="../index.html" style="
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            background: linear-gradient(135deg, #38bdf8, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        ">Cooper Denny</a>
+
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <a id="back-link" href="afl-brownlow-predictor-2024.html" style="
+                color: #94a3b8;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            " onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">
+                ← Back to Project
+            </a>
+            <a href="../index.html#projects" style="
+                color: #94a3b8;
+                text-decoration: none;
+                font-size: 0.9rem;
+                font-weight: 500;
+                transition: color 0.2s ease;
+            " onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">
+                All Projects
+            </a>
+            <button id="rmd-theme-toggle" aria-label="Toggle theme" style="
+                background: rgba(255,255,255,0.08);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 50px;
+                padding: 0.35rem 0.75rem;
+                cursor: pointer;
+                color: #94a3b8;
+                font-size: 0.85rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+                transition: all 0.2s ease;
+                font-family: inherit;
+            ">
+                <span class="icon-sun" style="display:none;">☀️</span>
+                <span class="icon-moon">🌙</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<script>
+(function() {
+    var theme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+
+    var nav = document.querySelector('.site-nav');
+    var toggle = document.getElementById('rmd-theme-toggle');
+    var iconSun = toggle ? toggle.querySelector('.icon-sun') : null;
+    var iconMoon = toggle ? toggle.querySelector('.icon-moon') : null;
+
+    function applyTheme(t) {
+        document.documentElement.setAttribute('data-theme', t);
+        document.body.setAttribute('data-theme', t);
+        if (t === 'light') {
+            nav.style.background = 'rgba(255,255,255,0.92)';
+            nav.style.borderBottomColor = 'rgba(15,23,42,0.1)';
+            if (iconSun) iconSun.style.display = 'inline';
+            if (iconMoon) iconMoon.style.display = 'none';
+        } else {
+            nav.style.background = 'rgba(15,23,42,0.92)';
+            nav.style.borderBottomColor = 'rgba(255,255,255,0.1)';
+            if (iconSun) iconSun.style.display = 'none';
+            if (iconMoon) iconMoon.style.display = 'inline';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        applyTheme(theme);
+        if (toggle) {
+            toggle.addEventListener('click', function() {
+                theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                localStorage.setItem('theme', theme);
+                applyTheme(theme);
+            });
+        }
+    });
+})();
+</script>
+
 
 
 <div class="container-fluid main-container">
