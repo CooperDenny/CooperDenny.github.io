@@ -276,11 +276,13 @@ body::before {
 .theme-toggle .fa-sun {
     opacity: 0;
     transform: scale(0.5) rotate(-90deg);
+    color: #f97316;
 }
 
 .theme-toggle .fa-moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
+    color: #f59e0b;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {
@@ -938,6 +940,7 @@ body::before {
         left: 0;
         width: 100%;
         height: calc(100vh - 80px);
+        background: var(--bg-secondary);
         backdrop-filter: blur(20px);
         flex-direction: column;
         justify-content: flex-start;
@@ -950,9 +953,9 @@ body::before {
         transition: var(--transition);
         z-index: 999;
     }
-    
+
     .nav-links.active {
-        transform: translateY(-100%);
+        transform: translateY(0);
         opacity: 1;
         visibility: visible;
     }
@@ -2157,6 +2160,7 @@ body::before {
         width: 100%;
         flex-direction: column;
         padding: 2rem;
+        background: var(--bg-secondary);
         box-shadow: var(--shadow-lg);
         transform: translateY(-100%);
         opacity: 0;

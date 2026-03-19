@@ -164,35 +164,42 @@ body {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 50px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.5rem;
     cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    transition: var(--transition);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    justify-content: center;
 }
 
-.theme-toggle:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+.theme-toggle i {
+    position: absolute;
+    transition: var(--transition);
 }
 
 .theme-toggle .fa-sun {
-    display: none;
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+    color: #f97316;
 }
 
 .theme-toggle .fa-moon {
-    display: block;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    color: #f59e0b;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {
-    display: block;
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
 [data-theme="light"] .theme-toggle .fa-moon {
-    display: none;
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
 }
 
 /* Mobile nav toggle */
@@ -489,6 +496,11 @@ body {
 @media (max-width: 768px) {
     .nav-toggle {
         display: flex;
+        z-index: 1001;
+    }
+
+    .nav-controls {
+        order: -1;
     }
 
     .nav-links {

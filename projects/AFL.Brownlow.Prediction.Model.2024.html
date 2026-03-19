@@ -2837,6 +2837,7 @@ display: none;
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="rmd-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -2850,7 +2851,7 @@ display: none;
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(255,255,255,0.1);
     z-index: 9999;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: Inter, sans-serif;
 ">
     <div style="
@@ -2861,6 +2862,40 @@ display: none;
         max-width: 1200px;
         margin: 0 auto;
     ">
+        <!-- Theme toggle LEFT -->
+        <button id="rmd-theme-toggle" aria-label="Toggle theme" style="
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        ">
+            <i class="fas fa-sun" style="
+                position: absolute;
+                color: #f97316;
+                font-size: 1rem;
+                opacity: 0;
+                transform: scale(0.5) rotate(-90deg);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            "></i>
+            <i class="fas fa-moon" style="
+                position: absolute;
+                color: #f59e0b;
+                font-size: 1rem;
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            "></i>
+        </button>
+
+        <!-- Logo CENTER -->
         <a href="../index.html" style="
             font-weight: 700;
             font-size: 1.25rem;
@@ -2871,42 +2906,26 @@ display: none;
             background-clip: text;
         ">Cooper Denny</a>
 
+        <!-- Nav links RIGHT -->
         <div style="display: flex; align-items: center; gap: 1.5rem;">
-            <a id="back-link" href="../index.html#projects" style="
+            <a href="../index.html" class="rmd-nav-link" style="
                 color: #94a3b8;
                 text-decoration: none;
                 font-size: 0.9rem;
                 font-weight: 500;
                 transition: color 0.2s ease;
             " onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">
-                ← All Projects
+                Home
             </a>
-            <a href="../index.html#projects" style="
+            <a href="../index.html#projects" class="rmd-nav-link" style="
                 color: #94a3b8;
                 text-decoration: none;
                 font-size: 0.9rem;
                 font-weight: 500;
                 transition: color 0.2s ease;
             " onmouseover="this.style.color='#38bdf8'" onmouseout="this.style.color='#94a3b8'">
-                All Projects
+                Projects
             </a>
-            <button id="rmd-theme-toggle" aria-label="Toggle theme" style="
-                background: rgba(255,255,255,0.08);
-                border: 1px solid rgba(255,255,255,0.1);
-                border-radius: 50px;
-                padding: 0.35rem 0.75rem;
-                cursor: pointer;
-                color: #94a3b8;
-                font-size: 0.85rem;
-                display: flex;
-                align-items: center;
-                gap: 0.4rem;
-                transition: all 0.2s ease;
-                font-family: inherit;
-            ">
-                <span class="icon-sun" style="display:none;">☀️</span>
-                <span class="icon-moon">🌙</span>
-            </button>
         </div>
     </div>
 </nav>
@@ -2915,11 +2934,12 @@ display: none;
 (function() {
     var theme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', theme);
+    document.body && document.body.setAttribute('data-theme', theme);
 
-    var nav = document.querySelector('.site-nav');
+    var nav    = document.querySelector('.site-nav');
     var toggle = document.getElementById('rmd-theme-toggle');
-    var iconSun = toggle ? toggle.querySelector('.icon-sun') : null;
-    var iconMoon = toggle ? toggle.querySelector('.icon-moon') : null;
+    var sun    = toggle ? toggle.querySelector('.fa-sun')  : null;
+    var moon   = toggle ? toggle.querySelector('.fa-moon') : null;
 
     function applyTheme(t) {
         document.documentElement.setAttribute('data-theme', t);
@@ -2927,13 +2947,19 @@ display: none;
         if (t === 'light') {
             nav.style.background = 'rgba(255,255,255,0.92)';
             nav.style.borderBottomColor = 'rgba(15,23,42,0.1)';
-            if (iconSun) iconSun.style.display = 'inline';
-            if (iconMoon) iconMoon.style.display = 'none';
+            toggle.style.background = 'rgba(15,23,42,0.05)';
+            toggle.style.borderColor = 'rgba(15,23,42,0.1)';
+            if (sun)  { sun.style.opacity  = '1'; sun.style.transform  = 'scale(1) rotate(0deg)'; }
+            if (moon) { moon.style.opacity = '0'; moon.style.transform = 'scale(0.5) rotate(90deg)'; }
+            document.querySelectorAll('.rmd-nav-link').forEach(function(a) { a.style.color = '#475569'; a.onmouseover = function(){ this.style.color='#0ea5e9'; }; a.onmouseout = function(){ this.style.color='#475569'; }; });
         } else {
             nav.style.background = 'rgba(15,23,42,0.92)';
             nav.style.borderBottomColor = 'rgba(255,255,255,0.1)';
-            if (iconSun) iconSun.style.display = 'none';
-            if (iconMoon) iconMoon.style.display = 'inline';
+            toggle.style.background = 'rgba(255,255,255,0.05)';
+            toggle.style.borderColor = 'rgba(255,255,255,0.1)';
+            if (sun)  { sun.style.opacity  = '0'; sun.style.transform  = 'scale(0.5) rotate(-90deg)'; }
+            if (moon) { moon.style.opacity = '1'; moon.style.transform = 'scale(1) rotate(0deg)'; }
+            document.querySelectorAll('.rmd-nav-link').forEach(function(a) { a.style.color = '#94a3b8'; a.onmouseover = function(){ this.style.color='#38bdf8'; }; a.onmouseout = function(){ this.style.color='#94a3b8'; }; });
         }
     }
 
