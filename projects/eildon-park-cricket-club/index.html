@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eildon Park Cricket Club Website - Cooper Denny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../project-styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../../index.html" class="nav-logo">Cooper Denny</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="../index.html#projects">Projects</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Header -->
+    <header class="project-header">
+        <div class="container">
+            <div class="project-tags" style="margin-bottom: 1rem; justify-content: center;">
+                <span class="tag">Claude Code</span>
+                <span class="tag">Web Development</span>
+                <span class="tag">Sports Analytics</span>
+                <span class="tag">Cricket</span>
+            </div>
+            <h1>Eildon Park Cricket Club Website</h1>
+            <p class="project-subtitle">Full club website built with Claude Code, featuring a historical player stats dashboard that automatically populates all senior club records from compiled historical data</p>
+        </div>
+    </header>
+
+    <!-- Project Content -->
+    <section class="project-content with-description" style="padding-top: 3rem;">
+        <div class="container">
+
+            <!-- Live site link -->
+            <div class="content-section" style="text-align: center; margin-bottom: 2rem;">
+                <a href="https://eildonparkcc.netlify.app/stats" target="_blank" rel="noopener noreferrer" class="btn primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem; text-decoration: none;">
+                    <i class="fas fa-external-link-alt"></i>
+                    View Live Player Stats Dashboard
+                </a>
+            </div>
+
+            <!-- Screenshots -->
+            <div class="content-section">
+                <figure style="margin: 0 0 2rem;">
+                    <img src="player-stats-dashboard.png" alt="Player Stats Dashboard showing top run scorers, wicket takers, and most matches played" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                    <figcaption style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;">Main player stats dashboard — club leaderboards for runs, wickets, and matches played</figcaption>
+                </figure>
+                <figure style="margin: 0 0 2rem;">
+                    <img src="individual-player-stats-1.png" alt="Individual player profile showing career batting and bowling stats" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                    <figcaption style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;">Individual player profile — career summary with team and season filters</figcaption>
+                </figure>
+                <figure style="margin: 0 0 2rem;">
+                    <img src="individual-player-stats-2.png" alt="Individual player profile showing season-by-season charts and team breakdown table" style="width: 100%; border-radius: 8px; border: 1px solid var(--border);">
+                    <figcaption style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary); text-align: center;">Season-by-season performance charts and team breakdown table</figcaption>
+                </figure>
+            </div>
+
+            <!-- Project details -->
+            <div class="content-section">
+                <h2>Project Overview</h2>
+                <p>Built the full Eildon Park Cricket Club website using Claude Code, combining web development with sports data engineering to create a resource for the club's members and history. The centrepiece is an interactive player stats dashboard that surfaces historical records automatically from compiled season-by-season data.</p>
+
+                <h3>Historical Player Stats Dashboard</h3>
+                <p>The stats section compiles historical batting and bowling data across all senior seasons, automatically calculating and displaying club records including:</p>
+                <ul>
+                    <li>All-time batting and bowling records for individual players</li>
+                    <li>Season-by-season performance breakdowns</li>
+                    <li>Career aggregates and averages populated dynamically from the underlying data</li>
+                    <li>Club record holders across key statistical categories</li>
+                </ul>
+
+                <h3>Built With Claude Code</h3>
+                <p>The entire website was developed using Claude Code as the primary development tool, enabling rapid iteration from initial design through to a production-ready site deployed on Netlify. This project demonstrates how AI-assisted development can accelerate the delivery of real-world community projects.</p>
+
+                <h3>Data Compilation</h3>
+                <p>Historical statistics were compiled from club records spanning multiple seasons, cleaned and structured to enable the dashboard to automatically derive records and aggregates without manual maintenance each season.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Cooper Denny. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            navToggle.classList.toggle('active');
+        });
+
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            const currentScrollY = window.scrollY;
+            navbar.classList.toggle('scrolled', currentScrollY > 100);
+            navbar.style.transform = (currentScrollY > lastScrollY && currentScrollY > 100) ? 'translateY(-100%)' : 'translateY(0)';
+            lastScrollY = currentScrollY;
+        });
+    </script>
+</body>
+</html>

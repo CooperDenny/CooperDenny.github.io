@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melbourne Pedestrian Counting System - Cooper Denny</title>
+    <title>Victorian Property Prices Dashboard - Cooper Denny</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="project-styles.css">
+    <link rel="stylesheet" href="../project-styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="../index.html" class="nav-logo">Cooper Denny</a>
+            <a href="../../index.html" class="nav-logo">Cooper Denny</a>
             <button class="nav-toggle" aria-label="Toggle navigation">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
+                <li><a href="../../index.html">Home</a></li>
                 <li><a href="../index.html#projects">Projects</a></li>
             </ul>
             <div class="nav-controls">
@@ -36,12 +36,12 @@
         <div class="container">
             <div class="project-tags" style="margin-bottom: 1rem; justify-content: center;">
                 <span class="tag">Power BI</span>
-                <span class="tag">Python</span>
-                <span class="tag">Data Visualisation</span>
+                <span class="tag">Real Estate</span>
                 <span class="tag">Geospatial</span>
+                <span class="tag">Data Visualisation</span>
             </div>
-            <h1>Melbourne Pedestrian Counting System</h1>
-            <p class="project-subtitle">Interactive Power BI dashboard analysing pedestrian movement patterns across Melbourne using real-time sensor data from almost 100 locations</p>
+            <h1>Victorian Property Prices Dashboard</h1>
+            <p class="project-subtitle">Interactive Power BI visualisation exploring Victorian property market trends with dynamic filtering, suburb analysis, and geographic mapping</p>
         </div>
     </header>
 
@@ -52,37 +52,34 @@
             <!-- Dashboard embed -->
             <div class="dashboard-section with-description">
                 <div class="iframe-container fixed-height">
-                    <iframe title="Pedestrian Analysis" width="600" height="373.5"
-                        src="https://app.powerbi.com/view?r=eyJrIjoiMTdlMDVjYTItODBmMC00ZWQxLWFhNmItYzQ3NzMxYzlmNzJmIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9&pageName=61de34a7e603f2eee3b6"
-                        frameborder="0" allowFullScreen="true"></iframe>
+                    <iframe title="Victorian Property Prices Analysis"
+                        src="https://app.powerbi.com/view?r=eyJrIjoiMmM1YmQwNzMtMzkwOS00NWYxLWJlZDItZTAzOWZiMTQ0MmFkIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9"
+                        allowfullscreen="true"></iframe>
                 </div>
             </div>
 
             <!-- Project details -->
             <div class="content-section">
                 <h2>Project Overview</h2>
-                <p>The Melbourne Pedestrian Counting System is a comprehensive Power BI dashboard analysing pedestrian movement patterns in Melbourne. It provides insights into pedestrian traffic trends using sensor data from the City of Melbourne's counting network.</p>
+                <p>The Victorian Property Prices Dashboard is an interactive Power BI project offering comprehensive insights into the Victorian property market. It uses dynamic filtering and geographic mapping to help users explore price trends by suburb, region, and property type.</p>
 
                 <h3>Features</h3>
                 <ul>
-                    <li>Daily pedestrian counts across all sensors</li>
-                    <li>Average pedestrian counts per hour of day</li>
-                    <li>Data filtered by day of week, weekday/weekend, and year</li>
-                    <li>Slicer to isolate data from any of the ~100 sensors</li>
-                    <li>Mapped sensor locations via longitude and latitude</li>
+                    <li>Dynamic map visualisation of sold properties across Victoria</li>
+                    <li>Filterable slicers for region, suburb, and property attributes</li>
+                    <li>Interactive tables with prices, locations, and key property attributes</li>
+                    <li>Calculated measures for median prices and year-on-year trends</li>
                 </ul>
 
                 <h3>Data Source</h3>
-                <p>Data sourced from <a href="https://pedestrian.melbourne.vic.gov.au">pedestrian.melbourne.vic.gov.au</a> — hourly pedestrian counts from sensors across Melbourne CBD since January 2010.</p>
+                <p>Data sourced from Kaggle, providing a detailed dataset of Victorian property sales including location, price, type, and sale date.</p>
 
                 <h3>Data Preparation</h3>
-                <p>Python was used for data collection and transformation into a format suitable for Power BI analysis. New measures including 4-week and 52-week rolling averages were created within Power BI.</p>
-                <p>The Jupyter Notebook for producing the required CSV is on <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem">GitHub</a>.</p>
-
-                <h3>Dashboard Pages</h3>
+                <p>Power BI Power Query was used to clean and preprocess the data, including:</p>
                 <ul>
-                    <li><strong>Daily Pedestrian Count:</strong> Total pedestrian counts on a daily basis across selected sensors.</li>
-                    <li><strong>Pedestrian Count Summary:</strong> Average traffic per hour, broken down by day of week, weekday/weekend, and year.</li>
+                    <li>Filtering irrelevant entries and correcting data errors</li>
+                    <li>Transforming columns to enable geographic and temporal analysis</li>
+                    <li>Creating calculated columns and DAX measures for enhanced insights</li>
                 </ul>
             </div>
         </div>
@@ -98,7 +95,7 @@
     <script>
         const themeToggle = document.querySelector('.theme-toggle');
         const body = document.body;
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         body.setAttribute('data-theme', savedTheme);
 
         themeToggle.addEventListener('click', () => {
