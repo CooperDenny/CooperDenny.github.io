@@ -672,6 +672,12 @@ body::before {
     white-space: nowrap;
 }
 
+.last-updated {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
 /* Experience Timeline */
 .experience-timeline {
     position: relative;
@@ -1739,6 +1745,7 @@ body::before {
 .education-logo img {
     height: 80px;
     width: auto;
+    max-width: 100%;
 }
 
 .education-content h3 {
@@ -2272,6 +2279,15 @@ body::before {
         grid-template-columns: 1fr;
         text-align: center;
         gap: 1.5rem;
+    }
+
+    .education-logo {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .education-logo img {
+        height: 60px;
     }
 
     .timeline-content {
