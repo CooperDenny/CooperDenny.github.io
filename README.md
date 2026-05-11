@@ -18,8 +18,8 @@ A static site built with HTML, CSS, and vanilla JavaScript. Features a light/dar
 └── projects/
     ├── project-styles.css      # Shared styles for project pages
     ├── rmd-styles.css          # Styles for knitted R Markdown blog posts
-    ├── AFL.Brownlow.Prediction.Model.2024.html   # 2024 Brownlow model (R Markdown)
-    ├── AFL.Brownlow.Prediction.Model.html        # 2023 Brownlow model (R Markdown)
+    ├── afl-brownlow-2024/                        # 2024 Brownlow model project page
+    ├── afl-brownlow-2023/                        # 2023 Brownlow model project page
     ├── h2h-arbitrage-finder.html                 # Arbitrage finder (R Markdown)
     ├── melbourne-pedestrian-counting.html        # Melbourne pedestrian dashboard
     └── victorian-property-prices-dashboard.html  # Victorian property dashboard
@@ -29,8 +29,7 @@ A static site built with HTML, CSS, and vanilla JavaScript. Features a light/dar
 
 | Project | Tools | Description |
 |---|---|---|
-| [2024 AFL Brownlow Prediction Model](https://cooperdenny.github.io/projects/AFL.Brownlow.Prediction.Model.2024.html) | R, Machine Learning | Ordinal logistic regression predicting Brownlow Medal votes |
-| [2023 AFL Brownlow Prediction Model](https://cooperdenny.github.io/projects/AFL.Brownlow.Prediction.Model.html) | R, Machine Learning | Same model applied to the 2023 season |
+| [AFL Brownlow Prediction Model](https://github.com/CooperDenny/AFLBrownlowPredictor) | R, Machine Learning | Ordinal logistic regression predicting Brownlow Medal votes — 2023 and 2024 editions |
 | [Australian Arbitrage Betting Finder](https://cooperdenny.github.io/projects/h2h-arbitrage-finder.html) | R, API | Real-time arbitrage detection across Australian bookmakers |
 | [Melbourne Pedestrian Counting System](https://cooperdenny.github.io/projects/melbourne-pedestrian-counting.html) | Power BI, Python | Dashboard analysing pedestrian traffic from ~100 CBD sensors |
 | [Victorian Property Prices Dashboard](https://cooperdenny.github.io/projects/victorian-property-prices-dashboard.html) | Power BI | Interactive property market explorer with geographic mapping |
