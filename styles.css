@@ -85,6 +85,20 @@
     color: var(--text-secondary);
 }
 
+[data-theme="light"] .tag {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(79, 70, 229, 0.12));
+    color: #1e40af;
+    border: 1px solid rgba(79, 70, 229, 0.35);
+}
+
+[data-theme="light"] .project-link {
+    color: #4f46e5;
+}
+
+[data-theme="light"] .project-link:hover {
+    color: #1e40af;
+}
+
 /* Base Reset */
 * {
     margin: 0;
