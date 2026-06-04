@@ -290,19 +290,19 @@ body::before {
 .theme-toggle .fa-sun {
     opacity: 0;
     transform: scale(0.5) rotate(-90deg);
-    color: #f97316;
+    color: #22d3ee;
 }
 
 .theme-toggle .fa-moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    color: #f59e0b;
+    color: #4f46e5;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    color: #f59e0b;
+    color: #06b6d4;
 }
 
 [data-theme="light"] .theme-toggle .fa-moon {
@@ -1552,7 +1552,25 @@ body::before {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 2.5rem;
+    margin-top: 2.5rem;
 }
+
+.project-card--featured {
+    margin-bottom: 0;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(79, 70, 229, 0.08));
+    border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.project-card--featured:hover {
+    border-color: rgba(6, 182, 212, 0.5);
+}
+
+.project-links-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
     background: var(--bg-card);
     border-radius: 20px;
     overflow: hidden;

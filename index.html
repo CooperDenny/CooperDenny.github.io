@@ -30,9 +30,9 @@
             </button>
             <ul class="nav-links">
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
                 <li><a href="#skills">Tech Stack</a></li>
                 <li><a href="#education">Education</a></li>
-                <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-controls">
@@ -210,8 +210,134 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section id="projects" class="section bg-light">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+            </div>
+
+            <!-- Featured project: full-width card -->
+            <div class="project-card project-card--featured">
+                <div class="project-content">
+                    <div class="project-icon">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <h3>AFL Brownlow Prediction Model</h3>
+                    <p>Ordinal logistic regression model predicting AFL Brownlow Medal votes, applied across the 2023 and 2024 seasons. Correctly predicted Patrick Cripps to break the all-time vote record in 2024.</p>
+                    <div class="project-tags">
+                        <span class="tag">R</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Sports Analytics</span>
+                    </div>
+                    <div class="project-links-row">
+                        <a href="projects/afl-brownlow-2024/" class="project-link">
+                            View 2024 Model <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="projects/afl-brownlow-2023/" class="project-link">
+                            View 2023 Model <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3>Eildon Park Cricket Club Website</h3>
+                        <p>Full club website built with Claude Code featuring a historical player stats dashboard that automatically populates all senior club records from compiled historical data.</p>
+                        <div class="project-tags">
+                            <span class="tag">Claude Code</span>
+                            <span class="tag">Web Development</span>
+                            <span class="tag">Sports Analytics</span>
+                            <span class="tag">Cricket</span>
+                        </div>
+                        <a href="projects/eildon-park-cricket-club/" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Australian Arbitrage Betting Finder</h3>
+                        <p>API-driven system identifying arbitrage opportunities in H2H betting markets across Australian bookmakers using real-time odds data.</p>
+                        <div class="project-tags">
+                            <span class="tag">R</span>
+                            <span class="tag">API</span>
+                            <span class="tag">Finance</span>
+                        </div>
+                        <a href="projects/h2h-arbitrage-finder/" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                        <h3>Melbourne Pedestrian Counting System</h3>
+                        <p>Interactive Power BI dashboard analysing pedestrian traffic patterns across Melbourne CBD with temporal and spatial visualisations.</p>
+                        <div class="project-tags">
+                            <span class="tag">Power BI</span>
+                            <span class="tag">Data Visualisation</span>
+                            <span class="tag">Python</span>
+                        </div>
+                        <a href="projects/melbourne-pedestrian-counting/" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Victorian Property Prices Dashboard</h3>
+                        <p>Comprehensive Power BI dashboard providing insights into Victorian property market trends with interactive maps and filterable analysis tools.</p>
+                        <div class="project-tags">
+                            <span class="tag">Power BI</span>
+                            <span class="tag">Real Estate</span>
+                            <span class="tag">Geospatial</span>
+                        </div>
+                        <a href="projects/victorian-property-prices-dashboard/" class="project-link">
+                            View Project <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <h3>CricketStatsHub</h3>
+                        <p>Comprehensive cricket statistics repository containing batting and bowling data from international and domestic competitions with standardised formats.</p>
+                        <div class="project-tags">
+                            <span class="tag">Data Engineering</span>
+                            <span class="tag">Sports Data</span>
+                            <span class="tag">GitHub</span>
+                        </div>
+                        <a href="https://github.com/CooperDenny/CricketStatsHub" class="project-link">
+                            View Project <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Skills Section -->
-    <section id="skills" class="section bg-light">
+    <section id="skills" class="section">
         <div class="container">
             <div class="section-header">
                 <h2>Tech Stack</h2>
@@ -365,7 +491,7 @@
     </section>
 
     <!-- Education Section -->
-    <section id="education" class="section">
+    <section id="education" class="section bg-light">
         <div class="container">
             <div class="section-header">
                 <h2>Education</h2>
@@ -384,129 +510,6 @@
                             <strong>GPA:</strong> 3.292 | <strong>WAM:</strong> 77.600
                         </div>
                         <p>Acquired skills in R and Python, data analysis, data visualisation, machine learning, and mathematical modelling. Developed the ability to present complex data science projects clearly and concisely.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="section bg-light">
-        <div class="container">
-            <div class="section-header">
-                <h2>Featured Projects</h2>
-            </div>
-
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-medal"></i>
-                        </div>
-                        <h3>AFL Brownlow Prediction Model</h3>
-                        <p>Ordinal logistic regression model predicting AFL Brownlow Medal votes, applied across the 2023 and 2024 seasons. Correctly predicted Patrick Cripps to break the all-time vote record in 2024.</p>
-                        <div class="project-tags">
-                            <span class="tag">R</span>
-                            <span class="tag">Machine Learning</span>
-                            <span class="tag">Sports Analytics</span>
-                        </div>
-                        <a href="projects/afl-brownlow-2024/" class="project-link">
-                            View 2024 Model <i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="projects/afl-brownlow-2023/" class="project-link" style="margin-top: 0.5rem; display: inline-block;">
-                            View 2023 Model <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h3>Eildon Park Cricket Club Website</h3>
-                        <p>Full club website built with Claude Code featuring a historical player stats dashboard that automatically populates all senior club records from compiled historical data.</p>
-                        <div class="project-tags">
-                            <span class="tag">Claude Code</span>
-                            <span class="tag">Web Development</span>
-                            <span class="tag">Sports Analytics</span>
-                            <span class="tag">Cricket</span>
-                        </div>
-                        <a href="projects/eildon-park-cricket-club/" class="project-link">
-                            View Project <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Australian Arbitrage Betting Finder</h3>
-                        <p>API-driven system identifying arbitrage opportunities in H2H betting markets across Australian bookmakers using real-time odds data.</p>
-                        <div class="project-tags">
-                            <span class="tag">R</span>
-                            <span class="tag">API</span>
-                            <span class="tag">Finance</span>
-                        </div>
-                        <a href="projects/h2h-arbitrage-finder/" class="project-link">
-                            View Project <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-walking"></i>
-                        </div>
-                        <h3>Melbourne Pedestrian Counting System</h3>
-                        <p>Interactive Power BI dashboard analysing pedestrian traffic patterns across Melbourne CBD with temporal and spatial visualisations.</p>
-                        <div class="project-tags">
-                            <span class="tag">Power BI</span>
-                            <span class="tag">Data Visualisation</span>
-                            <span class="tag">Python</span>
-                        </div>
-                        <a href="projects/melbourne-pedestrian-counting/" class="project-link">
-                            View Project <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-home"></i>
-                        </div>
-                        <h3>Victorian Property Prices Dashboard</h3>
-                        <p>Comprehensive Power BI dashboard providing insights into Victorian property market trends with interactive maps and filterable analysis tools.</p>
-                        <div class="project-tags">
-                            <span class="tag">Power BI</span>
-                            <span class="tag">Real Estate</span>
-                            <span class="tag">Geospatial</span>
-                        </div>
-                        <a href="projects/victorian-property-prices-dashboard/" class="project-link">
-                            View Project <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-content">
-                        <div class="project-icon">
-                            <i class="fas fa-table"></i>
-                        </div>
-                        <h3>CricketStatsHub</h3>
-                        <p>Comprehensive cricket statistics repository containing batting and bowling data from international and domestic competitions with standardised formats.</p>
-                        <div class="project-tags">
-                            <span class="tag">Data Engineering</span>
-                            <span class="tag">Sports Data</span>
-                            <span class="tag">GitHub</span>
-                        </div>
-                        <a href="https://github.com/CooperDenny/CricketStatsHub" class="project-link">
-                            View Project <i class="fas fa-external-link-alt"></i>
-                        </a>
                     </div>
                 </div>
             </div>
