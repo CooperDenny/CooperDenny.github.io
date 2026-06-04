@@ -290,19 +290,19 @@ body::before {
 .theme-toggle .fa-sun {
     opacity: 0;
     transform: scale(0.5) rotate(-90deg);
-    color: #f97316;
+    color: #22d3ee;
 }
 
 .theme-toggle .fa-moon {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    color: #f59e0b;
+    color: #4f46e5;
 }
 
 [data-theme="light"] .theme-toggle .fa-sun {
     opacity: 1;
     transform: scale(1) rotate(0deg);
-    color: #f59e0b;
+    color: #06b6d4;
 }
 
 [data-theme="light"] .theme-toggle .fa-moon {
