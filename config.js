@@ -8,14 +8,14 @@ const CONFIG = {
     themes: {
         colors: {
             // Primary brand colors
-            accent: '#0ea5e9',           // Data science blue
-            accentSecondary: '#059669',   // Sports green  
+            accent: '#06b6d4',           // Data viz cyan
+            accentSecondary: '#4f46e5',   // Indigo
             accentPurple: '#7c3aed',     // Innovation purple
             accentTertiary: '#dc2626',   // Energy red
-            
+
             // Modify these for different color schemes
-            brandPrimary: '#0ea5e9',
-            brandSecondary: '#059669',
+            brandPrimary: '#06b6d4',
+            brandSecondary: '#4f46e5',
         },
         
         // Animation settings
