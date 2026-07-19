@@ -3,3 +3,12 @@
 .RData
 .Ruserdata
 .Rmd
+
+# Node / Next.js
+node_modules
+.next
+out
+next-env.d.ts
+npm-debug.log*
+.DS_Store
+.env*.local
