@@ -1,19 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // The static project write-ups under public/projects/<slug>/index.html aren't
-  // app routes, so a directory-style URL doesn't auto-resolve to its index.html
-  // the way plain static hosting (or `next export`) would. Next's own trailing-slash
-  // redirect strips the "/" from `/projects/<slug>/` before any request ever reaches
-  // this rewrite, so both the slash and no-slash forms are rewritten here — this runs
-  // in `next dev`/`next start` and on Netlify alike (the netlify.toml redirect alone
-  // does not, since it never fires locally).
-  async rewrites() {
-    return [
-      { source: '/projects/:slug/', destination: '/projects/:slug/index.html' },
-      { source: '/projects/:slug', destination: '/projects/:slug/index.html' },
-    ];
-  },
+  // Static export for GitHub Pages: there's no Supabase, no server actions, no
+  // API routes, and every route already prerenders as static ("○ (Static)" in
+  // the build output) — so `next build` writes plain HTML/CSS/JS to `out/` and
+  // GitHub Pages just serves it, same as the original static site did.
+  //
+  // This is also why there's no `rewrites()`/`redirects()` config for the
+  // /projects/<slug>/ static write-ups: `output: 'export'` doesn't support
+  // custom routing (Next errors at build time if you try), but it doesn't need
+  // to here — export mode writes each one to public/projects/<slug>/index.html
+  // and GitHub Pages resolves a directory-style URL to that file on its own,
+  // exactly like plain static hosting always has.
+  output: 'export',
 };
 
 module.exports = nextConfig;
