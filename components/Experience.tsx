@@ -18,8 +18,9 @@ export default function Experience() {
                   />
                 </div>
                 <div className="timeline-main-info">
-                  <h3>Junior Data Scientist</h3>
+                  <h3>Data Scientist</h3>
                   <p className="company">PlayHQ Sports</p>
+                  <p className="role-history">Promoted from Junior Data Scientist · Nov 2024 - Jul 2026</p>
                 </div>
                 <div className="timeline-meta">
                   <p className="period">Nov 2024 - Present</p>
