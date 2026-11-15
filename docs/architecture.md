@@ -35,7 +35,7 @@ flowchart LR
 ```
 
 - **The Next.js app** renders the home page (`/`) and the résumé (`/resume/`) from `content/profile.ts`, then exports everything to static HTML in `out/`.
-- **The Python generator** produces the six project pages under `public/projects/`. Three are generated in full; three are R Markdown (knitr) reports that it enhances in place. Next copies `public/` into `out/` unchanged.
+- **The Python generator** produces the seven project pages under `public/projects/`. Three are generated in full; four are R Markdown (knitr) reports that it enhances in place. Next copies `public/` into `out/` unchanged.
 - **The shared files** (tokens, JSON, the theme script) are why both kinds of page have the same look, nav, theme switcher and facts, with nothing defined twice.
 
 There is no server, database or runtime API: every page is static HTML ([decision D01](decisions.md#d01-static-export-to-github-pages)).

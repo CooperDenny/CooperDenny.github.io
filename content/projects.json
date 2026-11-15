@@ -2,6 +2,11 @@
   "$comment": "Canonical list of /projects/<slug>/ pages, in 'Next project' order. Single source for page titles: read by content/profile.ts (home cards) and scripts/project_pages (page chrome).",
   "pages": [
     {
+      "slug": "afl-brownlow-2025",
+      "title": "Predicting the 2025 Brownlow Medal",
+      "teaser": "Year three: its best 3-vote hit rate yet, and its top pick finished runner-up."
+    },
+    {
       "slug": "afl-brownlow-2024",
       "title": "Predicting the 2024 Brownlow Medal",
       "teaser": "Called Cripps and Daicos as the top two, in order, on an unseen season."
@@ -18,13 +23,13 @@
     },
     {
       "slug": "eildon-park-cricket-club",
-      "title": "Cricket Club Records & Stats Platform",
-      "teaser": "A club’s playing history turned into self-updating records."
+      "title": "Cricket Club Website & Stats Platform",
+      "teaser": "37 seasons and live Play Cricket data behind a club’s website."
     },
     {
       "slug": "melbourne-pedestrian-counting",
       "title": "Melbourne Pedestrian Traffic Dashboard",
-      "teaser": "~100 city sensors, hourly since 2010, in Power BI."
+      "teaser": "~100 city sensors, hourly from 2010 to 2024, in Power BI."
     },
     {
       "slug": "victorian-property-prices-dashboard",

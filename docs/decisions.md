@@ -22,6 +22,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D14](#d14-react-uses-composition-the-generator-uses-classes) | React uses composition; the generator uses classes |
 | [D15](#d15-generated-project-pages-are-committed-and-checked-in-ci) | Generated project pages are committed and checked in CI |
 | [D16](#d16-trailing-slashes-on-every-route) | Trailing slashes on every route |
+| [D17](#d17-playhq-work-leads-the-hero-brownlow-figures-stay-on-its-card) | PlayHQ work leads the hero; Brownlow figures stay on its card |
+| [D18](#d18-project-pages-follow-their-source-repositories) | Project pages follow their source repositories |
 
 ---
 
@@ -164,3 +166,27 @@ A short note on the card and on the project pages explains why accuracy isn't us
 **Decision.** `trailingSlash: true`; routes export as `<route>/index.html`, and links use the trailing-slash form.
 
 **Consequences.** `/resume` and `/resume/` both work, consistent with the project pages.
+
+### D17. PlayHQ work leads the hero; Brownlow figures stay on its card
+
+**Context.** The hero proof tiles used to include the Brownlow model's r = 0.93. By November 2026 the stronger evidence is production work at PlayHQ: an embedded analytics product used by 50,000+ people at 15,000+ sporting organisations, and a churn model trained, scored and explained in Snowflake (0.81 test ROC AUC on the latest, unseen season pairs, recorded for model V10 in the analytics-platform churn README). A university side project shouldn't headline over that.
+
+**Decision.**
+- Proof tiles: tenure ("2+ yrs"), the 50,000+ users figure, the three sport organisations, and the degree. The Brownlow figures (D11) stay on the featured card, its project pages and the résumé's project entry, not in the hero.
+- PlayHQ highlights describe the specific systems (AnalyticsHQ ownership, the Admin Portal dashboards, the Report Builder rebuild, financial reporting, the churn model, self-serve analytics, data shares for national bodies), traceable to the GameOnSports repositories and PlayHQ's public help-centre articles on Dashboards and Reports.
+- To keep `/resume/` on one A4 page with the longer PlayHQ entry, the betting arbitrage card is no longer `onResume`. It stays on the website.
+
+**Consequences.** Tile text isn't computed, so update "2+ yrs" and the user count by hand as they change. If the served churn model is re-evaluated, update the 0.81 figure in `content/profile.ts` to match.
+
+### D18. Project pages follow their source repositories
+
+**Context.** By November 2026 several projects had moved on from what their pages described: the Brownlow model had a third tested season (2025), the cricket club stats page had grown into the full club website at epcc.org.au, CricketStatsHub had become an R library with a BBL dashboard, and the pedestrian notebook's date range was fixed at January 2010 to October 2024.
+
+**Decision.**
+- Each page's copy is checked against its repository (CooperDenny/AFLBrownlowPredictor, EPCC-Website, MelbournePedestrianCountingSystem, CricketStatsHub, AussieArbFinder), and figures come from the repo or the live site.
+- 2025 gets its own report page (`afl-brownlow-2025`), linked from the one Brownlow card (D11 still applies). Its 44 MB dataset is linked on GitHub rather than copied here. The 2026 folder is a pre-count prediction with no results yet, so it has no page.
+- The 2025 page leads with its strongest honest result (best 3-vote hit rate of the three seasons, top pick runner-up) and still reports the missed winner in the outcome.
+- Cricket club screenshots are taken from the live site (the player page shown is Cooper's own) and stored as WebP at 1600px wide.
+
+**Consequences.** Live-site figures (818 players, 1,100+ scorecards) drift as games are played; refresh them when re-shooting the screenshots. When a new Brownlow season is tested, add a page and a card link rather than a new card.
+

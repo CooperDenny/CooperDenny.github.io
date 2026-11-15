@@ -98,7 +98,7 @@
   <div class="cd-wrap">
     <p class="cd-kicker">Time series · BI · Open data</p>
     <h1>Melbourne Pedestrian Traffic Dashboard</h1>
-    <p class="cd-hero__lede">An interactive Power BI dashboard over the City of Melbourne’s pedestrian sensor network (hourly counts from about 100 locations since 2010), built to show how foot traffic shifts by hour, weekday and year.</p>
+    <p class="cd-hero__lede">An interactive Power BI dashboard over the City of Melbourne’s pedestrian sensor network (hourly counts from about 100 locations, January 2010 to October 2024), built to show how foot traffic shifts by hour, weekday and year.</p>
     
     <ul class="cd-chips" aria-label="Tools used"><li>Python</li><li>Jupyter</li><li>Power BI</li><li>DAX</li></ul>
     <div class="cd-hero__actions"><a href="https://app.powerbi.com/view?r=eyJrIjoiMTdlMDVjYTItODBmMC00ZWQxLWFhNmItYzQ3NzMxYzlmNzJmIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9&pageName=61de34a7e603f2eee3b6" class="cd-btn cd-btn--primary" target="_blank" rel="noopener noreferrer"><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg> Open dashboard full screen</a><a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem" class="cd-btn cd-btn--ghost" target="_blank" rel="noopener noreferrer"><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg> Python notebook on GitHub</a></div>
@@ -109,10 +109,10 @@
   <h2 id="cd-glance-title">At a glance</h2>
   <div class="cd-glance__grid">
     <div><h3>The question</h3><p>When and where is Melbourne’s CBD busiest, and how has that pattern changed over the years?</p></div>
-    <div><h3>What I did</h3><ul><li>Collected the City of Melbourne’s open sensor data with Python and reshaped it into a Power BI-ready table.</li><li>Built DAX measures for 4-week and 52-week rolling averages to separate trend from weekly noise.</li><li>Mapped every sensor by latitude and longitude, with slicers for sensor, day of week, weekday/weekend and year.</li></ul></div>
+    <div><h3>What I did</h3><ul><li>Wrote a Python notebook that builds the URL for every yearly and monthly file, downloads and cleans almost 15 years of data, checks for missing dates, and reshapes it into one long table of hourly counts per sensor.</li><li>Built DAX measures for 4-week and 52-week rolling averages to separate trend from weekly noise.</li><li>Geocoded every sensor by hand from Google Maps so the dashboard can map them, with slicers for sensor, day of week, weekday/weekend and year.</li></ul></div>
     
   </div>
-  <dl class="cd-metrics"><div class="cd-metric"><dt>Sensors across the city</dt><dd>~100</dd></div><div class="cd-metric"><dt>Count granularity</dt><dd>Hourly</dd></div><div class="cd-metric"><dt>Data starts</dt><dd>2010</dd></div><div class="cd-metric"><dt>Rolling averages</dt><dd>4 &amp; 52 wk</dd></div></dl>
+  <dl class="cd-metrics"><div class="cd-metric"><dt>Sensors across the city</dt><dd>~100</dd></div><div class="cd-metric"><dt>Count granularity</dt><dd>Hourly</dd></div><div class="cd-metric"><dt>January 2010 to October 2024</dt><dd>2010–24</dd></div><div class="cd-metric"><dt>Rolling averages</dt><dd>4 &amp; 52 wk</dd></div></dl>
   
 </section>
 
@@ -131,11 +131,11 @@
 </ul>
 
 <h2>Data and preparation</h2>
-<p>The data is the City of Melbourne’s <a href="https://pedestrian.melbourne.vic.gov.au" target="_blank" rel="noopener noreferrer">Pedestrian Counting System</a>: hourly counts from sensors across the CBD, going back to January 2010.</p>
+<p>The data is the City of Melbourne’s <a href="https://pedestrian.melbourne.vic.gov.au" target="_blank" rel="noopener noreferrer">Pedestrian Counting System</a>: hourly counts from sensors across the CBD, from January 2010 to October 2024.</p>
 <ul>
-  <li><strong>Python</strong> handled collection and transformation into a single tidy table for Power BI. The <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem" target="_blank" rel="noopener noreferrer">Jupyter notebook is on GitHub</a>.</li>
+  <li><strong>Python (pandas)</strong>: the City publishes one file per year to 2012 and one per month after that, so the notebook constructs each URL, downloads and cleans every file, checks for missing dates, combines date and hour into a timestamp, and melts the wide sensor columns into one long table. The <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem" target="_blank" rel="noopener noreferrer">Jupyter notebook is on GitHub</a>.</li>
   <li><strong>DAX measures</strong> add 4-week and 52-week rolling averages, so seasonal swings and long-term shifts are visible at a glance.</li>
-  <li><strong>Geospatial</strong>: sensor latitude and longitude drive the map, and a slicer isolates any one of the ~100 sensors.</li>
+  <li><strong>Geospatial</strong>: the source has no coordinates, so I located each sensor in Google Maps and joined latitude and longitude onto the table. They drive the map, and a slicer isolates any one of the ~100 sensors.</li>
 </ul>
 </article>
 </div>
