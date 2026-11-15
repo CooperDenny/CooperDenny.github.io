@@ -23,7 +23,7 @@ There's no database and no Supabase: this site has no dynamic content (no CMS, n
 ├── content/
 │   └── profile.ts       # ALL site copy: profile, experience, projects, skills, education
 ├── components/
-│   ├── Navbar.tsx, ThemeToggle.tsx, PrintButton.tsx, MobileCta.tsx   # the only 'use client' components
+│   ├── Navbar.tsx, PrintButton.tsx, MobileCta.tsx   # the only 'use client' components
 │   ├── Icon.tsx         # Inline SVG icons (Font Awesome Free paths, CC BY 4.0) — no icon font
 │   ├── Section.tsx      # Shared section wrapper (eyebrow + heading + intro)
 │   ├── Hero.tsx, Experience.tsx, Projects.tsx, Skills.tsx, Education.tsx, Contact.tsx
@@ -36,6 +36,10 @@ There's no database and no Supabase: this site has no dynamic content (no CMS, n
     ├── images/          # hero-image.webp (desktop), hero-avatar.webp (mobile), hero-image.png (OG only),
     │                    # self-hosted employer/university logos (logo-*.webp / .svg, ≤240px)
     └── projects/        # Static project write-up pages — see below, NOT app routes
+        ├── site.css     # Shared chrome for every project page (cd- prefixed)
+        └── report.css   # Dark overrides for the knitr/pandoc/Bootstrap/DataTables reports
+scripts/
+└── build-project-pages.py  # Generates/enhances every project page — see below
 ```
 
 ## Content lives in `content/profile.ts` — edit there, not in JSX
@@ -68,7 +72,7 @@ Measured on an iPhone 13 viewport: the page went from 14.5 screens to ~9.7, and 
 
 ## Why Tailwind's preflight is disabled
 
-`tailwind.config.ts` sets `corePlugins.preflight = false`. `app/globals.css` is a hand-written design system with its own reset and light/dark tokens; preflight would double-reset it. Tailwind utilities are available for new code, but the existing components use the semantic classes in `globals.css` (`.card`, `.chip`, `.btn--primary`, …) — prefer extending those over mixing in utilities.
+`tailwind.config.ts` sets `corePlugins.preflight = false`. `app/globals.css` is a hand-written design system with its own reset and dark-only tokens; preflight would double-reset it. Tailwind utilities are available for new code, but the existing components use the semantic classes in `globals.css` (`.card`, `.chip`, `.btn--primary`, …) — prefer extending those over mixing in utilities.
 
 ## Fonts are loaded via `<link>`, not `next/font`
 
@@ -78,17 +82,21 @@ Inter + JetBrains Mono (Google Fonts, with preconnect) are loaded via `<link>` t
 
 Every image uses a plain `<img>` tag. This produces expected `@next/next/no-img-element` lint *warnings*, suppressed per-line. `next/image`'s optimization API needs a server, which static export doesn't have. Employer/university logos are self-hosted in `public/images/logo-*` rather than hotlinked (hotlinks — especially Wikimedia — rate-limit and break silently).
 
-## Project pages are static files, not app routes
+## Project pages are static files, not app routes — built by `scripts/build-project-pages.py`
 
-`public/projects/<slug>/index.html` are hand-authored or R-Markdown/pandoc-generated static HTML pages (two of them, the AFL Brownlow write-ups, are ~4,000-line knitr output with their own embedded jQuery/Bootstrap/code-folding). They are **not** React components and shouldn't be converted into any — there's no benefit and real risk of breaking their data-heavy layouts. They're served as-is from `public/`, same as before.
+`public/projects/<slug>/index.html` are static HTML served as-is (not React, and shouldn't become React). Since the redesign, **one script owns all six**: `python3 scripts/build-project-pages.py`. Outputs are committed; nothing runs at deploy.
 
-Their "Home" nav links point to `/` (previously the relative `../../index.html`, which no longer exists as a file since the home page is now rendered by `app/page.tsx`, not a static `index.html`). If a project page is ever edited, keep that link as `/`, not a relative path back to a static file that doesn't exist.
+- **Hand pages** (`eildon-park-cricket-club`, `melbourne-pedestrian-counting`, `victorian-property-prices-dashboard`) are generated *in full* from the `HAND` dict in the script. **Edit their copy in the script, then re-run** — hand edits to the HTML get overwritten.
+- **Report pages** (`afl-brownlow-2023`, `afl-brownlow-2024`, `h2h-arbitrage-finder`) are knitr/pandoc output (~2 MB each, embedded jQuery/Bootstrap 3/DataTables). The script leaves their bodies alone and only: swaps head stylesheets for `../site.css` + `../report.css`, removes old pasted-in chrome, injects the shared nav + project header + "At a glance" panel + jump links, folds every R chunk (and printed outputs > 14 lines, except the confusion matrix) into `<details>`, and appends the next-project footer. Injected blocks sit between `<!-- cd:… -->` markers, so it's **idempotent: after re-knitting a report from its `.Rmd`, just re-run the script.**
+- The arbitrage page's headline metrics (markets scanned, arbitrages found, best return, snapshot date) are **computed from the report's own embedded DataTables data** on every run, so a re-knit can't leave stale numbers in the summary. The Brownlow numbers are fixed historical results, written into the `REPORTS` dict.
+- `ORDER` in the script sets the "Next project" chain. Adding a project = a new folder + an entry in `ORDER` and in `HAND` or `REPORTS`.
+- Every page links home via `/` and `/#projects` (never a relative path to a static `index.html`, which doesn't exist). Shared classes are `cd-` prefixed because Bootstrap 3 (inlined in the reports) already owns `.nav`, `.btn`, etc.
 
-`next.config.js` sets `trailingSlash: true`, so app routes export as `<route>/index.html` (e.g. `out/resume/index.html`) and both `/resume` and `/resume/` work on GitHub Pages. A trailing-slash request to `/projects/<slug>/` likewise resolves to that folder's `index.html` automatically — GitHub Pages (and any static file server, including the `out/` directory the export produces) has always served directory-style URLs that way, no extra config needed. Adding a new project folder needs no extra config either.
+`next.config.js` sets `trailingSlash: true`, so app routes export as `<route>/index.html` (e.g. `out/resume/index.html`) and both `/resume` and `/resume/` work on GitHub Pages. `/projects/<slug>/` likewise resolves to that folder's `index.html` — no extra config needed.
 
-## Theming
+## Theming: dark only
 
-Dark by default. `ThemeToggle.tsx` flips `data-theme` on `<body>` and persists it in `localStorage`; a small inline script in `app/layout.tsx` (before hydration, with `suppressHydrationWarning` on `<body>`) applies the saved theme synchronously to avoid a flash. All colours are CSS custom properties defined on `body` and overridden under `body[data-theme='light']` — components must use tokens, never raw colours (the résumé sheet is the one exception: it's always black-on-white).
+The site is **dark only** — a deliberate choice; the light theme and toggle were removed. Colours are CSS custom properties on `body` in `app/globals.css` (and `:root` with `--cd-` names in `public/projects/site.css` — keep the two palettes in sync). `viewport.themeColor` in `app/layout.tsx` matches the background so mobile browser chrome blends in. The résumé sheet is the one exception: always black-on-white, because it's a printable page.
 
 No scroll-triggered reveal animations: the previous site hid content at `opacity: 0` until an IntersectionObserver fired, which left whole sections blank for fast scrollers, print, and crawlers. Don't reintroduce that pattern.
 

@@ -6,13 +6,13 @@ Personal portfolio and project showcase site for Cooper Denny, Data Scientist ba
 
 ## Overview
 
-Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, statically exported and deployed on GitHub Pages via GitHub Actions. Features a one-page printable résumé at `/resume`, a light/dark theme toggle (persisted via `localStorage`), a responsive mobile layout, and individual project write-up pages for data science work.
+Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, statically exported and deployed on GitHub Pages via GitHub Actions. Features a dark, mobile-first design, a one-page printable résumé at `/resume`, and individual project write-up pages for data science work.
 
 ## Stack
 
 - **Framework**: Next.js 14 (App Router), TypeScript, React 18 — statically exported (`output: 'export'` in `next.config.js`); there's no server, API routes, or database, since nothing on this site is dynamic
 - **Content**: every word of copy lives in `content/profile.ts`, rendered by both the home page and the printable `/resume` page
-- **Styling**: a hand-written token-based design system in `app/globals.css` (light/dark + print styles); Tailwind is installed with preflight disabled
+- **Styling**: a hand-written token-based design system in `app/globals.css` (dark only, mobile-first, print styles); Tailwind is installed with preflight disabled
 - **Deployment**: GitHub Pages, built and deployed by `.github/workflows/deploy.yml` on every push to `main`
 
 ## Structure
@@ -26,11 +26,12 @@ Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, stat
 │   ├── globals.css       # Design system (tokens, components, print)
 │   ├── robots.ts, sitemap.ts
 ├── content/profile.ts    # All site copy — edit content here
-├── components/           # Presentational sections + Navbar/ThemeToggle/PrintButton (client)
+├── components/           # Presentational sections + Navbar/MobileCta/PrintButton (client)
 ├── config/site.ts        # Site URL resolution + SEO strings
 └── public/
     ├── images/           # Hero photo and self-hosted logos
-    └── projects/         # Static project write-up pages
+    └── projects/         # Static project write-up pages (+ shared site.css / report.css)
+scripts/build-project-pages.py  # Builds/enhances every project page — run after editing copy or re-knitting a report
 ```
 
 ## Project pages are static, not app routes

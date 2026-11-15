@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -49,6 +49,12 @@ export const metadata: Metadata = {
   },
 };
 
+// Dark-only site: match the mobile browser chrome to the page background.
+export const viewport: Viewport = {
+  themeColor: '#0b1120',
+  colorScheme: 'dark',
+};
+
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -87,7 +93,7 @@ const personJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ colorScheme: 'dark' }}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -101,13 +107,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning>
-        <script
-          dangerouslySetInnerHTML={{
-            __html:
-              "(function(){try{var t=localStorage.getItem('theme')||'dark';document.body.setAttribute('data-theme',t);}catch(e){}})();",
-          }}
-        />
+      <body>
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-GPHTSF6Q5B"

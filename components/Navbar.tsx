@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import Icon from '@/components/Icon';
-import ThemeToggle from '@/components/ThemeToggle';
 
 // Links are absolute ("/#experience") so they work from /resume as well as the home page.
 const links = [
@@ -57,7 +56,6 @@ export default function Navbar() {
           <a href="/resume/" className="btn btn--small btn--primary nav__resume">
             Résumé
           </a>
-          <ThemeToggle />
           <button
             type="button"
             className="nav__toggle"

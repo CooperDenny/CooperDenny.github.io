@@ -6,7 +6,7 @@
    Design system — mobile-first.
    Base rules target phones; @media (min-width: …) layers add tablet/desktop.
    Breakpoints: 600px (large phone / small tablet), 861px (desktop nav + 2-col layouts).
-   Dark is the default; body[data-theme="light"] overrides tokens.
+   Dark only (a deliberate choice) — no light theme, no toggle.
    Components only use tokens. Every interactive element is ≥ 44px tall.
    ========================================================================== */
 
@@ -36,24 +36,6 @@ body {
   --nav-h: 56px;
   --tap: 44px;
   --section-y: 48px;
-}
-
-body[data-theme='light'] {
-  --bg: #ffffff;
-  --bg-alt: #f5f7fb;
-  --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --text-faint: #64748b;
-  --accent: #0e7490;
-  --accent-strong: #155e75;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(14, 116, 144, 0.08);
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
-  --nav-bg: rgba(255, 255, 255, 0.9);
 }
 
 @media (min-width: 600px) {
@@ -239,24 +221,6 @@ p {
 .btn--small {
   font-size: 0.875rem;
   padding: 0 16px;
-}
-
-.icon-btn {
-  display: inline-grid;
-  place-items: center;
-  width: var(--tap);
-  height: var(--tap);
-  border-radius: 999px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 1.05rem;
-  transition: color 0.15s, border-color 0.15s;
-}
-.icon-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
 }
 
 .text-link {

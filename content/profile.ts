@@ -186,7 +186,7 @@ export const projects: Project[] = [
     slug: 'h2h-arbitrage-finder',
     title: 'Australian Betting Arbitrage Finder',
     kicker: 'APIs · Data pipelines',
-    oneLiner: 'Live odds from 12 Australian bookmakers via API, commission-adjusted, flagging guaranteed-profit markets.',
+    oneLiner: 'Scans live odds from 12 Australian bookmakers for guaranteed-profit markets — and shows why real edges are rare and under 1%.',
     summary:
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
