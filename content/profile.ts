@@ -33,7 +33,7 @@ export const profile: Profile = {
   pitch:
     'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own the reporting product clubs and associations use, and built a churn model that flags players unlikely to return next season, and what’s driving each score, so clubs can act early.',
   resumeSummary:
-    'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns an embedded analytics product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction) with a published, out-of-sample-validated AFL Brownlow model.',
+    'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns a reporting product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction average).',
   // Above-the-fold evidence. Each tile jumps to the section that backs it up.
   proof: [
     { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
@@ -64,11 +64,12 @@ export const experience: Job[] = [
     summary:
       'Sports-tech platform running tens of thousands of community games a week across Australia, New Zealand, the UK and Canada.',
     highlights: [
-      'Own PlayHQ’s embedded analytics product (Omni), used by 50,000+ people at 15,000+ local sporting organisations: semantic model, dashboards, row-level security and the embedded AI assistant.',
-      'Rebuilt churn prediction inside Snowflake: a 286-feature dbt dataset over 2M+ participant-seasons, and an XGBoost model trained, tuned and scored in Snowpark. 0.81 ROC AUC on unseen seasons.',
-      'Explained each churn score with TreeSHAP as plain-English reasons; removed sensitive attributes after a privacy review.',
-      'Helped set up self-serve analytics: built over half of the governed, PII-stripped Snowflake models open to staff and AI agents.',
-      'Build success-metric reporting and Snowflake data shares for national bodies such as AFL and Cricket Australia.',
+      'Own AnalyticsHQ, PlayHQ’s Omni-based reporting product, used by 50,000+ people at 15,000+ local sporting organisations, with an AI assistant that answers questions in plain English.',
+      'Built the dashboards on the Admin Portal home page, among them Registrations, Finances, Retention, Season Readiness, Child Safety, Concussion and Memberships, with French versions for Canada.',
+      'Rebuilt the Report Builder: 63 topics across 11 domains, every pre-built report carried over, and game-level statistics and custom registration questions reportable for the first time.',
+      'Built the Finances dashboard treasurers use to reconcile payouts to bank deposits and track refunds, instalments and shop sales, plus Finance’s revenue and invoicing dashboards.',
+      'Rebuilt churn prediction inside Snowflake: a 286-feature dbt dataset over 2M+ participant-seasons, XGBoost trained and scored in Snowpark (0.81 ROC AUC on unseen seasons), and TreeSHAP reasons for each score.',
+      'Helped set up self-serve analytics, and build data shares for national bodies such as AFL and Cricket Australia.',
     ],
     stack: ['SQL', 'Python', 'dbt', 'Snowflake', 'Snowpark', 'XGBoost', 'Omni', 'Lightdash', 'Tableau'],
   },
@@ -95,7 +96,7 @@ export const experience: Job[] = [
     roles: [{ title: 'Data Science Intern', start: 'Jul 2023', end: 'Oct 2023' }],
     summary: 'High-performance sport analytics for elite athletes.',
     highlights: [
-      'Built an R Shiny performance-analysis app with interactive, filterable dashboards that replaced commercial software (Hudl Sportscode).',
+      'Built an R Shiny performance-analysis app with filterable dashboards that replaced Hudl Sportscode, a paid tool.',
       'Cleaned and integrated historical match data to power it.',
       'Worked directly with stakeholders in a high-performance environment.',
     ],
