@@ -1,6 +1,6 @@
 /* ==========================================================================
    Shared chrome for every /projects/<slug>/ page.
-   Tokens come from /tokens.css (shared with the home page) — dark only.
+   Tokens (both themes) come from /tokens.css, shared with the home page.
    Every class is prefixed `cd-` because the R Markdown reports also load
    Bootstrap 3, which already owns .nav, .btn, .label, etc.
    Mobile-first: base = phone, min-width queries add larger layouts.
@@ -167,6 +167,7 @@ body.cd-page {
   align-items: center;
   min-height: var(--tap);
   margin-right: auto;
+  white-space: nowrap;
   color: var(--text) !important;
   font-weight: 700;
   font-size: 1rem;
@@ -184,6 +185,36 @@ body.cd-page {
   font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none !important;
+}
+.cd-theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.cd-theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.cd-theme-toggle .cd-icon--moon,
+:root[data-theme='light'] .cd-theme-toggle .cd-icon--sun {
+  display: none;
+}
+:root[data-theme='light'] .cd-theme-toggle .cd-icon--moon {
+  display: inline-block;
+}
+/* Narrow phones: the Projects link collapses to its arrow (aria-label keeps its name). */
+@media (max-width: 419px) {
+  .cd-nav__label {
+    display: none;
+  }
 }
 .cd-nav__link:hover {
   color: var(--text) !important;
@@ -509,7 +540,7 @@ body.cd-page {
   border: 1px solid var(--border);
   overflow: hidden;
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent) var(--surface-2);
+    var(--surface-2);
 }
 .cd-embed::before {
   content: 'Loading interactive dashboard…';

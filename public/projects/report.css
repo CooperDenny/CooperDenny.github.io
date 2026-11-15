@@ -142,7 +142,7 @@ body.cd-report {
 .cd-report pre {
   margin: 0 !important;
   padding: 14px 16px !important;
-  background: #070c18 !important;
+  background: var(--code-bg) !important;
   border: 0 !important;
   border-radius: 0 !important;
   overflow-x: auto !important;
@@ -281,7 +281,7 @@ body.cd-report {
 }
 .cd-report table.dataTable.display tbody tr.odd > .sorting_1,
 .cd-report table.dataTable.display tbody tr.even > .sorting_1 {
-  background: rgba(34, 211, 238, 0.04) !important;
+  background: var(--accent-soft) !important;
 }
 .cd-report table.dataTable tbody tr:hover td {
   background: var(--surface-2) !important;

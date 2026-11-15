@@ -9,7 +9,7 @@
    Design system — mobile-first.
    Base rules target phones; @media (min-width: …) layers add tablet/desktop.
    Breakpoints: 600px (large phone / small tablet), 861px (desktop nav + 2-col layouts).
-   Dark only (a deliberate choice). Tokens: public/tokens.css.
+   Light + dark themes (dark default). Tokens: public/tokens.css.
    Components only use tokens. Every interactive element is ≥ 44px tall.
    ========================================================================== */
 
@@ -292,6 +292,31 @@ p {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+/* Theme switch: both icons are rendered; CSS shows the one for the theme you'd switch TO. */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.theme-toggle__moon,
+:root[data-theme='light'] .theme-toggle__sun {
+  display: none;
+}
+:root[data-theme='light'] .theme-toggle__moon {
+  display: block;
 }
 .nav__toggle {
   display: inline-grid;

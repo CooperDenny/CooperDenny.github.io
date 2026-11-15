@@ -14,9 +14,11 @@ class IconSet:
     def load(cls, path: Path) -> "IconSet":
         return cls(json.loads(path.read_text(encoding="utf-8"))["icons"])
 
-    def svg(self, name: str) -> str:
+    def svg(self, name: str, modifier: str = "") -> str:
+        """Inline SVG. `modifier` adds a BEM modifier class, e.g. "sun" -> class="cd-icon cd-icon--sun"."""
         view_box, d = self._icons[name]
+        cls = f"cd-icon cd-icon--{modifier}" if modifier else "cd-icon"
         return (
-            f'<svg class="cd-icon" viewBox="{view_box}" aria-hidden="true" focusable="false">'
+            f'<svg class="{cls}" viewBox="{view_box}" aria-hidden="true" focusable="false">'
             f'<path fill="currentColor" d="{d}"/></svg>'
         )

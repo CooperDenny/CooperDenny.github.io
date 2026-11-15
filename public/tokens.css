@@ -7,7 +7,13 @@
      - public/projects/site.css   (project pages load /tokens.css via <link>)
      - public/projects/report.css (knitr report overrides)
 
-   Dark only, by design. Change a value here and every page follows.
+   Two themes: dark (the default) and light. The active theme is the
+   data-theme attribute on <html>, set before first paint by lib/theme.js.
+   Change a value here and every page follows.
+
+   Every text colour meets WCAG AA (≥ 4.5:1) against every background in
+   its theme — re-check contrast if you change a colour.
+
    Breakpoints used site-wide: 600px (large phone / tablet), 861px (desktop).
    ========================================================================== */
 
@@ -29,6 +35,7 @@
   --accent-ink: #04222a;
   --accent-soft: rgba(34, 211, 238, 0.12);
   --nav-bg: rgba(11, 17, 32, 0.86);
+  --code-bg: #070c18;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
 
   /* Type */
@@ -43,6 +50,28 @@
   --gutter: 16px;
   --nav-h: 56px;
   --section-y: 48px;
+}
+
+/* Light theme: only colours change; type, shape and layout are shared. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --bg-alt: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #5f6f85;
+  --accent: #0e7490;
+  --accent-strong: #155e75;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(14, 116, 144, 0.08);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --code-bg: #f8fafc;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 @media (min-width: 600px) {

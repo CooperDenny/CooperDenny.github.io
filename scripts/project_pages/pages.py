@@ -62,6 +62,7 @@ class HandPage(ProjectPage):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{r.theme_script()}
 <title>{r.page_title(c)}</title>
 {r.head_meta(c)}
 {r.analytics()}
@@ -126,6 +127,7 @@ class ReportPage(ProjectPage):
         return "\n".join(
             [
                 '<meta name="viewport" content="width=device-width, initial-scale=1">',
+                r.theme_script(),
                 r.head_meta(copy),
                 r.fonts(),
                 r.stylesheets(TOKENS_CSS, SITE_CSS, REPORT_CSS),

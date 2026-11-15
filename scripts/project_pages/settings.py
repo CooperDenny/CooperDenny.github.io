@@ -25,6 +25,7 @@ class Settings:
     ga_id: str
     fonts_href: str
     theme_color: str
+    theme_script: str  # lib/theme.js, inlined in every page's <head>
     identity: Identity
 
     @classmethod
@@ -36,6 +37,7 @@ class Settings:
             ga_id=site["gaId"],
             fonts_href=site["fontsHref"],
             theme_color=_design_token(root / "public" / "tokens.css", "bg"),
+            theme_script=(root / "lib" / "theme.js").read_text(encoding="utf-8").strip(),
             identity=Identity(who["name"], who["role"], who["location"]),
         )
 

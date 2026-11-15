@@ -50,10 +50,10 @@ export function siteMetadata(profile: Profile): Metadata {
   };
 }
 
-/** Dark-only site: match the mobile browser chrome to the page background (--bg). */
+/** Mobile browser chrome matches the default (dark) background; lib/theme.js updates it on toggle. */
 export const siteViewport: Viewport = {
   themeColor: siteConfig.themeColor,
-  colorScheme: 'dark',
+  colorScheme: 'dark light',
 };
 
 /** schema.org Person, built from the same content as the page. */

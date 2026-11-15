@@ -32,5 +32,6 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   gaId: site.gaId,
   fontsHref: site.fontsHref,
+  /** Default (dark) theme's --bg; lib/theme.js keeps the meta tag in sync after a toggle. */
   themeColor: designToken('bg'),
 };

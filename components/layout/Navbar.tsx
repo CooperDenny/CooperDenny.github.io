@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import ThemeToggle from '@/components/layout/ThemeToggle';
 import Icon from '@/components/ui/Icon';
 import { RESUME_HREF } from '@/content/sections';
 
@@ -39,6 +40,7 @@ export default function Navbar({ brand, items }: Props) {
           <a href={RESUME_HREF} className="btn btn--small btn--primary nav__resume">
             Résumé
           </a>
+          <ThemeToggle />
           <button
             type="button"
             className="nav__toggle"

@@ -53,6 +53,10 @@ class Renderer:
             f"gtag('js',new Date());gtag('config','{ga}');</script>"
         )
 
+    def theme_script(self) -> str:
+        """lib/theme.js inlined, so the saved theme applies before first paint (same file the Next app inlines)."""
+        return f"<script>\n{self.settings.theme_script}\n</script>"
+
     @staticmethod
     def stylesheets(*hrefs: str) -> str:
         return "\n".join(f'<link rel="stylesheet" href="{h}">' for h in hrefs)
@@ -64,10 +68,19 @@ class Renderer:
 <nav class="cd-nav" aria-label="Primary">
   <div class="cd-nav__inner">
     <a href="/" class="cd-nav__brand">{self.settings.identity.name}</a>
-    <a href="/#projects" class="cd-nav__link">{self.icon('arrowLeft')} Projects</a>
+    <a href="/#projects" class="cd-nav__link" aria-label="All projects">{self.icon('arrowLeft')} <span class="cd-nav__label">Projects</span></a>
     <a href="/resume/" class="cd-btn cd-btn--primary cd-btn--small">Résumé</a>
+    {self.theme_toggle()}
   </div>
 </nav>"""
+
+    def theme_toggle(self) -> str:
+        """Same contract as components/layout/ThemeToggle.tsx: lib/theme.js handles [data-theme-toggle] clicks."""
+        label = "Toggle light and dark theme"
+        return (
+            f'<button type="button" class="cd-theme-toggle" data-theme-toggle aria-label="{label}" title="{label}">'
+            f'{self.icons.svg("sun", "sun")}{self.icons.svg("moon", "moon")}</button>'
+        )
 
     def hero(self, copy: PageCopy) -> str:
         meta = f'<p class="cd-hero__meta">{copy.meta}</p>' if copy.meta else ""
