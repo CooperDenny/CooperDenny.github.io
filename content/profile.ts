@@ -47,6 +47,9 @@ export const profile: Profile = {
     linkedin: { href: 'https://www.linkedin.com/in/cooper-denny/', handle: 'in/cooper-denny' },
     github: { href: 'https://github.com/CooperDenny', handle: 'CooperDenny' },
     x: { href: 'https://x.com/coopercdenny', handle: '@CooperCDenny' },
+    instagram: { href: 'https://www.instagram.com/cooper.denny/', handle: '@cooper.denny' },
+    facebook: { href: 'https://www.facebook.com/share/1MuhUnZd65/', handle: identity.name },
+    phone: '0478 944 105',
   },
 };
 

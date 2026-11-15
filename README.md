@@ -74,8 +74,8 @@ Every push to `main` deploys automatically — see [docs/deployment.md](docs/dep
 ## Repository layout
 
 ```
-app/                  Next.js routes: layout, home page, /resume, robots.txt, sitemap.xml
-components/           React components — ui/ primitives, home/ sections, layout/ chrome, resume/
+app/                  Next.js routes: layout, (site)/ home page + /resume, /links (unlisted), robots.txt, sitemap.xml
+components/           React components — ui/ primitives, home/ sections, layout/ chrome, links/, resume/
 content/              What the site says: data, types, and JSON shared with the Python generator
 config/               Site constants (URL, analytics ID, fonts)
 lib/                  Framework-free helpers and the theme script

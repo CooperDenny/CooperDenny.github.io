@@ -24,6 +24,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D16](#d16-trailing-slashes-on-every-route) | Trailing slashes on every route |
 | [D17](#d17-playhq-work-leads-the-hero-brownlow-figures-stay-on-its-card) | PlayHQ work leads the hero; Brownlow figures stay on its card |
 | [D18](#d18-project-pages-follow-their-source-repositories) | Project pages follow their source repositories |
+| [D19](#d19-the-link-in-bio-page-is-unlisted) | The link-in-bio page is unlisted |
 
 ---
 
@@ -190,3 +191,13 @@ A short note on the card and on the project pages explains why accuracy isn't us
 
 **Consequences.** Live-site figures (818 players, 1,100+ scorecards) drift as games are played; refresh them when re-shooting the screenshots. When a new Brownlow season is tested, add a page and a card link rather than a new card.
 
+### D19. The link-in-bio page is unlisted
+
+**Context.** Cooper wanted one URL for his Instagram bio that lists all his socials, including personal ones (Instagram, Facebook) that don't belong in front of recruiters on the portfolio or résumé.
+
+**Decision.**
+- `/links/` is a separate, chromeless page (`app/links/page.tsx`). The home page and résumé moved into the `app/(site)/` route group, whose layout owns the nav, footer and sticky bar, so `/links/` can render without them. URLs are unchanged.
+- It is unlisted, not secret: nothing on the site links to it, `app/sitemap.ts` leaves it out, and it sets `robots: noindex, nofollow` with no canonical. It is **not** disallowed in `robots.txt`, because that would publish the path and stop crawlers from reading the `noindex`.
+- Instagram, Facebook and the mobile number live in `profile.contact` like every other channel, but only `linkInBioChannels()` uses them; `contactChannels()` (hero, contact section, résumé, JSON-LD `sameAs`) stays professional.
+
+**Consequences.** Anyone with the URL can open it, and Instagram shows it publicly in the bio, so it must hold nothing private. That includes the mobile number: putting it there was Cooper's call, and it is exposed to scrapers as a `tel:` link. It still ships the shared Next.js runtime (about 87 kB of JS), but the HTML is prerendered and readable before any script runs.

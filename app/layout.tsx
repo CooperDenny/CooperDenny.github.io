@@ -1,10 +1,6 @@
 import Analytics from '@/components/layout/Analytics';
-import Footer from '@/components/layout/Footer';
-import MobileCta from '@/components/layout/MobileCta';
-import Navbar from '@/components/layout/Navbar';
 import { siteConfig } from '@/config/site';
 import { education, profile } from '@/content/profile';
-import { NAV_ITEMS } from '@/content/sections';
 import { personJsonLd, siteMetadata, siteViewport } from '@/lib/seo';
 import { themeScript } from '@/lib/themeScript';
 import './globals.css';
@@ -13,7 +9,10 @@ import './globals.css';
 export const metadata = siteMetadata(profile);
 export const viewport = siteViewport;
 
-/** The shell of every Next-rendered page: theme script, fonts, JSON-LD, analytics and site chrome. */
+/**
+ * The shell of every Next-rendered page: theme script, fonts, JSON-LD and analytics.
+ * Site chrome (nav, footer, sticky bar) lives in app/(site)/layout.tsx, so /links/ can go without it.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // suppressHydrationWarning: lib/theme.js sets data-theme on <html> before React hydrates.
@@ -32,13 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <Analytics gaId={siteConfig.gaId} />
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <Navbar brand={profile.name} items={NAV_ITEMS} />
-        <main id="main">{children}</main>
-        <Footer name={profile.name} role={profile.role} location={profile.location} />
-        <MobileCta email={profile.contact.email} />
+        {children}
       </body>
     </html>
   );

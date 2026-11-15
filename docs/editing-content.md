@@ -236,7 +236,9 @@ Edit `education` in [`content/profile.ts`](../content/profile.ts). `result` is s
 
 ## Contact details
 
-Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the résumé header and the structured data.
+Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the résumé header, the structured data and the `/links/` page.
+
+`instagram`, `facebook` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `telHref()` in `lib/links.ts` turns it into a `tel:+61…` link. `contactChannels()` in `content/selectors.ts` is the professional set used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
 
 ## Section headings and navigation
 

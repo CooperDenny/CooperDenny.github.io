@@ -88,7 +88,7 @@ sequenceDiagram
   T->>B: flip data-theme, save choice, update meta theme-color
 ```
 
-- **One implementation.** [`lib/theme.js`](../lib/theme.js) is inlined into `<head>` by `app/layout.tsx` (home, résumé) and by the generator's `Renderer.theme_script()` (project pages). Because it runs in `<head>`, the theme is set before the body renders, so there's no flash of the wrong theme.
+- **One implementation.** [`lib/theme.js`](../lib/theme.js) is inlined into `<head>` by `app/layout.tsx` (home, résumé, links) and by the generator's `Renderer.theme_script()` (project pages). Because it runs in `<head>`, the theme is set before the body renders, so there's no flash of the wrong theme.
 - **Stateless buttons.** The toggle ([`ThemeToggle.tsx`](../components/layout/ThemeToggle.tsx), and the generator's `Renderer.theme_toggle()`) is a plain `<button data-theme-toggle>` containing both icons. The script handles clicks by event delegation, and CSS shows the sun in dark mode ("switch to light") and the moon in light mode. React never holds theme state, so server and client markup always match. `<html>` carries `suppressHydrationWarning` only because the script adds `data-theme` before React hydrates.
 - **Browser chrome.** `<meta name="theme-color">` starts as the dark `--bg` (read from `tokens.css` at build time, never hard-coded) and the script updates it on every switch.
 - **Storage blocked?** (Private mode, strict privacy settings.) The site falls back to dark and the switch still works for the visit; it just isn't remembered.
@@ -158,6 +158,7 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.project__link::after` | ProjectCard | Stretched link: the whole card is clickable |
 | `.theme-toggle` | ThemeToggle | Sun/moon visibility is driven by `data-theme` |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
+| `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
 Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 
@@ -170,7 +171,7 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 | Contrast ≥ 4.5:1 | Token palette checked in both themes ([table above](#contrast)) |
 | Touch targets ≥ 44px | `--tap` on every button, nav link and toggle; whole project cards are links |
 | Keyboard | Everything is a real `<a>` or `<button>`; visible `:focus-visible` outline; Escape closes the mobile menu |
-| Skip link | "Skip to content" is the first focusable element on every page |
+| Skip link | "Skip to content" is the first focusable element on every page with a nav; `/links/` has none, because there is nothing to skip |
 | Screen readers | Icon-only buttons have `aria-label`; decorative SVGs are `aria-hidden`; the menu button has `aria-expanded` / `aria-controls`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
 | Reduced motion | `prefers-reduced-motion` turns off smooth scrolling and transitions |
 | Works without JavaScript | No content is hidden until scripts run ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)) |

@@ -34,7 +34,7 @@ flowchart LR
   N --> O["out/ → GitHub Pages"]
 ```
 
-- **The Next.js app** renders the home page (`/`) and the résumé (`/resume/`) from `content/profile.ts`, then exports everything to static HTML in `out/`.
+- **The Next.js app** renders the home page (`/`), the résumé (`/resume/`) and the unlisted link-in-bio page (`/links/`) from `content/profile.ts`, then exports everything to static HTML in `out/`.
 - **The Python generator** produces the seven project pages under `public/projects/`. Three are generated in full; four are R Markdown (knitr) reports that it enhances in place. Next copies `public/` into `out/` unchanged.
 - **The shared files** (tokens, JSON, the theme script) are why both kinds of page have the same look, nav, theme switcher and facts, with nothing defined twice.
 
@@ -100,7 +100,7 @@ If you're about to type a fact a second time, it already has a home:
 Components import **types**; the route files in `app/` are the only places content data meets components:
 
 ```tsx
-// app/page.tsx — the composition root
+// app/(site)/page.tsx — the composition root
 <Experience jobs={experience} />
 ```
 
@@ -142,14 +142,19 @@ Components take the smallest props that do the job (interface segregation): `Chi
 
 ### Home page
 
-1. `app/layout.tsx` renders `<html>`. Its `<head>` inlines `lib/theme.js`, so the saved theme applies before the body renders, along with the fonts link and JSON-LD built by `lib/seo.ts`. The `<body>` holds `Analytics`, a skip link, `Navbar`, `<main>`, `Footer` and `MobileCta`.
-2. `app/page.tsx` passes content into six sections: `Hero`, `Experience`, `Projects`, `Skills`, `Education` and `Contact`.
-3. Each section wraps itself in `ui/Section`, which takes its id, label and heading from `content/sections.ts`.
-4. `next build` prerenders it all to `out/index.html`.
+1. `app/layout.tsx` renders `<html>`. Its `<head>` inlines `lib/theme.js`, so the saved theme applies before the body renders, along with the fonts link and JSON-LD built by `lib/seo.ts`. The `<body>` holds `Analytics` and the route.
+2. `app/(site)/layout.tsx` wraps the home page and résumé in the site chrome: a skip link, `Navbar`, `<main>`, `Footer` and `MobileCta`. `(site)` is a route group, so it adds nothing to the URL.
+3. `app/(site)/page.tsx` passes content into six sections: `Hero`, `Experience`, `Projects`, `Skills`, `Education` and `Contact`.
+4. Each section wraps itself in `ui/Section`, which takes its id, label and heading from `content/sections.ts`.
+5. `next build` prerenders it all to `out/index.html`.
 
 ### Résumé
 
-`app/resume/page.tsx` composes the sections in `components/resume/ResumeSections.tsx`, using `resumeProjects()` and `resumeSkills()` from `content/selectors.ts` to decide what goes on paper. `@media print` in `app/globals.css` hides the site chrome.
+`app/(site)/resume/page.tsx` composes the sections in `components/resume/ResumeSections.tsx`, using `resumeProjects()` and `resumeSkills()` from `content/selectors.ts` to decide what goes on paper. `@media print` in `app/globals.css` hides the site chrome.
+
+### Link-in-bio page
+
+`app/links/page.tsx` sits outside the `(site)` group, so it gets the root layout (theme, fonts, analytics) but no nav, footer or sticky bar. It renders `components/links/LinkInBio.tsx` with `linkInBioChannels()` from `content/selectors.ts`: website, Instagram, Facebook, LinkedIn, X, GitHub, mobile, email. It is deliberately unlisted ([decision D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)): nothing links to it, it isn't in the sitemap, and it carries `noindex, nofollow`.
 
 ### Project pages
 
@@ -180,9 +185,12 @@ Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-
 .github/workflows/deploy.yml     CI: check generated pages → build → deploy to GitHub Pages
 
 app/
-  layout.tsx                     <html>, <head> (theme script, fonts, JSON-LD), site chrome
-  page.tsx                       Home page — composition root
-  resume/page.tsx                Printable résumé — composition root
+  layout.tsx                     <html>, <head> (theme script, fonts, JSON-LD), analytics
+  (site)/                        Route group (no URL segment) for pages with site chrome
+    layout.tsx                   Skip link, Navbar, <main>, Footer, MobileCta
+    page.tsx                     Home page — composition root
+    resume/page.tsx              Printable résumé — composition root
+  links/page.tsx                 Unlisted link-in-bio page (Instagram bio), no chrome, noindex
   globals.css                    Component and print styles; @imports public/tokens.css
   robots.ts                      /robots.txt
   sitemap.ts                     /sitemap.xml — project URLs come from content/projects.json
@@ -205,6 +213,8 @@ components/
     ThemeToggle.tsx              Stateless sun/moon button; lib/theme.js does the work
     MobileCta.tsx                Sticky phone action bar ('use client')
     Footer.tsx · Analytics.tsx
+  links/
+    LinkInBio.tsx                Avatar, name, one large button per channel, theme toggle
   resume/
     ResumeSections.tsx           Résumé header, summary, experience, projects, education, skills
     PrintButton.tsx              "Save as PDF" ('use client')
@@ -212,7 +222,7 @@ components/
 content/
   types.ts                       Domain model (types only)
   profile.ts                     Home/résumé data
-  selectors.ts                   Derived views: contact channels, tenure, résumé entries
+  selectors.ts                   Derived views: contact channels, link-in-bio links, tenure, résumé entries
   sections.ts                    Section definitions, nav items, anchor(), HERO_ACTIONS_ID, RESUME_HREF
   catalog.ts · projects.json     Project-page catalog (shared with the generator)
   icons.ts · icons.json          Icon set (shared with the generator)
@@ -224,7 +234,7 @@ config/
 
 lib/
   format.ts                      dateRange(), listSentence(), cx()
-  links.ts                       isExternal(), externalAttrs(), prettyUrl()
+  links.ts                       isExternal(), externalAttrs(), telHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
   theme.js                       The theme switcher (plain ES5, inlined everywhere)
   themeScript.ts                 Reads theme.js at build time for inlining
@@ -259,4 +269,4 @@ tailwind.config.ts               Preflight disabled (see decision D03)
 | New icon | `content/icons.json` (paths from `@fortawesome/fontawesome-free/svgs/`) | Usable from TSX and the generator |
 | New project page | [Editing content → Add a project](editing-content.md#add-a-project) | |
 | New report behaviour | A `Transform` or `ReportExtension` | [Project pages → Extending](project-pages.md#extending-the-generator) |
-| New route | `app/<route>/page.tsx` | Static export only: no API routes or server actions ([D01](decisions.md#d01-static-export-to-github-pages)) |
+| New route | `app/(site)/<route>/page.tsx` for a page with nav and footer; `app/<route>/page.tsx` for a chromeless one | Static export only: no API routes or server actions ([D01](decisions.md#d01-static-export-to-github-pages)) |
