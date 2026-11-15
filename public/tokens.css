@@ -1,0 +1,89 @@
+/* ==========================================================================
+   Design tokens — the single source of truth for colour, type, spacing and
+   layout across the whole site.
+
+   Consumed by:
+     - app/globals.css            (`@import`ed, bundled into the Next.js CSS)
+     - public/projects/site.css   (project pages load /tokens.css via <link>)
+     - public/projects/report.css (knitr report overrides)
+
+   Two themes: dark (the default) and light. The active theme is the
+   data-theme attribute on <html>, set before first paint by lib/theme.js.
+   Change a value here and every page follows.
+
+   Every text colour meets WCAG AA (≥ 4.5:1) against every background in
+   its theme — re-check contrast if you change a colour.
+
+   Breakpoints used site-wide: 600px (large phone / tablet), 861px (desktop).
+   ========================================================================== */
+
+:root {
+  color-scheme: dark;
+
+  /* Colour */
+  --bg: #0b1120;
+  --bg-alt: #0f172a;
+  --surface: #131c31;
+  --surface-2: #1a2540;
+  --border: #23304d;
+  --border-strong: #2f3f63;
+  --text: #e8edf6;
+  --text-muted: #a3b0c5;
+  --text-faint: #8090a8;
+  --accent: #22d3ee;
+  --accent-strong: #67e8f9;
+  --accent-ink: #04222a;
+  --accent-soft: rgba(34, 211, 238, 0.12);
+  --nav-bg: rgba(11, 17, 32, 0.86);
+  --code-bg: #070c18;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+
+  /* Type */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Shape & layout */
+  --radius: 14px;
+  --radius-sm: 10px;
+  --tap: 44px; /* minimum touch-target size */
+  --container: 1080px;
+  --gutter: 16px;
+  --nav-h: 56px;
+  --section-y: 48px;
+}
+
+/* Light theme: only colours change; type, shape and layout are shared. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #ffffff;
+  --bg-alt: #f5f7fb;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #5f6f85;
+  --accent: #0e7490;
+  --accent-strong: #155e75;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(14, 116, 144, 0.08);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --code-bg: #f8fafc;
+  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+@media (min-width: 600px) {
+  :root {
+    --gutter: 24px;
+    --section-y: 64px;
+  }
+}
+
+@media (min-width: 861px) {
+  :root {
+    --nav-h: 64px;
+    --section-y: 80px;
+  }
+}

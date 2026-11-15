@@ -1,19 +1,22 @@
-import Hero from '@/components/Hero';
-import Experience from '@/components/Experience';
-import Projects from '@/components/Projects';
-import Skills from '@/components/Skills';
-import Education from '@/components/Education';
-import Contact from '@/components/Contact';
+import Contact from '@/components/home/Contact';
+import Education from '@/components/home/Education';
+import Experience from '@/components/home/Experience';
+import Hero from '@/components/home/Hero';
+import Projects from '@/components/home/Projects';
+import Skills from '@/components/home/Skills';
+import { education, experience, featuredProject, profile, projects, skills } from '@/content/profile';
 
+// Composition root: the only place home-page data meets components. Components import
+// types, not content, so each can be rendered with any data (dependency inversion).
 export default function Home() {
   return (
     <>
-      <Hero />
-      <Experience />
-      <Projects />
-      <Skills />
-      <Education />
-      <Contact />
+      <Hero profile={profile} />
+      <Experience jobs={experience} />
+      <Projects featured={featuredProject} projects={projects} />
+      <Skills groups={skills} />
+      <Education education={education} />
+      <Contact contact={profile.contact} />
     </>
   );
 }

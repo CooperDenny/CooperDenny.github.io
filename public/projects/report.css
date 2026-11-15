@@ -1,0 +1,368 @@
+/* ==========================================================================
+   Overrides for knitr / pandoc / Bootstrap 3 / DataTables output on the
+   R Markdown report pages (body.cd-report). Loaded after site.css.
+   Dark only. Content rules are scoped to pandoc's `.section` blocks so they
+   never leak into the shared cd- chrome injected by scripts/build-project-pages.py.
+   `!important` is needed throughout: Bootstrap 3 is inlined in each report's <head>.
+   ========================================================================== */
+
+html,
+body.cd-report {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+body.cd-report {
+  padding: 0 !important;
+}
+
+/* ---------- Layout: one reading column, same as the hand-written pages ---------- */
+
+.cd-report .container-fluid.main-container {
+  max-width: var(--cd-wrap) !important;
+  margin: 0 auto !important;
+  padding: 0 var(--gutter) 40px !important;
+  background: transparent !important;
+}
+/* The project header sits inside Bootstrap's container here, so drop its own gutter. */
+.cd-report .main-container .cd-hero {
+  margin: 0 calc(-1 * var(--gutter));
+  padding-left: 0;
+  padding-right: 0;
+  background: none;
+  border-bottom: 0;
+}
+.cd-report .main-container .cd-hero .cd-wrap {
+  padding: 0 var(--gutter);
+}
+.cd-report .cd-hero h1 {
+  font-size: 1.75rem !important;
+  margin: 8px 0 0 !important;
+}
+@media (min-width: 600px) {
+  .cd-report .cd-hero h1 {
+    font-size: 2.5rem !important;
+  }
+}
+.cd-report .cd-hero p,
+.cd-report .cd-glance p {
+  margin-bottom: 0;
+}
+.cd-report .cd-toc {
+  margin-bottom: 8px;
+}
+
+/* ---------- Headings ---------- */
+
+.cd-report .section h1,
+.cd-report .section h2,
+.cd-report .section h3,
+.cd-report .section h4 {
+  color: var(--text) !important;
+  font-family: var(--font-sans) !important;
+  letter-spacing: -0.02em;
+  line-height: 1.25 !important;
+}
+.cd-report .section h1 strong,
+.cd-report .section h2 u {
+  font-weight: inherit;
+  text-decoration: none;
+}
+.cd-report .section.level1 > h1 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin: 48px 0 12px !important;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.cd-report .section.level2 > h2 {
+  font-size: 1.1875rem !important;
+  font-weight: 600 !important;
+  margin: 32px 0 8px !important;
+}
+.cd-report .section.level3 > h3 {
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  margin: 24px 0 8px !important;
+}
+@media (min-width: 600px) {
+  .cd-report .section.level1 > h1 {
+    font-size: 1.75rem !important;
+  }
+  .cd-report .section.level2 > h2 {
+    font-size: 1.3125rem !important;
+  }
+}
+
+/* ---------- Text ---------- */
+
+.cd-report .section p,
+.cd-report .section li {
+  color: var(--text-muted) !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+.cd-report .section p {
+  margin: 0 0 14px !important;
+}
+.cd-report .section ul,
+.cd-report .section ol {
+  padding-left: 22px !important;
+  margin: 0 0 16px !important;
+}
+.cd-report .section li {
+  margin: 4px 0 !important;
+}
+.cd-report .section li::marker {
+  color: var(--accent);
+}
+.cd-report .section strong {
+  color: var(--text);
+}
+.cd-report .section a,
+.cd-report #refs a {
+  color: var(--accent) !important;
+  text-underline-offset: 3px;
+}
+.cd-report .section :not(pre) > code {
+  font-family: var(--font-mono) !important;
+  font-size: 0.875em !important;
+  padding: 1px 6px !important;
+  border-radius: 6px !important;
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border: 0 !important;
+  white-space: normal;
+}
+
+/* ---------- Code + printed output ---------- */
+
+.cd-report pre {
+  margin: 0 !important;
+  padding: 14px 16px !important;
+  background: var(--code-bg) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  color: var(--text) !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  white-space: pre !important;
+}
+.cd-report pre code {
+  font-family: var(--font-mono) !important;
+  /* JetBrains Mono would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
+  font-variant-ligatures: none !important;
+  font-feature-settings: 'liga' 0, 'calt' 0 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.6 !important;
+  color: var(--text) !important;
+  background: transparent !important;
+  padding: 0 !important;
+  white-space: pre !important;
+}
+/* Unfolded printed output (short ones, and the confusion matrix) still gets a frame. */
+.cd-report .section > pre,
+.cd-report .section > div > pre {
+  margin: 12px 0 16px !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
+}
+
+/* Folded R code and long output (wrapped in <details> by the build script). */
+.cd-report details.cd-code,
+.cd-report details.cd-output {
+  margin: 12px 0 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  overflow: hidden;
+}
+.cd-report details.cd-code > summary,
+.cd-report details.cd-output > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  cursor: pointer;
+  list-style: none;
+  font: 600 0.8125rem/1.2 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  user-select: none;
+}
+.cd-report details > summary::-webkit-details-marker {
+  display: none;
+}
+.cd-report details.cd-code > summary::before,
+.cd-report details.cd-output > summary::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 0.15s;
+}
+.cd-report details[open] > summary::before {
+  transform: rotate(90deg);
+}
+.cd-report details.cd-code > summary:hover,
+.cd-report details.cd-output > summary:hover {
+  color: var(--accent);
+}
+.cd-report details[open] > summary {
+  border-bottom: 1px solid var(--border);
+}
+.cd-report details.cd-code > summary::after {
+  content: 'R';
+  margin-left: auto;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.6875rem;
+}
+
+/* ---------- DataTables widgets ---------- */
+
+.cd-report .html-widget,
+.cd-report .datatables {
+  max-width: 100%;
+  margin: 12px 0 20px !important;
+}
+.cd-report .dataTables_wrapper {
+  color: var(--text-muted) !important;
+  font-size: 0.875rem !important;
+}
+.cd-report .dataTables_scroll,
+.cd-report .dataTables_wrapper > table.dataTable {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.cd-report .dataTables_wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.cd-report table.dataTable {
+  width: 100% !important;
+  margin: 0 !important;
+  border-collapse: collapse !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+.cd-report table.dataTable thead th,
+.cd-report table.dataTable thead td {
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  font-weight: 600 !important;
+  font-size: 0.8125rem !important;
+  border-bottom: 1px solid var(--border-strong) !important;
+  padding: 10px 12px !important;
+  white-space: nowrap;
+}
+.cd-report table.dataTable tbody td {
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  border-top: 1px solid var(--border) !important;
+  padding: 8px 12px !important;
+  font-size: 0.8125rem !important;
+  font-variant-numeric: tabular-nums;
+}
+.cd-report table.dataTable tbody tr,
+.cd-report table.dataTable.stripe tbody tr.odd,
+.cd-report table.dataTable.display tbody tr.odd {
+  background: transparent !important;
+}
+.cd-report table.dataTable.display tbody tr.odd > .sorting_1,
+.cd-report table.dataTable.display tbody tr.even > .sorting_1 {
+  background: var(--accent-soft) !important;
+}
+.cd-report table.dataTable tbody tr:hover td {
+  background: var(--surface-2) !important;
+}
+.cd-report table.dataTable.no-footer {
+  border-bottom: 0 !important;
+}
+.cd-report .dataTables_filter,
+.cd-report .dataTables_length,
+.cd-report .dataTables_info,
+.cd-report .dataTables_paginate {
+  color: var(--text-faint) !important;
+  font-size: 0.8125rem !important;
+  padding: 8px 0 !important;
+}
+.cd-report .dataTables_filter input,
+.cd-report .dataTables_length select {
+  min-height: 36px;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-strong) !important;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  font-size: 16px !important; /* ≥16px stops iOS zooming into the field */
+}
+.cd-report .dataTables_wrapper .dataTables_paginate .paginate_button {
+  min-width: 36px;
+  min-height: 36px;
+  color: var(--text-muted) !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+}
+.cd-report .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.cd-report .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  color: var(--accent) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border) !important;
+}
+.cd-report .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: var(--text-faint) !important;
+  opacity: 0.5;
+}
+
+/* Pandoc's own (non-DataTables) tables */
+.cd-report .section table.table {
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: block;
+  overflow-x: auto;
+}
+.cd-report .section table.table > thead > tr > th,
+.cd-report .section table.table > tbody > tr > td {
+  border-color: var(--border) !important;
+  padding: 8px 12px !important;
+}
+
+/* ---------- Figures ---------- */
+
+.cd-report .section img {
+  display: block;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 16px 0 !important;
+  border-radius: var(--radius-sm) !important;
+  background: #ffffff; /* ggplot output has a white background */
+}
+
+/* ---------- References ---------- */
+
+.cd-report #refs,
+.cd-report .references {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Any leftovers from the old pasted-in chrome */
+.cd-report .site-nav,
+.cd-report .rmd-download-bar {
+  display: none !important;
+}

@@ -1,0 +1,7 @@
+{
+  "$comment": "Who the site is about. Shared by content/profile.ts and scripts/project_pages.",
+  "name": "Cooper Denny",
+  "role": "Data Scientist",
+  "employer": "PlayHQ",
+  "location": "Melbourne, Australia"
+}
