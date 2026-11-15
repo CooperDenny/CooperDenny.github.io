@@ -1,45 +1,18 @@
 /* ==========================================================================
    Shared chrome for every /projects/<slug>/ page.
-   Mirrors the home page's design tokens (app/globals.css) — dark only.
+   Tokens come from /tokens.css (shared with the home page) — dark only.
    Every class is prefixed `cd-` because the R Markdown reports also load
    Bootstrap 3, which already owns .nav, .btn, .label, etc.
    Mobile-first: base = phone, min-width queries add larger layouts.
    ========================================================================== */
 
 :root {
-  --cd-bg: #0b1120;
-  --cd-bg-alt: #0f172a;
-  --cd-surface: #131c31;
-  --cd-surface-2: #1a2540;
-  --cd-border: #23304d;
-  --cd-border-strong: #2f3f63;
-  --cd-text: #e8edf6;
-  --cd-text-muted: #a3b0c5;
-  --cd-text-faint: #8090a8;
-  --cd-accent: #22d3ee;
-  --cd-accent-strong: #67e8f9;
-  --cd-accent-ink: #04222a;
-  --cd-accent-soft: rgba(34, 211, 238, 0.12);
-  --cd-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
-  --cd-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --cd-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --cd-radius: 14px;
-  --cd-radius-sm: 10px;
-  --cd-gutter: 16px;
-  --cd-tap: 44px;
-  --cd-nav-h: 56px;
-  --cd-wrap: 860px;
-  color-scheme: dark;
-}
-@media (min-width: 600px) {
-  :root {
-    --cd-gutter: 24px;
-  }
+  --cd-wrap: 860px; /* project pages use a narrower reading column than the home page */
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: calc(var(--cd-nav-h) + 12px);
+  scroll-padding-top: calc(var(--nav-h) + 12px);
   -webkit-text-size-adjust: 100%;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -50,9 +23,9 @@ html {
 
 body.cd-page {
   margin: 0;
-  background: var(--cd-bg);
-  color: var(--cd-text);
-  font-family: var(--cd-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -65,7 +38,7 @@ body.cd-page {
   box-sizing: border-box;
 }
 .cd-page :focus-visible {
-  outline: 2px solid var(--cd-accent);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -82,7 +55,7 @@ body.cd-page {
   width: 100%;
   max-width: var(--cd-wrap);
   margin: 0 auto;
-  padding: 0 var(--cd-gutter);
+  padding: 0 var(--gutter);
 }
 
 .cd-skip {
@@ -91,9 +64,9 @@ body.cd-page {
   top: -60px;
   z-index: 100;
   padding: 12px 16px;
-  background: var(--cd-accent);
-  color: var(--cd-accent-ink) !important;
-  border-radius: var(--cd-radius-sm);
+  background: var(--accent);
+  color: var(--accent-ink) !important;
+  border-radius: var(--radius-sm);
   font-weight: 600;
   text-decoration: none !important;
 }
@@ -108,31 +81,31 @@ body.cd-page {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: var(--cd-tap);
+  min-height: var(--tap);
   padding: 0 18px;
   border-radius: 999px;
   border: 1px solid transparent;
-  font: 600 0.9375rem/1.2 var(--cd-sans);
+  font: 600 0.9375rem/1.2 var(--font-sans);
   text-decoration: none !important;
   white-space: nowrap;
   cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s, color 0.15s;
 }
 .cd-btn--primary {
-  background: var(--cd-accent);
-  color: var(--cd-accent-ink) !important;
+  background: var(--accent);
+  color: var(--accent-ink) !important;
 }
 .cd-btn--primary:hover {
-  background: var(--cd-accent-strong);
+  background: var(--accent-strong);
 }
 .cd-btn--ghost {
-  border-color: var(--cd-border-strong);
-  color: var(--cd-text) !important;
+  border-color: var(--border-strong);
+  color: var(--text) !important;
   background: transparent;
 }
 .cd-btn--ghost:hover {
-  border-color: var(--cd-accent);
-  color: var(--cd-accent) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
 }
 .cd-btn--small {
   padding: 0 14px;
@@ -141,10 +114,10 @@ body.cd-page {
 
 .cd-kicker {
   margin: 0;
-  font: 600 0.75rem/1.4 var(--cd-mono);
+  font: 600 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cd-accent);
+  color: var(--accent);
 }
 
 .cd-chips {
@@ -159,9 +132,9 @@ body.cd-page {
   margin: 0;
   padding: 3px 10px;
   border-radius: 999px;
-  background: var(--cd-surface-2);
-  border: 1px solid var(--cd-border);
-  color: var(--cd-text-muted);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
   font-size: 0.8125rem;
   font-weight: 500;
   line-height: 1.5;
@@ -173,18 +146,18 @@ body.cd-page {
   position: sticky;
   top: 0;
   z-index: 50;
-  height: var(--cd-nav-h);
-  background: rgba(11, 17, 32, 0.88);
+  height: var(--nav-h);
+  background: var(--nav-bg);
   backdrop-filter: saturate(160%) blur(12px);
   -webkit-backdrop-filter: saturate(160%) blur(12px);
-  border-bottom: 1px solid var(--cd-border);
-  font-family: var(--cd-sans);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-sans);
 }
 .cd-nav__inner {
   max-width: 1080px;
   height: 100%;
   margin: 0 auto;
-  padding: 0 var(--cd-gutter);
+  padding: 0 var(--gutter);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -192,9 +165,9 @@ body.cd-page {
 .cd-nav__brand {
   display: flex;
   align-items: center;
-  min-height: var(--cd-tap);
+  min-height: var(--tap);
   margin-right: auto;
-  color: var(--cd-text) !important;
+  color: var(--text) !important;
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.01em;
@@ -204,45 +177,39 @@ body.cd-page {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: var(--cd-tap);
+  min-height: var(--tap);
   padding: 0 10px;
   border-radius: 999px;
-  color: var(--cd-text-muted) !important;
+  color: var(--text-muted) !important;
   font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none !important;
 }
 .cd-nav__link:hover {
-  color: var(--cd-text) !important;
-  background: var(--cd-surface-2);
+  color: var(--text) !important;
+  background: var(--surface-2);
 }
-@media (min-width: 861px) {
-  :root {
-    --cd-nav-h: 64px;
-  }
-}
-
 /* ---------- Project header ---------- */
 
 .cd-hero {
   padding: 24px 0 28px;
-  border-bottom: 1px solid var(--cd-border);
+  border-bottom: 1px solid var(--border);
   background:
-    radial-gradient(600px 300px at 90% -20%, var(--cd-accent-soft), transparent 70%),
-    var(--cd-bg);
+    radial-gradient(600px 300px at 90% -20%, var(--accent-soft), transparent 70%),
+    var(--bg);
 }
 .cd-hero h1 {
   margin: 8px 0 0;
-  font: 700 1.75rem/1.15 var(--cd-sans);
+  font: 700 1.75rem/1.15 var(--font-sans);
   letter-spacing: -0.03em;
-  color: var(--cd-text);
+  color: var(--text);
   text-wrap: balance;
 }
 .cd-hero__lede {
   margin: 12px 0 0;
   font-size: 1.0625rem;
   line-height: 1.5;
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
   max-width: 62ch;
 }
 .cd-hero .cd-chips {
@@ -250,8 +217,8 @@ body.cd-page {
 }
 .cd-hero__meta {
   margin: 12px 0 0;
-  font: 500 0.8125rem/1.5 var(--cd-mono);
-  color: var(--cd-text-faint);
+  font: 500 0.8125rem/1.5 var(--font-mono);
+  color: var(--text-faint);
 }
 .cd-hero__actions {
   display: flex;
@@ -282,17 +249,17 @@ body.cd-page {
 .cd-glance {
   margin: 24px 0 0;
   padding: 20px 16px;
-  background: var(--cd-surface);
-  border: 1px solid var(--cd-border);
-  border-radius: var(--cd-radius);
-  box-shadow: var(--cd-shadow);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 .cd-glance > h2 {
   margin: 0 0 14px;
-  font: 600 0.75rem/1.4 var(--cd-mono);
+  font: 600 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
   border: 0;
   padding: 0;
 }
@@ -302,15 +269,15 @@ body.cd-page {
 }
 .cd-glance h3 {
   margin: 0 0 6px;
-  font: 600 0.9375rem/1.3 var(--cd-sans);
-  color: var(--cd-text);
+  font: 600 0.9375rem/1.3 var(--font-sans);
+  color: var(--text);
 }
 .cd-glance p,
 .cd-glance li {
   margin: 0;
   font-size: 0.9375rem;
   line-height: 1.55;
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
 }
 .cd-glance ul {
   margin: 0;
@@ -331,10 +298,10 @@ body.cd-page {
   width: 6px;
   height: 6px;
   border-radius: 2px;
-  background: var(--cd-accent);
+  background: var(--accent);
 }
 .cd-glance strong {
-  color: var(--cd-text);
+  color: var(--text);
 }
 
 .cd-metrics {
@@ -349,15 +316,15 @@ body.cd-page {
   justify-content: flex-end;
   margin: 0;
   padding: 12px;
-  border-radius: var(--cd-radius-sm);
-  background: var(--cd-surface-2);
-  border: 1px solid var(--cd-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
 }
 .cd-metric dd {
   margin: 0;
-  font: 600 1.25rem/1.15 var(--cd-mono);
+  font: 600 1.25rem/1.15 var(--font-mono);
   letter-spacing: -0.03em;
-  color: var(--cd-accent);
+  color: var(--accent);
   white-space: nowrap;
 }
 .cd-metric dt {
@@ -365,12 +332,12 @@ body.cd-page {
   font-weight: 400;
   font-size: 0.8125rem;
   line-height: 1.35;
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
 }
 .cd-glance__note {
   margin: 14px 0 0 !important;
   font-size: 0.8125rem !important;
-  color: var(--cd-text-faint) !important;
+  color: var(--text-faint) !important;
 }
 
 @media (min-width: 600px) {
@@ -403,10 +370,10 @@ body.cd-page {
 }
 .cd-toc h2 {
   margin: 0 0 8px;
-  font: 600 0.75rem/1.4 var(--cd-mono);
+  font: 600 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
   border: 0;
   padding: 0;
 }
@@ -427,18 +394,18 @@ body.cd-page {
   min-height: 36px;
   padding: 0 12px;
   border-radius: 999px;
-  border: 1px solid var(--cd-border);
-  color: var(--cd-text-muted) !important;
+  border: 1px solid var(--border);
+  color: var(--text-muted) !important;
   font-size: 0.875rem;
   text-decoration: none !important;
 }
 .cd-toc a:hover {
-  border-color: var(--cd-accent);
-  color: var(--cd-accent) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
 }
 .cd-toc a.cd-toc__key {
-  border-color: var(--cd-accent);
-  color: var(--cd-accent) !important;
+  border-color: var(--accent);
+  color: var(--accent) !important;
   font-weight: 600;
 }
 
@@ -449,20 +416,20 @@ body.cd-page {
 }
 .cd-article h2 {
   margin: 40px 0 12px;
-  font: 700 1.375rem/1.25 var(--cd-sans);
+  font: 700 1.375rem/1.25 var(--font-sans);
   letter-spacing: -0.02em;
-  color: var(--cd-text);
+  color: var(--text);
 }
 .cd-article h3 {
   margin: 24px 0 8px;
-  font: 600 1.0625rem/1.3 var(--cd-sans);
-  color: var(--cd-text);
+  font: 600 1.0625rem/1.3 var(--font-sans);
+  color: var(--text);
 }
 .cd-article p,
 .cd-article li {
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
 }
 .cd-article p {
   margin: 0 0 14px;
@@ -476,23 +443,23 @@ body.cd-page {
   margin: 4px 0;
 }
 .cd-article li::marker {
-  color: var(--cd-accent);
+  color: var(--accent);
 }
 .cd-article strong {
-  color: var(--cd-text);
+  color: var(--text);
 }
 .cd-article a {
-  color: var(--cd-accent);
+  color: var(--accent);
   text-underline-offset: 3px;
 }
 .cd-article code {
-  font-family: var(--cd-mono);
+  font-family: var(--font-mono);
   font-variant-ligatures: none;
   font-size: 0.875em;
   padding: 1px 6px;
   border-radius: 6px;
-  background: var(--cd-surface-2);
-  color: var(--cd-text);
+  background: var(--surface-2);
+  color: var(--text);
 }
 @media (min-width: 600px) {
   .cd-article h2 {
@@ -509,13 +476,13 @@ body.cd-page {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--cd-radius-sm);
-  border: 1px solid var(--cd-border);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
 }
 .cd-figure figcaption {
   margin-top: 8px;
   font-size: 0.875rem;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
 }
 .cd-gallery {
   display: grid;
@@ -538,11 +505,11 @@ body.cd-page {
   margin: 24px 0 8px;
   position: relative;
   aspect-ratio: 16 / 10;
-  border-radius: var(--cd-radius-sm);
-  border: 1px solid var(--cd-border);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
   overflow: hidden;
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent) var(--cd-surface-2);
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent) var(--surface-2);
 }
 .cd-embed::before {
   content: 'Loading interactive dashboard…';
@@ -550,7 +517,7 @@ body.cd-page {
   inset: 0;
   display: grid;
   place-items: center;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
   font-size: 0.875rem;
 }
 .cd-embed iframe {
@@ -567,7 +534,7 @@ body.cd-page {
   align-items: center;
   margin-bottom: 24px;
   font-size: 0.875rem;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
 }
 @media (max-width: 599px) {
   .cd-embed {
@@ -579,28 +546,28 @@ body.cd-page {
 
 .cd-next {
   margin: 32px 0 0;
-  border-top: 1px solid var(--cd-border);
-  background: var(--cd-bg-alt);
+  border-top: 1px solid var(--border);
+  background: var(--bg-alt);
   padding: 28px 0 32px;
 }
 .cd-next__label {
   margin: 0 0 10px;
-  font: 600 0.75rem/1.4 var(--cd-mono);
+  font: 600 0.75rem/1.4 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
 }
 .cd-next__card {
   display: block;
   padding: 16px;
-  border-radius: var(--cd-radius);
-  border: 1px solid var(--cd-border);
-  background: var(--cd-surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
   text-decoration: none !important;
   transition: border-color 0.15s;
 }
 .cd-next__card:hover {
-  border-color: var(--cd-accent);
+  border-color: var(--accent);
 }
 .cd-next__title {
   display: flex;
@@ -610,15 +577,15 @@ body.cd-page {
   margin: 4px 0 4px;
   font-weight: 700;
   font-size: 1.0625rem;
-  color: var(--cd-text);
+  color: var(--text);
 }
 .cd-next__title .cd-icon {
-  color: var(--cd-accent);
+  color: var(--accent);
 }
 .cd-next__desc {
   margin: 0;
   font-size: 0.9375rem;
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
 }
 .cd-next__actions {
   display: flex;
@@ -636,9 +603,9 @@ body.cd-page {
 }
 .cd-footer {
   padding: 20px 0 28px;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
   font-size: 0.875rem;
-  border-top: 1px solid var(--cd-border);
+  border-top: 1px solid var(--border);
 }
 .cd-footer p {
   margin: 0;

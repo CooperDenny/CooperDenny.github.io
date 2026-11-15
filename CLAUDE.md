@@ -11,40 +11,52 @@ There's no database and no Supabase: this site has no dynamic content (no CMS, n
 ## Structure
 
 ```
-├── .github/workflows/
-│   └── deploy.yml       # Builds the static export and publishes it to GitHub Pages
-├── app/
-│   ├── layout.tsx       # Root layout: metadata, JSON-LD, GA, skip link, Navbar/Footer, theme-init script
-│   ├── page.tsx         # Home page — assembles the section components below
-│   ├── resume/page.tsx  # One-page printable résumé (Save as PDF via window.print())
-│   ├── globals.css      # Design system: theme tokens + component styles + @media print
-│   ├── robots.ts        # robots.txt (Next.js metadata route)
-│   └── sitemap.ts       # sitemap.xml (Next.js metadata route)
-├── content/
-│   └── profile.ts       # ALL site copy: profile, experience, projects, skills, education
-├── components/
-│   ├── Navbar.tsx, PrintButton.tsx, MobileCta.tsx   # the only 'use client' components
-│   ├── Icon.tsx         # Inline SVG icons (Font Awesome Free paths, CC BY 4.0) — no icon font
-│   ├── Section.tsx      # Shared section wrapper (eyebrow + heading + intro)
-│   ├── Hero.tsx, Experience.tsx, Projects.tsx, Skills.tsx, Education.tsx, Contact.tsx
-│   └── Footer.tsx
+├── .github/workflows/deploy.yml   # --check project pages, build the export, publish to GitHub Pages
+├── app/                     # Next.js routes — composition roots only (data in, components out)
+│   ├── layout.tsx           # <html>, analytics, skip link, Navbar / Footer / MobileCta
+│   ├── page.tsx             # Home: injects content into the home sections
+│   ├── resume/page.tsx      # One-page printable résumé
+│   ├── globals.css          # Component styles + print styles (@imports public/tokens.css)
+│   └── robots.ts, sitemap.ts
+├── components/              # Presentational. Import TYPES from content/, never content data.
+│   ├── ui/                  # Primitives: Icon, SmartLink, ActionLink, Chips, Bullets, Logo, Section
+│   ├── home/                # Hero, Experience, Projects (+ FeaturedProjectCard, ProjectCard), Skills, Education, Contact
+│   ├── layout/              # Navbar, Footer, MobileCta, Analytics
+│   └── resume/              # ResumeSections (header, experience, projects, …), PrintButton
+├── content/                 # What the site says — the single source of truth
+│   ├── types.ts             # Domain model (types only)
+│   ├── profile.ts           # The data: profile, experience, projects, skills, education
+│   ├── selectors.ts         # Derived views (contact channels, tenure, résumé entries) — no derivation in JSX
+│   ├── sections.ts          # Section ids / nav labels / headings, HERO_ACTIONS_ID, RESUME_HREF
+│   ├── catalog.ts + projects.json   # Project pages: slug, title, teaser, order  (shared with Python)
+│   ├── icons.ts + icons.json        # SVG icon paths                             (shared with Python)
+│   └── identity.json        # name, role, employer, location                      (shared with Python)
 ├── config/
-│   └── site.ts          # title/description, resolveSiteUrl(); social links derived from content/profile.ts
-└── public/
-    ├── .nojekyll        # Stops GitHub Pages running Jekyll over the _next/ output folder
-    ├── favicon.svg
-    ├── images/          # hero-image.webp (desktop), hero-avatar.webp (mobile), hero-image.png (OG only),
-    │                    # self-hosted employer/university logos (logo-*.webp / .svg, ≤240px)
-    └── projects/        # Static project write-up pages — see below, NOT app routes
-        ├── site.css     # Shared chrome for every project page (cd- prefixed)
-        └── report.css   # Dark overrides for the knitr/pandoc/Bootstrap/DataTables reports
-scripts/
-└── build-project-pages.py  # Generates/enhances every project page — see below
+│   ├── site.json            # url, gaId, fontsHref                                (shared with Python)
+│   └── site.ts              # siteConfig: resolved URL, SEO strings, themeColor read from tokens.css
+├── lib/                     # Framework-free helpers: format (dateRange, listSentence, cx), links, seo
+├── public/
+│   ├── tokens.css           # Design tokens — colour, type, spacing — for EVERY page (Next + static)
+│   ├── images/              # WebP photos/logos (hero-image.png kept for Open Graph only)
+│   └── projects/            # Static project pages (generated — see below), site.css, report.css
+└── scripts/
+    ├── build-project-pages.py   # CLI shim: build, or --check
+    └── project_pages/           # The generator package (OOD — see below)
 ```
+
+## Architecture rules (SOLID / DRY / SLAP, applied where they fit)
+
+The React side uses **composition, not classes** — React's class components are legacy, so SOLID is applied by intent, not by inheritance. The Python generator *is* object-oriented, because that's where it earns its keep.
+
+- **DRY — one source per fact.** Copy → `content/profile.ts` / `scripts/project_pages/content.py`. Project titles + order → `content/projects.json`. Name/role/location → `content/identity.json`. URL, GA id, fonts → `config/site.json`. Colours/spacing → `public/tokens.css` (theme-color is *read* from `--bg`, not repeated). Icons → `content/icons.json`. Section anchors → `content/sections.ts`. Date ranges → `dateRange()`. External-link behaviour is derived from the URL (`lib/links.ts`, `model.Action.external`), never flagged by hand. If you find yourself typing a fact a second time, it belongs in one of these.
+- **Dependency inversion.** `components/` import types from `content/types.ts`; only `app/*` (composition roots) import content data and pass it down. Dependencies point one way: `app → components → content/lib`. `content/`, `lib/`, `config/` must never import from `components/`.
+- **SRP / SLAP.** A component's top-level function reads at one level of abstraction (e.g. `JobCard` = header, promotions, summary, bullets, chips); markup details live in named sub-components below it. Data shaping lives in `content/selectors.ts`, not JSX.
+- **Open/closed.** Adding a job, project, skill group, section, nav item or contact channel is a data change. What appears on the résumé is a data flag (`onResume`), not a slice or a label check. In the generator, new report behaviour = a new `Transform` or `ReportExtension`, registered in `site.py` — never an `if slug == …` in `ReportPage`.
+- **Interface segregation.** Components take the narrowest props they need (`Chips` gets `string[]`; `Hero` gets a `Pick<Profile, …>`).
 
 ## Content lives in `content/profile.ts` — edit there, not in JSX
 
-The home page and `/resume` both render from `content/profile.ts`, so they can't drift apart. Components are presentational only. Rule for that file: every claim must trace to a real role, a write-up under `public/projects/`, or a published result — no invented metrics.
+The home page and `/resume` both render from `content/profile.ts`, so they can't drift apart. Components are presentational only. Rule for that file: every claim must trace to a real role, a write-up under `public/projects/`, or a published result — no invented metrics. Page-backed project cards are built with `pageProject(slug, …)`, which takes the title and URL from the catalog.
 
 The site is written for a data-science recruiter / hiring manager: outcome-first bullets, a visible promotion ladder (multiple `roles` on one `Job`), metrics on the featured project, plain-text skill chips (scannable, keyword-searchable) rather than logo walls. Collaboration tools (Slack, Teams, Meet, Drive, Office) were deliberately removed from Skills as low-signal padding — don't add them back.
 
@@ -59,12 +71,12 @@ Measured on an iPhone 13 viewport: the page went from 14.5 screens to ~9.7, and 
 - **Whole project cards are tap targets** (stretched-link pattern: `.project__link::after`). Keep one link per side-project card.
 - **`MobileCta`** is a phone-only sticky Résumé/Email bar: shown after the hero CTAs scroll away, hidden whenever `#contact` is on screen. It's additive only — never use JS to hide page content.
 - **CSS is mobile-first**: base rules = phone; `@media (min-width: 600px)` and `(min-width: 861px)` add larger layouts. Every interactive element ≥ 44px (`--tap`). The footer reserves space for the sticky bar + `env(safe-area-inset-bottom)`.
-- **Weight budget**: no icon fonts (use `components/Icon.tsx`; add paths from `@fortawesome/fontawesome-free` svgs if you need a new one), images as WebP sized to their display (2× max). The page is ~410 KB on mobile, ~180 KB of which is Google Analytics.
+- **Weight budget**: no icon fonts (use `components/ui/Icon.tsx`; add paths from `@fortawesome/fontawesome-free` svgs to `content/icons.json` if you need a new one), images as WebP sized to their display (2× max). The page is ~410 KB on mobile, ~180 KB of which is Google Analytics.
 - Check after layout changes: no horizontal overflow at 320–1440px, hero CTAs on one row at ≥ 360px.
 
 ## The résumé must stay one A4 page
 
-`/resume` prints to one A4 page via `@media print` in `globals.css`. If you add content to `profile.ts`, regenerate a PDF (e.g. Playwright `page.pdf({ format: 'A4', preferCSSPageSize: true })`) and check the page count. The résumé shows the first project from `projects` after the featured one, and omits the Tooling skills row.
+`/resume` prints to one A4 page via `@media print` in `globals.css`. If you add content to `profile.ts`, regenerate a PDF (e.g. Playwright `page.pdf({ format: 'A4', preferCSSPageSize: true })`) and check the page count. The résumé shows the featured project plus any project with `onResume: true`, and every skill group except those with `onResume: false` (Tooling).
 
 ## Why static export, and what it rules out
 
@@ -72,41 +84,48 @@ Measured on an iPhone 13 viewport: the page went from 14.5 screens to ~9.7, and 
 
 ## Why Tailwind's preflight is disabled
 
-`tailwind.config.ts` sets `corePlugins.preflight = false`. `app/globals.css` is a hand-written design system with its own reset and dark-only tokens; preflight would double-reset it. Tailwind utilities are available for new code, but the existing components use the semantic classes in `globals.css` (`.card`, `.chip`, `.btn--primary`, …) — prefer extending those over mixing in utilities.
+`tailwind.config.ts` sets `corePlugins.preflight = false`. `app/globals.css` is a hand-written design system with its own reset (tokens in `public/tokens.css`); preflight would double-reset it. Tailwind utilities are available for new code, but the existing components use the semantic classes in `globals.css` (`.card`, `.chip`, `.btn--primary`, …) — prefer extending those over mixing in utilities.
 
 ## Fonts are loaded via `<link>`, not `next/font`
 
-Inter + JetBrains Mono (Google Fonts, with preconnect) are loaded via `<link>` tags in `app/layout.tsx`'s `<head>` rather than `next/font/google`; `globals.css` references them by literal name via `--font-sans` / `--font-mono`. Font Awesome is **no longer loaded** — icons are inline SVGs in `components/Icon.tsx` (saves ~275 KB of render-blocking CSS + webfonts). This produces one known/expected `@next/next/no-page-custom-font` ESLint *warning* on `app/layout.tsx` — don't "fix" it by migrating to `next/font` unless a real font-loading problem shows up.
+Inter + JetBrains Mono (Google Fonts, with preconnect) are loaded via `<link>` tags — the URL lives in `config/site.json` (`fontsHref`) and is used by both `app/layout.tsx` and the project-page generator — rather than `next/font/google`. Tokens reference them by literal name (`--font-sans` / `--font-mono`). Icons are inline SVGs (`components/ui/Icon.tsx`), not Font Awesome. Code font ligatures are disabled in code blocks so R's `<-` renders as typed.
 
 ## Images: plain `<img>` everywhere, not `next/image`
 
 Every image uses a plain `<img>` tag. This produces expected `@next/next/no-img-element` lint *warnings*, suppressed per-line. `next/image`'s optimization API needs a server, which static export doesn't have. Employer/university logos are self-hosted in `public/images/logo-*` rather than hotlinked (hotlinks — especially Wikimedia — rate-limit and break silently).
 
-## Project pages are static files, not app routes — built by `scripts/build-project-pages.py`
+## Project pages are static files, not app routes — built by `scripts/project_pages`
 
-`public/projects/<slug>/index.html` are static HTML served as-is (not React, and shouldn't become React). Since the redesign, **one script owns all six**: `python3 scripts/build-project-pages.py`. Outputs are committed; nothing runs at deploy.
+`public/projects/<slug>/index.html` are static HTML served as-is (not React, and shouldn't become React). One generator owns all six. Outputs are committed:
 
-- **Hand pages** (`eildon-park-cricket-club`, `melbourne-pedestrian-counting`, `victorian-property-prices-dashboard`) are generated *in full* from the `HAND` dict in the script. **Edit their copy in the script, then re-run** — hand edits to the HTML get overwritten.
-- **Report pages** (`afl-brownlow-2023`, `afl-brownlow-2024`, `h2h-arbitrage-finder`) are knitr/pandoc output (~2 MB each, embedded jQuery/Bootstrap 3/DataTables). The script leaves their bodies alone and only: swaps head stylesheets for `../site.css` + `../report.css`, removes old pasted-in chrome, injects the shared nav + project header + "At a glance" panel + jump links, folds every R chunk (and printed outputs > 14 lines, except the confusion matrix) into `<details>`, and appends the next-project footer. Injected blocks sit between `<!-- cd:… -->` markers, so it's **idempotent: after re-knitting a report from its `.Rmd`, just re-run the script.**
-- The arbitrage page's headline metrics (markets scanned, arbitrages found, best return, snapshot date) are **computed from the report's own embedded DataTables data** on every run, so a re-knit can't leave stale numbers in the summary. The Brownlow numbers are fixed historical results, written into the `REPORTS` dict.
-- `ORDER` in the script sets the "Next project" chain. Adding a project = a new folder + an entry in `ORDER` and in `HAND` or `REPORTS`.
-- Every page links home via `/` and `/#projects` (never a relative path to a static `index.html`, which doesn't exist). Shared classes are `cd-` prefixed because Bootstrap 3 (inlined in the reports) already owns `.nav`, `.btn`, etc.
+```bash
+python3 scripts/build-project-pages.py          # rebuild (idempotent)
+python3 scripts/build-project-pages.py --check  # exit 1 if any page is stale — CI runs this before every deploy
+```
+
+- **Copy** lives in `scripts/project_pages/content.py` (titles/teasers/order in `content/projects.json`). **Edit there, then re-run** — hand edits to the generated HTML are overwritten, and CI fails if you forget to regenerate.
+- **Hand pages** (`eildon-park-cricket-club`, `melbourne-pedestrian-counting`, `victorian-property-prices-dashboard`) are `HandPage`s: generated in full.
+- **Report pages** (`afl-brownlow-2023`, `afl-brownlow-2024`, `h2h-arbitrage-finder`) are `ReportPage`s: knitr/pandoc output (~2 MB each, embedded jQuery/Bootstrap 3/DataTables) whose bodies are never touched. A `Pipeline` of small `Transform`s swaps head assets for `/tokens.css` + `../site.css` + `../report.css`, removes legacy chrome, upserts the shared nav / header + "At a glance" panel / next-project footer between `<!-- cd:… -->` markers, and folds R chunks (and printed output > 14 lines, except the confusion matrix) into `<details>`. **After re-knitting a report, just re-run the script** — a fresh knit and a re-run both produce the same page (verified byte-for-byte).
+- **`ReportExtension`s** add page-specific behaviour without touching `ReportPage`. `ArbitrageFacts` computes the arbitrage page's headline metrics and snapshot date from the report's own embedded DataTables data on every run, so a re-knit can't leave stale numbers. Register extensions in `site.py`. Brownlow numbers are fixed historical results, written in `content.py`.
+- **Package layout** (`scripts/project_pages/`, dependencies point down): `cli` → `site` (composition root) → `pages` (`ProjectPage` ABC → `HandPage` / `ReportPage`) → `extensions`, `transforms`, `render` (`Renderer`: shared chrome as HTML) → `model` (frozen dataclasses), `content` (data) → `catalog`, `icons`, `settings` (read the shared JSON/CSS).
+- **Adding a project page**: a folder under `public/projects/`, an entry in `content/projects.json` (sets the "Next project" order), and copy in `HAND_PAGES` or `REPORT_PAGES`. `site.py` refuses to build if the catalog lists a page with no copy.
+- Every page links home via `/` and `/#projects`. Shared classes are `cd-` prefixed because Bootstrap 3 (inlined in the reports) already owns `.nav`, `.btn`, etc.
 
 `next.config.js` sets `trailingSlash: true`, so app routes export as `<route>/index.html` (e.g. `out/resume/index.html`) and both `/resume` and `/resume/` work on GitHub Pages. `/projects/<slug>/` likewise resolves to that folder's `index.html` — no extra config needed.
 
 ## Theming: dark only
 
-The site is **dark only** — a deliberate choice; the light theme and toggle were removed. Colours are CSS custom properties on `body` in `app/globals.css` (and `:root` with `--cd-` names in `public/projects/site.css` — keep the two palettes in sync). `viewport.themeColor` in `app/layout.tsx` matches the background so mobile browser chrome blends in. The résumé sheet is the one exception: always black-on-white, because it's a printable page.
+The site is **dark only** — a deliberate choice; the light theme and toggle were removed. Every colour is a token in `public/tokens.css`, loaded by the Next app (`@import` in `globals.css`) and by every project page (`<link href="/tokens.css">`), so there is exactly one palette. `viewport.themeColor` is read from `--bg` at build time (`config/site.ts`), as is the generator's `theme-color` meta. The résumé sheet is the one exception: always black-on-white, because it's a printable page.
 
 No scroll-triggered reveal animations: the previous site hid content at `opacity: 0` until an IntersectionObserver fired, which left whole sections blank for fast scrollers, print, and crawlers. Don't reintroduce that pattern.
 
 ## Deployment
 
-`.github/workflows/deploy.yml` builds the site (`npm run build` → `out/`) and publishes it to GitHub Pages via `actions/upload-pages-artifact` + `actions/deploy-pages` on every push to `main`. The repo's Settings → Pages → Source must be set to "GitHub Actions" (not the classic branch-based source) for this to take effect. `config/site.ts`'s `resolveSiteUrl()` falls back to `https://cooperdenny.github.io` if `NEXT_PUBLIC_SITE_URL` is unset or malformed — since that fallback is the real production domain here, there's normally no need to set the env var at all.
+`.github/workflows/deploy.yml` checks the generated project pages are current (`build-project-pages.py --check`), builds the site (`npm run build` → `out/`) and publishes it to GitHub Pages via `actions/upload-pages-artifact` + `actions/deploy-pages` on every push to `main`. The repo's Settings → Pages → Source must be set to "GitHub Actions" (not the classic branch-based source) for this to take effect. `config/site.ts`'s `resolveSiteUrl()` falls back to `config/site.json`'s `url` if `NEXT_PUBLIC_SITE_URL` is unset or malformed — since that fallback is the real production domain here, there's normally no need to set the env var at all.
 
 ## Key things to know
 
-- The projects grid in `components/Projects.tsx` uses CSS Grid (`project-grid` class, defined in `globals.css`)
+- The projects grid in `components/home/Projects.tsx` uses CSS Grid (`project-grid` class, defined in `globals.css`)
 - Each project card links to its own subdirectory under `/projects/`
 - The Brownlow predictor is represented as a single consolidated card linking to both the 2023 and 2024 model pages
 - Do not add a separate card per Brownlow year — keep them consolidated

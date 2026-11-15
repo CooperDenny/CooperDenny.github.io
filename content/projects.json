@@ -1,0 +1,35 @@
+{
+  "$comment": "Canonical list of /projects/<slug>/ pages, in 'Next project' order. Single source for page titles: read by content/profile.ts (home cards) and scripts/project_pages (page chrome).",
+  "pages": [
+    {
+      "slug": "afl-brownlow-2024",
+      "title": "Predicting the 2024 Brownlow Medal",
+      "teaser": "Called Cripps and Daicos as the top two, in order, on an unseen season."
+    },
+    {
+      "slug": "afl-brownlow-2023",
+      "title": "Predicting the 2023 Brownlow Medal",
+      "teaser": "Version one of the model, and what it taught me for 2024."
+    },
+    {
+      "slug": "h2h-arbitrage-finder",
+      "title": "Australian Betting Arbitrage Finder",
+      "teaser": "Live odds from 12 bookmakers, scanned for guaranteed-profit markets."
+    },
+    {
+      "slug": "eildon-park-cricket-club",
+      "title": "Cricket Club Records & Stats Platform",
+      "teaser": "A club’s playing history turned into self-updating records."
+    },
+    {
+      "slug": "melbourne-pedestrian-counting",
+      "title": "Melbourne Pedestrian Traffic Dashboard",
+      "teaser": "~100 city sensors, hourly since 2010, in Power BI."
+    },
+    {
+      "slug": "victorian-property-prices-dashboard",
+      "title": "Victorian Property Prices Dashboard",
+      "teaser": "Median prices and trends by region, suburb and type."
+    }
+  ]
+}

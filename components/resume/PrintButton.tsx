@@ -1,6 +1,6 @@
 'use client';
 
-import Icon from '@/components/Icon';
+import Icon from '@/components/ui/Icon';
 
 export default function PrintButton() {
   return (

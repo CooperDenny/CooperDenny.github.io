@@ -1,78 +1,28 @@
-// Single source of truth for everything the site says about Cooper.
-// Both the home page (app/page.tsx) and the printable résumé (app/resume/page.tsx)
+// Everything the site says about Cooper — data only (types: content/types.ts,
+// derived views: content/selectors.ts). The home page and the printable résumé both
 // render from this file, so they can never drift apart. Edit content here, not in JSX.
 //
 // Rule for this file: every claim must be traceable to something real — a role,
 // a write-up under public/projects/, or a published result. No invented metrics.
 
-export type Role = {
-  title: string;
-  start: string;
-  end: string;
-};
+import { pageHref, pageTitle, type PageSlug } from '@/content/catalog';
+import identity from '@/content/identity.json';
+import { anchor } from '@/content/sections';
+import type { Education, FeaturedProject, Job, Profile, Project, SkillGroup } from '@/content/types';
 
-export type Job = {
-  company: string;
-  logo: string;
-  logoAlt: string;
-  employmentType: string;
-  /** Most recent first. More than one entry renders as a promotion ladder. */
-  roles: Role[];
-  summary: string;
-  highlights: string[];
-  stack: string[];
-};
+/** A home-page card for a project that has its own /projects/<slug>/ page: title and URL come from the catalog. */
+function pageProject(
+  slug: PageSlug,
+  { linkLabel, ...card }: Omit<Project, 'slug' | 'title' | 'links'> & { linkLabel: string },
+): Project {
+  return { slug, title: pageTitle(slug), ...card, links: [{ label: linkLabel, href: pageHref(slug) }] };
+}
 
-export type Metric = {
-  value: string;
-  /** Full description (résumé, screen readers). */
-  label: string;
-  /** Two-to-four-word caption for the compact metric tiles. */
-  short: string;
-};
-
-export type Proof = {
-  value: string;
-  label: string;
-  href: string;
-};
-
-export type ProjectLink = {
-  label: string;
-  href: string;
-  external?: boolean;
-};
-
-export type Project = {
-  slug: string;
-  title: string;
-  kicker: string;
-  /** One sentence for the home-page card. Full detail lives on the project page. */
-  oneLiner: string;
-  /** Longer description, used on the résumé. */
-  summary: string;
-  stack: string[];
-  links: ProjectLink[];
-};
-
-export type FeaturedProject = Project & {
-  problem: string;
-  approach: string[];
-  metrics: Metric[];
-  iteration: string;
-  evaluationNote: string;
-};
-
-export type SkillGroup = {
-  label: string;
-  items: string[];
-};
-
-export const profile = {
-  name: 'Cooper Denny',
-  role: 'Data Scientist',
-  employer: 'PlayHQ',
-  location: 'Melbourne, Australia',
+export const profile: Profile = {
+  name: identity.name,
+  role: identity.role,
+  employer: identity.employer,
+  location: identity.location,
   /** Large PNG kept for Open Graph / JSON-LD; the page itself uses the WebP variants. */
   photo: '/images/hero-image.png',
   photoWebp: '/images/hero-image.webp',
@@ -85,11 +35,11 @@ export const profile = {
     'Data Scientist with industry experience across product analytics, statistical modelling and analytics engineering in sport. Builds end-to-end: dbt models in Snowflake, regression-based churn and retention analysis, metric design, and BI in Tableau, Omni and Lightdash. Applied Data Science graduate (Monash, Distinction average) with a published, out-of-sample-validated AFL Brownlow prediction model.',
   // Above-the-fold evidence. Each tile jumps to the section that backs it up.
   proof: [
-    { value: '20 mo', label: 'Junior → Data Scientist at PlayHQ', href: '#experience' },
-    { value: 'r = 0.93', label: 'Brownlow model, tested on an unseen season', href: '#projects' },
-    { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: '#experience' },
-    { value: 'Distinction', label: 'Applied Data Science, Monash', href: '#education' },
-  ] satisfies Proof[],
+    { value: '20 mo', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
+    { value: 'r = 0.93', label: 'Brownlow model, tested on an unseen season', href: anchor('projects') },
+    { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: anchor('experience') },
+    { value: 'Distinction', label: 'Applied Data Science, Monash', href: anchor('education') },
+  ],
   coreStack: ['SQL', 'Python', 'R', 'dbt', 'Snowflake', 'Tableau'],
   contact: {
     email: 'cooper.denny@icloud.com',
@@ -166,62 +116,71 @@ export const featuredProject: FeaturedProject = {
     'Converted per-player vote probabilities into expected votes and allocated 3-2-1 within each game, mirroring how umpires vote.',
   ],
   metrics: [
-    { value: 'r = 0.93', label: 'Predicted vs actual season vote tallies (2024)', short: 'Season-tally correlation' },
-    { value: '2.0', label: 'Mean absolute error, votes per player', short: 'Avg error (votes)' },
-    { value: '56%', label: 'Games where the model picked the 3-vote player, from 46 on the field', short: '3-vote player found' },
+    {
+      value: 'r = 0.93',
+      label: 'Predicted vs actual season vote tallies (2024)',
+      short: 'Season-tally correlation',
+      sentence: 'r = 0.93 between predicted and actual season tallies',
+    },
+    {
+      value: '2.0',
+      label: 'Mean absolute error, votes per player',
+      short: 'Avg error (votes)',
+      sentence: 'MAE of 2.0 votes per player',
+    },
+    {
+      value: '56%',
+      label: 'Games where the model picked the 3-vote player, from 46 on the field',
+      short: '3-vote player found',
+      sentence: 'the 3-vote player identified in 56% of games',
+    },
   ],
   iteration:
     'v1 (2023) over-predicted ruckmen such as Max Gawn and Tim English. v2 (2024) added player position: correlation rose from 0.885 to 0.928 and MAE fell from 2.17 to 2.01.',
   evaluationNote:
     'Raw game-level accuracy (93%) is deliberately not the headline: with ~93.5% of player-games polling zero, an all-zeros baseline scores about the same. Per-class recall and season-level error are the honest measures.',
-  stack: ['R', 'ordinal', 'tidyverse', 'Feature engineering'],
+  stack: ['R', 'Ordinal regression', 'tidyverse', 'Feature engineering'],
+  onResume: true,
   links: [
-    { label: '2024 model write-up', href: '/projects/afl-brownlow-2024/' },
-    { label: '2023 model write-up', href: '/projects/afl-brownlow-2023/' },
+    { label: '2024 model write-up', href: pageHref('afl-brownlow-2024') },
+    { label: '2023 model write-up', href: pageHref('afl-brownlow-2023') },
   ],
 };
 
 export const projects: Project[] = [
-  {
-    slug: 'h2h-arbitrage-finder',
-    title: 'Australian Betting Arbitrage Finder',
+  pageProject('h2h-arbitrage-finder', {
     kicker: 'APIs · Data pipelines',
     oneLiner: 'Scans live odds from 12 Australian bookmakers for guaranteed-profit markets — and shows why real edges are rare and under 1%.',
     summary:
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
-    links: [{ label: 'Read the write-up', href: '/projects/h2h-arbitrage-finder/' }],
-  },
-  {
-    slug: 'eildon-park-cricket-club',
-    title: 'Cricket Club Records & Stats Platform',
+    onResume: true,
+    linkLabel: 'Read the write-up',
+  }),
+  pageProject('eildon-park-cricket-club', {
     kicker: 'Data engineering · Web',
     oneLiner: 'A club’s full playing history turned into a dataset that keeps every record and career stat up to date automatically.',
     summary:
       'Compiled Eildon Park Cricket Club’s senior playing history into a structured dataset that automatically derives club records, career profiles and season splits — no manual updates each season. Shipped as part of a full club website built with Claude Code.',
     stack: ['Data modelling', 'Claude Code', 'Web'],
-    links: [{ label: 'See the project', href: '/projects/eildon-park-cricket-club/' }],
-  },
-  {
-    slug: 'melbourne-pedestrian-counting',
-    title: 'Melbourne Pedestrian Traffic Dashboard',
+    linkLabel: 'See the project',
+  }),
+  pageProject('melbourne-pedestrian-counting', {
     kicker: 'Time series · BI',
     oneLiner: 'Python pipeline over ~100 city sensors (hourly since 2010) into a Power BI dashboard with rolling trends.',
     summary:
       'Python pipeline over the City of Melbourne’s hourly sensor feed (~100 sensors, data since 2010) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
     stack: ['Python', 'Jupyter', 'Power BI'],
-    links: [{ label: 'Open the dashboard', href: '/projects/melbourne-pedestrian-counting/' }],
-  },
-  {
-    slug: 'victorian-property-prices-dashboard',
-    title: 'Victorian Property Prices Dashboard',
+    linkLabel: 'Open the dashboard',
+  }),
+  pageProject('victorian-property-prices-dashboard', {
     kicker: 'Geospatial · BI',
     oneLiner: 'Power BI view of Victorian sales: cleaned in Power Query, DAX medians and year-on-year change, suburb maps.',
     summary:
       'Interactive Power BI view of Victorian property sales: Power Query cleaning, DAX measures for median prices and year-on-year change, and suburb-level mapping.',
     stack: ['Power BI', 'DAX', 'Power Query'],
-    links: [{ label: 'Open the dashboard', href: '/projects/victorian-property-prices-dashboard/' }],
-  },
+    linkLabel: 'Open the dashboard',
+  }),
   {
     slug: 'cricket-stats-hub',
     title: 'CricketStatsHub',
@@ -230,9 +189,7 @@ export const projects: Project[] = [
     summary:
       'Open repository of batting and bowling statistics from international and domestic competitions, standardised into consistent formats for analysis.',
     stack: ['Data cleaning', 'GitHub'],
-    links: [
-      { label: 'View on GitHub', href: 'https://github.com/CooperDenny/CricketStatsHub', external: true },
-    ],
+    links: [{ label: 'View on GitHub', href: 'https://github.com/CooperDenny/CricketStatsHub' }],
   },
 ];
 
@@ -256,10 +213,14 @@ export const skills: SkillGroup[] = [
     label: 'BI & product analytics',
     items: ['Tableau', 'Power BI', 'Omni', 'Lightdash', 'Explo', 'R Shiny', 'PostHog', 'Google Analytics'],
   },
-  { label: 'Tooling', items: ['Jupyter', 'VS Code', 'Claude Code', 'Jira', 'Confluence', 'Excel'] },
+  {
+    label: 'Tooling',
+    items: ['Jupyter', 'VS Code', 'Claude Code', 'Jira', 'Confluence', 'Excel'],
+    onResume: false, // low-signal on paper; stays on the web page
+  },
 ];
 
-export const education = {
+export const education: Education = {
   degree: 'Bachelor of Applied Data Science',
   institution: 'Monash University',
   logo: '/images/logo-monash.svg',

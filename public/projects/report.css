@@ -8,9 +8,9 @@
 
 html,
 body.cd-report {
-  background: var(--cd-bg) !important;
-  color: var(--cd-text) !important;
-  font-family: var(--cd-sans) !important;
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: var(--font-sans) !important;
   font-size: 16px !important;
   line-height: 1.6 !important;
 }
@@ -23,19 +23,19 @@ body.cd-report {
 .cd-report .container-fluid.main-container {
   max-width: var(--cd-wrap) !important;
   margin: 0 auto !important;
-  padding: 0 var(--cd-gutter) 40px !important;
+  padding: 0 var(--gutter) 40px !important;
   background: transparent !important;
 }
 /* The project header sits inside Bootstrap's container here, so drop its own gutter. */
 .cd-report .main-container .cd-hero {
-  margin: 0 calc(-1 * var(--cd-gutter));
+  margin: 0 calc(-1 * var(--gutter));
   padding-left: 0;
   padding-right: 0;
   background: none;
   border-bottom: 0;
 }
 .cd-report .main-container .cd-hero .cd-wrap {
-  padding: 0 var(--cd-gutter);
+  padding: 0 var(--gutter);
 }
 .cd-report .cd-hero h1 {
   font-size: 1.75rem !important;
@@ -60,8 +60,8 @@ body.cd-report {
 .cd-report .section h2,
 .cd-report .section h3,
 .cd-report .section h4 {
-  color: var(--cd-text) !important;
-  font-family: var(--cd-sans) !important;
+  color: var(--text) !important;
+  font-family: var(--font-sans) !important;
   letter-spacing: -0.02em;
   line-height: 1.25 !important;
 }
@@ -75,7 +75,7 @@ body.cd-report {
   font-weight: 700 !important;
   margin: 48px 0 12px !important;
   padding-top: 20px;
-  border-top: 1px solid var(--cd-border);
+  border-top: 1px solid var(--border);
 }
 .cd-report .section.level2 > h2 {
   font-size: 1.1875rem !important;
@@ -100,7 +100,7 @@ body.cd-report {
 
 .cd-report .section p,
 .cd-report .section li {
-  color: var(--cd-text-muted) !important;
+  color: var(--text-muted) !important;
   font-size: 1rem !important;
   line-height: 1.7 !important;
 }
@@ -116,23 +116,23 @@ body.cd-report {
   margin: 4px 0 !important;
 }
 .cd-report .section li::marker {
-  color: var(--cd-accent);
+  color: var(--accent);
 }
 .cd-report .section strong {
-  color: var(--cd-text);
+  color: var(--text);
 }
 .cd-report .section a,
 .cd-report #refs a {
-  color: var(--cd-accent) !important;
+  color: var(--accent) !important;
   text-underline-offset: 3px;
 }
 .cd-report .section :not(pre) > code {
-  font-family: var(--cd-mono) !important;
+  font-family: var(--font-mono) !important;
   font-size: 0.875em !important;
   padding: 1px 6px !important;
   border-radius: 6px !important;
-  background: var(--cd-surface-2) !important;
-  color: var(--cd-text) !important;
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
   border: 0 !important;
   white-space: normal;
 }
@@ -147,19 +147,19 @@ body.cd-report {
   border-radius: 0 !important;
   overflow-x: auto !important;
   -webkit-overflow-scrolling: touch;
-  color: var(--cd-text) !important;
+  color: var(--text) !important;
   word-break: normal !important;
   word-wrap: normal !important;
   white-space: pre !important;
 }
 .cd-report pre code {
-  font-family: var(--cd-mono) !important;
+  font-family: var(--font-mono) !important;
   /* JetBrains Mono would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
   font-variant-ligatures: none !important;
   font-feature-settings: 'liga' 0, 'calt' 0 !important;
   font-size: 0.8125rem !important;
   line-height: 1.6 !important;
-  color: var(--cd-text) !important;
+  color: var(--text) !important;
   background: transparent !important;
   padding: 0 !important;
   white-space: pre !important;
@@ -168,17 +168,17 @@ body.cd-report {
 .cd-report .section > pre,
 .cd-report .section > div > pre {
   margin: 12px 0 16px !important;
-  border: 1px solid var(--cd-border) !important;
-  border-radius: var(--cd-radius-sm) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-sm) !important;
 }
 
 /* Folded R code and long output (wrapped in <details> by the build script). */
 .cd-report details.cd-code,
 .cd-report details.cd-output {
   margin: 12px 0 16px;
-  border: 1px solid var(--cd-border);
-  border-radius: var(--cd-radius-sm);
-  background: var(--cd-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   overflow: hidden;
 }
 .cd-report details.cd-code > summary,
@@ -190,9 +190,9 @@ body.cd-report {
   padding: 0 14px;
   cursor: pointer;
   list-style: none;
-  font: 600 0.8125rem/1.2 var(--cd-mono);
+  font: 600 0.8125rem/1.2 var(--font-mono);
   letter-spacing: 0.02em;
-  color: var(--cd-text-faint);
+  color: var(--text-faint);
   user-select: none;
 }
 .cd-report details > summary::-webkit-details-marker {
@@ -213,18 +213,18 @@ body.cd-report {
 }
 .cd-report details.cd-code > summary:hover,
 .cd-report details.cd-output > summary:hover {
-  color: var(--cd-accent);
+  color: var(--accent);
 }
 .cd-report details[open] > summary {
-  border-bottom: 1px solid var(--cd-border);
+  border-bottom: 1px solid var(--border);
 }
 .cd-report details.cd-code > summary::after {
   content: 'R';
   margin-left: auto;
   padding: 1px 7px;
   border-radius: 999px;
-  background: var(--cd-accent-soft);
-  color: var(--cd-accent);
+  background: var(--accent-soft);
+  color: var(--accent);
   font-size: 0.6875rem;
 }
 
@@ -236,13 +236,13 @@ body.cd-report {
   margin: 12px 0 20px !important;
 }
 .cd-report .dataTables_wrapper {
-  color: var(--cd-text-muted) !important;
+  color: var(--text-muted) !important;
   font-size: 0.875rem !important;
 }
 .cd-report .dataTables_scroll,
 .cd-report .dataTables_wrapper > table.dataTable {
-  border: 1px solid var(--cd-border);
-  border-radius: var(--cd-radius-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   overflow: hidden;
 }
 .cd-report .dataTables_wrapper {
@@ -253,23 +253,23 @@ body.cd-report {
   width: 100% !important;
   margin: 0 !important;
   border-collapse: collapse !important;
-  background: var(--cd-surface) !important;
-  color: var(--cd-text) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
 }
 .cd-report table.dataTable thead th,
 .cd-report table.dataTable thead td {
-  background: var(--cd-surface-2) !important;
-  color: var(--cd-text) !important;
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
   font-weight: 600 !important;
   font-size: 0.8125rem !important;
-  border-bottom: 1px solid var(--cd-border-strong) !important;
+  border-bottom: 1px solid var(--border-strong) !important;
   padding: 10px 12px !important;
   white-space: nowrap;
 }
 .cd-report table.dataTable tbody td {
   background: transparent !important;
-  color: var(--cd-text-muted) !important;
-  border-top: 1px solid var(--cd-border) !important;
+  color: var(--text-muted) !important;
+  border-top: 1px solid var(--border) !important;
   padding: 8px 12px !important;
   font-size: 0.8125rem !important;
   font-variant-numeric: tabular-nums;
@@ -284,7 +284,7 @@ body.cd-report {
   background: rgba(34, 211, 238, 0.04) !important;
 }
 .cd-report table.dataTable tbody tr:hover td {
-  background: var(--cd-surface-2) !important;
+  background: var(--surface-2) !important;
 }
 .cd-report table.dataTable.no-footer {
   border-bottom: 0 !important;
@@ -293,16 +293,16 @@ body.cd-report {
 .cd-report .dataTables_length,
 .cd-report .dataTables_info,
 .cd-report .dataTables_paginate {
-  color: var(--cd-text-faint) !important;
+  color: var(--text-faint) !important;
   font-size: 0.8125rem !important;
   padding: 8px 0 !important;
 }
 .cd-report .dataTables_filter input,
 .cd-report .dataTables_length select {
   min-height: 36px;
-  background: var(--cd-surface) !important;
-  color: var(--cd-text) !important;
-  border: 1px solid var(--cd-border-strong) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border-strong) !important;
   border-radius: 8px !important;
   padding: 4px 10px !important;
   font-size: 16px !important; /* ≥16px stops iOS zooming into the field */
@@ -310,7 +310,7 @@ body.cd-report {
 .cd-report .dataTables_wrapper .dataTables_paginate .paginate_button {
   min-width: 36px;
   min-height: 36px;
-  color: var(--cd-text-muted) !important;
+  color: var(--text-muted) !important;
   background: transparent !important;
   border: 1px solid transparent !important;
   border-radius: 8px !important;
@@ -318,27 +318,27 @@ body.cd-report {
 }
 .cd-report .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .cd-report .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-  color: var(--cd-accent) !important;
-  background: var(--cd-surface-2) !important;
-  border-color: var(--cd-border) !important;
+  color: var(--accent) !important;
+  background: var(--surface-2) !important;
+  border-color: var(--border) !important;
 }
 .cd-report .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
-  color: var(--cd-text-faint) !important;
+  color: var(--text-faint) !important;
   opacity: 0.5;
 }
 
 /* Pandoc's own (non-DataTables) tables */
 .cd-report .section table.table {
-  background: var(--cd-surface);
-  color: var(--cd-text-muted);
-  border: 1px solid var(--cd-border);
-  border-radius: var(--cd-radius-sm);
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   display: block;
   overflow-x: auto;
 }
 .cd-report .section table.table > thead > tr > th,
 .cd-report .section table.table > tbody > tr > td {
-  border-color: var(--cd-border) !important;
+  border-color: var(--border) !important;
   padding: 8px 12px !important;
 }
 
@@ -349,7 +349,7 @@ body.cd-report {
   max-width: 100% !important;
   height: auto !important;
   margin: 16px 0 !important;
-  border-radius: var(--cd-radius-sm) !important;
+  border-radius: var(--radius-sm) !important;
   background: #ffffff; /* ggplot output has a white background */
 }
 
@@ -357,7 +357,7 @@ body.cd-report {
 
 .cd-report #refs,
 .cd-report .references {
-  color: var(--cd-text-muted);
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 

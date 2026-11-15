@@ -18,21 +18,22 @@ Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, stat
 ## Structure
 
 ```
-├── .github/workflows/deploy.yml   # Builds the static export and publishes it to GitHub Pages
-├── app/
-│   ├── layout.tsx        # Root layout: fonts, metadata, JSON-LD, GA, navbar/footer
-│   ├── page.tsx          # Home page
-│   ├── resume/page.tsx   # Printable one-page résumé
-│   ├── globals.css       # Design system (tokens, components, print)
-│   ├── robots.ts, sitemap.ts
-├── content/profile.ts    # All site copy — edit content here
-├── components/           # Presentational sections + Navbar/MobileCta/PrintButton (client)
-├── config/site.ts        # Site URL resolution + SEO strings
-└── public/
-    ├── images/           # Hero photo and self-hosted logos
-    └── projects/         # Static project write-up pages (+ shared site.css / report.css)
-scripts/build-project-pages.py  # Builds/enhances every project page — run after editing copy or re-knitting a report
+├── app/              # Routes (composition roots): layout, home, /resume, robots, sitemap
+├── components/       # ui/ primitives, home/ sections, layout/ chrome, resume/ sections
+├── content/          # The single source of truth: types, profile data, selectors, sections,
+│                     # and JSON shared with the Python generator (projects, icons, identity)
+├── config/           # site.json (shared constants) + site.ts
+├── lib/              # Framework-free helpers (formatting, links, SEO)
+├── public/
+│   ├── tokens.css    # Design tokens for every page
+│   ├── images/
+│   └── projects/     # Generated project pages + site.css / report.css
+└── scripts/
+    ├── build-project-pages.py   # Build or --check the project pages
+    └── project_pages/           # Generator package
 ```
+
+See `CLAUDE.md` for the architecture rules (single sources of truth, dependency direction, how to add content).
 
 ## Project pages are static, not app routes
 
@@ -50,6 +51,8 @@ npm run dev      # start dev server
 npm run build    # production build → writes static output to out/
 npm run start    # serve the exported out/ directory locally (next start doesn't work with output: 'export')
 npm run lint     # next lint
+python3 scripts/build-project-pages.py           # regenerate project pages
+python3 scripts/build-project-pages.py --check   # verify they're current (CI does this)
 ```
 
 ## Deployment

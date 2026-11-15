@@ -1,0 +1,147 @@
+"""The shared chrome of every project page, as HTML fragments. Pure: copy in, HTML out."""
+
+from __future__ import annotations
+
+import html
+
+from .catalog import Catalog
+from .icons import IconSet
+from .model import Glance, PageCopy
+from .settings import Settings
+
+TOKENS_CSS, SITE_CSS, REPORT_CSS = "/tokens.css", "../site.css", "../report.css"
+
+
+class Renderer:
+    def __init__(self, settings: Settings, catalog: Catalog, icons: IconSet):
+        self.settings, self.catalog, self.icons = settings, catalog, icons
+        self.icon = icons.svg
+
+    # --- document-level pieces ----------------------------------------------------
+
+    def page_title(self, copy: PageCopy) -> str:
+        return f"{copy.title} — {self.settings.identity.name}"
+
+    def head_meta(self, copy: PageCopy) -> str:
+        s = self.settings
+        url = f"{s.url}/projects/{copy.slug}/"
+        desc = html.escape(copy.description, quote=True)
+        title = html.escape(self.page_title(copy), quote=True)
+        return f"""<meta name="description" content="{desc}">
+<meta name="theme-color" content="{s.theme_color}">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="{url}">
+<link rel="icon" href="/favicon.svg">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}">
+<meta property="og:image" content="{s.url}/images/hero-image.png">"""
+
+    def fonts(self) -> str:
+        return (
+            '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+            '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
+            f'<link href="{self.settings.fonts_href}" rel="stylesheet">'
+        )
+
+    def analytics(self) -> str:
+        ga = self.settings.ga_id
+        return (
+            f'<script async src="https://www.googletagmanager.com/gtag/js?id={ga}"></script>\n'
+            f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}"
+            f"gtag('js',new Date());gtag('config','{ga}');</script>"
+        )
+
+    @staticmethod
+    def stylesheets(*hrefs: str) -> str:
+        return "\n".join(f'<link rel="stylesheet" href="{h}">' for h in hrefs)
+
+    # --- body chrome --------------------------------------------------------------
+
+    def nav(self) -> str:
+        return f"""<a href="#cd-main" class="cd-skip">Skip to content</a>
+<nav class="cd-nav" aria-label="Primary">
+  <div class="cd-nav__inner">
+    <a href="/" class="cd-nav__brand">{self.settings.identity.name}</a>
+    <a href="/#projects" class="cd-nav__link">{self.icon('arrowLeft')} Projects</a>
+    <a href="/resume/" class="cd-btn cd-btn--primary cd-btn--small">Résumé</a>
+  </div>
+</nav>"""
+
+    def hero(self, copy: PageCopy) -> str:
+        meta = f'<p class="cd-hero__meta">{copy.meta}</p>' if copy.meta else ""
+        return f"""<header class="cd-hero">
+  <div class="cd-wrap">
+    <p class="cd-kicker">{copy.kicker}</p>
+    <h1>{copy.title}</h1>
+    <p class="cd-hero__lede">{copy.lede}</p>
+    {meta}
+    <ul class="cd-chips" aria-label="Tools used">{self._items(copy.stack)}</ul>
+    <div class="cd-hero__actions">{self._actions(copy)}</div>
+  </div>
+</header>"""
+
+    def summary(self, copy: PageCopy) -> str:
+        """The "At a glance" panel followed by the "On this page" jump links."""
+        return f"{self._glance(copy.glance)}\n{self._toc(copy)}"
+
+    def next_project(self, slug: str) -> str:
+        nxt, who = self.catalog.next_after(slug), self.settings.identity
+        return f"""<aside class="cd-next" aria-label="More work">
+  <div class="cd-wrap">
+    <p class="cd-next__label">Next project</p>
+    <a class="cd-next__card" href="{nxt.href}">
+      <span class="cd-next__title">{nxt.title} {self.icon('arrowRight')}</span>
+      <p class="cd-next__desc">{nxt.teaser}</p>
+    </a>
+    <div class="cd-next__actions">
+      <a href="/#projects" class="cd-btn cd-btn--ghost">{self.icon('arrowLeft')} All projects</a>
+      <a href="/resume/" class="cd-btn cd-btn--primary">{self.icon('fileLines')} View résumé</a>
+    </div>
+  </div>
+</aside>
+<footer class="cd-footer"><div class="cd-wrap"><p>© {who.name} · {who.role} · {who.location}</p></div></footer>"""
+
+    # --- private building blocks ---------------------------------------------------
+
+    @staticmethod
+    def _items(items) -> str:
+        return "".join(f"<li>{i}</li>" for i in items)
+
+    def _actions(self, copy: PageCopy) -> str:
+        def one(i: int, a) -> str:
+            variant = "primary" if i == 0 else "ghost"
+            attrs = (' target="_blank" rel="noopener noreferrer"' if a.external else "") + (" download" if a.download else "")
+            return f'<a href="{a.href}" class="cd-btn cd-btn--{variant}"{attrs}>{self.icon(a.icon)} {a.label}</a>'
+        return "".join(one(i, a) for i, a in enumerate(copy.actions))
+
+    def _glance(self, g: Glance) -> str:
+        outcome = f'<div><h3>Outcome</h3><p>{g.outcome}</p></div>' if g.outcome else ""
+        note = f'<p class="cd-glance__note">{g.note}</p>' if g.note else ""
+        return f"""<section class="cd-glance" aria-labelledby="cd-glance-title">
+  <h2 id="cd-glance-title">At a glance</h2>
+  <div class="cd-glance__grid">
+    <div><h3>The question</h3><p>{g.question}</p></div>
+    <div><h3>What I did</h3><ul>{self._items(g.did)}</ul></div>
+    {outcome}
+  </div>
+  {self._metrics(g)}
+  {note}
+</section>"""
+
+    @staticmethod
+    def _metrics(g: Glance) -> str:
+        if not g.metrics:
+            return ""
+        cls = " cd-metrics--3" if len(g.metrics) == 3 else ""
+        tiles = "".join(f'<div class="cd-metric"><dt>{m.label}</dt><dd>{m.value}</dd></div>' for m in g.metrics)
+        return f'<dl class="cd-metrics{cls}">{tiles}</dl>'
+
+    @staticmethod
+    def _toc(copy: PageCopy) -> str:
+        if not copy.toc:
+            return ""
+        key_class = ' class="cd-toc__key"'
+        links = "".join(f'<li><a href="#{t.anchor}"{key_class if t.key else ""}>{t.label}</a></li>' for t in copy.toc)
+        return f'<nav class="cd-toc" aria-label="On this page"><h2>On this page</h2><ol>{links}</ol></nav>'
