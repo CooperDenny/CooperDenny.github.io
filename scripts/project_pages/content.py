@@ -10,59 +10,67 @@ from __future__ import annotations
 
 HAND_PAGES: dict[str, dict] = {
     "eildon-park-cricket-club": {
-        "description": "How Cooper Denny turned Eildon Park Cricket Club’s senior playing history into a structured dataset powering self-updating club records and player profiles.",
+        "description": "How Cooper Denny built epcc.org.au, Eildon Park Cricket Club’s website, around every senior season since 1989/90 and live Play Cricket data: records, player pages and match centres that update themselves.",
         "kicker": "Data engineering · Web · Cricket",
-        "lede": "I turned Eildon Park Cricket Club’s scattered senior playing history into one structured dataset, then built the club website around it. Every record, leaderboard and career profile now updates itself when a new season’s data lands.",
-        "stack": ["Data modelling", "Data cleaning", "Claude Code", "Netlify"],
+        "lede": "I built Eildon Park Cricket Club’s website, <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, around one dataset: every senior Saturday season since 1989/90, joined to live Play Cricket data. Records, leaderboards and a page for every one of 800+ players update themselves as games are played.",
+        "stack": ["Data modelling", "Data cleaning", "Play Cricket API", "Next.js", "Supabase", "Claude Code", "Netlify"],
         "actions": [
-            {"label": "Open the live stats dashboard", "href": "https://eildonparkcc.netlify.app/stats", "icon": "external"},
+            {"label": "Open the player stats", "href": "https://epcc.org.au/stats", "icon": "external"},
+            {"label": "Visit epcc.org.au", "href": "https://epcc.org.au", "icon": "external"},
         ],
         "glance": {
-            "question": "How do you give a community club accurate, browsable records when its history lives in season-by-season scorebooks and spreadsheets?",
+            "question": "How do you give a community club accurate, browsable records when its history lives in decades of scorebooks and spreadsheets, and new games are played every week?",
             "did": [
-                "Compiled and cleaned batting and bowling data from every senior season into one consistent structure.",
-                "Derived records, career aggregates and averages from that data, rather than typing them in by hand.",
-                "Built and shipped the full club website with Claude Code, deployed on Netlify.",
+                "Cleaned 37 seasons of club statistics, from 1989/90 on, into one player-season dataset: 4,800 rows across 800+ players.",
+                "Joined it to the Play Cricket API: 1,100+ archived scorecards since 2009/10 for match-level records, and live figures for the senior XIs from 2026/27, refreshed hourly.",
+                "Built and shipped the whole club website with Claude Code (Next.js, Supabase, Netlify), including an admin portal the committee uses for news, match reports and emails.",
             ],
-            "outcome": "A live stats hub with club leaderboards and a profile for every senior player, filterable by team and season, with <strong>no manual upkeep</strong>: records recalculate from the data each season.",
+            "outcome": "A live stats hub with club totals, record holders and a profile for every player, plus a match centre for every game, with <strong>no manual upkeep</strong>: every number recalculates from the data.",
+            "metrics": [("818", "Players on record"), ("37", "Seasons, since 1989/90"), ("1,100+", "Match scorecards archived"), ("Hourly", "Live refresh from Play Cricket")],
         },
         "body": """
-<h2>What’s in the dashboard</h2>
+<h2>What’s on the site</h2>
 <div class="cd-gallery">
   <figure class="cd-figure">
-    <img src="player-stats-dashboard.webp" width="1600" height="920" loading="lazy" alt="Club player stats dashboard showing leaderboards for most runs, most wickets and most matches played">
-    <figcaption>Club leaderboards: all-time runs, wickets and matches played.</figcaption>
+    <img src="player-profile.webp" width="1600" height="950" loading="lazy" alt="Player page for Cooper Denny: 108 games, 1,433 runs, 117 wickets, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons">
+    <figcaption>A player page (mine): career figures, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons.</figcaption>
   </figure>
   <div class="cd-gallery cd-gallery--2">
     <figure class="cd-figure">
-      <img src="individual-player-stats-1.webp" width="1600" height="977" loading="lazy" alt="Individual player profile with career batting and bowling summary and team and season filters">
-      <figcaption>Player profile: career batting and bowling summary, filterable by team and season.</figcaption>
+      <img src="record-holders.webp" width="1600" height="718" loading="lazy" alt="Record holders: career leaders for runs, wickets, games and not outs, filterable by XI">
+      <figcaption>Record holders: career leaders, best seasons and single-game records, filterable by XI.</figcaption>
     </figure>
     <figure class="cd-figure">
-      <img src="individual-player-stats-2.webp" width="1600" height="1002" loading="lazy" alt="Season-by-season performance charts and a breakdown table by team">
-      <figcaption>Season-by-season charts and a breakdown by team.</figcaption>
+      <img src="match-centre-worm.webp" width="1600" height="708" loading="lazy" alt="Match centre worm graph comparing both teams' runs by over, with wickets marked">
+      <figcaption>Match centre: worm, Manhattan and run-rate graphs from Play Cricket’s ball-by-ball data.</figcaption>
     </figure>
   </div>
 </div>
 
 <h2>How the data works</h2>
-<p>The hard part wasn’t the website. It was the data. Historical statistics came from club records spanning many seasons, in inconsistent formats. I cleaned and standardised them into a single season-by-season structure for batting and bowling, so every number on the site is <strong>derived</strong> rather than maintained:</p>
+<p>The hard part wasn’t the website. It was the data. The club’s history came from records spanning nearly four decades, in inconsistent formats. Three sources now feed one model, so every number on the site is <strong>derived</strong>, never typed in:</p>
 <ul>
-  <li><strong>All-time records</strong> for individual players across batting and bowling.</li>
-  <li><strong>Career aggregates and averages</strong>, recalculated from the underlying data.</li>
-  <li><strong>Season-by-season breakdowns</strong> for every player.</li>
-  <li><strong>Club record holders</strong> across the key statistical categories.</li>
+  <li><strong>The archive</strong>: a cleaned player-season table of every senior Saturday season since 1989/90 (runs, wickets, averages, hundreds, five-fors) for 800+ players.</li>
+  <li><strong>Scorecards</strong>: 1,100+ Play Cricket scorecards since 2009/10, which power single-game records (highest scores, best bowling, partnerships, fastest fifties), match-by-match deep dives for each player, and an “On this day” feed.</li>
+  <li><strong>Live data</strong>: from 2026/27 the senior XIs’ figures come straight from Play Cricket, refreshed hourly. A name map links Play Cricket IDs to archive names where they differ, and a row in the archive can correct a live figure.</li>
 </ul>
-<p>Adding a new season means adding that season’s data. The leaderboards, profiles and records follow automatically.</p>
+<p>Adding a season means nothing at all: the leaderboards, profiles and records follow the games.</p>
+
+<h2>More than a stats site</h2>
+<ul>
+  <li><strong>Match centre</strong> for every game: scorecards, ball-by-ball, highlight clips, graphs, weather and line-ups.</li>
+  <li><strong>Admin portal</strong> with invite-only roles: news and match reports, branded emails to the club’s mailing list (including imports from PlayHQ registration exports), an events calendar, and a tool that cuts highlight videos from a match’s clips.</li>
+  <li><strong>Clubroom TV</strong>: a full-screen slideshow for the TV in the clubrooms, with live scores, results, season leaders, milestones and sponsors.</li>
+</ul>
 
 <h2>Built with Claude Code</h2>
-<p>I built the whole site with Claude Code as my primary development tool. It took the project from first design to a production site deployed on Netlify, as a solo volunteer project. It’s a practical example of AI-assisted development getting a real community project shipped quickly, with the data work, not the boilerplate, getting the attention.</p>
+<p>I built the whole site with Claude Code as my primary development tool, as a solo volunteer project: about 520 commits since March 2026, from first design to a production site on Netlify, with architecture decision records and documentation for whoever looks after it next. The data work, not the boilerplate, got the attention.</p>
 """,
     },
     "melbourne-pedestrian-counting": {
         "description": "Interactive Power BI dashboard by Cooper Denny analysing hourly pedestrian counts from about 100 City of Melbourne sensors since 2010.",
         "kicker": "Time series · BI · Open data",
-        "lede": "An interactive Power BI dashboard over the City of Melbourne’s pedestrian sensor network (hourly counts from about 100 locations since 2010), built to show how foot traffic shifts by hour, weekday and year.",
+        "lede": "An interactive Power BI dashboard over the City of Melbourne’s pedestrian sensor network (hourly counts from about 100 locations, January 2010 to October 2024), built to show how foot traffic shifts by hour, weekday and year.",
         "stack": ["Python", "Jupyter", "Power BI", "DAX"],
         "actions": [
             {"label": "Open dashboard full screen", "href": "https://app.powerbi.com/view?r=eyJrIjoiMTdlMDVjYTItODBmMC00ZWQxLWFhNmItYzQ3NzMxYzlmNzJmIiwidCI6ImI2YTFjNzYxLWMxN2YtNDg5OC04MGM5LTQ4YzNhZDg5MTE0ZSJ9&pageName=61de34a7e603f2eee3b6", "icon": "external"},
@@ -71,11 +79,11 @@ HAND_PAGES: dict[str, dict] = {
         "glance": {
             "question": "When and where is Melbourne’s CBD busiest, and how has that pattern changed over the years?",
             "did": [
-                "Collected the City of Melbourne’s open sensor data with Python and reshaped it into a Power BI-ready table.",
+                "Wrote a Python notebook that builds the URL for every yearly and monthly file, downloads and cleans almost 15 years of data, checks for missing dates, and reshapes it into one long table of hourly counts per sensor.",
                 "Built DAX measures for 4-week and 52-week rolling averages to separate trend from weekly noise.",
-                "Mapped every sensor by latitude and longitude, with slicers for sensor, day of week, weekday/weekend and year.",
+                "Geocoded every sensor by hand from Google Maps so the dashboard can map them, with slicers for sensor, day of week, weekday/weekend and year.",
             ],
-            "metrics": [("~100", "Sensors across the city"), ("Hourly", "Count granularity"), ("2010", "Data starts"), ("4 &amp; 52 wk", "Rolling averages")],
+            "metrics": [("~100", "Sensors across the city"), ("Hourly", "Count granularity"), ("2010–24", "January 2010 to October 2024"), ("4 &amp; 52 wk", "Rolling averages")],
         },
         "body": """
 <h2>The dashboard</h2>
@@ -92,11 +100,11 @@ HAND_PAGES: dict[str, dict] = {
 </ul>
 
 <h2>Data and preparation</h2>
-<p>The data is the City of Melbourne’s <a href="https://pedestrian.melbourne.vic.gov.au" target="_blank" rel="noopener noreferrer">Pedestrian Counting System</a>: hourly counts from sensors across the CBD, going back to January 2010.</p>
+<p>The data is the City of Melbourne’s <a href="https://pedestrian.melbourne.vic.gov.au" target="_blank" rel="noopener noreferrer">Pedestrian Counting System</a>: hourly counts from sensors across the CBD, from January 2010 to October 2024.</p>
 <ul>
-  <li><strong>Python</strong> handled collection and transformation into a single tidy table for Power BI. The <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem" target="_blank" rel="noopener noreferrer">Jupyter notebook is on GitHub</a>.</li>
+  <li><strong>Python (pandas)</strong>: the City publishes one file per year to 2012 and one per month after that, so the notebook constructs each URL, downloads and cleans every file, checks for missing dates, combines date and hour into a timestamp, and melts the wide sensor columns into one long table. The <a href="https://github.com/CooperDenny/MelbournePedestrianCountingSystem" target="_blank" rel="noopener noreferrer">Jupyter notebook is on GitHub</a>.</li>
   <li><strong>DAX measures</strong> add 4-week and 52-week rolling averages, so seasonal swings and long-term shifts are visible at a glance.</li>
-  <li><strong>Geospatial</strong>: sensor latitude and longitude drive the map, and a slicer isolates any one of the ~100 sensors.</li>
+  <li><strong>Geospatial</strong>: the source has no coordinates, so I located each sensor in Google Maps and joined latitude and longitude onto the table. They drive the map, and a slicer isolates any one of the ~100 sensors.</li>
 </ul>
 """,
     },
@@ -151,6 +159,41 @@ BROWNLOW_NOTE = (
 )
 
 REPORT_PAGES: dict[str, dict] = {
+    "afl-brownlow-2025": {
+        "description": "Year three of Cooper Denny’s AFL Brownlow Medal model: trained on 2015–2024 and tested on the unseen 2025 season, with its best 3-vote hit rate yet (59% of games) and top pick Nick Daicos finishing runner-up.",
+        "kicker": "Statistical modelling · AFL",
+        "lede": "The third season of my Brownlow model, retrained on 2015–2024 and scored on the unseen 2025 season. It found the 3-vote player in <strong>59% of games, its best hit rate yet</strong>, and its top pick, Nick Daicos, finished runner-up.",
+        "meta": "Trained on 2015–2024 · Tested on 2025 · Written in R",
+        "stack": ["R", "ordinal (CLM)", "tidyverse", "caret", "DT"],
+        "actions": [
+            {"label": "Code and data on GitHub", "href": "https://github.com/CooperDenny/AFLBrownlowPredictor/tree/main/2025", "icon": "external"},
+            {"label": "See the 2024 model", "href": "/projects/afl-brownlow-2024/", "icon": "arrowRight"},
+        ],
+        "glance": {
+            "question": "Does the 2024 model, position variable and all, hold up when it’s retrained on one more season and pointed at a new year?",
+            "did": [
+                "Extended the player-game dataset to 2025 with my <a href=\"https://github.com/CooperDenny/AFLPlayerStats\" target=\"_blank\" rel=\"noopener noreferrer\">AFLPlayerStats</a> pipeline, which refreshes player, team and coaches-vote data from fitzRoy, afl.com.au, AFL Tables and the AFLCA each week.",
+                "Retrained the same ordinal logistic regression (cumulative link model) on 2015–2024, with numeric features standardised on the training seasons only.",
+                "Scored every 2025 home-and-away game, allocated 3-2-1 within each game, and compared the season leaderboard with the count.",
+            ],
+            "outcome": "Daicos topped the predicted leaderboard on 36 votes and polled 32 for second. Winner Matt Rowell (39) was predicted sixth on 25: his pressure and contested work shows up less in the box score, which points to the next feature to add.",
+            "metrics": [
+                ("r = 0.885", "Predicted vs actual season tallies"),
+                ("2.23", "Mean absolute error, votes per player"),
+                ("59%", "Games where it found the 3-vote player (120 of 205)"),
+                ("2nd", "Where its top pick, Daicos, finished"),
+            ],
+            "note": BROWNLOW_NOTE,
+        },
+        "toc": [
+            ("Introduction", "introduction", False),
+            ("Data", "data-preparation", False),
+            ("Model", "model-training", False),
+            ("Testing", "model-testing", False),
+            ("Season results", "season-votes", True),
+            ("Conclusion", "conclusion", False),
+        ],
+    },
     "afl-brownlow-2024": {
         "description": "Cooper Denny’s ordinal logistic regression for AFL Brownlow Medal votes, tested on the unseen 2024 season: r = 0.93 on season tallies, Cripps and Daicos called as the top two.",
         "kicker": "Statistical modelling · AFL",
@@ -159,6 +202,7 @@ REPORT_PAGES: dict[str, dict] = {
         "stack": ["R", "ordinal (CLM)", "tidyverse", "DT", "Feature engineering"],
         "actions": [
             {"label": "Download the dataset (CSV)", "href": "brownlow_data_2024.csv", "icon": "download", "download": True},
+            {"label": "See the 2025 model", "href": "/projects/afl-brownlow-2025/", "icon": "arrowRight"},
             {"label": "See the 2023 model", "href": "/projects/afl-brownlow-2023/", "icon": "arrowRight"},
         ],
         "glance": {

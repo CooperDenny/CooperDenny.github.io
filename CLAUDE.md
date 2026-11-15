@@ -2,7 +2,7 @@
 
 Instructions for AI coding agents working in this repository. Humans: start with [README.md](README.md).
 
-**What this is:** Cooper Denny's portfolio and résumé — Next.js 14 (App Router, TypeScript strict), statically exported to GitHub Pages, plus six project pages produced by a Python generator. Audience: data-science recruiters and hiring managers. Live at <https://cooperdenny.github.io>.
+**What this is:** Cooper Denny's portfolio and résumé — Next.js 14 (App Router, TypeScript strict), statically exported to GitHub Pages, plus seven project pages produced by a Python generator. Audience: data-science recruiters and hiring managers. Live at <https://cooperdenny.github.io>.
 
 ## Read before changing
 
@@ -19,7 +19,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 **Content and claims**
 - Never invent facts or metrics. Every claim must trace to a real role, a project write-up, or a published result.
 - Never headline the Brownlow model's game-level accuracy (it equals the all-zeros baseline). Use r = 0.93, MAE 2.0, 56% 3-vote recall, and the Cripps/Daicos call ([D11](docs/decisions.md#d11-brownlow-results-are-reported-without-headline-accuracy)).
-- The Brownlow model is one consolidated card linking to both seasons. Never one card per season.
+- The Brownlow model is one consolidated card linking to every season's write-up. Never one card per season.
 - Don't add collaboration tools (Slack, Teams, Zoom, Drive, Office) to Skills.
 
 **Architecture** ([rules](docs/architecture.md#the-rules))

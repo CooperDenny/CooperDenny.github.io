@@ -141,13 +141,14 @@ export const featuredProject: FeaturedProject = {
     },
   ],
   iteration:
-    'v1 (2023) over-predicted ruckmen such as Max Gawn and Tim English. v2 (2024) added player position: correlation rose from 0.885 to 0.928 and MAE fell from 2.17 to 2.01.',
+    'v1 (2023) over-rated ruckmen such as Max Gawn; v2 (2024) added player position, lifting r from 0.885 to 0.928 and cutting MAE from 2.17 to 2.01. In 2025 it found the 3-vote player in 59% of games, its best yet.',
   evaluationNote:
     'Raw game-level accuracy (93%) is deliberately not the headline: with ~93.5% of player-games polling zero, an all-zeros baseline scores about the same. Per-class recall and season-level error are the honest measures.',
   stack: ['R', 'Ordinal regression', 'tidyverse', 'Feature engineering'],
   onResume: true,
   links: [
     { label: '2024 model write-up', href: pageHref('afl-brownlow-2024') },
+    { label: '2025 model write-up', href: pageHref('afl-brownlow-2025') },
     { label: '2023 model write-up', href: pageHref('afl-brownlow-2023') },
   ],
 };
@@ -164,17 +165,17 @@ export const projects: Project[] = [
   }),
   pageProject('eildon-park-cricket-club', {
     kicker: 'Data engineering · Web',
-    oneLiner: 'A club’s full playing history turned into a dataset that keeps every record and career stat up to date automatically.',
+    oneLiner: 'The club’s website, built on every senior season since 1989/90 plus live Play Cricket data: records and 800+ player pages that update themselves.',
     summary:
-      'Compiled Eildon Park Cricket Club’s senior playing history into a structured dataset that automatically derives club records, career profiles and season splits — no manual updates each season. Shipped as part of a full club website built with Claude Code.',
-    stack: ['Data modelling', 'Claude Code', 'Web'],
+      'Built epcc.org.au for Eildon Park Cricket Club with Claude Code: 37 seasons of player statistics cleaned into one dataset and joined to 1,100+ Play Cricket scorecards and live hourly data, powering self-updating records, a page for every player and a match centre for every game.',
+    stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
     linkLabel: 'See the project',
   }),
   pageProject('melbourne-pedestrian-counting', {
     kicker: 'Time series · BI',
-    oneLiner: 'Python pipeline over ~100 city sensors (hourly since 2010) into a Power BI dashboard with rolling trends.',
+    oneLiner: 'Python pipeline over ~100 city sensors (hourly, 2010 to 2024) into a Power BI dashboard with rolling trends.',
     summary:
-      'Python pipeline over the City of Melbourne’s hourly sensor feed (~100 sensors, data since 2010) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
+      'Python pipeline over the City of Melbourne’s hourly sensor files (~100 sensors, January 2010 to October 2024) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
     stack: ['Python', 'Jupyter', 'Power BI'],
     linkLabel: 'Open the dashboard',
   }),
@@ -189,11 +190,11 @@ export const projects: Project[] = [
   {
     slug: 'cricket-stats-hub',
     title: 'CricketStatsHub',
-    kicker: 'Open data',
-    oneLiner: 'Open, standardised batting and bowling datasets from international and domestic cricket.',
+    kicker: 'Open data · R',
+    oneLiner: 'An R library that fetches clean ball-by-ball, batting, bowling and match data for 40+ cricket competitions, plus a BBL dashboard.',
     summary:
-      'Open repository of batting and bowling statistics from international and domestic competitions, standardised into consistent formats for analysis.',
-    stack: ['Data cleaning', 'GitHub'],
+      'R library over Cricsheet (via cricketdata) that returns tidy ball-by-ball, per-innings batting and bowling, and match data for 40+ men’s and women’s international and domestic competitions, with a Big Bash League dashboard built on it.',
+    stack: ['R', 'cricketdata', 'Data cleaning'],
     links: [{ label: 'View on GitHub', href: 'https://github.com/CooperDenny/CricketStatsHub' }],
   },
 ];

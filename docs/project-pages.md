@@ -1,6 +1,6 @@
 # Project pages
 
-The six write-ups under `/projects/<slug>/` are static HTML files produced by a Python generator, [`scripts/project_pages/`](../scripts/project_pages/). This doc covers using it, the R Markdown workflow, how it works, and how to extend it.
+The seven write-ups under `/projects/<slug>/` are static HTML files produced by a Python generator, [`scripts/project_pages/`](../scripts/project_pages/). This doc covers using it, the R Markdown workflow, how it works, and how to extend it.
 
 ## Contents
 
@@ -43,7 +43,7 @@ python3 scripts/build-project-pages.py --check   # change nothing; exit 1 if any
 
 | | Hand pages | Report pages |
 |---|---|---|
-| Pages | `eildon-park-cricket-club`, `melbourne-pedestrian-counting`, `victorian-property-prices-dashboard` | `afl-brownlow-2024`, `afl-brownlow-2023`, `h2h-arbitrage-finder` |
+| Pages | `eildon-park-cricket-club`, `melbourne-pedestrian-counting`, `victorian-property-prices-dashboard` | `afl-brownlow-2025`, `afl-brownlow-2024`, `afl-brownlow-2023`, `h2h-arbitrage-finder` |
 | Source | Copy in `HAND_PAGES` | R Markdown knitted to HTML (~2 MB, with jQuery, Bootstrap 3 and DataTables embedded) |
 | The generator… | writes the whole page | wraps the existing knitr HTML in the shared chrome; **the report body is never modified** |
 | Class | `HandPage` | `ReportPage` |

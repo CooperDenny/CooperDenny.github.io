@@ -187,7 +187,7 @@ To put a project on the printed résumé, add `onResume: true` to its card, and 
 
 ### The featured project
 
-`featuredProject` is the large Brownlow card. Keep it as **one consolidated card** linking to both seasons' write-ups; don't add a card per season. Its `metrics` each have four fields:
+`featuredProject` is the large Brownlow card. Keep it as **one consolidated card** linking to every season's write-up; don't add a card per season. Its `metrics` each have four fields:
 
 | Field | Used for |
 |---|---|
@@ -202,7 +202,7 @@ To put a project on the printed résumé, add `onResume: true` to its card, and 
 
 ## Project pages
 
-All six `/projects/<slug>/` pages are produced by a generator. **Don't edit their HTML by hand**: it gets overwritten, and the deploy fails if the pages are out of date. Full reference: [docs/project-pages.md](project-pages.md).
+All seven `/projects/<slug>/` pages are produced by a generator. **Don't edit their HTML by hand**: it gets overwritten, and the deploy fails if the pages are out of date. Full reference: [docs/project-pages.md](project-pages.md).
 
 ### Edit a project page's wording
 
