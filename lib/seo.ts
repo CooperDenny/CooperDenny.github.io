@@ -4,7 +4,7 @@ import { contactChannels } from '@/content/selectors';
 import type { Education, Profile } from '@/content/types';
 
 const shareDescription =
-  'Data Scientist at PlayHQ. Experience, résumé and projects in statistical modelling, product analytics and analytics engineering — including an out-of-sample-validated AFL Brownlow prediction model.';
+  'Data Scientist at PlayHQ: machine learning, analytics engineering and an embedded analytics product used by 50,000+ people. Résumé and projects, including an out-of-sample-validated AFL Brownlow prediction model.';
 
 /** Site-wide `<head>` metadata: title, description, canonical URL, Open Graph and Twitter cards. */
 export function siteMetadata(profile: Profile): Metadata {

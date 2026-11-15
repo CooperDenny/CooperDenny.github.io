@@ -70,7 +70,7 @@ The four tiles under the hero buttons are the "evidence at a glance". Each one l
 
 ```ts
 proof: [
-  { value: '20 mo', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
+  { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
   // value: short and numeric if possible · label: what it means · href: anchor('<section>')
 ],
 ```

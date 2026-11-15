@@ -22,6 +22,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D14](#d14-react-uses-composition-the-generator-uses-classes) | React uses composition; the generator uses classes |
 | [D15](#d15-generated-project-pages-are-committed-and-checked-in-ci) | Generated project pages are committed and checked in CI |
 | [D16](#d16-trailing-slashes-on-every-route) | Trailing slashes on every route |
+| [D17](#d17-playhq-work-leads-the-hero-brownlow-figures-stay-on-its-card) | PlayHQ work leads the hero; Brownlow figures stay on its card |
 
 ---
 
@@ -164,3 +165,15 @@ A short note on the card and on the project pages explains why accuracy isn't us
 **Decision.** `trailingSlash: true`; routes export as `<route>/index.html`, and links use the trailing-slash form.
 
 **Consequences.** `/resume` and `/resume/` both work, consistent with the project pages.
+
+### D17. PlayHQ work leads the hero; Brownlow figures stay on its card
+
+**Context.** The hero proof tiles used to include the Brownlow model's r = 0.93. By November 2026 the stronger evidence is production work at PlayHQ: an embedded analytics product used by 50,000+ people at 15,000+ sporting organisations, and a churn model trained, scored and explained in Snowflake (0.81 test ROC AUC on the latest, unseen season pairs, recorded for model V10 in the analytics-platform churn README). A university side project shouldn't headline over that.
+
+**Decision.**
+- Proof tiles: tenure ("2+ yrs"), the 50,000+ users figure, the three sport organisations, and the degree. The Brownlow figures (D11) stay on the featured card, its project pages and the résumé's project entry, not in the hero.
+- PlayHQ highlights describe the specific systems (embedded analytics, churn model, explanations, self-serve analytics, reporting for national bodies), each traceable to the GameOnSports repositories.
+- To keep `/resume/` on one A4 page with the longer PlayHQ entry, the betting arbitrage card is no longer `onResume`. It stays on the website.
+
+**Consequences.** Tile text isn't computed, so update "2+ yrs" and the user count by hand as they change. If the served churn model is re-evaluated, update the 0.81 figure in `content/profile.ts` to match.
+

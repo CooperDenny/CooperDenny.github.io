@@ -29,19 +29,19 @@ export const profile: Profile = {
   photoWebp: '/images/hero-image.webp',
   avatarWebp: '/images/hero-avatar.webp',
   headline:
-    'I turn messy sports and product data into models, metrics and dashboards that people actually use.',
+    'I build machine-learning models, data pipelines and analytics products for community sport.',
   pitch:
-    'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I work end to end: dbt and Snowflake, churn and retention modelling, metric design, and BI.',
+    'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own its embedded analytics product and built its churn model in Snowflake: XGBoost, explained with SHAP, on dbt pipelines I help maintain.',
   resumeSummary:
-    'Data Scientist with industry experience across product analytics, statistical modelling and analytics engineering in sport. Builds end-to-end: dbt models in Snowflake, regression-based churn and retention analysis, metric design, and BI in Tableau, Omni and Lightdash. Applied Data Science graduate (Monash, Distinction average) with a published, out-of-sample-validated AFL Brownlow prediction model.',
+    'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns an embedded analytics product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction) with a published, out-of-sample-validated AFL Brownlow model.',
   // Above-the-fold evidence. Each tile jumps to the section that backs it up.
   proof: [
-    { value: '20 mo', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
-    { value: 'r = 0.93', label: 'Brownlow model, tested on an unseen season', href: anchor('projects') },
+    { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
+    { value: '50,000+', label: 'People using the embedded analytics product I own', href: anchor('experience') },
     { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: anchor('experience') },
     { value: 'Distinction', label: 'Applied Data Science, Monash', href: anchor('education') },
   ],
-  coreStack: ['SQL', 'Python', 'R', 'dbt', 'Snowflake', 'Tableau'],
+  coreStack: ['SQL', 'Python', 'dbt', 'Snowflake', 'XGBoost', 'Omni'],
   contact: {
     email: 'cooper.denny@icloud.com',
     linkedin: { href: 'https://www.linkedin.com/in/cooper-denny/', handle: 'in/cooper-denny' },
@@ -64,12 +64,13 @@ export const experience: Job[] = [
     summary:
       'Sports-tech platform running tens of thousands of community games a week across Australia, New Zealand, the UK and Canada.',
     highlights: [
-      'Model participant churn and retention with regression analysis, translating the results into recommendations for the business.',
-      'Define success metrics and analyse user behaviour across the platform.',
-      'Refactor dbt models in Snowflake and design data pipelines for PlayHQ’s first-party data platform.',
-      'Build and own dashboards in Tableau, Omni and Lightdash for Product, Engineering, Finance and Community teams.',
+      'Own PlayHQ’s embedded analytics product (Omni), used by 50,000+ people at 15,000+ local sporting organisations: semantic model, dashboards, row-level security and the embedded AI assistant.',
+      'Rebuilt churn prediction inside Snowflake: a 286-feature dbt dataset over 2M+ participant-seasons, and an XGBoost model trained, tuned and scored in Snowpark. 0.81 ROC AUC on unseen seasons.',
+      'Explained each churn score with TreeSHAP as plain-English reasons; removed sensitive attributes after a privacy review.',
+      'Helped set up self-serve analytics: built over half of the governed, PII-stripped Snowflake models open to staff and AI agents.',
+      'Build success-metric reporting and Snowflake data shares for national bodies such as AFL and Cricket Australia.',
     ],
-    stack: ['SQL', 'Python', 'dbt', 'Snowflake', 'Tableau', 'Omni', 'Lightdash'],
+    stack: ['SQL', 'Python', 'dbt', 'Snowflake', 'Snowpark', 'XGBoost', 'Omni', 'Lightdash', 'Tableau'],
   },
   {
     company: 'Boccia Australia',
@@ -158,7 +159,6 @@ export const projects: Project[] = [
     summary:
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
-    onResume: true,
     linkLabel: 'Read the write-up',
   }),
   pageProject('eildon-park-cricket-club', {
@@ -204,7 +204,10 @@ export const skills: SkillGroup[] = [
     label: 'Modelling & analysis',
     items: [
       'Regression (linear, logistic, ordinal)',
-      'Churn & retention analysis',
+      'XGBoost',
+      'SHAP',
+      'Optuna',
+      'Churn & retention modelling',
       'Metric design',
       'Feature engineering',
       'Model evaluation',
@@ -212,7 +215,7 @@ export const skills: SkillGroup[] = [
   },
   {
     label: 'Data engineering',
-    items: ['dbt / dbt Cloud', 'Snowflake', 'Fivetran', 'Make.com', 'Git'],
+    items: ['dbt / dbt Cloud', 'Snowflake', 'Snowpark', 'Windmill', 'Fivetran', 'Make.com', 'Git'],
   },
   {
     label: 'BI & product analytics',
