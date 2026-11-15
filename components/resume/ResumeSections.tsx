@@ -1,4 +1,4 @@
-// Sections of the printable résumé (app/resume/page.tsx). Each takes only the data it renders.
+// Sections of the printable résumé (app/(site)/resume/page.tsx). Each takes only the data it renders.
 
 import type { ReactNode } from 'react';
 import Icon from '@/components/ui/Icon';

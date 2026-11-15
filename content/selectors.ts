@@ -3,13 +3,32 @@
 import { dateRange, listSentence } from '@/lib/format';
 import type { ContactChannel, ContactLinks, FeaturedProject, Job, Project, ResumeEntry, SkillGroup } from '@/content/types';
 
-/** All contact methods, normalised for rendering. Order here is display order. */
+/**
+ * The professional contact methods (hero, contact section, résumé, JSON-LD), normalised for
+ * rendering. Order here is display order. Personal socials are deliberately left out: see linkInBioChannels().
+ */
 export function contactChannels(c: ContactLinks): ContactChannel[] {
   return [
     { key: 'email', label: 'Email', href: `mailto:${c.email}`, display: c.email, icon: 'envelope' },
     { key: 'linkedin', label: 'LinkedIn', href: c.linkedin.href, display: c.linkedin.handle, icon: 'linkedin' },
     { key: 'github', label: 'GitHub', href: c.github.href, display: c.github.handle, icon: 'github' },
     { key: 'x', label: 'X', href: c.x.href, display: c.x.handle, icon: 'x' },
+  ];
+}
+
+/**
+ * Every link on the unlisted /links/ page (the Instagram bio link), in display order:
+ * the portfolio home page first, then socials, then email.
+ */
+export function linkInBioChannels(c: ContactLinks, siteHref: string): ContactChannel[] {
+  return [
+    { key: 'website', label: 'Website', href: siteHref, display: 'Portfolio and résumé', icon: 'globe' },
+    { key: 'instagram', label: 'Instagram', href: c.instagram.href, display: c.instagram.handle, icon: 'instagram' },
+    { key: 'facebook', label: 'Facebook', href: c.facebook.href, display: c.facebook.handle, icon: 'facebook' },
+    contactChannel(c, 'linkedin'),
+    { ...contactChannel(c, 'x'), label: 'X (Twitter)' },
+    contactChannel(c, 'github'),
+    contactChannel(c, 'email'),
   ];
 }
 

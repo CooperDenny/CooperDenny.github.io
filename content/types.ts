@@ -1,6 +1,6 @@
 // Domain model for everything the site says. Types only — no data, no rendering.
 // Components depend on these types (not on the content modules), and app/ pages
-// inject the data: see app/page.tsx and app/resume/page.tsx.
+// inject the data: see app/(site)/page.tsx, app/(site)/resume/page.tsx and app/links/page.tsx.
 
 import type { IconName } from '@/content/icons';
 
@@ -97,6 +97,9 @@ export type ContactLinks = {
   linkedin: { href: string; handle: string };
   github: { href: string; handle: string };
   x: { href: string; handle: string };
+  /** Personal socials: shown only on the unlisted /links/ page, never on the portfolio or résumé. */
+  instagram: { href: string; handle: string };
+  facebook: { href: string; handle: string };
 };
 
 /** Who the site is about and how they're introduced (hero, résumé header, SEO). */
@@ -117,9 +120,9 @@ export type Profile = {
   contact: ContactLinks;
 };
 
-/** A contact method, normalised so every surface (hero, contact, résumé) renders it the same way. */
+/** A contact method, normalised so every surface (hero, contact, résumé, /links/) renders it the same way. */
 export type ContactChannel = {
-  key: keyof ContactLinks;
+  key: keyof ContactLinks | 'website';
   label: string;
   href: string;
   display: string;
