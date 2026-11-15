@@ -1,12 +1,13 @@
+import Icon, { type IconName } from '@/components/Icon';
 import { profile } from '@/content/profile';
 
 export default function Contact() {
   const { email, linkedin, github, x } = profile.contact;
-  const channels = [
-    { href: `mailto:${email}`, icon: 'fas fa-envelope', label: 'Email', value: email, external: false },
-    { href: linkedin.href, icon: 'fab fa-linkedin', label: 'LinkedIn', value: linkedin.handle, external: true },
-    { href: github.href, icon: 'fab fa-github', label: 'GitHub', value: github.handle, external: true },
-    { href: x.href, icon: 'fab fa-x-twitter', label: 'X', value: x.handle, external: true },
+  const channels: { href: string; icon: IconName; label: string; value: string; external: boolean }[] = [
+    { href: `mailto:${email}`, icon: 'envelope', label: 'Email', value: email, external: false },
+    { href: linkedin.href, icon: 'linkedin', label: 'LinkedIn', value: linkedin.handle, external: true },
+    { href: github.href, icon: 'github', label: 'GitHub', value: github.handle, external: true },
+    { href: x.href, icon: 'x', label: 'X', value: x.handle, external: true },
   ];
 
   return (
@@ -20,10 +21,10 @@ export default function Contact() {
           </p>
           <div className="hero__ctas">
             <a href={`mailto:${email}`} className="btn btn--primary">
-              <i className="fas fa-envelope" aria-hidden="true"></i> {email}
+              <Icon name="envelope" /> Email me
             </a>
             <a href="/resume/" className="btn btn--ghost">
-              <i className="fas fa-file-lines" aria-hidden="true"></i> Résumé
+              <Icon name="fileLines" /> Résumé
             </a>
           </div>
         </div>
@@ -35,7 +36,7 @@ export default function Contact() {
                 className="contact__item"
                 {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               >
-                <i className={c.icon} aria-hidden="true"></i>
+                <Icon name={c.icon} />
                 <span className="contact__label">{c.label}</span>
                 <span className="contact__value">{c.value}</span>
               </a>

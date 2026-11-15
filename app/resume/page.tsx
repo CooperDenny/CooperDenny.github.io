@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Icon from '@/components/Icon';
 import PrintButton from '@/components/PrintButton';
 import { education, experience, featuredProject, profile, projects, skills } from '@/content/profile';
 import { siteConfig } from '@/config/site';
@@ -20,7 +21,7 @@ export default function ResumePage() {
     <div className="resume-page">
       <div className="container resume-toolbar">
         <a href="/" className="text-link">
-          <i className="fas fa-arrow-left" aria-hidden="true"></i> Back to site
+          <Icon name="arrowLeft" /> Back to site
         </a>
         <PrintButton />
       </div>

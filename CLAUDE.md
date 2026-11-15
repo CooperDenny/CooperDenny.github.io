@@ -23,7 +23,8 @@ There's no database and no Supabase: this site has no dynamic content (no CMS, n
 ├── content/
 │   └── profile.ts       # ALL site copy: profile, experience, projects, skills, education
 ├── components/
-│   ├── Navbar.tsx, ThemeToggle.tsx, PrintButton.tsx   # the only 'use client' components
+│   ├── Navbar.tsx, ThemeToggle.tsx, PrintButton.tsx, MobileCta.tsx   # the only 'use client' components
+│   ├── Icon.tsx         # Inline SVG icons (Font Awesome Free paths, CC BY 4.0) — no icon font
 │   ├── Section.tsx      # Shared section wrapper (eyebrow + heading + intro)
 │   ├── Hero.tsx, Experience.tsx, Projects.tsx, Skills.tsx, Education.tsx, Contact.tsx
 │   └── Footer.tsx
@@ -32,7 +33,8 @@ There's no database and no Supabase: this site has no dynamic content (no CMS, n
 └── public/
     ├── .nojekyll        # Stops GitHub Pages running Jekyll over the _next/ output folder
     ├── favicon.svg
-    ├── images/          # Hero photo + self-hosted employer/university logos (logo-*.{png,jpg,svg})
+    ├── images/          # hero-image.webp (desktop), hero-avatar.webp (mobile), hero-image.png (OG only),
+    │                    # self-hosted employer/university logos (logo-*.webp / .svg, ≤240px)
     └── projects/        # Static project write-up pages — see below, NOT app routes
 ```
 
@@ -43,6 +45,18 @@ The home page and `/resume` both render from `content/profile.ts`, so they can't
 The site is written for a data-science recruiter / hiring manager: outcome-first bullets, a visible promotion ladder (multiple `roles` on one `Job`), metrics on the featured project, plain-text skill chips (scannable, keyword-searchable) rather than logo walls. Collaboration tools (Slack, Teams, Meet, Drive, Office) were deliberately removed from Skills as low-signal padding — don't add them back.
 
 **Brownlow metrics caveat:** the write-ups report ~93% game-level accuracy, but the no-information rate (all player-games = 0 votes) is ~93.5%. Never headline accuracy. Use season-tally correlation (r = 0.93), MAE (2.0 votes), and 3-vote recall (56%) — the evaluation note on the card explains why.
+
+## Layout is designed against drop-off — and mobile-first
+
+Measured on an iPhone 13 viewport: the page went from 14.5 screens to ~9.7, and the first screen now shows name, headline, pitch, Résumé/Email/LinkedIn/GitHub and the proof tiles. Keep it that way:
+
+- **Above the fold is sacred.** The hero must keep: identity, one-line headline, short pitch (≤ ~2 sentences), CTAs, and the `proof` tiles (each tile links to the section that backs it up). Don't add paragraphs to the hero.
+- **Cards show headlines; detail is one tap away.** Project cards use `oneLiner` (one sentence); the full write-up is the project page. The Brownlow method lives in a native `<details>` (works without JS, content still in the HTML for crawlers).
+- **Whole project cards are tap targets** (stretched-link pattern: `.project__link::after`). Keep one link per side-project card.
+- **`MobileCta`** is a phone-only sticky Résumé/Email bar: shown after the hero CTAs scroll away, hidden whenever `#contact` is on screen. It's additive only — never use JS to hide page content.
+- **CSS is mobile-first**: base rules = phone; `@media (min-width: 600px)` and `(min-width: 861px)` add larger layouts. Every interactive element ≥ 44px (`--tap`). The footer reserves space for the sticky bar + `env(safe-area-inset-bottom)`.
+- **Weight budget**: no icon fonts (use `components/Icon.tsx`; add paths from `@fortawesome/fontawesome-free` svgs if you need a new one), images as WebP sized to their display (2× max). The page is ~410 KB on mobile, ~180 KB of which is Google Analytics.
+- Check after layout changes: no horizontal overflow at 320–1440px, hero CTAs on one row at ≥ 360px.
 
 ## The résumé must stay one A4 page
 
@@ -56,9 +70,9 @@ The site is written for a data-science recruiter / hiring manager: outcome-first
 
 `tailwind.config.ts` sets `corePlugins.preflight = false`. `app/globals.css` is a hand-written design system with its own reset and light/dark tokens; preflight would double-reset it. Tailwind utilities are available for new code, but the existing components use the semantic classes in `globals.css` (`.card`, `.chip`, `.btn--primary`, …) — prefer extending those over mixing in utilities.
 
-## Fonts and icons are still loaded via `<link>`, not `next/font`
+## Fonts are loaded via `<link>`, not `next/font`
 
-Inter + JetBrains Mono (Google Fonts) and Font Awesome 6.5.2 are loaded via `<link>` tags in `app/layout.tsx`'s `<head>` rather than `next/font/google`; `globals.css` references them by literal name via `--font-sans` / `--font-mono`. Font Awesome must stay ≥ 6.4.2 — `fa-x-twitter` doesn't exist before that. This produces one known/expected `@next/next/no-page-custom-font` ESLint *warning* on `app/layout.tsx` — don't "fix" it by migrating to `next/font` unless a real font-loading problem shows up.
+Inter + JetBrains Mono (Google Fonts, with preconnect) are loaded via `<link>` tags in `app/layout.tsx`'s `<head>` rather than `next/font/google`; `globals.css` references them by literal name via `--font-sans` / `--font-mono`. Font Awesome is **no longer loaded** — icons are inline SVGs in `components/Icon.tsx` (saves ~275 KB of render-blocking CSS + webfonts). This produces one known/expected `@next/next/no-page-custom-font` ESLint *warning* on `app/layout.tsx` — don't "fix" it by migrating to `next/font` unless a real font-loading problem shows up.
 
 ## Images: plain `<img>` everywhere, not `next/image`
 

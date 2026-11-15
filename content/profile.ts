@@ -25,7 +25,16 @@ export type Job = {
 
 export type Metric = {
   value: string;
+  /** Full description (résumé, screen readers). */
   label: string;
+  /** Two-to-four-word caption for the compact metric tiles. */
+  short: string;
+};
+
+export type Proof = {
+  value: string;
+  label: string;
+  href: string;
 };
 
 export type ProjectLink = {
@@ -38,6 +47,9 @@ export type Project = {
   slug: string;
   title: string;
   kicker: string;
+  /** One sentence for the home-page card. Full detail lives on the project page. */
+  oneLiner: string;
+  /** Longer description, used on the résumé. */
   summary: string;
   stack: string[];
   links: ProjectLink[];
@@ -61,19 +73,24 @@ export const profile = {
   role: 'Data Scientist',
   employer: 'PlayHQ',
   location: 'Melbourne, Australia',
+  /** Large PNG kept for Open Graph / JSON-LD; the page itself uses the WebP variants. */
   photo: '/images/hero-image.png',
+  photoWebp: '/images/hero-image.webp',
+  avatarWebp: '/images/hero-avatar.webp',
   headline:
     'I turn messy sports and product data into models, metrics and dashboards that people actually use.',
   pitch:
-    'Data Scientist at PlayHQ, the platform powering community sport across Australia, New Zealand, the UK and Canada. I work end to end — dbt models in Snowflake, churn and retention regressions, success metrics, and the dashboards that put them in front of Product, Engineering, Finance and Community teams.',
+    'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I work end to end: dbt and Snowflake, churn and retention modelling, metric design, and BI.',
   resumeSummary:
     'Data Scientist with industry experience across product analytics, statistical modelling and analytics engineering in sport. Builds end-to-end: dbt models in Snowflake, regression-based churn and retention analysis, metric design, and BI in Tableau, Omni and Lightdash. Applied Data Science graduate (Monash, Distinction average) with a published, out-of-sample-validated AFL Brownlow prediction model.',
-  quickFacts: [
-    { label: 'Current', value: 'Data Scientist, PlayHQ' },
-    { label: 'Core stack', value: 'SQL · Python · R · dbt · Snowflake' },
-    { label: 'Education', value: 'B. Applied Data Science, Monash' },
-    { label: 'Based in', value: 'Melbourne, Australia' },
-  ],
+  // Above-the-fold evidence. Each tile jumps to the section that backs it up.
+  proof: [
+    { value: '20 mo', label: 'Junior → Data Scientist at PlayHQ', href: '#experience' },
+    { value: 'r = 0.93', label: 'Brownlow model, tested on an unseen season', href: '#projects' },
+    { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: '#experience' },
+    { value: 'Distinction', label: 'Applied Data Science, Monash', href: '#education' },
+  ] satisfies Proof[],
+  coreStack: ['SQL', 'Python', 'R', 'dbt', 'Snowflake', 'Tableau'],
   contact: {
     email: 'cooper.denny@icloud.com',
     linkedin: { href: 'https://www.linkedin.com/in/cooper-denny/', handle: 'in/cooper-denny' },
@@ -85,7 +102,7 @@ export const profile = {
 export const experience: Job[] = [
   {
     company: 'PlayHQ',
-    logo: '/images/logo-playhq.png',
+    logo: '/images/logo-playhq.webp',
     logoAlt: 'PlayHQ logo',
     employmentType: 'Full-time',
     roles: [
@@ -93,7 +110,7 @@ export const experience: Job[] = [
       { title: 'Junior Data Scientist', start: 'Nov 2024', end: 'Jul 2026' },
     ],
     summary:
-      'Sports-tech platform powering community sport in Australia, New Zealand, the UK and Canada — tens of thousands of games every week. Promoted to Data Scientist after 20 months.',
+      'Sports-tech platform running tens of thousands of community games a week across Australia, New Zealand, the UK and Canada.',
     highlights: [
       'Model participant churn and retention with regression analysis, translating the results into recommendations for the business.',
       'Define success metrics and analyse user behaviour across the platform.',
@@ -104,12 +121,12 @@ export const experience: Job[] = [
   },
   {
     company: 'Boccia Australia',
-    logo: '/images/logo-boccia.png',
+    logo: '/images/logo-boccia.webp',
     logoAlt: 'Boccia Australia logo',
     employmentType: 'Contract',
     roles: [{ title: 'Data Support & App Developer', start: 'Jul 2024', end: 'Sep 2024' }],
     summary:
-      'Performance-analysis support for the national Paralympic program through the Paris 2024 campaign — Australia’s best-ever Paralympic Boccia result (two silver medals).',
+      'Paris 2024 Paralympic campaign — Australia’s best-ever Boccia result (two silver medals).',
     highlights: [
       'Extended the team’s R Shiny match-analysis app to cover Pairs and Teams events.',
       'Migrated historical match data into Snowflake so it could be queried at scale.',
@@ -119,11 +136,11 @@ export const experience: Job[] = [
   },
   {
     company: 'Victorian Institute of Sport',
-    logo: '/images/logo-vis.jpg',
+    logo: '/images/logo-vis.webp',
     logoAlt: 'Victorian Institute of Sport logo',
     employmentType: 'Internship',
     roles: [{ title: 'Data Science Intern', start: 'Jul 2023', end: 'Oct 2023' }],
-    summary: 'High-performance sport analytics in an elite athlete environment.',
+    summary: 'High-performance sport analytics for elite athletes.',
     highlights: [
       'Built an R Shiny performance-analysis app with interactive, filterable dashboards that replaced commercial software (Hudl Sportscode).',
       'Cleaned and integrated historical match data to power it.',
@@ -137,6 +154,8 @@ export const featuredProject: FeaturedProject = {
   slug: 'afl-brownlow',
   title: 'AFL Brownlow Medal Prediction Model',
   kicker: 'Statistical modelling · Out-of-sample validated',
+  oneLiner:
+    'Predicts the 3-2-1 umpire votes for every player in every game. Called Patrick Cripps breaking the all-time vote record in 2024.',
   summary:
     'Predicts the 3-2-1 umpire votes for every player in every AFL game, then rolls them up into a season leaderboard. Correctly forecast Patrick Cripps breaking the all-time Brownlow vote record in 2024.',
   problem:
@@ -147,9 +166,9 @@ export const featuredProject: FeaturedProject = {
     'Converted per-player vote probabilities into expected votes and allocated 3-2-1 within each game, mirroring how umpires vote.',
   ],
   metrics: [
-    { value: 'r = 0.93', label: 'Predicted vs actual season vote tallies (2024)' },
-    { value: '2.0', label: 'Mean absolute error, votes per player' },
-    { value: '56%', label: 'Games where the model picked the 3-vote player, from 46 on the field' },
+    { value: 'r = 0.93', label: 'Predicted vs actual season vote tallies (2024)', short: 'Season-tally correlation' },
+    { value: '2.0', label: 'Mean absolute error, votes per player', short: 'Avg error (votes)' },
+    { value: '56%', label: 'Games where the model picked the 3-vote player, from 46 on the field', short: '3-vote player found' },
   ],
   iteration:
     'v1 (2023) over-predicted ruckmen such as Max Gawn and Tim English. v2 (2024) added player position: correlation rose from 0.885 to 0.928 and MAE fell from 2.17 to 2.01.',
@@ -167,6 +186,7 @@ export const projects: Project[] = [
     slug: 'h2h-arbitrage-finder',
     title: 'Australian Betting Arbitrage Finder',
     kicker: 'APIs · Data pipelines',
+    oneLiner: 'Live odds from 12 Australian bookmakers via API, commission-adjusted, flagging guaranteed-profit markets.',
     summary:
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
@@ -176,6 +196,7 @@ export const projects: Project[] = [
     slug: 'eildon-park-cricket-club',
     title: 'Cricket Club Records & Stats Platform',
     kicker: 'Data engineering · Web',
+    oneLiner: 'A club’s full playing history turned into a dataset that keeps every record and career stat up to date automatically.',
     summary:
       'Compiled Eildon Park Cricket Club’s senior playing history into a structured dataset that automatically derives club records, career profiles and season splits — no manual updates each season. Shipped as part of a full club website built with Claude Code.',
     stack: ['Data modelling', 'Claude Code', 'Web'],
@@ -185,6 +206,7 @@ export const projects: Project[] = [
     slug: 'melbourne-pedestrian-counting',
     title: 'Melbourne Pedestrian Traffic Dashboard',
     kicker: 'Time series · BI',
+    oneLiner: 'Python pipeline over ~100 city sensors (hourly since 2010) into a Power BI dashboard with rolling trends.',
     summary:
       'Python pipeline over the City of Melbourne’s hourly sensor feed (~100 sensors, data since 2010) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
     stack: ['Python', 'Jupyter', 'Power BI'],
@@ -194,6 +216,7 @@ export const projects: Project[] = [
     slug: 'victorian-property-prices-dashboard',
     title: 'Victorian Property Prices Dashboard',
     kicker: 'Geospatial · BI',
+    oneLiner: 'Power BI view of Victorian sales: cleaned in Power Query, DAX medians and year-on-year change, suburb maps.',
     summary:
       'Interactive Power BI view of Victorian property sales: Power Query cleaning, DAX measures for median prices and year-on-year change, and suburb-level mapping.',
     stack: ['Power BI', 'DAX', 'Power Query'],
@@ -203,6 +226,7 @@ export const projects: Project[] = [
     slug: 'cricket-stats-hub',
     title: 'CricketStatsHub',
     kicker: 'Open data',
+    oneLiner: 'Open, standardised batting and bowling datasets from international and domestic cricket.',
     summary:
       'Open repository of batting and bowling statistics from international and domestic competitions, standardised into consistent formats for analysis.',
     stack: ['Data cleaning', 'GitHub'],

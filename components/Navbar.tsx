@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Icon from '@/components/Icon';
 import ThemeToggle from '@/components/ThemeToggle';
 
 // Links are absolute ("/#experience") so they work from /resume as well as the home page.
@@ -65,7 +66,7 @@ export default function Navbar() {
             aria-controls="nav-menu"
             onClick={() => setOpen((o) => !o)}
           >
-            <i className={`fas ${open ? 'fa-xmark' : 'fa-bars'}`} aria-hidden="true"></i>
+            <Icon name={open ? 'xmark' : 'bars'} />
           </button>
         </div>
       </div>

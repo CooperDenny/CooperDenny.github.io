@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Icon from '@/components/Icon';
 
 type Theme = 'light' | 'dark';
 
@@ -28,7 +29,7 @@ export default function ThemeToggle() {
 
   return (
     <button type="button" className="icon-btn" onClick={toggle} aria-label={label} title={label}>
-      <i className={`fas ${theme === 'light' ? 'fa-moon' : 'fa-sun'}`} aria-hidden="true"></i>
+      <Icon name={theme === 'light' ? 'moon' : 'sun'} />
     </button>
   );
 }

@@ -7,35 +7,31 @@ export default function Experience() {
       <ol className="timeline">
         {experience.map((job) => {
           const [current, ...previous] = job.roles;
-          const tenure = `${job.roles[job.roles.length - 1].start} – ${current.end}`;
+          const first = job.roles[job.roles.length - 1];
           return (
             <li key={job.company} className="job card">
               <div className="job__head">
                 <div className="job__logo">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={job.logo} alt={job.logoAlt} loading="lazy" />
+                  <img src={job.logo} alt={job.logoAlt} loading="lazy" width={56} height={56} />
                 </div>
                 <div className="job__title">
                   <h3>{current.title}</h3>
                   <p className="job__company">
-                    {job.company} <span className="job__type">· {job.employmentType}</span>
+                    {job.company}
+                  </p>
+                  <p className="job__dates">
+                    {first.start} – {current.end} <span className="job__type">· {job.employmentType}</span>
                   </p>
                 </div>
-                <p className="job__dates">{tenure}</p>
               </div>
 
-              {previous.length > 0 && (
-                <ul className="ladder" aria-label="Role progression">
-                  {job.roles.map((r) => (
-                    <li key={r.title}>
-                      <span className="ladder__title">{r.title}</span>
-                      <span className="ladder__dates">
-                        {r.start} – {r.end}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              {previous.map((r) => (
+                <p key={r.title} className="job__promo">
+                  <span className="job__promo-badge">Promoted</span>
+                  from {r.title} ({r.start} – {r.end})
+                </p>
+              ))}
 
               <p className="job__summary">{job.summary}</p>
               <ul className="bullets">
