@@ -5,6 +5,7 @@ type Props = {
   size?: 'lg';
 };
 
+/** A list of tags (tools, skills). */
 export default function Chips({ items, label, size }: Props) {
   return (
     <ul className="chips" aria-label={label}>

@@ -22,6 +22,7 @@ type SectionProps = {
   children: ReactNode;
 };
 
+/** A home-page `<section>`: id, accessible name and heading all come from its SectionDef. */
 export default function Section({ section, tone = 'default', className, bare, children }: SectionProps) {
   const classes = cx('section', tone === 'alt' && 'section--alt', className);
   return (

@@ -1,70 +1,103 @@
-# CooperDenny.github.io
+# cooperdenny.github.io
 
-Personal portfolio and project showcase site for Cooper Denny, Data Scientist based in Melbourne, Victoria.
+Portfolio, résumé and project write-ups for **Cooper Denny**, Data Scientist in Melbourne, Australia.
 
-**Live site:** [cooperdenny.github.io](https://cooperdenny.github.io)
+**Live:** <https://cooperdenny.github.io> · **Résumé:** <https://cooperdenny.github.io/resume/>
 
-## Overview
+A statically exported Next.js site, written for data-science recruiters and hiring managers: the evidence (results, metrics, promotion) is on the first screen, every page works on a phone, and each project has a write-up that leads with its outcome.
 
-Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, statically exported and deployed on GitHub Pages via GitHub Actions. Features a dark, mobile-first design, a one-page printable résumé at `/resume`, and individual project write-up pages for data science work.
+---
 
-## Stack
+## Quick start
 
-- **Framework**: Next.js 14 (App Router), TypeScript, React 18 — statically exported (`output: 'export'` in `next.config.js`); there's no server, API routes, or database, since nothing on this site is dynamic
-- **Content**: every word of copy lives in `content/profile.ts`, rendered by both the home page and the printable `/resume` page
-- **Styling**: a hand-written token-based design system in `app/globals.css` (dark only, mobile-first, print styles); Tailwind is installed with preflight disabled
-- **Deployment**: GitHub Pages, built and deployed by `.github/workflows/deploy.yml` on every push to `main`
-
-## Structure
-
-```
-├── app/              # Routes (composition roots): layout, home, /resume, robots, sitemap
-├── components/       # ui/ primitives, home/ sections, layout/ chrome, resume/ sections
-├── content/          # The single source of truth: types, profile data, selectors, sections,
-│                     # and JSON shared with the Python generator (projects, icons, identity)
-├── config/           # site.json (shared constants) + site.ts
-├── lib/              # Framework-free helpers (formatting, links, SEO)
-├── public/
-│   ├── tokens.css    # Design tokens for every page
-│   ├── images/
-│   └── projects/     # Generated project pages + site.css / report.css
-└── scripts/
-    ├── build-project-pages.py   # Build or --check the project pages
-    └── project_pages/           # Generator package
-```
-
-See `CLAUDE.md` for the architecture rules (single sources of truth, dependency direction, how to add content).
-
-## Project pages are static, not app routes
-
-Each project write-up under `public/projects/<slug>/index.html` is plain static HTML, not a Next.js route. Two of them (`afl-brownlow-2023`, `afl-brownlow-2024`) are ~4,000-line pandoc/knitr-generated R Markdown reports with their own embedded jQuery/Bootstrap and code-folding; `h2h-arbitrage-finder` is similar. Porting these into React components would add risk for no benefit, so they're served as-is from `public/`, exactly like before.
-
-Their internal "Home"/"Cooper Denny" links point to `/` (updated from the old relative `../../index.html`, since there's no longer a static `index.html` file at the root — the home page is now rendered by `app/page.tsx`).
-
-A trailing-slash request like `/projects/<slug>/` resolves to that folder's `index.html` automatically — that's just how GitHub Pages (and the static export in `out/`) has always served directory-style URLs, no extra config needed. If you add a new project folder under `public/projects/`, nothing else needs to change.
-
-## Commands
+**Prerequisites:** Node.js ≥ 18.17 (CI uses Node 20) and Python ≥ 3.8 (standard library only — nothing to `pip install`).
 
 ```bash
-npm install
-npm run dev      # start dev server
-npm run build    # production build → writes static output to out/
-npm run start    # serve the exported out/ directory locally (next start doesn't work with output: 'export')
-npm run lint     # next lint
-python3 scripts/build-project-pages.py           # regenerate project pages
-python3 scripts/build-project-pages.py --check   # verify they're current (CI does this)
+npm ci                 # install exact dependency versions from package-lock.json
+npm run dev            # dev server at http://localhost:3000
 ```
 
-## Deployment
+To see exactly what will be deployed:
 
-`.github/workflows/deploy.yml` runs `npm run build` and publishes the resulting `out/` directory to GitHub Pages on every push to `main`, using `actions/upload-pages-artifact` + `actions/deploy-pages`. The repo's Settings → Pages → Source must be set to "GitHub Actions" for this to take effect.
+```bash
+npm run build          # static export → out/
+npm run start          # serve out/ at http://localhost:3000
+```
+
+## Common tasks
+
+| I want to… | Edit | Then |
+|---|---|---|
+| Change my headline, pitch, experience, skills or education | [`content/profile.ts`](content/profile.ts) | `npm run dev` to preview |
+| Change a project page's wording | [`scripts/project_pages/content.py`](scripts/project_pages/content.py) | `python3 scripts/build-project-pages.py` |
+| Update a project report after re-knitting it in R | Replace `public/projects/<slug>/index.html` | `python3 scripts/build-project-pages.py` |
+| Change a colour, font or spacing value | [`public/tokens.css`](public/tokens.css) | Check both themes |
+| Add a project | See [Editing content → Add a project](docs/editing-content.md#add-a-project) | |
+
+Step-by-step recipes for these and more are in **[docs/editing-content.md](docs/editing-content.md)**.
+
+## Before you push
+
+```bash
+npx tsc --noEmit                                   # type-check
+npm run lint                                       # ESLint (expect zero warnings)
+python3 scripts/build-project-pages.py --check     # project pages up to date? (CI enforces this)
+npm run build                                      # the static export must build
+```
+
+Every push to `main` deploys automatically — see [docs/deployment.md](docs/deployment.md).
+
+## Documentation
+
+| Document | Read it when you want to… |
+|---|---|
+| [Editing content](docs/editing-content.md) | change what the site says — recipes for every common edit |
+| [Architecture](docs/architecture.md) | understand how the code is organised and the rules that keep it that way |
+| [Design system](docs/design-system.md) | change styles: tokens, light/dark themes, breakpoints, components, accessibility |
+| [Project pages](docs/project-pages.md) | work on `/projects/*`: the page generator and the R Markdown workflow |
+| [Development](docs/development.md) | set up, run, verify and troubleshoot locally |
+| [Deployment](docs/deployment.md) | understand or fix the GitHub Pages pipeline |
+| [Decisions](docs/decisions.md) | know *why* something is the way it is before changing it |
+| [CLAUDE.md](CLAUDE.md) | brief AI coding agents (the rules, condensed) |
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Framework | [Next.js 14](https://nextjs.org/) (App Router), React 18, TypeScript (strict) |
+| Output | Static export (`output: 'export'`) — plain HTML/CSS/JS, no server |
+| Styling | Hand-written CSS on shared design tokens; light and dark themes |
+| Project pages | Static HTML produced by a Python generator; three are R Markdown (knitr) reports |
+| Hosting | GitHub Pages, deployed by GitHub Actions on every push to `main` |
+| Analytics | Google Analytics 4 |
+
+## Repository layout
+
+```
+app/                  Next.js routes: layout, home page, /resume, robots.txt, sitemap.xml
+components/           React components — ui/ primitives, home/ sections, layout/ chrome, resume/
+content/              What the site says: data, types, and JSON shared with the Python generator
+config/               Site constants (URL, analytics ID, fonts)
+lib/                  Framework-free helpers and the theme script
+public/               Static files: tokens.css, images/, projects/ (generated pages)
+scripts/              The project-page generator (Python)
+docs/                 Documentation
+.github/workflows/    The deploy pipeline
+```
+
+A file-by-file map is in [docs/architecture.md](docs/architecture.md#directory-map).
 
 ## Projects
 
-| Project | Tools | Description |
+| Project | Tools | Write-up |
 |---|---|---|
-| [AFL Brownlow Prediction Model](https://github.com/CooperDenny/AFLBrownlowPredictor) | R, Machine Learning | Ordinal logistic regression predicting Brownlow Medal votes — 2023 and 2024 editions |
-| [Eildon Park Cricket Club Website](https://cooperdenny.github.io/projects/eildon-park-cricket-club/) | Claude Code, Web Development | Full club website with a historical player stats dashboard |
-| [Australian Arbitrage Betting Finder](https://cooperdenny.github.io/projects/h2h-arbitrage-finder/) | R, API | Real-time arbitrage detection across Australian bookmakers |
-| [Melbourne Pedestrian Counting System](https://cooperdenny.github.io/projects/melbourne-pedestrian-counting/) | Power BI, Python | Dashboard analysing pedestrian traffic from ~100 CBD sensors |
-| [Victorian Property Prices Dashboard](https://cooperdenny.github.io/projects/victorian-property-prices-dashboard/) | Power BI | Interactive property market explorer with geographic mapping |
+| AFL Brownlow Medal prediction model ([code](https://github.com/CooperDenny/AFLBrownlowPredictor)) | R, ordinal regression | [2024](https://cooperdenny.github.io/projects/afl-brownlow-2024/) · [2023](https://cooperdenny.github.io/projects/afl-brownlow-2023/) |
+| Australian betting arbitrage finder | R, REST API | [Write-up](https://cooperdenny.github.io/projects/h2h-arbitrage-finder/) |
+| Cricket club records & stats platform | Data modelling, Claude Code | [Write-up](https://cooperdenny.github.io/projects/eildon-park-cricket-club/) |
+| Melbourne pedestrian traffic dashboard | Python, Power BI | [Write-up](https://cooperdenny.github.io/projects/melbourne-pedestrian-counting/) |
+| Victorian property prices dashboard | Power BI, DAX | [Write-up](https://cooperdenny.github.io/projects/victorian-property-prices-dashboard/) |
+| CricketStatsHub | Data cleaning | [GitHub](https://github.com/CooperDenny/CricketStatsHub) |
+
+## Credits
+
+Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), served by Google Fonts.

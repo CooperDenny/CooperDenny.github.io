@@ -6,6 +6,7 @@ import type { FeaturedProject, Project } from '@/content/types';
 
 type Props = { featured: FeaturedProject; projects: Project[] };
 
+/** Projects section: the featured card, then the grid of project cards. */
 export default function Projects({ featured, projects }: Props) {
   return (
     <Section section={SECTIONS.projects} tone="alt">

@@ -29,17 +29,22 @@ class ReportExtension(ABC):
 
 @dataclass(frozen=True)
 class DataTable:
+    """One DataTables widget's data, column-oriented (as htmlwidgets serialises it)."""
+
     heads: list[str]
     data: list[list]
 
     def has(self, *columns: str) -> bool:
+        """True if the table has all of these columns."""
         return all(c in self.heads for c in columns)
 
     def column(self, name: str) -> list:
+        """The values of one column."""
         return self.data[self.heads.index(name)]
 
 
 def read_datatables(src: str) -> list[DataTable]:
+    """Every DataTables widget embedded in a knitr page, in document order."""
     tables = []
     for m in re.finditer(r'<script type="application/json" data-for="[^"]+">(.*?)</script>', src, flags=re.S):
         x = json.loads(m.group(1))["x"]
@@ -62,6 +67,7 @@ class MarketScan:
 
     @classmethod
     def from_table(cls, t: DataTable) -> "MarketScan":
+        """Group outcome rows into markets; a market whose combined book is under 100% is an arbitrage."""
         markets: dict[tuple, tuple[float, list[float]]] = {}
         for home, away, start, book, odds in zip(
             t.column("home_team"), t.column("away_team"), t.column("commence_time"), t.column("market"), t.column("converted_odds")

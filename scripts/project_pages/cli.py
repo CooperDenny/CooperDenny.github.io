@@ -9,6 +9,7 @@ from .site import build_pages
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Build every project page (or with --check, report stale ones). Returns the process exit code."""
     parser = argparse.ArgumentParser(description="Build the /projects/<slug>/ pages.")
     parser.add_argument("--check", action="store_true", help="don't write; exit 1 if any page would change")
     args = parser.parse_args(argv)

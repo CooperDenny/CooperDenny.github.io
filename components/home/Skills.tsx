@@ -3,6 +3,7 @@ import Section from '@/components/ui/Section';
 import { SECTIONS } from '@/content/sections';
 import type { SkillGroup } from '@/content/types';
 
+/** Skills section: labelled groups of plain-text chips (keyword-scannable). */
 export default function Skills({ groups }: { groups: SkillGroup[] }) {
   return (
     <Section section={SECTIONS.skills}>

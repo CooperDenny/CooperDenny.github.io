@@ -7,6 +7,7 @@ import { currentRole, previousRoles, tenure } from '@/content/selectors';
 import type { Job, Role } from '@/content/types';
 import { dateRange } from '@/lib/format';
 
+/** Experience section: one card per job, most recent first. */
 export default function Experience({ jobs }: { jobs: Job[] }) {
   return (
     <Section section={SECTIONS.experience}>

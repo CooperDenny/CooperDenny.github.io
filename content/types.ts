@@ -4,12 +4,14 @@
 
 import type { IconName } from '@/content/icons';
 
+/** A title held for a date range at one employer. */
 export type Role = {
   title: string;
   start: string;
   end: string;
 };
 
+/** One employer, with every role held there (a promotion is several roles). */
 export type Job = {
   company: string;
   logo: string;
@@ -22,6 +24,7 @@ export type Job = {
   stack: string[];
 };
 
+/** A headline result, e.g. `r = 0.93`, shown as a tile and in résumé prose. */
 export type Metric = {
   value: string;
   /** Full description (tooltip, screen readers). */
@@ -32,6 +35,7 @@ export type Metric = {
   sentence: string;
 };
 
+/** A hero proof tile: a short value, what it means, and a link to the evidence. */
 export type Proof = {
   value: string;
   label: string;
@@ -44,6 +48,7 @@ export type Link = {
   href: string;
 };
 
+/** A project card on the home page (and optionally the résumé). */
 export type Project = {
   slug: string;
   title: string;
@@ -58,6 +63,7 @@ export type Project = {
   onResume?: boolean;
 };
 
+/** The large featured card: a project plus its question, method, results and caveats. */
 export type FeaturedProject = Project & {
   problem: string;
   approach: string[];
@@ -66,6 +72,7 @@ export type FeaturedProject = Project & {
   evaluationNote: string;
 };
 
+/** A labelled group of skills, shown as chips. */
 export type SkillGroup = {
   label: string;
   items: string[];
@@ -73,6 +80,7 @@ export type SkillGroup = {
   onResume?: boolean;
 };
 
+/** A degree. */
 export type Education = {
   degree: string;
   institution: string;
@@ -83,6 +91,7 @@ export type Education = {
   detail: string;
 };
 
+/** Contact details. Normalise them for display with `contactChannels()` (content/selectors.ts). */
 export type ContactLinks = {
   email: string;
   linkedin: { href: string; handle: string };
@@ -90,6 +99,7 @@ export type ContactLinks = {
   x: { href: string; handle: string };
 };
 
+/** Who the site is about and how they're introduced (hero, résumé header, SEO). */
 export type Profile = {
   name: string;
   role: string;

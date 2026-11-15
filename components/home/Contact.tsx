@@ -6,6 +6,7 @@ import { RESUME_HREF, SECTIONS } from '@/content/sections';
 import { contactChannel, contactChannels } from '@/content/selectors';
 import type { ContactChannel, ContactLinks } from '@/content/types';
 
+/** Closing call to action plus every contact channel. */
 export default function Contact({ contact }: { contact: ContactLinks }) {
   const email = contactChannel(contact, 'email');
   return (

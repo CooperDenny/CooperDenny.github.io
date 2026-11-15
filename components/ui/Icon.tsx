@@ -5,6 +5,7 @@ import { icons, type IconName } from '@/content/icons';
 
 export type { IconName };
 
+/** An inline SVG icon; decorative (`aria-hidden`), so label its button or link instead. */
 export default function Icon({ name, className }: { name: IconName; className?: string }) {
   const [viewBox, d] = icons[name];
   return (

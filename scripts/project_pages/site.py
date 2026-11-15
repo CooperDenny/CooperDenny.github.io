@@ -18,6 +18,10 @@ EXTENSIONS: dict[str, ReportExtension] = {
 
 
 def build_pages() -> list[ProjectPage]:
+    """Create one page object per catalog entry, wired with the shared renderer and any extension.
+
+    Raises ValueError if content/projects.json lists a page that has no copy.
+    """
     catalog = Catalog.load(CONTENT_DIR / "projects.json")
     renderer = Renderer(Settings.load(), catalog, IconSet.load(CONTENT_DIR / "icons.json"))
     copy = lambda slug, d: PageCopy.from_dict(slug, d, catalog)  # noqa: E731

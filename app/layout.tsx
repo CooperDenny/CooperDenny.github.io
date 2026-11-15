@@ -9,9 +9,11 @@ import { personJsonLd, siteMetadata, siteViewport } from '@/lib/seo';
 import { themeScript } from '@/lib/themeScript';
 import './globals.css';
 
+// Next.js conventions: exported `metadata`/`viewport` become <head> tags for every route.
 export const metadata = siteMetadata(profile);
 export const viewport = siteViewport;
 
+/** The shell of every Next-rendered page: theme script, fonts, JSON-LD, analytics and site chrome. */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     // suppressHydrationWarning: lib/theme.js sets data-theme on <html> before React hydrates.

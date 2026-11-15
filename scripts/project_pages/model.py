@@ -11,6 +11,8 @@ from .catalog import Catalog
 
 @dataclass(frozen=True)
 class Action:
+    """A header button on a project page. The first action is rendered as the primary button."""
+
     label: str
     href: str
     icon: str
@@ -24,12 +26,16 @@ class Action:
 
 @dataclass(frozen=True)
 class Metric:
+    """A metric tile: a big `value` and the `label` under it."""
+
     value: str
     label: str
 
 
 @dataclass(frozen=True)
 class TocItem:
+    """An "On this page" jump link; `key=True` highlights it (e.g. the results)."""
+
     label: str
     anchor: str
     key: bool = False
@@ -37,6 +43,8 @@ class TocItem:
 
 @dataclass(frozen=True)
 class Glance:
+    """The "At a glance" panel: question, what I did, optional outcome, metrics and note."""
+
     question: str
     did: tuple[str, ...]
     outcome: Optional[str] = None
@@ -46,6 +54,8 @@ class Glance:
 
 @dataclass(frozen=True)
 class PageCopy:
+    """Everything a project page says. Immutable; built from a content.py dict by from_dict()."""
+
     slug: str
     title: str
     description: str
@@ -60,6 +70,7 @@ class PageCopy:
 
     @classmethod
     def from_dict(cls, slug: str, d: dict, catalog: Catalog) -> "PageCopy":
+        """Build from a content.py entry. The title defaults to the catalog's (one source of truth)."""
         g = d["glance"]
         return cls(
             slug=slug,

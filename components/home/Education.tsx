@@ -4,6 +4,7 @@ import { SECTIONS } from '@/content/sections';
 import type { Education as EducationData } from '@/content/types';
 import { dateRange } from '@/lib/format';
 
+/** Education section: one degree card. */
 export default function Education({ education: edu }: { education: EducationData }) {
   return (
     <Section section={SECTIONS.education} tone="alt">

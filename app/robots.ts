@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
 
+/** robots.txt: allow everything and point crawlers at the sitemap. */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {

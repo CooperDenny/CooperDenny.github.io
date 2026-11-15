@@ -13,15 +13,21 @@ from typing import Callable, Iterable
 
 
 class Transform(ABC):
+    """One HTML edit. Implementations must be idempotent: applying twice equals applying once."""
+
     @abstractmethod
-    def apply(self, src: str) -> str: ...
+    def apply(self, src: str) -> str:
+        """Return the edited HTML."""
 
 
 class Pipeline:
+    """Runs transforms in order."""
+
     def __init__(self, transforms: Iterable[Transform]):
         self._transforms = list(transforms)
 
     def run(self, src: str) -> str:
+        """Apply every transform to `src`, in order."""
         for t in self._transforms:
             src = t.apply(src)
         return src
@@ -36,9 +42,11 @@ class MarkedBlock:
         self.start, self.end = f"<!-- cd:{name} -->", f"<!-- /cd:{name} -->"
 
     def wrap(self, inner: str) -> str:
+        """`inner` between this block's start and end markers."""
         return f"{self.start}\n{inner}\n{self.end}"
 
     def replace_in(self, src: str, block_html: str) -> tuple[str, bool]:
+        """Replace the marked region with `block_html`; returns (html, whether the markers were found)."""
         i, j = src.find(self.start), src.find(self.end)
         if i == -1 or j == -1:
             return src, False
@@ -57,14 +65,17 @@ class UpsertBlock(Transform):
 
 
 def insert_before(anchor: str) -> Callable[[str, str], str]:
+    """First-run insertion strategy: put the block just before the first `anchor`."""
     return lambda src, block: src.replace(anchor, block + "\n" + anchor, 1)
 
 
 def insert_after(anchor: str) -> Callable[[str, str], str]:
+    """First-run insertion strategy: put the block just after the first `anchor`."""
     return lambda src, block: src.replace(anchor, anchor + "\n" + block, 1)
 
 
 def replace_pattern(pattern: str, what: str) -> Callable[[str, str], str]:
+    """First-run insertion strategy: replace the first match of `pattern`; error (naming `what`) if absent."""
     def insert(src: str, block: str) -> str:
         new, n = re.subn(pattern, lambda _m: block, src, count=1, flags=re.S)
         if n != 1:
@@ -76,6 +87,8 @@ def replace_pattern(pattern: str, what: str) -> Callable[[str, str], str]:
 # --- head / body -------------------------------------------------------------------
 
 class SetTitle(Transform):
+    """Set the document <title>."""
+
     def __init__(self, title: str):
         self.title = title
 
@@ -99,6 +112,8 @@ class RemoveLegacyHeadAssets(Transform):
 
 
 class SetBodyClass(Transform):
+    """Replace the <body> tag's attributes with a class list."""
+
     def __init__(self, classes: str):
         self.tag = f'<body class="{classes}">'
 

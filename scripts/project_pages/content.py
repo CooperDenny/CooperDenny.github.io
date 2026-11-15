@@ -6,6 +6,8 @@ when a page omits "title". Whether an action opens in a new tab is derived from 
 Rule: every claim must be traceable to the project itself. No invented metrics.
 """
 
+from __future__ import annotations
+
 HAND_PAGES: dict[str, dict] = {
     "eildon-park-cricket-club": {
         "description": "How Cooper Denny turned Eildon Park Cricket Club’s senior playing history into a structured dataset powering self-updating club records and player profiles.",

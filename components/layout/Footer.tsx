@@ -1,5 +1,6 @@
 type Props = { name: string; role: string; location: string };
 
+/** Site footer: copyright year and a one-line identity. */
 export default function Footer({ name, role, location }: Props) {
   return (
     <footer className="footer">

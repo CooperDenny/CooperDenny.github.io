@@ -16,14 +16,20 @@ function resolveSiteUrl(): string {
   }
 }
 
-/** Read a design token from public/tokens.css at build time (keeps e.g. theme-color in sync with --bg). */
+/**
+ * Read a default-theme (dark) design token from public/tokens.css at build time, so values such as
+ * theme-color stay in sync with --bg. Only the plain `:root { … }` block is searched — never the
+ * `:root[data-theme='light']` overrides — and a missing token fails the build.
+ */
 function designToken(name: string): string {
   const css = readFileSync(join(process.cwd(), 'public', 'tokens.css'), 'utf8');
-  const match = css.match(new RegExp(`--${name}:\\s*([^;]+);`));
+  const defaults = css.match(/^:root\s*\{([^}]*)\}/m)?.[1] ?? '';
+  const match = defaults.match(new RegExp(`--${name}:\\s*([^;]+);`));
   if (!match) throw new Error(`Design token --${name} not found in public/tokens.css`);
   return match[1].trim();
 }
 
+/** Resolved site-wide settings for the Next.js app. */
 export const siteConfig = {
   name: profile.name,
   title: `${profile.name} — ${profile.role} | ${profile.location}`,

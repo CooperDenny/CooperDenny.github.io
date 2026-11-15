@@ -8,6 +8,7 @@ import type { Education, Job, Profile, ResumeEntry, SkillGroup } from '@/content
 import { dateRange } from '@/lib/format';
 import { prettyUrl } from '@/lib/links';
 
+/** Screen-only bar above the résumé: back link and Save as PDF (hidden when printing). */
 export function ResumeToolbar() {
   return (
     <div className="container resume-toolbar">
@@ -30,6 +31,7 @@ function ResumeSection({ title, children }: { title?: string; children: ReactNod
 
 type HeaderProfile = Pick<Profile, 'name' | 'role' | 'location' | 'contact'>;
 
+/** Name, role and contact lines. */
 export function ResumeHeader({ profile, siteUrl }: { profile: HeaderProfile; siteUrl: string }) {
   const links = [
     { href: contactChannel(profile.contact, 'email').href, text: profile.contact.email },
@@ -58,6 +60,7 @@ export function ResumeHeader({ profile, siteUrl }: { profile: HeaderProfile; sit
   );
 }
 
+/** The opening paragraph. */
 export function ResumeSummary({ text }: { text: string }) {
   return (
     <ResumeSection>
@@ -66,6 +69,7 @@ export function ResumeSummary({ text }: { text: string }) {
   );
 }
 
+/** Every job, each role with its dates, and highlights. */
 export function ResumeExperience({ jobs }: { jobs: Job[] }) {
   return (
     <ResumeSection title="Experience">
@@ -89,6 +93,7 @@ export function ResumeExperience({ jobs }: { jobs: Job[] }) {
   );
 }
 
+/** Prepared project entries (see `resumeProjects()` in content/selectors.ts). */
 export function ResumeProjects({ entries }: { entries: ResumeEntry[] }) {
   return (
     <ResumeSection title="Projects">
@@ -105,6 +110,7 @@ export function ResumeProjects({ entries }: { entries: ResumeEntry[] }) {
   );
 }
 
+/** The degree, its dates and result. */
 export function ResumeEducation({ education }: { education: Education }) {
   return (
     <ResumeSection title="Education">
@@ -121,6 +127,7 @@ export function ResumeEducation({ education }: { education: Education }) {
   );
 }
 
+/** Skill groups as comma-separated lines. */
 export function ResumeSkills({ groups }: { groups: SkillGroup[] }) {
   return (
     <ResumeSection title="Skills">

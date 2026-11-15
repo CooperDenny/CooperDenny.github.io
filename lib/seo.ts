@@ -6,6 +6,7 @@ import type { Education, Profile } from '@/content/types';
 const shareDescription =
   'Data Scientist at PlayHQ. Experience, résumé and projects in statistical modelling, product analytics and analytics engineering — including an out-of-sample-validated AFL Brownlow prediction model.';
 
+/** Site-wide `<head>` metadata: title, description, canonical URL, Open Graph and Twitter cards. */
 export function siteMetadata(profile: Profile): Metadata {
   return {
     metadataBase: new URL(siteConfig.url),

@@ -13,11 +13,14 @@ export function contactChannels(c: ContactLinks): ContactChannel[] {
   ];
 }
 
+/** A single contact channel by key, normalised for rendering. */
 export function contactChannel(c: ContactLinks, key: ContactChannel['key']): ContactChannel {
   return contactChannels(c).find((ch) => ch.key === key)!;
 }
 
+/** The job's current (most recent) role. */
 export const currentRole = (job: Job) => job.roles[0];
+/** Earlier roles at the same job — each renders as a promotion. */
 export const previousRoles = (job: Job) => job.roles.slice(1);
 /** Whole time at the company: first role's start to current role's end. */
 export const tenure = (job: Job) => dateRange(job.roles[job.roles.length - 1].start, currentRole(job).end);
@@ -40,4 +43,5 @@ export function resumeProjects(featured: FeaturedProject, projects: Project[]): 
   return [featuredEntry, ...others];
 }
 
+/** Skill groups for the printed résumé (drops groups with `onResume: false`). */
 export const resumeSkills = (groups: SkillGroup[]) => groups.filter((g) => g.onResume !== false);

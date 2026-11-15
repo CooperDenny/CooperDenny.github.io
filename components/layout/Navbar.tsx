@@ -8,6 +8,7 @@ import { RESUME_HREF } from '@/content/sections';
 type NavItem = { label: string; href: string };
 type Props = { brand: string; items: NavItem[] };
 
+/** Sticky top bar: brand, section links (a menu on phones), Résumé, theme toggle. */
 export default function Navbar({ brand, items }: Props) {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(8);

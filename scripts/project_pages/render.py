@@ -13,6 +13,8 @@ TOKENS_CSS, SITE_CSS, REPORT_CSS = "/tokens.css", "../site.css", "../report.css"
 
 
 class Renderer:
+    """Renders the chrome shared by every project page. Methods are pure: copy in, HTML string out."""
+
     def __init__(self, settings: Settings, catalog: Catalog, icons: IconSet):
         self.settings, self.catalog, self.icons = settings, catalog, icons
         self.icon = icons.svg
@@ -20,9 +22,11 @@ class Renderer:
     # --- document-level pieces ----------------------------------------------------
 
     def page_title(self, copy: PageCopy) -> str:
+        """'<Page title> — <Name>' for <title> and Open Graph."""
         return f"{copy.title} — {self.settings.identity.name}"
 
     def head_meta(self, copy: PageCopy) -> str:
+        """Description, theme colour, canonical URL, favicon and Open Graph tags."""
         s = self.settings
         url = f"{s.url}/projects/{copy.slug}/"
         desc = html.escape(copy.description, quote=True)
@@ -39,6 +43,7 @@ class Renderer:
 <meta property="og:image" content="{s.url}/images/hero-image.png">"""
 
     def fonts(self) -> str:
+        """Google Fonts preconnects and stylesheet (URL from config/site.json)."""
         return (
             '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
             '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
@@ -46,6 +51,7 @@ class Renderer:
         )
 
     def analytics(self) -> str:
+        """Google Analytics (gtag.js) snippet."""
         ga = self.settings.ga_id
         return (
             f'<script async src="https://www.googletagmanager.com/gtag/js?id={ga}"></script>\n'
@@ -59,11 +65,13 @@ class Renderer:
 
     @staticmethod
     def stylesheets(*hrefs: str) -> str:
+        """<link rel=stylesheet> tags, in the order given."""
         return "\n".join(f'<link rel="stylesheet" href="{h}">' for h in hrefs)
 
     # --- body chrome --------------------------------------------------------------
 
     def nav(self) -> str:
+        """Skip link and top bar: brand, back to Projects, Résumé, theme toggle."""
         return f"""<a href="#cd-main" class="cd-skip">Skip to content</a>
 <nav class="cd-nav" aria-label="Primary">
   <div class="cd-nav__inner">
@@ -83,6 +91,7 @@ class Renderer:
         )
 
     def hero(self, copy: PageCopy) -> str:
+        """Project header: kicker, title, lede, meta line, tool chips, action buttons."""
         meta = f'<p class="cd-hero__meta">{copy.meta}</p>' if copy.meta else ""
         return f"""<header class="cd-hero">
   <div class="cd-wrap">
@@ -100,6 +109,7 @@ class Renderer:
         return f"{self._glance(copy.glance)}\n{self._toc(copy)}"
 
     def next_project(self, slug: str) -> str:
+        """Next-project card (catalog order, wrapping), All projects / Résumé buttons, and footer."""
         nxt, who = self.catalog.next_after(slug), self.settings.identity
         return f"""<aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">

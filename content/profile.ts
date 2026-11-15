@@ -18,6 +18,7 @@ function pageProject(
   return { slug, title: pageTitle(slug), ...card, links: [{ label: linkLabel, href: pageHref(slug) }] };
 }
 
+/** Identity, hero copy, proof tiles and contact details. */
 export const profile: Profile = {
   name: identity.name,
   role: identity.role,
@@ -49,6 +50,7 @@ export const profile: Profile = {
   },
 };
 
+/** Jobs, most recent first. Within a job, `roles` are most recent first. */
 export const experience: Job[] = [
   {
     company: 'PlayHQ',
@@ -100,6 +102,7 @@ export const experience: Job[] = [
   },
 ];
 
+/** The large featured card (the Brownlow model — one card for both seasons). */
 export const featuredProject: FeaturedProject = {
   slug: 'afl-brownlow',
   title: 'AFL Brownlow Medal Prediction Model',
@@ -147,6 +150,7 @@ export const featuredProject: FeaturedProject = {
   ],
 };
 
+/** Project cards under the featured card, in display order. */
 export const projects: Project[] = [
   pageProject('h2h-arbitrage-finder', {
     kicker: 'APIs · Data pipelines',
@@ -193,6 +197,7 @@ export const projects: Project[] = [
   },
 ];
 
+/** Skill groups, in display order. `onResume: false` keeps a group off the printed résumé. */
 export const skills: SkillGroup[] = [
   { label: 'Languages', items: ['SQL', 'Python', 'R', 'Cypher (Neo4j)'] },
   {
@@ -220,6 +225,7 @@ export const skills: SkillGroup[] = [
   },
 ];
 
+/** Highest qualification. */
 export const education: Education = {
   degree: 'Bachelor of Applied Data Science',
   institution: 'Monash University',

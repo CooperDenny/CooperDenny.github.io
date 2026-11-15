@@ -7,11 +7,14 @@ from pathlib import Path
 
 
 class IconSet:
+    """SVG icon paths from content/icons.json, rendered as inline <svg> elements."""
+
     def __init__(self, icons: dict[str, list[str]]):
         self._icons = icons
 
     @classmethod
     def load(cls, path: Path) -> "IconSet":
+        """Read the icon JSON."""
         return cls(json.loads(path.read_text(encoding="utf-8"))["icons"])
 
     def svg(self, name: str, modifier: str = "") -> str:

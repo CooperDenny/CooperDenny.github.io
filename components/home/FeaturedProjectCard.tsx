@@ -4,6 +4,7 @@ import Chips from '@/components/ui/Chips';
 import Icon from '@/components/ui/Icon';
 import type { FeaturedProject, Metric } from '@/content/types';
 
+/** The large featured project: metrics up front, method behind a disclosure. */
 export default function FeaturedProjectCard({ project }: { project: FeaturedProject }) {
   return (
     <article className="featured card">
