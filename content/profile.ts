@@ -31,7 +31,7 @@ export const profile: Profile = {
   headline:
     'I build machine-learning models, data pipelines and analytics products for community sport.',
   pitch:
-    'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own its embedded analytics product and built its churn model in Snowflake: XGBoost, explained with SHAP, on dbt pipelines I help maintain.',
+    'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own the analytics product clubs and associations use for their reporting, and built the churn model that predicts which players are unlikely to return next season.',
   resumeSummary:
     'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns an embedded analytics product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction) with a published, out-of-sample-validated AFL Brownlow model.',
   // Above-the-fold evidence. Each tile jumps to the section that backs it up.
