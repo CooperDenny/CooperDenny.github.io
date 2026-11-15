@@ -13,6 +13,9 @@ const nextConfig = {
   // and GitHub Pages resolves a directory-style URL to that file on its own,
   // exactly like plain static hosting always has.
   output: 'export',
+  // Emit app routes as <route>/index.html (e.g. out/resume/index.html) so both
+  // /resume and /resume/ resolve on GitHub Pages, matching the /projects/<slug>/ pages.
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;

@@ -3,13 +3,21 @@ import { siteConfig } from '@/config/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const { url } = siteConfig;
+  // Static export: "now" is build time, i.e. the last deploy.
+  const built = new Date().toISOString().slice(0, 10);
 
   return [
     {
       url: `${url}/`,
-      lastModified: '2026-06-04',
+      lastModified: built,
       changeFrequency: 'monthly',
       priority: 1.0,
+    },
+    {
+      url: `${url}/resume/`,
+      lastModified: built,
+      changeFrequency: 'monthly',
+      priority: 0.9,
     },
     {
       url: `${url}/projects/afl-brownlow-2024/`,

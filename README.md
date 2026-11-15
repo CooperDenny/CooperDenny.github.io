@@ -6,33 +6,31 @@ Personal portfolio and project showcase site for Cooper Denny, Data Scientist ba
 
 ## Overview
 
-Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, statically exported and deployed on GitHub Pages via GitHub Actions. Features a light/dark theme toggle (persisted via `localStorage`), a responsive mobile layout, and individual project write-up pages for data science work.
+Built with Next.js 14 (App Router), TypeScript, React 18, and Tailwind CSS, statically exported and deployed on GitHub Pages via GitHub Actions. Features a one-page printable résumé at `/resume`, a light/dark theme toggle (persisted via `localStorage`), a responsive mobile layout, and individual project write-up pages for data science work.
 
 ## Stack
 
 - **Framework**: Next.js 14 (App Router), TypeScript, React 18 — statically exported (`output: 'export'` in `next.config.js`); there's no server, API routes, or database, since nothing on this site is dynamic
-- **Styling**: Tailwind CSS (utilities only — see `tailwind.config.ts`; the site's existing hand-written design system lives in `app/globals.css` with Tailwind's preflight disabled to keep it byte-for-byte the same look it always had)
+- **Content**: every word of copy lives in `content/profile.ts`, rendered by both the home page and the printable `/resume` page
+- **Styling**: a hand-written token-based design system in `app/globals.css` (light/dark + print styles); Tailwind is installed with preflight disabled
 - **Deployment**: GitHub Pages, built and deployed by `.github/workflows/deploy.yml` on every push to `main`
 
 ## Structure
 
 ```
-├── .github/workflows/
-│   └── deploy.yml        # Builds the static export and publishes it to GitHub Pages
+├── .github/workflows/deploy.yml   # Builds the static export and publishes it to GitHub Pages
 ├── app/
 │   ├── layout.tsx        # Root layout: fonts, metadata, JSON-LD, GA, navbar/footer
-│   ├── page.tsx          # Home page — assembles the section components below
-│   ├── globals.css       # Full site design system (ported from the previous static styles.css)
-│   ├── robots.ts         # Generated robots.txt (Next.js metadata route)
-│   └── sitemap.ts        # Generated sitemap.xml (Next.js metadata route)
-├── components/           # Hero, Experience, Projects, Skills, Education, Contact,
-│                         # Navbar, Footer, and SiteEffects (scroll/theme/particle behaviour)
-├── config/
-│   └── site.ts           # Site name, description, social links, site URL resolution
+│   ├── page.tsx          # Home page
+│   ├── resume/page.tsx   # Printable one-page résumé
+│   ├── globals.css       # Design system (tokens, components, print)
+│   ├── robots.ts, sitemap.ts
+├── content/profile.ts    # All site copy — edit content here
+├── components/           # Presentational sections + Navbar/ThemeToggle/PrintButton (client)
+├── config/site.ts        # Site URL resolution + SEO strings
 └── public/
-    ├── .nojekyll          # Tells GitHub Pages not to run Jekyll over the _next/ output
-    ├── images/            # Profile photo and local logo assets
-    └── projects/          # Project write-up pages — see below
+    ├── images/           # Hero photo and self-hosted logos
+    └── projects/         # Static project write-up pages
 ```
 
 ## Project pages are static, not app routes

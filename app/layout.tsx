@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import SiteEffects from '@/components/SiteEffects';
 import { siteConfig } from '@/config/site';
 import './globals.css';
 
@@ -35,7 +34,7 @@ export const metadata: Metadata = {
     url: '/',
     title: siteConfig.title,
     description:
-      'Data Scientist at PlayHQ Sports. Portfolio of machine learning, sports analytics, and BI work — including the AFL Brownlow prediction model.',
+      'Data Scientist at PlayHQ. Experience, résumé and projects in statistical modelling, product analytics and analytics engineering — including an out-of-sample-validated AFL Brownlow prediction model.',
     images: ['/images/hero-image.png'],
     locale: 'en_AU',
   },
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: siteConfig.title,
     description:
-      'Data Scientist at PlayHQ Sports. Portfolio of machine learning, sports analytics, and BI work.',
+      'Data Scientist at PlayHQ. Résumé and projects in statistical modelling, product analytics and analytics engineering.',
     images: ['/images/hero-image.png'],
     creator: '@CooperCDenny',
   },
@@ -58,7 +57,7 @@ const personJsonLd = {
   jobTitle: 'Data Scientist',
   worksFor: {
     '@type': 'Organization',
-    name: 'PlayHQ Sports',
+    name: 'PlayHQ',
   },
   alumniOf: {
     '@type': 'CollegeOrUniversity',
@@ -90,12 +89,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
           rel="stylesheet"
         />
         <link
           rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
         />
         <script
           type="application/ld+json"
@@ -123,10 +122,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             gtag('config', 'G-GPHTSF6Q5B');
           `}
         </Script>
+        <a href="#main" className="skip-link">
+          Skip to content
+        </a>
         <Navbar />
-        {children}
+        <main id="main">{children}</main>
         <Footer />
-        <SiteEffects />
       </body>
     </html>
   );

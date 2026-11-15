@@ -1,148 +1,96 @@
+import Section from '@/components/Section';
+import { featuredProject as fp, projects, type ProjectLink } from '@/content/profile';
+
+function LinkRow({ links }: { links: ProjectLink[] }) {
+  return (
+    <div className="link-row">
+      {links.map((l) => (
+        <a
+          key={l.href}
+          href={l.href}
+          className="text-link"
+          {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {l.label}{' '}
+          <i className={`fas ${l.external ? 'fa-arrow-up-right-from-square' : 'fa-arrow-right'}`} aria-hidden="true"></i>
+        </a>
+      ))}
+    </div>
+  );
+}
+
 export default function Projects() {
   return (
-    <section id="projects" className="section bg-light">
-      <div className="container">
-        <div className="section-header">
-          <h2>Featured Projects</h2>
+    <Section
+      id="projects"
+      eyebrow="Projects"
+      title="Selected work"
+      intro="Independent projects with public write-ups, code and data. The approach and the evaluation are shown, not just the final chart."
+      tone="alt"
+    >
+      {/* The Brownlow model is one consolidated card covering both seasons — keep it that way. */}
+      <article className="featured card">
+        <div className="featured__main">
+          <p className="kicker">{fp.kicker}</p>
+          <h3>{fp.title}</h3>
+          <p className="featured__summary">{fp.summary}</p>
+
+          <h4>Question</h4>
+          <p>{fp.problem}</p>
+
+          <h4>Approach</h4>
+          <ul className="bullets">
+            {fp.approach.map((a) => (
+              <li key={a}>{a}</li>
+            ))}
+          </ul>
+
+          <h4>Iteration</h4>
+          <p>{fp.iteration}</p>
+
+          <ul className="chips" aria-label="Tools used">
+            {fp.stack.map((s) => (
+              <li key={s} className="chip">
+                {s}
+              </li>
+            ))}
+          </ul>
+          <LinkRow links={fp.links} />
         </div>
 
-        {/* Featured project: full-width card */}
-        <div className="project-card project-card--featured">
-          <div className="project-content">
-            <div className="project-icon">
-              <i className="fas fa-medal"></i>
-            </div>
-            <h3>AFL Brownlow Prediction Model</h3>
-            <p>
-              Ordinal logistic regression model predicting AFL Brownlow Medal votes, applied
-              across the 2023 and 2024 seasons. Correctly predicted Patrick Cripps to break the
-              all-time vote record in 2024.
-            </p>
-            <div className="project-tags">
-              <span className="tag">R</span>
-              <span className="tag">Machine Learning</span>
-              <span className="tag">Sports Analytics</span>
-            </div>
-            <div className="project-links-row">
-              <a href="/projects/afl-brownlow-2024/" className="project-link">
-                View 2024 Model <i className="fas fa-arrow-right"></i>
-              </a>
-              <a href="/projects/afl-brownlow-2023/" className="project-link">
-                View 2023 Model <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-        </div>
+        <aside className="featured__results" aria-label="Results on the held-out 2024 season">
+          <p className="featured__results-label">Held-out 2024 season</p>
+          <dl className="metrics">
+            {fp.metrics.map((m) => (
+              <div key={m.label} className="metric">
+                <dt>{m.label}</dt>
+                <dd>{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="featured__note">
+            <i className="fas fa-circle-info" aria-hidden="true"></i> {fp.evaluationNote}
+          </p>
+        </aside>
+      </article>
 
-        <div className="projects-grid">
-          <div className="project-card">
-            <div className="project-content">
-              <div className="project-icon">
-                <i className="fas fa-globe"></i>
-              </div>
-              <h3>Eildon Park Cricket Club Website</h3>
-              <p>
-                Full club website built with Claude Code featuring a historical player stats
-                dashboard that automatically populates all senior club records from compiled
-                historical data.
-              </p>
-              <div className="project-tags">
-                <span className="tag">Claude Code</span>
-                <span className="tag">Web Development</span>
-                <span className="tag">Sports Analytics</span>
-                <span className="tag">Cricket</span>
-              </div>
-              <a href="/projects/eildon-park-cricket-club/" className="project-link">
-                View Project <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-content">
-              <div className="project-icon">
-                <i className="fas fa-chart-line"></i>
-              </div>
-              <h3>Australian Arbitrage Betting Finder</h3>
-              <p>
-                API-driven system identifying arbitrage opportunities in H2H betting markets
-                across Australian bookmakers using real-time odds data.
-              </p>
-              <div className="project-tags">
-                <span className="tag">R</span>
-                <span className="tag">API</span>
-                <span className="tag">Finance</span>
-              </div>
-              <a href="/projects/h2h-arbitrage-finder/" className="project-link">
-                View Project <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-content">
-              <div className="project-icon">
-                <i className="fas fa-walking"></i>
-              </div>
-              <h3>Melbourne Pedestrian Counting System</h3>
-              <p>
-                Interactive Power BI dashboard analysing pedestrian traffic patterns across
-                Melbourne CBD with temporal and spatial visualisations.
-              </p>
-              <div className="project-tags">
-                <span className="tag">Power BI</span>
-                <span className="tag">Data Visualisation</span>
-                <span className="tag">Python</span>
-              </div>
-              <a href="/projects/melbourne-pedestrian-counting/" className="project-link">
-                View Project <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-content">
-              <div className="project-icon">
-                <i className="fas fa-home"></i>
-              </div>
-              <h3>Victorian Property Prices Dashboard</h3>
-              <p>
-                Comprehensive Power BI dashboard providing insights into Victorian property
-                market trends with interactive maps and filterable analysis tools.
-              </p>
-              <div className="project-tags">
-                <span className="tag">Power BI</span>
-                <span className="tag">Real Estate</span>
-                <span className="tag">Geospatial</span>
-              </div>
-              <a href="/projects/victorian-property-prices-dashboard/" className="project-link">
-                View Project <i className="fas fa-arrow-right"></i>
-              </a>
-            </div>
-          </div>
-
-          <div className="project-card">
-            <div className="project-content">
-              <div className="project-icon">
-                <i className="fas fa-table"></i>
-              </div>
-              <h3>CricketStatsHub</h3>
-              <p>
-                Comprehensive cricket statistics repository containing batting and bowling data
-                from international and domestic competitions with standardised formats.
-              </p>
-              <div className="project-tags">
-                <span className="tag">Data Engineering</span>
-                <span className="tag">Sports Data</span>
-                <span className="tag">GitHub</span>
-              </div>
-              <a href="https://github.com/CooperDenny/CricketStatsHub" className="project-link">
-                View Project <i className="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div className="project-grid">
+        {projects.map((p) => (
+          <article key={p.slug} className="project card">
+            <p className="kicker">{p.kicker}</p>
+            <h3>{p.title}</h3>
+            <p className="project__summary">{p.summary}</p>
+            <ul className="chips" aria-label="Tools used">
+              {p.stack.map((s) => (
+                <li key={s} className="chip">
+                  {s}
+                </li>
+              ))}
+            </ul>
+            <LinkRow links={p.links} />
+          </article>
+        ))}
       </div>
-    </section>
+    </Section>
   );
 }

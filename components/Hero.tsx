@@ -1,77 +1,50 @@
+import { profile } from '@/content/profile';
+
 export default function Hero() {
+  const { contact } = profile;
+
   return (
     <header className="hero">
-      <div className="container">
-        <div className="hero-content">
-          <div className="hero-image">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/images/hero-image.png" alt="Cooper Denny" className="profile-image" />
-          </div>
-          <div className="hero-text">
-            <h1>Cooper Denny</h1>
-            <p className="subtitle">Data Scientist | Melbourne, Victoria</p>
-            <p className="description">
-              Data Scientist at PlayHQ Sports. Passionate about using data and AI to simplify
-              complex problems — turning messy data into clear insights through predictive
-              modelling, interactive dashboards, and reporting that drives real decisions. I
-              enjoy cross-functional collaboration, working closely with all parts of the
-              business to deliver data that&apos;s understood and acted on, using tools like
-              SQL, Python, dbt, Snowflake, Tableau, Lightdash, and more.
-            </p>
+      <div className="container hero__grid">
+        <div className="hero__text">
+          <p className="eyebrow">
+            {profile.role} · {profile.employer} · {profile.location}
+          </p>
+          <h1>{profile.name}</h1>
+          <p className="hero__headline">{profile.headline}</p>
+          <p className="hero__pitch">{profile.pitch}</p>
 
-            <p className="last-updated">Last updated: June 2026</p>
-
-            <div className="cta-buttons">
-              <a href="#experience" className="btn primary">
-                <i className="fas fa-briefcase"></i>
-                View Experience
-              </a>
-              <a href="#contact" className="btn secondary">
-                <i className="fas fa-envelope"></i>
-                Get in Touch
-              </a>
-            </div>
+          <div className="hero__ctas">
+            <a href="/resume/" className="btn btn--primary">
+              <i className="fas fa-file-lines" aria-hidden="true"></i> View résumé
+            </a>
+            <a href={`mailto:${contact.email}`} className="btn btn--ghost">
+              <i className="fas fa-envelope" aria-hidden="true"></i> Email me
+            </a>
+            <a href={contact.linkedin.href} className="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
+            </a>
+            <a href={contact.github.href} className="btn btn--ghost" target="_blank" rel="noopener noreferrer">
+              <i className="fab fa-github" aria-hidden="true"></i> GitHub
+            </a>
           </div>
+        </div>
+
+        <div className="hero__photo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={profile.photo} alt={`Portrait of ${profile.name}`} width={576} height={576} />
         </div>
       </div>
 
-      {/* Floating Data Elements */}
-      <div className="floating-elements">
-        <div className="floating-chart chart-1">
-          <svg viewBox="0 0 100 60" className="mini-chart">
-            <path
-              d="M10,50 Q30,20 50,30 T90,10"
-              stroke="var(--accent)"
-              strokeWidth="2"
-              fill="none"
-            />
-          </svg>
-          <span className="chart-label">Sports Analytics</span>
-        </div>
-        <div className="floating-chart chart-2">
-          <svg viewBox="0 0 60 60" className="mini-chart">
-            <circle
-              cx="30"
-              cy="30"
-              r="20"
-              fill="none"
-              stroke="var(--accent-secondary)"
-              strokeWidth="3"
-              strokeDasharray="125.6"
-              strokeDashoffset="31.4"
-            />
-          </svg>
-          <span className="chart-label">ML Modelling</span>
-        </div>
-        <div className="floating-chart chart-3">
-          <div className="bar-chart-mini">
-            <div className="bar" style={{ height: '40%' }}></div>
-            <div className="bar" style={{ height: '70%' }}></div>
-            <div className="bar" style={{ height: '55%' }}></div>
-            <div className="bar" style={{ height: '85%' }}></div>
-          </div>
-          <span className="chart-label">Data Insights</span>
-        </div>
+      <div className="container">
+        <dl className="facts">
+          {profile.quickFacts.map((f) => (
+            <div key={f.label} className="facts__item">
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </header>
   );
