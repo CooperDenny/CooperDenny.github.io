@@ -8,7 +8,7 @@ import { linkInBioChannels } from '@/content/selectors';
 // because that would advertise the URL and stop crawlers from seeing the noindex. See decision D19.
 export const metadata: Metadata = {
   title: `${profile.name} — Links`,
-  description: `Find ${profile.name} online: portfolio, Instagram, Facebook, LinkedIn, X, GitHub and email.`,
+  description: `Find ${profile.name} online: portfolio, Instagram, Facebook, LinkedIn, X, GitHub, mobile and email.`,
   robots: { index: false, follow: false },
   // The root layout's canonical points at '/'; an unindexed page shouldn't claim to be the home page.
   alternates: { canonical: null },

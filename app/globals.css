@@ -1088,7 +1088,7 @@ p {
   min-height: 100vh;
   min-height: 100svh;
   margin: 0 auto;
-  padding: calc(40px + env(safe-area-inset-top)) var(--gutter) calc(40px + env(safe-area-inset-bottom));
+  padding: calc(28px + env(safe-area-inset-top)) var(--gutter) calc(28px + env(safe-area-inset-bottom));
 }
 .bio__toggle {
   position: absolute;
@@ -1099,7 +1099,7 @@ p {
   display: grid;
   justify-items: center;
   gap: 4px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
   text-align: center;
 }
 .bio__avatar {
@@ -1120,15 +1120,15 @@ p {
 }
 .bio__links {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 .bio__link {
   display: grid;
   grid-template-columns: 24px minmax(0, 1fr) 16px;
   align-items: center;
   column-gap: 14px;
-  min-height: 64px;
-  padding: 10px 18px;
+  min-height: 58px;
+  padding: 8px 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);

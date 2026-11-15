@@ -198,6 +198,6 @@ A short note on the card and on the project pages explains why accuracy isn't us
 **Decision.**
 - `/links/` is a separate, chromeless page (`app/links/page.tsx`). The home page and résumé moved into the `app/(site)/` route group, whose layout owns the nav, footer and sticky bar, so `/links/` can render without them. URLs are unchanged.
 - It is unlisted, not secret: nothing on the site links to it, `app/sitemap.ts` leaves it out, and it sets `robots: noindex, nofollow` with no canonical. It is **not** disallowed in `robots.txt`, because that would publish the path and stop crawlers from reading the `noindex`.
-- Instagram and Facebook live in `profile.contact` like every other channel, but only `linkInBioChannels()` uses them; `contactChannels()` (hero, contact section, résumé, JSON-LD `sameAs`) stays professional.
+- Instagram, Facebook and the mobile number live in `profile.contact` like every other channel, but only `linkInBioChannels()` uses them; `contactChannels()` (hero, contact section, résumé, JSON-LD `sameAs`) stays professional.
 
-**Consequences.** Anyone with the URL can open it, and Instagram shows it publicly in the bio, so it must hold nothing private. It still ships the shared Next.js runtime (about 87 kB of JS), but the HTML is prerendered and readable before any script runs.
+**Consequences.** Anyone with the URL can open it, and Instagram shows it publicly in the bio, so it must hold nothing private. That includes the mobile number: putting it there was Cooper's call, and it is exposed to scrapers as a `tel:` link. It still ships the shared Next.js runtime (about 87 kB of JS), but the HTML is prerendered and readable before any script runs.

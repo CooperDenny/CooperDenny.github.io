@@ -158,7 +158,7 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.project__link::after` | ProjectCard | Stretched link: the whole card is clickable |
 | `.theme-toggle` | ThemeToggle | Sun/moon visibility is driven by `data-theme` |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
-| `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 64px-tall link buttons, safe-area padding for notched phones |
+| `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
 Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 

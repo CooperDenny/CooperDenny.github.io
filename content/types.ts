@@ -100,6 +100,8 @@ export type ContactLinks = {
   /** Personal socials: shown only on the unlisted /links/ page, never on the portfolio or résumé. */
   instagram: { href: string; handle: string };
   facebook: { href: string; handle: string };
+  /** Australian mobile as displayed, e.g. '0400 000 000'. Shown only on /links/. */
+  phone: string;
 };
 
 /** Who the site is about and how they're introduced (hero, résumé header, SEO). */
