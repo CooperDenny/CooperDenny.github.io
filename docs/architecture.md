@@ -154,7 +154,7 @@ Components take the smallest props that do the job (interface segregation): `Chi
 
 ### Link-in-bio page
 
-`app/links/page.tsx` sits outside the `(site)` group, so it gets the root layout (theme, fonts, analytics) but no nav, footer or sticky bar. It renders `components/links/LinkInBio.tsx` with `linkInBioChannels()` from `content/selectors.ts`: website, Instagram, Facebook, LinkedIn, X, GitHub, mobile, email. It is deliberately unlisted ([decision D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)): nothing links to it, it isn't in the sitemap, and it carries `noindex, nofollow`.
+`app/links/page.tsx` sits outside the `(site)` group, so it gets the root layout (theme, fonts, analytics) but no nav, footer or sticky bar. It renders `components/links/LinkInBio.tsx` with `linkInBioChannels()` from `content/selectors.ts`: website, Instagram, Facebook, LinkedIn, X, GitHub, WhatsApp, email. It is deliberately unlisted ([decision D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)): nothing links to it, it isn't in the sitemap, and it carries `noindex, nofollow`.
 
 ### Project pages
 
@@ -234,7 +234,7 @@ config/
 
 lib/
   format.ts                      dateRange(), listSentence(), cx()
-  links.ts                       isExternal(), externalAttrs(), telHref(), prettyUrl()
+  links.ts                       isExternal(), externalAttrs(), waHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
   theme.js                       The theme switcher (plain ES5, inlined everywhere)
   themeScript.ts                 Reads theme.js at build time for inlining
