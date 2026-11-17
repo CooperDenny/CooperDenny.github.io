@@ -26,6 +26,7 @@ export function linkInBioChannels(c: ContactLinks, siteHref: string): ContactCha
     { key: 'website', label: 'Website', href: siteHref, display: 'Portfolio and résumé', icon: 'globe' },
     { key: 'instagram', label: 'Instagram', href: c.instagram.href, display: c.instagram.handle, icon: 'instagram' },
     { key: 'facebook', label: 'Facebook', href: c.facebook.href, display: c.facebook.handle, icon: 'facebook' },
+    { key: 'spotify', label: 'Spotify', href: c.spotify.href, display: c.spotify.handle, icon: 'spotify' },
     contactChannel(c, 'linkedin'),
     { ...contactChannel(c, 'x'), label: 'X (Twitter)' },
     contactChannel(c, 'github'),

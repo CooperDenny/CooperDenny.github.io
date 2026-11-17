@@ -106,6 +106,7 @@ export type ContactLinks = {
   /** Personal socials: shown only on the unlisted /links/ page, never on the portfolio or résumé. */
   instagram: { href: string; handle: string };
   facebook: { href: string; handle: string };
+  spotify: { href: string; handle: string };
   /** Australian mobile as displayed, e.g. '0400 000 000'. Shown only on /links/, as a WhatsApp link. */
   phone: string;
 };
