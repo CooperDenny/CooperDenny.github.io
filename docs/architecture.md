@@ -206,7 +206,7 @@ components/
   home/                          The home page's sections
     Hero.tsx                     Identity, headline, pitch, CTAs, proof tiles, core stack
     Experience.tsx               Job cards with promotion lines
-    Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid
+    Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid + ProjectLinkList.tsx
     Skills.tsx · Education.tsx · Contact.tsx
   layout/                        Site chrome
     Navbar.tsx                   Top bar, mobile menu, ThemeToggle ('use client')

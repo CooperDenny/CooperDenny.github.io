@@ -8,7 +8,7 @@
 import { pageHref, pageTitle, type PageSlug } from '@/content/catalog';
 import identity from '@/content/identity.json';
 import { anchor } from '@/content/sections';
-import type { Education, FeaturedProject, Job, Profile, Project, SkillGroup } from '@/content/types';
+import type { Education, FeaturedProject, Job, Profile, Project, ProjectList, SkillGroup } from '@/content/types';
 
 /** A home-page card for a project that has its own /projects/<slug>/ page: title and URL come from the catalog. */
 function pageProject(
@@ -174,22 +174,6 @@ export const projects: Project[] = [
     stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
     linkLabel: 'See the project',
   }),
-  pageProject('melbourne-pedestrian-counting', {
-    kicker: 'Time series · BI',
-    oneLiner: 'Python pipeline over ~100 city sensors (hourly, 2010 to 2024) into a Power BI dashboard with rolling trends.',
-    summary:
-      'Python pipeline over the City of Melbourne’s hourly sensor files (~100 sensors, January 2010 to October 2024) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
-    stack: ['Python', 'Jupyter', 'Power BI'],
-    linkLabel: 'Open the dashboard',
-  }),
-  pageProject('victorian-property-prices-dashboard', {
-    kicker: 'Geospatial · BI',
-    oneLiner: 'Power BI view of Victorian sales: cleaned in Power Query, DAX medians and year-on-year change, suburb maps.',
-    summary:
-      'Interactive Power BI view of Victorian property sales: Power Query cleaning, DAX measures for median prices and year-on-year change, and suburb-level mapping.',
-    stack: ['Power BI', 'DAX', 'Power Query'],
-    linkLabel: 'Open the dashboard',
-  }),
   {
     slug: 'cricket-stats-hub',
     title: 'CricketStatsHub',
@@ -201,6 +185,32 @@ export const projects: Project[] = [
     links: [{ label: 'View on GitHub', href: 'https://github.com/CooperDenny/CricketStatsHub' }],
   },
 ];
+
+/**
+ * Older, lower-signal projects: kept linked from the home page as a compact list under the
+ * card grid rather than as full cards (decision D20). Their pages stay in the catalog and sitemap.
+ */
+export const earlierProjects: ProjectList = {
+  title: 'Earlier work',
+  projects: [
+    pageProject('melbourne-pedestrian-counting', {
+      kicker: 'Time series · BI',
+      oneLiner: 'Python pipeline over ~100 city sensors (hourly, 2010 to 2024) into a Power BI dashboard with rolling trends.',
+      summary:
+        'Python pipeline over the City of Melbourne’s hourly sensor files (~100 sensors, January 2010 to October 2024) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
+      stack: ['Python', 'Jupyter', 'Power BI'],
+      linkLabel: 'Open the dashboard',
+    }),
+    pageProject('victorian-property-prices-dashboard', {
+      kicker: 'Geospatial · BI',
+      oneLiner: 'Power BI view of Victorian sales: cleaned in Power Query, DAX medians and year-on-year change, suburb maps.',
+      summary:
+        'Interactive Power BI view of Victorian property sales: Power Query cleaning, DAX measures for median prices and year-on-year change, and suburb-level mapping.',
+      stack: ['Power BI', 'DAX', 'Power Query'],
+      linkLabel: 'Open the dashboard',
+    }),
+  ],
+};
 
 /** Skill groups, in display order. `onResume: false` keeps a group off the printed résumé. */
 export const skills: SkillGroup[] = [

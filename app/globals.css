@@ -927,6 +927,45 @@ p {
   font-size: 0.875rem;
 }
 
+/* Earlier work: a compact list under the card grid (D20). */
+.more-projects {
+  margin-top: 24px;
+}
+.more-projects__title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 4px;
+}
+.more-projects__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.more-projects__list li {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.more-projects__list li:last-child {
+  border-bottom: 0;
+}
+.more-projects__link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  min-height: var(--tap);
+  font-weight: 600;
+  color: var(--accent);
+}
+.more-projects__desc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
 @media (min-width: 600px) {
   .featured {
     padding: 28px;
