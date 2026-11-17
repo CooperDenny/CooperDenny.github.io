@@ -1,7 +1,7 @@
 // Derived views over the content. Components render these; they never re-derive them.
 
 import { dateRange, listSentence } from '@/lib/format';
-import { telHref } from '@/lib/links';
+import { waHref } from '@/lib/links';
 import type { ContactChannel, ContactLinks, FeaturedProject, Job, Project, ResumeEntry, SkillGroup } from '@/content/types';
 
 /**
@@ -19,7 +19,7 @@ export function contactChannels(c: ContactLinks): ContactChannel[] {
 
 /**
  * Every link on the unlisted /links/ page (the Instagram bio link), in display order:
- * the portfolio home page first, then socials, then mobile and email.
+ * the portfolio home page first, then socials, then WhatsApp and email.
  */
 export function linkInBioChannels(c: ContactLinks, siteHref: string): ContactChannel[] {
   return [
@@ -29,7 +29,7 @@ export function linkInBioChannels(c: ContactLinks, siteHref: string): ContactCha
     contactChannel(c, 'linkedin'),
     { ...contactChannel(c, 'x'), label: 'X (Twitter)' },
     contactChannel(c, 'github'),
-    { key: 'phone', label: 'Mobile', href: telHref(c.phone), display: c.phone, icon: 'phone' },
+    { key: 'phone', label: 'WhatsApp', href: waHref(c.phone), display: 'Message or call', icon: 'whatsapp' },
     contactChannel(c, 'email'),
   ];
 }
