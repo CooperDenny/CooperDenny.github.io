@@ -132,7 +132,7 @@ Put the file in `public/images/` as `logo-<name>.webp`, **at most 240px on the l
 
 ## Projects
 
-The home page has one **featured project** (the Brownlow model) and a grid of **project cards**, both in [`content/profile.ts`](../content/profile.ts).
+The home page has one **featured project** (the Brownlow model), a grid of **project cards** (`projects`), and a compact **Earlier work** list of title links (`earlierProjects`), all in [`content/profile.ts`](../content/profile.ts). Entries in both `projects` and `earlierProjects` have the same shape, so to demote or promote a project, move its entry from one list to the other ([why](decisions.md#d20-lower-signal-projects-are-listed-not-carded)).
 
 ### Edit a project card
 

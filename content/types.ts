@@ -63,6 +63,12 @@ export type Project = {
   onResume?: boolean;
 };
 
+/** A titled, compact list of secondary projects (rendered as links, not cards). */
+export type ProjectList = {
+  title: string;
+  projects: Project[];
+};
+
 /** The large featured card: a project plus its question, method, results and caveats. */
 export type FeaturedProject = Project & {
   problem: string;

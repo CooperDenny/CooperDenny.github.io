@@ -201,3 +201,14 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - Instagram, Facebook and the mobile number live in `profile.contact` like every other channel, but only `linkInBioChannels()` uses them; `contactChannels()` (hero, contact section, résumé, JSON-LD `sameAs`) stays professional.
 
 **Consequences.** Anyone with the URL can open it, and Instagram shows it publicly in the bio, so it must hold nothing private. That includes the mobile number: putting it there was Cooper's call, and it is exposed to scrapers as a `https://wa.me/…` WhatsApp link (changed from a `tel:` link so people can message or call via WhatsApp; the number itself is not shown on the page). It still ships the shared Next.js runtime (about 87 kB of JS), but the HTML is prerendered and readable before any script runs.
+
+### D20. Lower-signal projects are listed, not carded
+
+**Context.** The home grid gave the Melbourne pedestrian and Victorian property Power BI dashboards the same weight as the stronger projects. Next to a Data Scientist role and a production churn model, they pulled the portfolio toward "BI analyst". Readers judge a portfolio partly by its weakest visible item.
+
+**Decision.**
+- Both moved from `projects` (cards) to `earlierProjects` in `content/profile.ts`: a `ProjectList` rendered by `components/home/ProjectLinkList.tsx` as a compact "Earlier work" list under the grid, with a title link and the one-liner for each.
+- Their pages are unchanged and stay in `content/projects.json`, so they keep their place in the "Next project" chain, the "All projects" link and the sitemap. Nothing is unlinked or hidden.
+- The list is always visible (no `<details>` or JavaScript toggle; see [D08](#d08-no-scroll-triggered-reveal-animations)).
+
+**Consequences.** The grid holds three cards, which fills one row at desktop width. To promote or demote a project, move its `pageProject(...)` entry between `projects` and `earlierProjects`. Neither dashboard was on the résumé, so the résumé doesn't change.
