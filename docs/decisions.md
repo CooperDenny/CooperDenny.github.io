@@ -25,6 +25,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D17](#d17-playhq-work-leads-the-hero-brownlow-figures-stay-on-its-card) | PlayHQ work leads the hero; Brownlow figures stay on its card |
 | [D18](#d18-project-pages-follow-their-source-repositories) | Project pages follow their source repositories |
 | [D19](#d19-the-link-in-bio-page-is-unlisted) | The link-in-bio page is unlisted |
+| [D20](#d20-lower-signal-projects-are-listed-not-carded) | Lower-signal projects are listed, not carded |
+| [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
 
 ---
 
@@ -189,7 +191,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - The 2025 page leads with its strongest honest result (best 3-vote hit rate of the three seasons, top pick runner-up) and still reports the missed winner in the outcome.
 - Cricket club screenshots are taken from the live site (the player page shown is Cooper's own) and stored as WebP at 1600px wide.
 
-**Consequences.** Live-site figures (818 players, 1,100+ scorecards) drift as games are played; refresh them when re-shooting the screenshots. When a new Brownlow season is tested, add a page and a card link rather than a new card.
+**Consequences.** Live-site figures (818 players, 1,118 scorecards) drift as games are played; refresh them when re-shooting the screenshots. [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) adds the repository's own figures (commits, pull requests, ADRs), which drift too. When a new Brownlow season is tested, add a page and a card link rather than a new card.
 
 ### D19. The link-in-bio page is unlisted
 
@@ -212,3 +214,15 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - The list is always visible (no `<details>` or JavaScript toggle; see [D08](#d08-no-scroll-triggered-reveal-animations)).
 
 **Consequences.** The grid holds three cards, which fills one row at desktop width. To promote or demote a project, move its `pageProject(...)` entry between `projects` and `earlierProjects`. Neither dashboard was on the résumé, so the résumé doesn't change.
+
+### D21. The cricket club page is an engineering case study
+
+**Context.** By November 2026 epcc.org.au had grown from a stats site into the club's platform: 531 commits and 131 merged pull requests in eight months, an admin portal, an SES email platform, an in-browser video editor, a clubroom TV, an MCP server, and eleven architecture decision records. The page still described a stats site, which undersold the largest and most current piece of work in the portfolio, and told a recruiter nothing about how Cooper designs, decides and iterates.
+
+**Decision.**
+- The page is a case study: the brief, a tour, a system map, the data model, six decisions taken from the club repo's ADRs (each with *why* and *cost*), three hard problems, the Claude Code workflow, and an iteration timeline with a commits-by-month chart. Its card moves to the front of the home grid.
+- Every figure traces to the club repo or the live site: commit and PR counts and the monthly series from `git log` on `main`; pages, tables, policies, ADRs and docs from the repo tree; players, runs, wickets and seasons from the live `/stats` page; the MCP tool count from a `tools/list` call to `/api/mcp`. Claude Code's share is stated plainly (277 of 531 commits written by Claude Code sessions), because hiding it would be the kind of claim D11 forbids.
+- Charts are generated from data in `content.py` by the generator's `Renderer.bar_chart()`, as an HTML list with every value printed: no JavaScript, no SVG to keep legible at 320px, and the values are readable without the bars. Only single-series bar charts are supported; anything more complex should be a screenshot of the real thing.
+- New screenshots (clubroom TV slides, three phone views) are taken from the live site and stored as WebP at 1600px wide, per D18.
+
+**Consequences.** The page carries more numbers that go stale (commits, PRs, weeks shipped, scorecards). Refresh them from the club repo when updating the page, and update the "Now" timeline entry, which names a pull request in review at the time of writing (honour boards on `/stats`).

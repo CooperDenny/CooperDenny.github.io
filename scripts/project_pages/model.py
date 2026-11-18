@@ -42,6 +42,32 @@ class TocItem:
 
 
 @dataclass(frozen=True)
+class Bar:
+    """One bar in a BarChart: a short category `label` (e.g. a month) and its `value`."""
+
+    label: str
+    value: float
+
+
+@dataclass(frozen=True)
+class BarChart:
+    """A single-series bar chart placed in a hand page's body with `<!-- cd:chart:<id> -->`.
+
+    Rendered as plain HTML (an ordered list), so it needs no JavaScript and every value is text.
+    """
+
+    title: str
+    caption: str
+    unit: str
+    bars: tuple[Bar, ...]
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "BarChart":
+        """Build from a content.py chart dict: title, caption, unit and (label, value) bars."""
+        return cls(d["title"], d["caption"], d["unit"], tuple(Bar(l, v) for l, v in d["bars"]))
+
+
+@dataclass(frozen=True)
 class Glance:
     """The "At a glance" panel: question, what I did, optional outcome, metrics and note."""
 
@@ -67,6 +93,7 @@ class PageCopy:
     meta: Optional[str] = None
     toc: tuple[TocItem, ...] = ()
     body: str = ""
+    charts: dict[str, BarChart] = field(default_factory=dict)
 
     @classmethod
     def from_dict(cls, slug: str, d: dict, catalog: Catalog) -> "PageCopy":
@@ -90,6 +117,7 @@ class PageCopy:
             ),
             toc=tuple(TocItem(*t) for t in d.get("toc", ())),
             body=d.get("body", ""),
+            charts={k: BarChart.from_dict(v) for k, v in d.get("charts", {}).items()},
         )
 
     def with_results(self, *, meta: str, metrics: tuple[Metric, ...], note: str) -> "PageCopy":

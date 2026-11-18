@@ -10,30 +10,57 @@ from __future__ import annotations
 
 HAND_PAGES: dict[str, dict] = {
     "eildon-park-cricket-club": {
-        "description": "How Cooper Denny built epcc.org.au, Eildon Park Cricket Club’s website, around every senior season since 1989/90 and live Play Cricket data: records, player pages and match centres that update themselves.",
-        "kicker": "Data engineering · Web · Cricket",
-        "lede": "I built Eildon Park Cricket Club’s website, <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, around one dataset: every senior Saturday season since 1989/90, joined to live Play Cricket data. Records, leaderboards and a page for every one of 800+ players update themselves as games are played.",
-        "stack": ["Data modelling", "Data cleaning", "Play Cricket API", "Next.js", "Supabase", "Claude Code", "Netlify"],
+        "description": "How Cooper Denny designed, built and still runs epcc.org.au: a production Next.js and Supabase platform for Eildon Park Cricket Club, with 37 seasons of stats, live Play Cricket data, an admin portal, an email platform, an in-browser video editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 pull requests in eight months.",
+        "kicker": "Data engineering · Full-stack · Cricket",
+        "lede": "I designed, built and still run <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, Eildon Park Cricket Club’s website. It began as a stats page and is now the club’s platform: <strong>every senior season since 1989/90 joined to live Play Cricket data</strong>, an admin portal the committee runs the club from, an email platform, an in-browser highlights editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 merged pull requests in eight months, and it’s still shipping.",
+        "meta": "Mar 2026 – now · Solo, built with Claude Code · 11 architecture decision records",
+        "stack": ["Next.js 14", "TypeScript", "Supabase (Postgres, RLS)", "Play Cricket API", "Amazon SES", "WebCodecs", "MCP", "Claude Code", "Netlify"],
         "actions": [
-            {"label": "Open the player stats", "href": "https://epcc.org.au/stats", "icon": "external"},
             {"label": "Visit epcc.org.au", "href": "https://epcc.org.au", "icon": "external"},
+            {"label": "Open the player stats", "href": "https://epcc.org.au/stats", "icon": "external"},
         ],
         "glance": {
-            "question": "How do you give a community club accurate, browsable records when its history lives in decades of scorebooks and spreadsheets, and new games are played every week?",
+            "question": "Can one volunteer give a community cricket club a website it owns, with decades of accurate records, live match data and the tools to run the club, and keep it improving every week without it falling over?",
             "did": [
-                "Cleaned 37 seasons of club statistics, from 1989/90 on, into one player-season dataset: 4,800 rows across 800+ players.",
-                "Joined it to the Play Cricket API: 1,100+ archived scorecards since 2009/10 for match-level records, and live figures for the senior XIs from 2026/27, refreshed hourly.",
-                "Built and shipped the whole club website with Claude Code (Next.js, Supabase, Netlify), including an admin portal the committee uses for news, match reports and emails.",
+                "Cleaned 36 seasons of club records into one player-season dataset and joined it to 1,118 archived Play Cricket scorecards, with live figures from 2026/27, so every number on the site is derived, never typed in.",
+                "Built the whole platform with Claude Code: 21 public pages, a 20-screen invite-only admin portal, 8 Postgres tables behind 19 row-level security policies, and integrations with Play Cricket, Amazon SES and Open-Meteo.",
+                "Ran it like a product: every change through a pull request, 11 architecture decision records, and a rulebook (<code>CLAUDE.md</code>) that turns each outage or near miss into a rule.",
             ],
-            "outcome": "A live stats hub with club totals, record holders and a profile for every player, plus a match centre for every game, with <strong>no manual upkeep</strong>: every number recalculates from the data.",
-            "metrics": [("818", "Players on record"), ("37", "Seasons, since 1989/90"), ("1,100+", "Match scorecards archived"), ("Hourly", "Live refresh from Play Cricket")],
+            "outcome": "The club’s front door, mailing list, match centre, video desk and clubroom screen in one system, with <strong>no manual upkeep</strong> for stats: 818 players, 320,731 runs and 15,631 wickets that recalculate themselves as games are played.",
+            "metrics": [("818", "Players with a page, over 37 seasons"), ("1,118", "Play Cricket scorecards archived"), ("131", "Pull requests merged in 8 months"), ("8", "Read-only tools for AI assistants (MCP)")],
+        },
+        "toc": [
+            ("The brief", "brief", False),
+            ("What’s on it", "tour", False),
+            ("Architecture", "architecture", False),
+            ("The data", "data", False),
+            ("Decisions", "decisions", False),
+            ("Hard problems", "problems", True),
+            ("How I build it", "workflow", False),
+            ("Still iterating", "iterating", False),
+        ],
+        "charts": {
+            "commits": {
+                "title": "Commits to the site’s main branch, by month (2026)",
+                "caption": "531 commits from 22 March to 16 November 2026, merge commits included. The peaks are the Play Cricket integration and email platform (July–August) and the highlights editor, live stats and clubroom TV (October). November is a part month.",
+                "unit": "commits",
+                "bars": [("Mar", 65), ("Apr", 15), ("May", 40), ("Jun", 13), ("Jul", 143), ("Aug", 109), ("Sep", 20), ("Oct", 90), ("Nov", 36)],
+            },
         },
         "body": """
-<h2>What’s on the site</h2>
+<h2 id="brief">The brief</h2>
+<p>Eildon Park is a community club in Rowville, in Melbourne’s south-east, with senior, veteran, junior and women’s teams. In early 2026 its online presence was Facebook, Instagram and a dormant Team App page. Nobody searching for a club to join would find it, sponsors had nothing to be shown on, and match reports disappeared down a feed within a week.</p>
+<p>I made the case to the committee for a site the club owns, not a page on a platform, and built a working prototype in the first ten days (65 commits). The alternatives on the table were a site builder at $360–$420 a year, or $2,000+ up front for an agency site that would cost more every time it changed. The plan instead was free hosting (GitHub and Netlify), with the domain the only fixed cost. And the goal was never just a website: it was one place for the club’s history, its weekly cricket and its communications, documented well enough that it doesn’t depend on me.</p>
+
+<h2 id="tour">What’s on it</h2>
 <div class="cd-gallery">
   <figure class="cd-figure">
     <img src="player-profile.webp" width="1600" height="950" loading="lazy" alt="Player page for Cooper Denny: 108 games, 1,433 runs, 117 wickets, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons">
-    <figcaption>A player page (mine): career figures, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons.</figcaption>
+    <figcaption>A player page (mine): career figures, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons. All 818 players have one.</figcaption>
+  </figure>
+  <figure class="cd-figure">
+    <img src="phone-views.webp" width="1600" height="1125" loading="lazy" alt="Three phone screenshots of epcc.org.au: the homepage with a Register to play button, a match centre showing Eildon Park 2nd XI 6/124 beating FTG Footballers 122, and the stats hub showing 818 players, 320,731 runs and 15,631 wickets over 37 seasons">
+    <figcaption>Built for the phone first: homepage, a match centre, and the stats hub (818 players, 320,731 runs, 15,631 wickets).</figcaption>
   </figure>
   <div class="cd-gallery cd-gallery--2">
     <figure class="cd-figure">
@@ -45,26 +72,144 @@ HAND_PAGES: dict[str, dict] = {
       <figcaption>Match centre: worm, Manhattan and run-rate graphs from Play Cricket’s ball-by-ball data.</figcaption>
     </figure>
   </div>
+  <figure class="cd-figure">
+    <img src="clubroom-tv.webp" width="1600" height="902" loading="lazy" alt="Four slides from the clubroom TV: a 1st XI round-up with scorecard and ladder, upcoming senior games, the latest results for every team, and a 7-day forecast with game days marked">
+    <figcaption>The clubroom TV at <code>/tv</code>: a self-refreshing slideshow of live scores, round-ups, ladders, results, forecasts, milestones and sponsors, on the TV in the clubrooms.</figcaption>
+  </figure>
+</div>
+<ul>
+  <li><strong>Stats hub</strong>: club totals, record holders, an explorer of every career and season, and a page per player with match-by-match deep dives (every innings and spell, worms, dismissals, partnerships, teammates, milestones).</li>
+  <li><strong>Match centre</strong> for every game: scorecard, ball-by-ball, highlight clips, graphs, weather, line-ups and the match report.</li>
+  <li><strong>Admin portal</strong>, invite-only with three roles: news with scheduled publishing, match reports, the events calendar, player profiles, and a mailing list with segments and PlayHQ registration imports.</li>
+  <li><strong>Email platform</strong> on Amazon SES: branded News and Flyer templates, segment-targeted and scheduled sends, inbox previews, self-service unsubscribe, sent history.</li>
+  <li><strong>Highlights editor</strong>: cuts branded highlights videos from a match’s Play Cricket clips, in landscape or as a 9:16 reel for TikTok and Instagram, and renders the MP4 <strong>entirely in the browser</strong>.</li>
+  <li><strong>Built for AI search</strong>: one schema.org entity across every page, <code>/llms.txt</code> rebuilt every 30 minutes with live fixtures and results, and a public MCP server, so Claude or ChatGPT can answer questions about the club with live data.</li>
+</ul>
+
+<h2 id="architecture">Architecture</h2>
+<p>One Next.js app on Netlify, serving cached public pages, the admin portal and a few API routes, in front of Supabase and four outside services. The rule that makes it hold together: <strong>only <code>lib/</code> talks to the outside world</strong>, and pages and components never do.</p>
+<div class="cd-arch" role="group" aria-label="System map">
+  <section class="cd-arch__lane">
+    <h3>Who uses it</h3>
+    <ul class="cd-arch__nodes">
+      <li><strong>Visitors</strong> Players, parents, sponsors, recruits</li>
+      <li><strong>Committee</strong> Admins in the portal</li>
+      <li><strong>Clubroom TV</strong> A browser on the wall</li>
+      <li><strong>AI assistants</strong> Claude, ChatGPT via MCP</li>
+    </ul>
+  </section>
+  <section class="cd-arch__lane cd-arch__lane--core">
+    <h3>Netlify · Next.js 14</h3>
+    <ul class="cd-arch__nodes">
+      <li><strong>CDN cache</strong> Public pages are static (ISR) and refresh in the background, every 5 min to hourly</li>
+      <li><strong>Server Actions</strong> Every write, one module per domain, each checking the admin first</li>
+      <li><strong>API routes</strong> Search, uploads, stats rows, <code>/api/mcp</code></li>
+      <li><strong>Scheduled function</strong> Every 10 min: resumes due email sends</li>
+    </ul>
+  </section>
+  <section class="cd-arch__lane">
+    <h3>Data &amp; services</h3>
+    <ul class="cd-arch__nodes">
+      <li><strong>Supabase</strong> Postgres, Auth, Storage; row-level security on every table</li>
+      <li><strong>Play Cricket</strong> Unofficial API: fixtures, scorecards, ball-by-ball, clips</li>
+      <li><strong>Stats archive</strong> 4,800 player-season rows since 1989/90, in the repo</li>
+      <li><strong>Amazon SES · Open-Meteo</strong> Email; weather</li>
+    </ul>
+  </section>
 </div>
 
-<h2>How the data works</h2>
+<h2 id="data">The data</h2>
 <p>The hard part wasn’t the website. It was the data. The club’s history came from records spanning nearly four decades, in inconsistent formats. Three sources now feed one model, so every number on the site is <strong>derived</strong>, never typed in:</p>
 <ul>
-  <li><strong>The archive</strong>: a cleaned player-season table of every senior Saturday season since 1989/90 (runs, wickets, averages, hundreds, five-fors) for 800+ players.</li>
-  <li><strong>Scorecards</strong>: 1,100+ Play Cricket scorecards since 2009/10, which power single-game records (highest scores, best bowling, partnerships, fastest fifties), match-by-match deep dives for each player, and an “On this day” feed.</li>
-  <li><strong>Live data</strong>: from 2026/27 the senior XIs’ figures come straight from Play Cricket, refreshed hourly. A name map links Play Cricket IDs to archive names where they differ, and a row in the archive can correct a live figure.</li>
+  <li><strong>The archive</strong>: a cleaned player-season table of every senior Saturday season from 1989/90 to 2025/26 (4,800 rows: runs, wickets, averages, hundreds, five-fors). Names are normalised to one form per person, and overs are kept in cricket notation (<code>120.3</code> is 120 overs and 3 balls), not decimals.</li>
+  <li><strong>Scorecards</strong>: 1,118 Play Cricket scorecards since 2009/10, built into match-level archives that power single-game records (highest scores, best bowling, partnerships, fastest fifties), each player’s match-by-match tab, and an “On this day” feed of 1,689 fifties, hundreds and four-wicket hauls.</li>
+  <li><strong>Live data</strong>: from 2026/27 the senior XIs’ figures come straight from Play Cricket, refreshed hourly. A name map links Play Cricket IDs to archive names where they differ, and an archive row for a live season overrides Play Cricket’s figures, so a scoring error can be corrected without touching code.</li>
 </ul>
-<p>Adding a season means nothing at all: the leaderboards, profiles and records follow the games.</p>
+<p>Adding a season takes no work at all: the leaderboards, profiles and records follow the games.</p>
 
-<h2>More than a stats site</h2>
+<h2 id="decisions">Decisions that hold it up</h2>
+<p>Each load-bearing choice is written down as an architecture decision record: the context that forced it, the decision, and what it costs. Six of the eleven:</p>
+<div class="cd-cards cd-cards--2">
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0003 · Performance</span>
+    <h3>Public pages are static</h3>
+    <p><span class="cd-card__k">Why</span>The homepage once took 1.7–3.5 s to first byte, because one Supabase client read cookies, which silently makes a whole route render per request.</p>
+    <p><span class="cd-card__k">Cost</span>Data can be up to one cache window old, so every write refreshes exactly the pages it changes.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0007 · Reliability</span>
+    <h3>The unofficial API fails soft</h3>
+    <p><span class="cd-card__k">Why</span>Play Cricket’s API is reverse-engineered, with no documentation or SLA, and endpoints that disagree on shape.</p>
+    <p><span class="cd-card__k">Cost</span>In an outage a section renders empty, never a broken page. New fields are checked against live responses before they’re used.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0004 · Security</span>
+    <h3>Invite-only, checked twice</h3>
+    <p><span class="cd-card__k">Why</span>The site holds a mailing list of members’ and parents’ emails. A login only proves someone has an account.</p>
+    <p><span class="cd-card__k">Cost</span>Every Server Action checks the admin’s role, and every database policy checks it again. Personal data has no public read path.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0006 · Email</span>
+    <h3>Sends are resumable batches</h3>
+    <p><span class="cd-card__k">Why</span>400+ recipients at SES’s 14 a second outlasts a serverless function. A killed send once left no record of who was missed.</p>
+    <p><span class="cd-card__k">Cost</span>At most one batch of 60 can be duplicated if a process dies mid-batch.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0008 · Data</span>
+    <h3>Archive plus live, one model</h3>
+    <p><span class="cd-card__k">Why</span>Thirty-six seasons predate Play Cricket’s data, and Play Cricket’s own figures are sometimes wrong.</p>
+    <p><span class="cd-card__k">Cost</span>Two sources to reconcile, by a name map and an explicit override rule rather than by hand.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">ADR 0011 · AI</span>
+    <h3>An MCP server, hand-written</h3>
+    <p><span class="cd-card__k">Why</span>Assistants answer from whatever page they happen to fetch, which can’t answer “how many runs has X made?” for 818 players.</p>
+    <p><span class="cd-card__k">Cost</span>About 100 lines, no dependency, checked against the official SDK client. Read-only and public data only, so it needs no auth.</p>
+  </div>
+</div>
+
+<h2 id="problems">Hard problems</h2>
+<p>The bugs worth telling are the ones that changed how the system is built.</p>
+<div class="cd-cards">
+  <div class="cd-card">
+    <span class="cd-card__tag">Security</span>
+    <h3>Middleware doesn’t protect Server Actions</h3>
+    <p>Next.js makes every export of a <code>'use server'</code> module callable from any page that imports one of them, so an admin-only write behind a protected route isn’t protected at all. I closed it by checking the admin at the top of every action and on uploads, split the actions into one module per domain, and made “every action starts with an auth check” the first rule in the rulebook, with row-level security in Postgres as the backstop.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">In-browser video</span>
+    <h3>A rendering bug only production could see</h3>
+    <p>The highlights editor renders MP4s in the browser: hls.js streams each clip into a hidden video element, frames go through WebCodecs’ <code>VideoEncoder</code> into <code>mp4-muxer</code>, and the animated intros are rasterised through SVG <code>&lt;foreignObject&gt;</code>. On the live site, every intro frame failed with “The source image cannot be decoded”. The cause: production’s minified CSS writes font variables in double quotes, which cut an inline <code>style=""</code> attribute short. Development CSS uses single quotes, so it never showed up locally. Moving the declarations into a <code>&lt;style&gt;</code> block fixed it. The same feature also taught me that the muxer rejects every chunk unless the first frame sits at timestamp exactly zero.</p>
+  </div>
+  <div class="cd-card">
+    <span class="cd-card__tag">Data</span>
+    <h3>Dates that lie about their time zone</h3>
+    <p>Older Play Cricket records store local Melbourne times labelled <code>+00:00</code>, and Netlify runs in UTC, so a naive conversion puts games on the wrong day. Play Cricket dates are now read exactly as written, club-side dates go through one Melbourne time-zone module, and the single-match endpoint, which isn’t shaped like the team list, has its quirks recorded where the next change will see them.</p>
+  </div>
+</div>
+
+<h2 id="workflow">How I build it</h2>
+<p>I’m the only person working on it, and Claude Code is my primary development tool: <strong>277 of the 531 commits were written by Claude Code sessions</strong>, and none reach the live site without a pull request I review. My job is product owner, architect, reviewer and the person who knows the cricket data. The system that keeps that fast <em>and</em> safe is mostly writing:</p>
 <ul>
-  <li><strong>Match centre</strong> for every game: scorecards, ball-by-ball, highlight clips, graphs, weather and line-ups.</li>
-  <li><strong>Admin portal</strong> with invite-only roles: news and match reports, branded emails to the club’s mailing list (including imports from PlayHQ registration exports), an events calendar, and a tool that cuts highlight videos from a match’s clips.</li>
-  <li><strong>Clubroom TV</strong>: a full-screen slideshow for the TV in the clubrooms, with live scores, results, season leaders, milestones and sponsors.</li>
+  <li><strong>A rulebook, not a wiki.</strong> <code>CLAUDE.md</code> holds the non-negotiable rules, each one there because breaking it caused, or would cause, an outage, a security hole or silent data loss, and each linked to the doc that explains it.</li>
+  <li><strong>Decisions on record.</strong> Eleven ADRs, so a later change can’t quietly undo what an earlier one was protecting.</li>
+  <li><strong>Docs ship with the code.</strong> 43 Markdown documents (architecture, features, runbooks, a design system, a security model), updated in the same pull request as the change they describe.</li>
+  <li><strong>A definition of done.</strong> Lint, type-check and production build clean, the change tried in a browser at phone width, and a pull-request template that lists any manual steps outside the code.</li>
+  <li><strong>Repeatable jobs as skills.</strong> A custom Claude Code skill writes a match report from a game’s Play Cricket scorecard, with season context from both teams’ earlier rounds, and publishes it to the database.</li>
+  <li><strong>Cost discipline.</strong> Netlify build minutes are rationed, so documentation-only pushes skip the build, and 818 player pages render on first visit rather than at build time.</li>
 </ul>
 
-<h2>Built with Claude Code</h2>
-<p>I built the whole site with Claude Code as my primary development tool, as a solo volunteer project: about 520 commits since March 2026, from first design to a production site on Netlify, with architecture decision records and documentation for whoever looks after it next. The data work, not the boilerplate, got the attention.</p>
+<h2 id="iterating">Still iterating</h2>
+<p>Something has shipped in 29 of the 35 weeks since the first commit. The busy months line up with the cricket calendar: the platform work before the season, the match-day features once games started.</p>
+<!-- cd:chart:commits -->
+<ol class="cd-timeline">
+  <li><span class="cd-timeline__when">March</span><h3>Prototype for the committee</h3><p>News, the first stats page, committee, sponsors, weather and a season countdown, in ten days.</p></li>
+  <li><span class="cd-timeline__when">April – June</span><h3>Foundations</h3><p>SEO and analytics, a formal design system with tokens and primitives, governance documents, and the first <code>CLAUDE.md</code>.</p></li>
+  <li><span class="cd-timeline__when">July – August</span><h3>Live cricket and the email platform</h3><p>Play Cricket integration (fixtures, ladders, scorecards, worm and Manhattan graphs, ball-by-ball, highlight clips), then subscriber imports, segments, scheduled sends, templates and unsubscribe.</p></li>
+  <li><span class="cd-timeline__when">September – October</span><h3>The season starts</h3><p>The admin portal redesign, the highlights editor with in-browser MP4 export and reels, live player stats from Play Cricket, the redesigned stats hub, tiered sponsors and the clubroom TV.</p></li>
+  <li><span class="cd-timeline__when">November</span><h3>Hardening and AI discoverability</h3><p>Admin actions split by domain, the documentation restructured around eleven ADRs, then <code>/llms.txt</code>, a club FAQ, one structured-data entity and the public MCP server.</p></li>
+  <li class="cd-timeline__now"><span class="cd-timeline__when">Now</span><h3>In review</h3><p>Honour boards for centuries and seven-wicket hauls on the stats hub, with the season’s weekly fixes and features alongside.</p></li>
+</ol>
 """,
     },
     "melbourne-pedestrian-counting": {

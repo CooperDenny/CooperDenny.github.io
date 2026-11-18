@@ -82,7 +82,7 @@ class HandPage(ProjectPage):
 <div class="cd-wrap">
 {r.summary(c)}
 <article class="cd-article">
-{c.body.strip()}
+{r.article(c)}
 </article>
 </div>
 </main>

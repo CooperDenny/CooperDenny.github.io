@@ -159,6 +159,14 @@ export const featuredProject: FeaturedProject = {
 
 /** Project cards under the featured card, in display order. */
 export const projects: Project[] = [
+  pageProject('eildon-park-cricket-club', {
+    kicker: 'Data engineering · Full-stack',
+    oneLiner: 'Designed, built and still run my cricket club’s platform: 37 seasons of stats joined to live Play Cricket data, plus an admin portal, email, video and an MCP server.',
+    summary:
+      'Built and run epcc.org.au solo with Claude Code (531 commits, 131 PRs in eight months): 36 seasons of club records joined to 1,118 Play Cricket scorecards and live data for 818 player pages, plus an invite-only admin portal, SES email platform, in-browser MP4 highlights editor and a public MCP server.',
+    stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
+    linkLabel: 'Read the case study',
+  }),
   pageProject('h2h-arbitrage-finder', {
     kicker: 'APIs · Data pipelines',
     oneLiner: 'Scans live odds from 12 Australian bookmakers for guaranteed-profit markets — and shows why real edges are rare and under 1%.',
@@ -166,14 +174,6 @@ export const projects: Project[] = [
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
     linkLabel: 'Read the write-up',
-  }),
-  pageProject('eildon-park-cricket-club', {
-    kicker: 'Data engineering · Web',
-    oneLiner: 'The club’s website, built on every senior season since 1989/90 plus live Play Cricket data: records and 800+ player pages that update themselves.',
-    summary:
-      'Built epcc.org.au for Eildon Park Cricket Club with Claude Code: 37 seasons of player statistics cleaned into one dataset and joined to 1,100+ Play Cricket scorecards and live hourly data, powering self-updating records, a page for every player and a match centre for every game.',
-    stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
-    linkLabel: 'See the project',
   }),
   {
     slug: 'cricket-stats-hub',

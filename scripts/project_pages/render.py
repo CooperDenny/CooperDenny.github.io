@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import html
+import re
 
 from .catalog import Catalog
 from .icons import IconSet
-from .model import Glance, PageCopy
+from .model import BarChart, Glance, PageCopy
 from .settings import Settings
 
 TOKENS_CSS, SITE_CSS, REPORT_CSS = "/tokens.css", "../site.css", "../report.css"
@@ -107,6 +108,38 @@ class Renderer:
     def summary(self, copy: PageCopy) -> str:
         """The "At a glance" panel followed by the "On this page" jump links."""
         return f"{self._glance(copy.glance)}\n{self._toc(copy)}"
+
+    CHART_SLOT = re.compile(r"<!-- cd:chart:([\w-]+) -->")
+
+    def article(self, copy: PageCopy) -> str:
+        """A hand page's body, with each `<!-- cd:chart:<id> -->` slot replaced by that chart.
+
+        Raises ValueError if the body names a chart the copy doesn't define, or a chart is never placed.
+        """
+        used = set(self.CHART_SLOT.findall(copy.body))
+        unknown, unused = used - copy.charts.keys(), copy.charts.keys() - used
+        if unknown or unused:
+            raise ValueError(f"{copy.slug}: chart slots without a chart {sorted(unknown)}, charts without a slot {sorted(unused)}")
+        return self.CHART_SLOT.sub(lambda m: self.bar_chart(m.group(1), copy.charts[m.group(1)]), copy.body.strip())
+
+    @staticmethod
+    def bar_chart(chart_id: str, chart: BarChart) -> str:
+        """A single-series bar chart as an ordered list: every value is visible text, bars scale to the max."""
+        top = max(b.value for b in chart.bars) or 1
+        fmt = lambda v: f"{v:,.0f}" if float(v).is_integer() else f"{v:,}"  # noqa: E731
+        bars = "".join(
+            f'<li class="cd-chart__bar" style="--v:{b.value / top:.3f}">'
+            f'<span class="cd-chart__value">{fmt(b.value)}<span class="cd-sr"> {chart.unit}</span></span>'
+            f'<span class="cd-chart__fill" aria-hidden="true"></span>'
+            f'<span class="cd-chart__label">{b.label}</span></li>'
+            for b in chart.bars
+        )
+        title_id = f"cd-chart-{chart_id}"
+        return f"""<figure class="cd-chart" aria-labelledby="{title_id}">
+  <p class="cd-chart__title" id="{title_id}">{chart.title}</p>
+  <ol class="cd-chart__bars" style="--n:{len(chart.bars)}">{bars}</ol>
+  <figcaption>{chart.caption}</figcaption>
+</figure>"""
 
     def next_project(self, slug: str) -> str:
         """Next-project card (catalog order, wrapping), All projects / Résumé buttons, and footer."""
