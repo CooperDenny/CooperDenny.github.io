@@ -34,7 +34,7 @@ flowchart LR
 **Concurrency:** one deploy at a time (group `pages`); a new push queues behind a running deploy instead of cancelling it.
 **Permissions:** `contents: read`, `pages: write`, `id-token: write`, the minimum `deploy-pages` needs.
 
-Pull requests and other branches **don't** trigger a run. Run the [pre-push checks](development.md#before-you-push) locally before merging.
+Pull requests don't deploy. They run [`.github/workflows/check.yml`](../.github/workflows/check.yml) instead: type-check, lint, `build-project-pages.py --check` and `npm run build` (the same four [pre-push checks](development.md#before-you-push)), with no deploy step and read-only permissions. A failing check shows on the PR before merge rather than as a failed deploy after it. Pushes to other branches without a PR trigger nothing.
 
 ## One-time repository settings
 
