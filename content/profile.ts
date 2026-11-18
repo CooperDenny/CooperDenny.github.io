@@ -161,9 +161,9 @@ export const featuredProject: FeaturedProject = {
 export const projects: Project[] = [
   pageProject('eildon-park-cricket-club', {
     kicker: 'Data engineering · Full-stack',
-    oneLiner: 'Designed, built and still run my cricket club’s platform: 37 seasons of stats joined to live Play Cricket data, plus an admin portal, email, video and an MCP server.',
+    oneLiner: 'Designed, built and still run my cricket club’s platform: every senior season since 1989/90 joined to live Play Cricket data, plus an admin portal, email, video and an MCP server.',
     summary:
-      'Built and run epcc.org.au solo with Claude Code (531 commits, 131 PRs in eight months): 36 seasons of club records joined to 1,118 Play Cricket scorecards and live data for 818 player pages, plus an invite-only admin portal, SES email platform, in-browser MP4 highlights editor and a public MCP server.',
+      'Built and run epcc.org.au solo with Claude Code (531 commits and 131 PRs in its first eight months): 36 seasons of club records joined to 1,100+ Play Cricket scorecards and live data for 800+ player pages, plus an invite-only admin portal, SES email platform, in-browser MP4 highlights editor and a public MCP server.',
     stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
     linkLabel: 'Read the case study',
   }),

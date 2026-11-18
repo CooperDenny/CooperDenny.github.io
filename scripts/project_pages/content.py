@@ -10,10 +10,10 @@ from __future__ import annotations
 
 HAND_PAGES: dict[str, dict] = {
     "eildon-park-cricket-club": {
-        "description": "How Cooper Denny designed, built and still runs epcc.org.au: a production Next.js and Supabase platform for Eildon Park Cricket Club, with 37 seasons of stats, live Play Cricket data, an admin portal, an email platform, an in-browser video editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 pull requests in eight months.",
+        "description": "How Cooper Denny designed, built and still runs epcc.org.au: a production Next.js and Supabase platform for Eildon Park Cricket Club, with 37 seasons of stats, live Play Cricket data, an admin portal, an email platform, an in-browser video editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 pull requests in its first eight months.",
         "kicker": "Data engineering · Full-stack · Cricket",
-        "lede": "I designed, built and still run <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, Eildon Park Cricket Club’s website. It began as a stats page and is now the club’s platform: <strong>every senior season since 1989/90 joined to live Play Cricket data</strong>, an admin portal the committee runs the club from, an email platform, an in-browser highlights editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 merged pull requests in eight months, and it’s still shipping.",
-        "meta": "Mar 2026 – now · Solo, built with Claude Code · 11 architecture decision records",
+        "lede": "I designed, built and still run <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, Eildon Park Cricket Club’s website. It began as a stats page and is now the club’s platform: <strong>every senior season since 1989/90 joined to live Play Cricket data</strong>, an admin portal the committee runs the club from, an email platform, an in-browser highlights editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 merged pull requests in its first eight months, from March to November 2026.",
+        "meta": "Since March 2026 · Solo, built with Claude Code",
         "stack": ["Next.js 14", "TypeScript", "Supabase (Postgres, RLS)", "Play Cricket API", "Amazon SES", "WebCodecs", "MCP", "Claude Code", "Netlify"],
         "actions": [
             {"label": "Visit epcc.org.au", "href": "https://epcc.org.au", "icon": "external"},
@@ -22,12 +22,13 @@ HAND_PAGES: dict[str, dict] = {
         "glance": {
             "question": "Can one volunteer give a community cricket club a website it owns, with decades of accurate records, live match data and the tools to run the club, and keep it improving every week without it falling over?",
             "did": [
-                "Cleaned 36 seasons of club records into one player-season dataset and joined it to 1,118 archived Play Cricket scorecards, with live figures from 2026/27, so every number on the site is derived, never typed in.",
-                "Built the whole platform with Claude Code: 21 public pages, a 20-screen invite-only admin portal, 8 Postgres tables behind 19 row-level security policies, and integrations with Play Cricket, Amazon SES and Open-Meteo.",
-                "Ran it like a product: every change through a pull request, 11 architecture decision records, and a rulebook (<code>CLAUDE.md</code>) that turns each outage or near miss into a rule.",
+                "Cleaned 36 seasons of club records into one player-season dataset and joined it to 1,100+ archived Play Cricket scorecards, with live figures from 2026/27, so every number on the site is derived, never typed in.",
+                "Built the whole platform with Claude Code, by November 2026: 21 public pages, a 20-screen invite-only admin portal, 8 Postgres tables behind 19 row-level security policies, and integrations with Play Cricket, Amazon SES and Open-Meteo.",
+                "Ran it like a product: every change through a pull request, architecture decision records for every load-bearing choice, and a rulebook (<code>CLAUDE.md</code>) that turns each outage or near miss into a rule.",
             ],
-            "outcome": "The club’s front door, mailing list, match centre, video desk and clubroom screen in one system, with <strong>no manual upkeep</strong> for stats: 818 players, 320,731 runs and 15,631 wickets that recalculate themselves as games are played.",
-            "metrics": [("818", "Players with a page, over 37 seasons"), ("1,118", "Play Cricket scorecards archived"), ("131", "Pull requests merged in 8 months"), ("8", "Read-only tools for AI assistants (MCP)")],
+            "outcome": "The club’s front door, mailing list, match centre, video desk and clubroom screen in one system, with <strong>no manual upkeep</strong> for stats: 800+ players, 320,000+ runs and 15,000+ wickets that recalculate themselves as games are played.",
+            "metrics": [("800+", "Players with a page, since 1989/90"), ("1,100+", "Play Cricket scorecards archived"), ("131", "Pull requests merged in the first 8 months"), ("8", "Read-only MCP tools for AI assistants, at launch")],
+            "note": "Build figures (commits, pull requests, pages, tables) are from the first eight months, to November 2026. Player, scorecard, run and wicket counts are minimums: the live site’s totals only grow.",
         },
         "toc": [
             ("The brief", "brief", False),
@@ -56,7 +57,7 @@ HAND_PAGES: dict[str, dict] = {
 <div class="cd-gallery">
   <figure class="cd-figure">
     <img src="player-profile.webp" width="1600" height="950" loading="lazy" alt="Player page for Cooper Denny: 108 games, 1,433 runs, 117 wickets, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons">
-    <figcaption>A player page (mine): career figures, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons. All 818 players have one.</figcaption>
+    <figcaption>A player page (mine): career figures, all-time club ranks, and tabs for batting, bowling, fielding, teammates, matches and seasons. Every player has one.</figcaption>
   </figure>
   <figure class="cd-figure">
     <img src="phone-views.webp" width="1600" height="1125" loading="lazy" alt="Three phone screenshots of epcc.org.au: the homepage with a Register to play button, a match centre showing Eildon Park 2nd XI 6/124 beating FTG Footballers 122, and the stats hub showing 818 players, 320,731 runs and 15,631 wickets over 37 seasons">
@@ -122,13 +123,13 @@ HAND_PAGES: dict[str, dict] = {
 <p>The hard part wasn’t the website. It was the data. The club’s history came from records spanning nearly four decades, in inconsistent formats. Three sources now feed one model, so every number on the site is <strong>derived</strong>, never typed in:</p>
 <ul>
   <li><strong>The archive</strong>: a cleaned player-season table of every senior Saturday season from 1989/90 to 2025/26 (4,800 rows: runs, wickets, averages, hundreds, five-fors). Names are normalised to one form per person, and overs are kept in cricket notation (<code>120.3</code> is 120 overs and 3 balls), not decimals.</li>
-  <li><strong>Scorecards</strong>: 1,118 Play Cricket scorecards since 2009/10, built into match-level archives that power single-game records (highest scores, best bowling, partnerships, fastest fifties), each player’s match-by-match tab, and an “On this day” feed of 1,689 fifties, hundreds and four-wicket hauls.</li>
+  <li><strong>Scorecards</strong>: 1,100+ Play Cricket scorecards since 2009/10, built into match-level archives that power single-game records (highest scores, best bowling, partnerships, fastest fifties), each player’s match-by-match tab, and an “On this day” feed of 1,600+ fifties, hundreds and four-wicket hauls.</li>
   <li><strong>Live data</strong>: from 2026/27 the senior XIs’ figures come straight from Play Cricket, refreshed hourly. A name map links Play Cricket IDs to archive names where they differ, and an archive row for a live season overrides Play Cricket’s figures, so a scoring error can be corrected without touching code.</li>
 </ul>
 <p>Adding a season takes no work at all: the leaderboards, profiles and records follow the games.</p>
 
 <h2 id="decisions">Decisions that hold it up</h2>
-<p>Each load-bearing choice is written down as an architecture decision record: the context that forced it, the decision, and what it costs. Six of the eleven:</p>
+<p>Each load-bearing choice is written down as an architecture decision record: the context that forced it, the decision, and what it costs. Six of them:</p>
 <div class="cd-cards cd-cards--2">
   <div class="cd-card">
     <span class="cd-card__tag">ADR 0003 · Performance</span>
@@ -163,7 +164,7 @@ HAND_PAGES: dict[str, dict] = {
   <div class="cd-card">
     <span class="cd-card__tag">ADR 0011 · AI</span>
     <h3>An MCP server, hand-written</h3>
-    <p><span class="cd-card__k">Why</span>Assistants answer from whatever page they happen to fetch, which can’t answer “how many runs has X made?” for 818 players.</p>
+    <p><span class="cd-card__k">Why</span>Assistants answer from whatever page they happen to fetch, which can’t answer “how many runs has X made?” for 800+ players.</p>
     <p><span class="cd-card__k">Cost</span>About 100 lines, no dependency, checked against the official SDK client. Read-only and public data only, so it needs no auth.</p>
   </div>
 </div>
@@ -189,18 +190,18 @@ HAND_PAGES: dict[str, dict] = {
 </div>
 
 <h2 id="workflow">How I build it</h2>
-<p>I’m the only person working on it, and Claude Code is my primary development tool: <strong>277 of the 531 commits were written by Claude Code sessions</strong>, and none reach the live site without a pull request I review. My job is product owner, architect, reviewer and the person who knows the cricket data. The system that keeps that fast <em>and</em> safe is mostly writing:</p>
+<p>I’m the only person working on it, and Claude Code is my primary development tool: <strong>in the first eight months, 277 of 531 commits were written by Claude Code sessions</strong>, and none reach the live site without a pull request I review. My job is product owner, architect, reviewer and the person who knows the cricket data. The system that keeps that fast <em>and</em> safe is mostly writing:</p>
 <ul>
   <li><strong>A rulebook, not a wiki.</strong> <code>CLAUDE.md</code> holds the non-negotiable rules, each one there because breaking it caused, or would cause, an outage, a security hole or silent data loss, and each linked to the doc that explains it.</li>
-  <li><strong>Decisions on record.</strong> Eleven ADRs, so a later change can’t quietly undo what an earlier one was protecting.</li>
-  <li><strong>Docs ship with the code.</strong> 43 Markdown documents (architecture, features, runbooks, a design system, a security model), updated in the same pull request as the change they describe.</li>
+  <li><strong>Decisions on record.</strong> Architecture decision records (eleven by November 2026), so a later change can’t quietly undo what an earlier one was protecting.</li>
+  <li><strong>Docs ship with the code.</strong> 40+ Markdown documents (architecture, features, runbooks, a design system, a security model), updated in the same pull request as the change they describe.</li>
   <li><strong>A definition of done.</strong> Lint, type-check and production build clean, the change tried in a browser at phone width, and a pull-request template that lists any manual steps outside the code.</li>
   <li><strong>Repeatable jobs as skills.</strong> A custom Claude Code skill writes a match report from a game’s Play Cricket scorecard, with season context from both teams’ earlier rounds, and publishes it to the database.</li>
-  <li><strong>Cost discipline.</strong> Netlify build minutes are rationed, so documentation-only pushes skip the build, and 818 player pages render on first visit rather than at build time.</li>
+  <li><strong>Cost discipline.</strong> Netlify build minutes are rationed, so documentation-only pushes skip the build, and player pages render on first visit rather than at build time.</li>
 </ul>
 
 <h2 id="iterating">Still iterating</h2>
-<p>Something has shipped in 29 of the 35 weeks since the first commit. The busy months line up with the cricket calendar: the platform work before the season, the match-day features once games started.</p>
+<p>In the first eight months, something shipped in 29 of 35 weeks. The busy months line up with the cricket calendar: the platform work before the season, the match-day features once games started.</p>
 <!-- cd:chart:commits -->
 <ol class="cd-timeline">
   <li><span class="cd-timeline__when">March</span><h3>Prototype for the committee</h3><p>News, the first stats page, committee, sponsors, weather and a season countdown, in ten days.</p></li>
@@ -208,7 +209,7 @@ HAND_PAGES: dict[str, dict] = {
   <li><span class="cd-timeline__when">July – August</span><h3>Live cricket and the email platform</h3><p>Play Cricket integration (fixtures, ladders, scorecards, worm and Manhattan graphs, ball-by-ball, highlight clips), then subscriber imports, segments, scheduled sends, templates and unsubscribe.</p></li>
   <li><span class="cd-timeline__when">September – October</span><h3>The season starts</h3><p>The admin portal redesign, the highlights editor with in-browser MP4 export and reels, live player stats from Play Cricket, the redesigned stats hub, tiered sponsors and the clubroom TV.</p></li>
   <li><span class="cd-timeline__when">November</span><h3>Hardening and AI discoverability</h3><p>Admin actions split by domain, the documentation restructured around eleven ADRs, then <code>/llms.txt</code>, a club FAQ, one structured-data entity and the public MCP server.</p></li>
-  <li class="cd-timeline__now"><span class="cd-timeline__when">Now</span><h3>In review</h3><p>Honour boards for centuries and seven-wicket hauls on the stats hub, with the season’s weekly fixes and features alongside.</p></li>
+  <li class="cd-timeline__now"><span class="cd-timeline__when">Since</span><h3>The same loop</h3><p>Fixes and features through each season, every one through a pull request, and every lesson into the rulebook.</p></li>
 </ol>
 """,
     },

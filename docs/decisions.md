@@ -191,7 +191,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - The 2025 page leads with its strongest honest result (best 3-vote hit rate of the three seasons, top pick runner-up) and still reports the missed winner in the outcome.
 - Cricket club screenshots are taken from the live site (the player page shown is Cooper's own) and stored as WebP at 1600px wide.
 
-**Consequences.** Live-site figures (818 players, 1,118 scorecards) drift as games are played; refresh them when re-shooting the screenshots. [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) adds the repository's own figures (commits, pull requests, ADRs), which drift too. When a new Brownlow season is tested, add a page and a card link rather than a new card.
+**Consequences.** Live-site figures drift as games are played. For the cricket club page this is handled by writing them so they can't go stale ([D21](#d21-the-cricket-club-page-is-an-engineering-case-study)); screenshots are snapshots and only need re-shooting if the site's design changes a lot. When a new Brownlow season is tested, add a page and a card link rather than a new card.
 
 ### D19. The link-in-bio page is unlisted
 
@@ -225,4 +225,10 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - Charts are generated from data in `content.py` by the generator's `Renderer.bar_chart()`, as an HTML list with every value printed: no JavaScript, no SVG to keep legible at 320px, and the values are readable without the bars. Only single-series bar charts are supported; anything more complex should be a screenshot of the real thing.
 - New screenshots (clubroom TV slides, three phone views) are taken from the live site and stored as WebP at 1600px wide, per D18.
 
-**Consequences.** The page carries more numbers that go stale (commits, PRs, weeks shipped, scorecards). Refresh them from the club repo when updating the page, and update the "Now" timeline entry, which names a pull request in review at the time of writing (honour boards on `/stats`).
+**Consequences.** Cooper does not want to maintain this page, so **every figure on it must stay true without edits**:
+- Growing counts (players, scorecards, runs, wickets, docs) are written as minimums (`800+`, `1,100+`), never exact live values.
+- Build figures (commits, pull requests, pages, tables, ADRs, weeks shipped, Claude Code's share) are tied to a period: "in its first eight months" or "by November 2026". The glance note says so.
+- Nothing names in-flight work (an open pull request, "this season"), and the timeline's last entry describes the ongoing practice, not a dated item.
+- Figures are not fetched at build time: that would add a deploy dependency on the club site or its private repo, and break D15's committed-and-checked pages.
+
+When editing the page, keep to these rules; then it needs no routine refresh. Screenshots are snapshots and stay valid until the club site's design changes a lot.
