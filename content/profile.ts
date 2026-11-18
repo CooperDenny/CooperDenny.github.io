@@ -166,6 +166,13 @@ export const projects: Project[] = [
       'Built and run epcc.org.au solo with Claude Code (531 commits and 131 PRs in its first eight months): 36 seasons of club records joined to 1,100+ Play Cricket scorecards and live data for 800+ player pages, plus an invite-only admin portal, SES email platform, in-browser MP4 highlights editor and a public MCP server.',
     stack: ['Data modelling', 'Play Cricket API', 'Next.js', 'Supabase', 'Claude Code'],
     linkLabel: 'Read the case study',
+    onResume: true,
+    resumeBullets: [
+      'Designed, built and run epcc.org.au solo with Claude Code since March 2026: 531 commits and 131 merged pull requests in its first eight months, governed by architecture decision records and a rulebook for AI-assisted development.',
+      'Cleaned 36 seasons of club records (1989/90 to 2025/26) into one player-season dataset and joined it to 1,100+ Play Cricket scorecards and live data, powering self-updating records and a page for each of 800+ players.',
+      'Next.js, TypeScript and Supabase (Postgres with row-level security): an invite-only admin portal, a resumable-batch email platform on Amazon SES, and an in-browser MP4 highlights editor built on WebCodecs.',
+      'Made the club answerable by AI assistants with schema.org structured data, a live /llms.txt and a public, read-only MCP server.',
+    ],
   }),
   pageProject('h2h-arbitrage-finder', {
     kicker: 'APIs · Data pipelines',
@@ -174,6 +181,7 @@ export const projects: Project[] = [
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
     stack: ['R', 'REST API', 'tidyverse'],
     linkLabel: 'Read the write-up',
+    onResume: true,
   }),
   {
     slug: 'cricket-stats-hub',
@@ -183,6 +191,7 @@ export const projects: Project[] = [
     summary:
       'R library over Cricsheet (via cricketdata) that returns tidy ball-by-ball, per-innings batting and bowling, and match data for 40+ men’s and women’s international and domestic competitions, with a Big Bash League dashboard built on it.',
     stack: ['R', 'cricketdata', 'Data cleaning'],
+    onResume: true,
     links: [{ label: 'View on GitHub', href: 'https://github.com/CooperDenny/CricketStatsHub' }],
   },
 ];

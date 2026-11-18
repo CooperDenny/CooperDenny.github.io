@@ -49,7 +49,7 @@ Edit `profile` in [`content/profile.ts`](../content/profile.ts):
 |---|---|---|
 | `headline` | Large line under your name on the home page | One sentence. It's the first thing a recruiter reads. |
 | `pitch` | Paragraph under the headline | At most two sentences: the hero must fit one phone screen ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)). |
-| `resumeSummary` | Opening paragraph of `/resume` | Three or four sentences; keep the résumé to one page. |
+| `resumeSummary` | Opening paragraph of `/resume` | Three or four sentences. |
 | `coreStack` | "Core stack" line under the proof tiles | Five or six tools, most important first. |
 
 **Check:** `npm run dev`, then look at `/` on a narrow window: the headline, pitch, buttons and first proof tiles should all be visible without scrolling.
@@ -183,7 +183,7 @@ External links open in a new tab automatically, because `https://` URLs are dete
 
 The sitemap picks up the new page automatically. If you register a page in `projects.json` but give it no copy, the generator refuses to run and names the page. A `pageProject` slug that isn't in `projects.json` fails the Next build with `Unknown project page "<slug>"`.
 
-To put a project on the printed résumé, add `onResume: true` to its card, and check the résumé still [fits one page](#the-résumé).
+To put a project on the printed résumé, add `onResume: true` to its card, and check the résumé still [fits two pages](#the-résumé). The résumé shows its `summary` as one bullet; for a bigger project, give it `resumeBullets: ['…', '…']` instead (the club platform has four).
 
 ### The featured project
 
@@ -262,7 +262,7 @@ The nav menu is generated from this list, in this order. Changing an `id` update
 - education;
 - every skill group except those with `onResume: false`.
 
-**It must print on one A4 page.** After adding content, open `/resume`, choose **Save as PDF**, and check the page count. To check from the command line, use the Playwright snippet in [Development → Checking the résumé](development.md#checking-the-résumé-is-one-page).
+**It must print on at most two A4 pages** ([D22](decisions.md#d22-the-résumé-is-two-pages)). Page one should carry the summary, experience and the featured project; entries never split across the break. After adding content, open `/resume`, choose **Save as PDF**, and check the page count and where the break falls. To check from the command line, use the Playwright snippet in [Development → Checking the résumé](development.md#checking-the-résumés-page-count).
 
 ## Site settings: URL, analytics, fonts
 
@@ -276,5 +276,5 @@ The page title and the search/share descriptions are in [`config/site.ts`](../co
 
 - [ ] `npm run dev` and look at what you changed, on a narrow window and a wide one, in **both themes** (sun/moon button).
 - [ ] If you changed project-page copy or a shared input (`content/*.json`, `config/site.json`, `lib/theme.js`, or `--bg` in `tokens.css`): run `python3 scripts/build-project-pages.py`. When unsure, just run it; it only rewrites pages that changed.
-- [ ] If you added content that appears on the résumé: it still prints on one page.
+- [ ] If you added content that appears on the résumé: it still prints on two pages at most, with no entry split across the break.
 - [ ] Run the four checks in [Development → Before you push](development.md#before-you-push).

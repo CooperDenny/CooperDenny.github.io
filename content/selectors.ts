@@ -61,7 +61,7 @@ export function resumeProjects(featured: FeaturedProject, projects: Project[]): 
   };
   const others = projects
     .filter((p) => p.onResume)
-    .map((p) => ({ title: p.title, tagline: tagline(p), bullets: [p.summary] }));
+    .map((p) => ({ title: p.title, tagline: tagline(p), bullets: p.resumeBullets ?? [p.summary] }));
   return [featuredEntry, ...others];
 }
 

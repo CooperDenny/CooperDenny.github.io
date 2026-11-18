@@ -181,7 +181,7 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 
 ## Print
 
-`/resume` is designed to print on **one A4 page** (`@page { size: A4; margin: 10mm 13mm }`). In print, the nav, footer, sticky bar and toolbar are hidden, and the sheet loses its card styling. If you add content, check the page count: see [Development](development.md#checking-the-résumé-is-one-page).
+`/resume` prints on **at most two A4 pages** (`@page { size: A4; margin: 10mm 13mm }`, 10pt body type). Résumé items and section headings avoid page breaks (`break-inside` / `break-after: avoid`), so no entry splits across pages. In print, the nav, footer, sticky bar and toolbar are hidden, and the sheet loses its card styling. If you add content, check the page count: see [Development](development.md#checking-the-résumés-page-count).
 
 ---
 

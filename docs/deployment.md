@@ -79,7 +79,7 @@ That redeploys the previous state through the normal pipeline. Avoid force-pushi
 ## After a deploy
 
 - [ ] The home page loads and the theme switch works.
-- [ ] `/resume/` loads and prints on one page.
+- [ ] `/resume/` loads and prints on two pages at most.
 - [ ] A project page loads (e.g. `/projects/afl-brownlow-2024/`), with its nav and theme switch.
 - [ ] Power BI embeds load on the two dashboard pages. They're third-party and can be slow.
 - [ ] Optional: share the URL somewhere with link previews to check the Open Graph image and description.
