@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import html
 import re
+from typing import Callable, Optional
 
 from .catalog import Catalog
 from .icons import IconSet
-from .model import BarChart, Glance, PageCopy
+from .model import BarChart, Gallery, Glance, PageCopy
 from .settings import Settings
 
 TOKENS_CSS, SITE_CSS, REPORT_CSS = "/tokens.css", "../site.css", "../report.css"
@@ -109,18 +110,58 @@ class Renderer:
         """The "At a glance" panel followed by the "On this page" jump links."""
         return f"{self._glance(copy.glance)}\n{self._toc(copy)}"
 
-    CHART_SLOT = re.compile(r"<!-- cd:chart:([\w-]+) -->")
+    SLOT = re.compile(r"<!-- cd:(chart|gallery):([\w-]+) -->")
+    # Widest a grid thumbnail may be: 2x its largest display width in the 860px reading column (D04).
+    THUMB_MAX = {1: 1656, 2: 820, 3: 540}
 
-    def article(self, copy: PageCopy) -> str:
-        """A hand page's body, with each `<!-- cd:chart:<id> -->` slot replaced by that chart.
+    def article(self, copy: PageCopy, size_of: Callable[[str], Optional[tuple[int, int]]]) -> str:
+        """A hand page's body, with each `<!-- cd:chart:<id> -->` / `<!-- cd:gallery:<id> -->` slot filled in.
 
-        Raises ValueError if the body names a chart the copy doesn't define, or a chart is never placed.
+        `size_of(relative path)` returns an image's (width, height) next to the page, or None if it's missing.
+        Raises ValueError if a slot names nothing the copy defines, a chart or gallery is never placed,
+        a thumbnail is missing, or a thumbnail is wider than its grid allows.
         """
-        used = set(self.CHART_SLOT.findall(copy.body))
-        unknown, unused = used - copy.charts.keys(), copy.charts.keys() - used
-        if unknown or unused:
-            raise ValueError(f"{copy.slug}: chart slots without a chart {sorted(unknown)}, charts without a slot {sorted(unused)}")
-        return self.CHART_SLOT.sub(lambda m: self.bar_chart(m.group(1), copy.charts[m.group(1)]), copy.body.strip())
+        defined = {"chart": copy.charts, "gallery": copy.galleries}
+        used = {(kind, key) for kind, key in self.SLOT.findall(copy.body)}
+        for kind, items in defined.items():
+            ids = {key for k, key in used if k == kind}
+            unknown, unused = ids - items.keys(), items.keys() - ids
+            if unknown or unused:
+                plural = {"chart": "charts", "gallery": "galleries"}[kind]
+                raise ValueError(f"{copy.slug}: {kind} slots without a {kind} {sorted(unknown)}, {plural} without a slot {sorted(unused)}")
+
+        def fill(m: "re.Match[str]") -> str:
+            kind, key = m.group(1), m.group(2)
+            if kind == "chart":
+                return self.bar_chart(key, copy.charts[key])
+            return self.gallery(copy.slug, key, copy.galleries[key], size_of)
+
+        return self.SLOT.sub(fill, copy.body.strip())
+
+    def gallery(self, slug: str, gallery_id: str, g: Gallery, size_of: Callable[[str], Optional[tuple[int, int]]]) -> str:
+        """A titled screenshot grid. Each thumbnail links to its full-size copy when one exists."""
+        limit = self.THUMB_MAX[g.columns]
+        figures = []
+        for s in g.shots:
+            thumb, full = f"{g.folder}/{s.name}.webp", f"{g.folder}/full/{s.name}.webp"
+            size = size_of(thumb)
+            if size is None:
+                raise ValueError(f"{slug}: gallery '{gallery_id}' needs {thumb}")
+            if size[0] > limit:
+                raise ValueError(f"{slug}: {thumb} is {size[0]}px wide; a {g.columns}-column gallery allows {limit}px")
+            alt = html.escape(s.alt, quote=True)
+            img = f'<img src="{thumb}" width="{size[0]}" height="{size[1]}" loading="lazy" decoding="async" alt="{alt}">'
+            if size_of(full):
+                img = f'<a class="cd-figure__zoom" href="{full}" aria-label="Full-size image: {alt}">{img}</a>'
+            figures.append(f'<figure class="cd-figure">{img}<figcaption>{s.caption}</figcaption></figure>')
+        title_id = f"cd-gallery-{gallery_id}"
+        return f"""<section class="cd-tour" aria-labelledby="{title_id}">
+  <h3 id="{title_id}">{g.title}</h3>
+  <p>{g.intro}</p>
+  <div class="cd-gallery cd-gallery--{g.columns}">
+    {"".join(figures)}
+  </div>
+</section>"""
 
     @staticmethod
     def bar_chart(chart_id: str, chart: BarChart) -> str:

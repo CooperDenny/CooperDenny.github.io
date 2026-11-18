@@ -68,6 +68,35 @@ class BarChart:
 
 
 @dataclass(frozen=True)
+class Shot:
+    """One screenshot in a Gallery: the file's base `name`, its `alt` text and a short `caption`."""
+
+    name: str
+    alt: str
+    caption: str
+
+
+@dataclass(frozen=True)
+class Gallery:
+    """A titled grid of screenshots placed in a hand page's body with `<!-- cd:gallery:<id> -->`.
+
+    Each shot is `<folder>/<name>.webp` (the grid thumbnail) and, optionally, `<folder>/full/<name>.webp`
+    (a full-size copy the thumbnail links to). `columns` (1-3) sets the desktop grid.
+    """
+
+    title: str
+    intro: str
+    folder: str
+    columns: int
+    shots: tuple[Shot, ...]
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "Gallery":
+        """Build from a content.py gallery dict: title, intro, folder, columns and (name, alt, caption) shots."""
+        return cls(d["title"], d["intro"], d["folder"], d["columns"], tuple(Shot(*s) for s in d["shots"]))
+
+
+@dataclass(frozen=True)
 class Glance:
     """The "At a glance" panel: question, what I did, optional outcome, metrics and note."""
 
@@ -94,6 +123,7 @@ class PageCopy:
     toc: tuple[TocItem, ...] = ()
     body: str = ""
     charts: dict[str, BarChart] = field(default_factory=dict)
+    galleries: dict[str, Gallery] = field(default_factory=dict)
 
     @classmethod
     def from_dict(cls, slug: str, d: dict, catalog: Catalog) -> "PageCopy":
@@ -118,6 +148,7 @@ class PageCopy:
             toc=tuple(TocItem(*t) for t in d.get("toc", ())),
             body=d.get("body", ""),
             charts={k: BarChart.from_dict(v) for k, v in d.get("charts", {}).items()},
+            galleries={k: Gallery.from_dict(v) for k, v in d.get("galleries", {}).items()},
         )
 
     def with_results(self, *, meta: str, metrics: tuple[Metric, ...], note: str) -> "PageCopy":

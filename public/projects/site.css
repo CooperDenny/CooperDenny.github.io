@@ -533,6 +533,50 @@ body.cd-page {
   }
 }
 
+/* Feature tour: titled screenshot grids rendered from a page's `galleries`.
+   Three-column grids (phones, TV slides, emails) go two-up from 600px. */
+.cd-gallery--3 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (min-width: 861px) {
+  .cd-gallery--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 599px) {
+  .cd-gallery--3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.cd-tour {
+  margin: 32px 0 0;
+}
+.cd-tour > h3 {
+  margin: 0 0 6px;
+}
+.cd-tour > p {
+  margin: 0 0 4px;
+}
+.cd-tour .cd-gallery {
+  margin-top: 16px;
+}
+.cd-tour figcaption {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+.cd-figure__zoom {
+  display: block;
+  border-radius: var(--radius-sm);
+  cursor: zoom-in;
+}
+.cd-figure__zoom img {
+  transition: border-color 0.15s;
+}
+.cd-figure__zoom:hover img,
+.cd-figure__zoom:focus-visible img {
+  border-color: var(--accent);
+}
+
 /* Power BI embed: reserve the aspect ratio so the page doesn't jump, show a
    message underneath the (initially blank) iframe, and offer a full-screen link —
    a Power BI report is close to unusable at 360px wide. */

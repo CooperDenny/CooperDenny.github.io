@@ -95,6 +95,7 @@ Each entry in `HAND_PAGES` / `REPORT_PAGES` is a dict, keyed by slug, that becom
 | `toc` | no | Jump links: `(label, anchor_id, is_key)` tuples; `is_key=True` highlights one (e.g. results) |
 | `body` | hand pages | The article HTML. Use the `cd-` classes from `site.css` (`cd-figure`, `cd-gallery`, `cd-embed`, …). |
 | `charts` | no | Hand pages only. `{id: {"title", "caption", "unit", "bars": [(label, value), …]}}`: a single-series bar chart, placed in `body` with `<!-- cd:chart:<id> -->`. See [Charts](#charts-in-hand-pages). |
+| `galleries` | no | Hand pages only. `{id: {"title", "intro", "folder", "columns", "shots": [(name, alt, caption), …]}}`: a titled screenshot grid, placed in `body` with `<!-- cd:gallery:<id> -->`. See [Screenshot galleries](#screenshot-galleries). |
 
 ### Body building blocks
 
@@ -108,6 +109,7 @@ Hand-page bodies are plain HTML using these `site.css` classes (all token-colour
 | `cd-cards`, `cd-cards--2`, `cd-card`, `cd-card__tag`, `cd-card__k` | Cards for decisions or problems; `--2` is two columns from 600px; `__k` is a small label such as "Why" |
 | `cd-timeline`, `cd-timeline__when`, `cd-timeline__now` | A vertical timeline; `__now` fills the last dot |
 | `cd-sr` | Visually hidden text for screen readers |
+| `cd-tour`, `cd-gallery--3`, `cd-figure__zoom` | Rendered by the generator for `galleries` (don't hand-write them): a titled grid, three columns from 861px (two from 600px), and thumbnails that link to their full-size copy |
 
 ### Charts in hand pages
 
@@ -126,6 +128,34 @@ A chart is data in the page's `charts`, never hand-written markup:
 ```
 
 `Renderer.article()` swaps each slot for `Renderer.bar_chart()`: an ordered list with one accent-coloured bar per value, scaled to the largest, with every value printed above its bar, so the list is also the table view. It needs no JavaScript ([D21](decisions.md#d21-the-cricket-club-page-is-an-engineering-case-study)). A slot without a chart, or a chart without a slot, stops the generator with an error naming both.
+
+### Screenshot galleries
+
+A gallery is a titled grid of screenshots, also data rather than markup:
+
+```python
+"galleries": {
+    "admin": {
+        "title": "Admin portal",
+        "intro": "One sentence on what the reader is looking at.",
+        "folder": "tour",          # relative to the page's folder
+        "columns": 2,              # 1, 2 or 3 on desktop
+        "shots": [("admin-dashboard", "Alt text: what the screen shows", "Short caption.")],
+    },
+},
+"body": """ … <!-- cd:gallery:admin --> … """,
+```
+
+Each shot is two WebP files next to the page:
+
+| File | Width | Used for |
+|---|---|---|
+| `<folder>/<name>.webp` | At most 1656px (1 column), 820px (2 columns) or 540px (3 columns): twice its largest display width ([D04](decisions.md#d04-images-are-plain-img-self-hosted-webp)) | The lazy-loaded grid thumbnail |
+| `<folder>/full/<name>.webp` | Any; optional | The full-size copy the thumbnail links to |
+
+`Renderer.gallery()` reads each thumbnail's size from its WebP header (`images.py`, standard library only) for the `width` and `height` attributes, so the page doesn't jump as images load. It stops with an error if a thumbnail is missing or too wide for its column count. If the `full/` copy is missing, the thumbnail simply isn't a link.
+
+**To add a screenshot:** save a PNG (desktop at 1440×900, phones at 390px wide and 2× scale), convert it to the two WebPs (for example with Pillow: resize to the thumbnail width and save at quality 76, and the full copy at quality 72), add a `(name, alt, caption)` tuple to the gallery, and run the generator. Captions describe the screen, never a live figure that will go stale ([D21](decisions.md#d21-the-cricket-club-page-is-an-engineering-case-study)).
 
 ---
 
@@ -196,7 +226,8 @@ flowchart TD
 | `render.py` | `Renderer`: pure functions from copy to HTML fragments (head meta, fonts, analytics, theme script and toggle, nav, hero, summary, next-project card) |
 | `transforms.py` | `Transform` ABC, `Pipeline`, `MarkedBlock`/`UpsertBlock`, and the single-purpose HTML edits |
 | `extensions.py` | `ReportExtension` hook (`enrich`, `transforms`), DataTables reader, `ArbitrageFacts` |
-| `model.py` | Immutable `PageCopy`, `Glance`, `Action`, `Metric`, `TocItem`; `PageCopy.from_dict` |
+| `model.py` | Immutable `PageCopy`, `Glance`, `Action`, `Metric`, `TocItem`, `BarChart`, `Gallery`, `Shot`; `PageCopy.from_dict` |
+| `images.py` | `webp_size()`: a WebP's pixel size from its header, for gallery `width`/`height` and the thumbnail width check |
 | `content.py` | The copy. Data only. |
 | `catalog.py`, `icons.py`, `settings.py` | Read `content/projects.json`, `content/icons.json`, `config/site.json`, `content/identity.json`, `public/tokens.css` and `lib/theme.js` |
 
@@ -236,4 +267,7 @@ Edit the relevant `Renderer` method in `render.py`, and its styles in `public/pr
 | `couldn't find pandoc's #header block to replace` | A freshly knitted report has no `<div id="header">`, e.g. the `.Rmd` has no `title:` | Give the R Markdown a title in its YAML header and re-knit |
 | `arbitrage report: expected the H2H and back/lay result tables — has the report changed?` | The arbitrage report no longer has two DataTables with `market` and `converted_odds` columns | Restore those tables in the `.Rmd`, or update `ArbitrageFacts` |
 | `<slug>: chart slots without a chart [...], charts without a slot [...]` | A `<!-- cd:chart:<id> -->` in `body` doesn't match a key in `charts`, or the reverse | Fix the id, or add the missing slot or chart |
+| `<slug>: gallery slots without a gallery [...], galleries without a slot [...]` | The same mismatch for `<!-- cd:gallery:<id> -->` and `galleries` | Fix the id, or add the missing slot or gallery |
+| `<slug>: gallery '<id>' needs <folder>/<name>.webp` | A shot's thumbnail isn't on disk | Add the WebP, or fix the shot's name |
+| `<slug>: <file> is <n>px wide; a <c>-column gallery allows <max>px` | The thumbnail is more than twice its display width | Re-save it at the allowed width (the full-size copy can stay large) |
 | `design token --bg not found in …tokens.css` | `--bg` was renamed or removed | Restore it; it sets the browser theme colour |

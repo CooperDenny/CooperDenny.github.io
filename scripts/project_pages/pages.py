@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from .extensions import ReportExtension
+from .images import webp_size
 from .model import PageCopy
 from .render import REPORT_CSS, SITE_CSS, TOKENS_CSS, Renderer
 from .transforms import (
@@ -82,7 +83,7 @@ class HandPage(ProjectPage):
 <div class="cd-wrap">
 {r.summary(c)}
 <article class="cd-article">
-{r.article(c)}
+{r.article(c, self._image_size)}
 </article>
 </div>
 </main>
@@ -90,6 +91,11 @@ class HandPage(ProjectPage):
 </body>
 </html>
 """
+
+
+    def _image_size(self, relative: str) -> Optional[tuple[int, int]]:
+        """(width, height) of a WebP next to this page, or None if it isn't there."""
+        return webp_size(self.path.parent / relative)
 
 
 class ReportPage(ProjectPage):
