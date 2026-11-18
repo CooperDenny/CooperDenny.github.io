@@ -40,7 +40,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
 - The home page's first phone screen must keep: name, headline, pitch, CTAs, proof tiles ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off)).
-- `/resume/` must print on one A4 page.
+- `/resume/` prints on at most two A4 pages, with no entry split across the break ([D22](docs/decisions.md#d22-the-résumé-is-two-pages)).
 
 **Project pages**
 - Never hand-edit `public/projects/<slug>/index.html`. Edit the inputs, run `python3 scripts/build-project-pages.py`, and commit the output. CI fails if pages are stale.
@@ -56,7 +56,7 @@ python3 scripts/build-project-pages.py --check   # must report "all project page
 npm run build
 ```
 
-For visual changes, also check both themes at 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout-and-themes)), and that `/resume/` is still one page.
+For visual changes, also check both themes at 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout-and-themes)), and that `/resume/` still prints on two pages at most.
 
 ## Keep the docs true
 

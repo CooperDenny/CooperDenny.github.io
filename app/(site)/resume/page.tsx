@@ -15,7 +15,7 @@ import { resumeProjects, resumeSkills } from '@/content/selectors';
 
 export const metadata: Metadata = {
   title: `Résumé — ${profile.name}, ${profile.role}`,
-  description: `One-page résumé for ${profile.name}, ${profile.role} at ${profile.employer} in ${profile.location}.`,
+  description: `Résumé for ${profile.name}, ${profile.role} at ${profile.employer} in ${profile.location}.`,
   alternates: { canonical: RESUME_HREF },
 };
 

@@ -59,8 +59,10 @@ export type Project = {
   summary: string;
   stack: string[];
   links: Link[];
-  /** Include on the one-page printed résumé. */
+  /** Include on the printed résumé. */
   onResume?: boolean;
+  /** Résumé bullets for a bigger project; without them the résumé shows `summary` as one bullet. */
+  resumeBullets?: string[];
 };
 
 /** A titled, compact list of secondary projects (rendered as links, not cards). */

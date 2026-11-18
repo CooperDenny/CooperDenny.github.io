@@ -160,7 +160,7 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
 | `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
-Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
+Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Hand-page bodies also have building blocks for figures, system maps, cards, timelines and bar charts, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). Charts use one hue (`--accent`) and keep their text in the text tokens. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 
 ---
 
@@ -181,7 +181,7 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 
 ## Print
 
-`/resume` is designed to print on **one A4 page** (`@page { size: A4; margin: 10mm 13mm }`). In print, the nav, footer, sticky bar and toolbar are hidden, and the sheet loses its card styling. If you add content, check the page count: see [Development](development.md#checking-the-résumé-is-one-page).
+`/resume` prints on **at most two A4 pages** (`@page { size: A4; margin: 10mm 13mm }`, 10pt body type). Résumé items and section headings avoid page breaks (`break-inside` / `break-after: avoid`), so no entry splits across pages. In print, the nav, footer, sticky bar and toolbar are hidden, and the sheet loses its card styling. If you add content, check the page count: see [Development](development.md#checking-the-résumés-page-count).
 
 ---
 

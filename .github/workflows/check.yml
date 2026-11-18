@@ -1,0 +1,43 @@
+name: Check
+
+# Runs the four pre-push checks on every pull request, so a broken build or stale
+# project page shows up on the PR instead of failing the deploy after merge.
+# Deploying stays in deploy.yml (push to main only).
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check project pages are up to date
+        run: python3 scripts/build-project-pages.py --check
+
+      - name: Build
+        run: npm run build

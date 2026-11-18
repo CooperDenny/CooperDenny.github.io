@@ -94,6 +94,38 @@ Each entry in `HAND_PAGES` / `REPORT_PAGES` is a dict, keyed by slug, that becom
 | `glance.note` | no | Small print under the metrics, e.g. an evaluation caveat |
 | `toc` | no | Jump links: `(label, anchor_id, is_key)` tuples; `is_key=True` highlights one (e.g. results) |
 | `body` | hand pages | The article HTML. Use the `cd-` classes from `site.css` (`cd-figure`, `cd-gallery`, `cd-embed`, …). |
+| `charts` | no | Hand pages only. `{id: {"title", "caption", "unit", "bars": [(label, value), …]}}`: a single-series bar chart, placed in `body` with `<!-- cd:chart:<id> -->`. See [Charts](#charts-in-hand-pages). |
+
+### Body building blocks
+
+Hand-page bodies are plain HTML using these `site.css` classes (all token-coloured, mobile-first):
+
+| Class | Use |
+|---|---|
+| `cd-figure`, `cd-gallery`, `cd-gallery--2` | Screenshots with captions; `--2` puts two side by side from 861px |
+| `cd-embed`, `cd-embed-actions` | A Power BI iframe with a full-screen link |
+| `cd-arch`, `cd-arch__lane`, `cd-arch__lane--core`, `cd-arch__nodes` | A system map: lanes stack with ↓ arrows on phones and sit in three columns with → arrows from 861px |
+| `cd-cards`, `cd-cards--2`, `cd-card`, `cd-card__tag`, `cd-card__k` | Cards for decisions or problems; `--2` is two columns from 600px; `__k` is a small label such as "Why" |
+| `cd-timeline`, `cd-timeline__when`, `cd-timeline__now` | A vertical timeline; `__now` fills the last dot |
+| `cd-sr` | Visually hidden text for screen readers |
+
+### Charts in hand pages
+
+A chart is data in the page's `charts`, never hand-written markup:
+
+```python
+"charts": {
+    "commits": {
+        "title": "Commits by month (2026)",   # names the single series, so there's no legend
+        "caption": "What the reader should notice, and any caveat (e.g. a part month).",
+        "unit": "commits",                     # read after each value by screen readers
+        "bars": [("Mar", 65), ("Apr", 15)],
+    },
+},
+"body": """ … <!-- cd:chart:commits --> … """,
+```
+
+`Renderer.article()` swaps each slot for `Renderer.bar_chart()`: an ordered list with one accent-coloured bar per value, scaled to the largest, with every value printed above its bar, so the list is also the table view. It needs no JavaScript ([D21](decisions.md#d21-the-cricket-club-page-is-an-engineering-case-study)). A slot without a chart, or a chart without a slot, stops the generator with an error naming both.
 
 ---
 
@@ -203,4 +235,5 @@ Edit the relevant `Renderer` method in `render.py`, and its styles in `public/pr
 | `…/index.html: knit the report from its .Rmd first` | A report page has no HTML yet | Knit it into `public/projects/<slug>/index.html` |
 | `couldn't find pandoc's #header block to replace` | A freshly knitted report has no `<div id="header">`, e.g. the `.Rmd` has no `title:` | Give the R Markdown a title in its YAML header and re-knit |
 | `arbitrage report: expected the H2H and back/lay result tables — has the report changed?` | The arbitrage report no longer has two DataTables with `market` and `converted_odds` columns | Restore those tables in the `.Rmd`, or update `ArbitrageFacts` |
+| `<slug>: chart slots without a chart [...], charts without a slot [...]` | A `<!-- cd:chart:<id> -->` in `body` doesn't match a key in `charts`, or the reverse | Fix the id, or add the missing slot or chart |
 | `design token --bg not found in …tokens.css` | `--bg` was renamed or removed | Restore it; it sets the browser theme colour |

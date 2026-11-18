@@ -9,7 +9,7 @@ Setting up, running, verifying and troubleshooting the site locally.
 - [Commands](#commands)
 - [Before you push](#before-you-push)
 - [Verifying layout and themes](#verifying-layout-and-themes)
-- [Checking the résumé is one page](#checking-the-résumé-is-one-page)
+- [Checking the résumé's page count](#checking-the-résumés-page-count)
 - [Conventions](#conventions)
 - [Troubleshooting](#troubleshooting)
 
@@ -82,9 +82,9 @@ Check the static export rather than only the dev server: `npm run build && npm r
 
 ---
 
-## Checking the résumé is one page
+## Checking the résumé's page count
 
-The quick way: open <http://localhost:3000/resume/>, click **Save as PDF**, and check the print preview shows **1 page**.
+The quick way: open <http://localhost:3000/resume/>, click **Save as PDF**, and check the print preview shows **2 pages or fewer**, with no entry split across the break.
 
 Scripted, with [Playwright](https://playwright.dev/). It isn't a project dependency, so install it wherever you keep tools:
 
@@ -97,12 +97,12 @@ const { chromium } = require('playwright');
   await page.goto('http://localhost:3000/resume/', { waitUntil: 'networkidle' });
   const pdf = await page.pdf({ format: 'A4', preferCSSPageSize: true });
   const pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
-  console.log(pages === 1 ? 'OK: 1 page' : `TOO LONG: ${pages} pages`);
+  console.log(pages <= 2 ? `OK: ${pages} page(s)` : `TOO LONG: ${pages} pages`);
   await browser.close();
 })();
 ```
 
-If it's over a page, trim content (or set `onResume: false` on a skill group, or drop `onResume` from a project) rather than shrinking the print styles further.
+If it's over two pages, trim content (or set `onResume: false` on a skill group, or drop `onResume` from a project) rather than shrinking the print styles.
 
 ---
 

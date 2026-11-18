@@ -17,7 +17,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher |
 | [D10](#d10-one-set-of-design-tokens-for-every-page) | One set of design tokens for every page |
 | [D11](#d11-brownlow-results-are-reported-without-headline-accuracy) | Brownlow results are reported without headline accuracy |
-| [D12](#d12-the-résumé-is-generated-and-fits-one-a4-page) | The résumé is generated and fits one A4 page |
+| [D12](#d12-the-résumé-is-generated-and-fits-one-a4-page) | The résumé is generated and fits one A4 page (*superseded by D22*) |
 | [D13](#d13-one-source-per-fact-across-typescript-and-python) | One source per fact, across TypeScript and Python |
 | [D14](#d14-react-uses-composition-the-generator-uses-classes) | React uses composition; the generator uses classes |
 | [D15](#d15-generated-project-pages-are-committed-and-checked-in-ci) | Generated project pages are committed and checked in CI |
@@ -25,6 +25,9 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D17](#d17-playhq-work-leads-the-hero-brownlow-figures-stay-on-its-card) | PlayHQ work leads the hero; Brownlow figures stay on its card |
 | [D18](#d18-project-pages-follow-their-source-repositories) | Project pages follow their source repositories |
 | [D19](#d19-the-link-in-bio-page-is-unlisted) | The link-in-bio page is unlisted |
+| [D20](#d20-lower-signal-projects-are-listed-not-carded) | Lower-signal projects are listed, not carded |
+| [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
+| [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
 
 ---
 
@@ -130,11 +133,13 @@ A short note on the card and on the project pages explains why accuracy isn't us
 
 ### D12. The résumé is generated and fits one A4 page
 
+**Status.** The one-page limit is superseded by [D22](#d22-the-résumé-is-two-pages). Generating the résumé from `content/profile.ts` still stands.
+
 **Context.** Recruiters ask for a CV first. A separately maintained PDF would drift from the site.
 
 **Decision.** `/resume/` renders from the same `content/profile.ts` data, with print styles for one A4 page and a "Save as PDF" button. What goes on paper is controlled by `onResume` flags.
 
-**Consequences.** One source for the site and the CV. Adding content can push it past one page, so check after edits ([how](development.md#checking-the-résumé-is-one-page)).
+**Consequences.** One source for the site and the CV. Adding content can push it past one page, so check after edits ([how](development.md#checking-the-résumés-page-count)).
 
 ### D13. One source per fact, across TypeScript and Python
 
@@ -175,7 +180,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 **Decision.**
 - Proof tiles: tenure ("2+ yrs"), the 50,000+ users figure, the three sport organisations, and the degree. The Brownlow figures (D11) stay on the featured card, its project pages and the résumé's project entry, not in the hero.
 - PlayHQ highlights describe the specific systems (AnalyticsHQ ownership, the Admin Portal dashboards, the Report Builder rebuild, financial reporting, the churn model, self-serve analytics, data shares for national bodies), traceable to the GameOnSports repositories and PlayHQ's public help-centre articles on Dashboards and Reports.
-- To keep `/resume/` on one A4 page with the longer PlayHQ entry, the betting arbitrage card is no longer `onResume`. It stays on the website.
+- To keep `/resume/` on one A4 page with the longer PlayHQ entry, the betting arbitrage card is no longer `onResume`. It stays on the website. (*Reversed by [D22](#d22-the-résumé-is-two-pages): with two pages it is back on the résumé.*)
 
 **Consequences.** Tile text isn't computed, so update "2+ yrs" and the user count by hand as they change. If the served churn model is re-evaluated, update the 0.81 figure in `content/profile.ts` to match.
 
@@ -189,7 +194,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - The 2025 page leads with its strongest honest result (best 3-vote hit rate of the three seasons, top pick runner-up) and still reports the missed winner in the outcome.
 - Cricket club screenshots are taken from the live site (the player page shown is Cooper's own) and stored as WebP at 1600px wide.
 
-**Consequences.** Live-site figures (818 players, 1,100+ scorecards) drift as games are played; refresh them when re-shooting the screenshots. When a new Brownlow season is tested, add a page and a card link rather than a new card.
+**Consequences.** Live-site figures drift as games are played. For the cricket club page this is handled by writing them so they can't go stale ([D21](#d21-the-cricket-club-page-is-an-engineering-case-study)); screenshots are snapshots and only need re-shooting if the site's design changes a lot. When a new Brownlow season is tested, add a page and a card link rather than a new card.
 
 ### D19. The link-in-bio page is unlisted
 
@@ -212,3 +217,34 @@ A short note on the card and on the project pages explains why accuracy isn't us
 - The list is always visible (no `<details>` or JavaScript toggle; see [D08](#d08-no-scroll-triggered-reveal-animations)).
 
 **Consequences.** The grid holds three cards, which fills one row at desktop width. To promote or demote a project, move its `pageProject(...)` entry between `projects` and `earlierProjects`. Neither dashboard was on the résumé, so the résumé doesn't change.
+
+### D21. The cricket club page is an engineering case study
+
+**Context.** By November 2026 epcc.org.au had grown from a stats site into the club's platform: 531 commits and 131 merged pull requests in eight months, an admin portal, an SES email platform, an in-browser video editor, a clubroom TV, an MCP server, and eleven architecture decision records. The page still described a stats site, which undersold the largest and most current piece of work in the portfolio, and told a recruiter nothing about how Cooper designs, decides and iterates.
+
+**Decision.**
+- The page is a case study: the brief, a tour, a system map, the data model, six decisions taken from the club repo's ADRs (each with *why* and *cost*), three hard problems, the Claude Code workflow, and an iteration timeline with a commits-by-month chart. Its card moves to the front of the home grid.
+- Every figure traces to the club repo or the live site: commit and PR counts and the monthly series from `git log` on `main`; pages, tables, policies, ADRs and docs from the repo tree; players, runs, wickets and seasons from the live `/stats` page; the MCP tool count from a `tools/list` call to `/api/mcp`. Claude Code's share is stated plainly (277 of 531 commits written by Claude Code sessions), because hiding it would be the kind of claim D11 forbids.
+- Charts are generated from data in `content.py` by the generator's `Renderer.bar_chart()`, as an HTML list with every value printed: no JavaScript, no SVG to keep legible at 320px, and the values are readable without the bars. Only single-series bar charts are supported; anything more complex should be a screenshot of the real thing.
+- New screenshots (clubroom TV slides, three phone views) are taken from the live site and stored as WebP at 1600px wide, per D18.
+
+**Consequences.** Cooper does not want to maintain this page, so **every figure on it must stay true without edits**:
+- Growing counts (players, scorecards, runs, wickets, docs) are written as minimums (`800+`, `1,100+`), never exact live values.
+- Build figures (commits, pull requests, pages, tables, ADRs, weeks shipped, Claude Code's share) are tied to a period: "in its first eight months" or "by November 2026". The glance note says so.
+- Nothing names in-flight work (an open pull request, "this season"), and the timeline's last entry describes the ongoing practice, not a dated item.
+- Figures are not fetched at build time: that would add a deploy dependency on the club site or its private repo, and break D15's committed-and-checked pages.
+
+When editing the page, keep to these rules; then it needs no routine refresh. Screenshots are snapshots and stay valid until the club site's design changes a lot.
+
+### D22. The résumé is two pages
+
+**Context.** D12 held `/resume/` to one A4 page. By November 2026 that limit was costing more than it saved: the arbitrage project had been dropped to make room (D17), the cricket club platform (the largest current project, D21) couldn't be added even as a one-line entry, and the print type had been squeezed to 9pt. Cooper prefers a two-page résumé.
+
+**Decision.**
+- `/resume/` prints on at most two A4 pages. Page one carries the header, summary, experience and the featured Brownlow project; the remaining projects, education and skills follow.
+- Print type goes from 9pt to 10pt, with looser spacing, since the squeeze existed only to fit one page.
+- Résumé items keep `break-inside: avoid`, and section headings get `break-after: avoid`, so no entry or heading is split from its content across the break.
+- The cricket club platform, the arbitrage finder and CricketStatsHub are all `onResume`. A big project can give the résumé several bullets through `resumeBullets` instead of its one-sentence `summary`. The club platform's bullets follow D21's rule: minimums and dated figures only, so they never need refreshing.
+
+**Consequences.** There's room to add content again, but the limit is now two pages, and page one should still lead with the strongest material. Check the page count and where the break falls after résumé edits ([how](development.md#checking-the-résumés-page-count)). Some screeners read only page one, which is why experience and the featured project stay there.
+
