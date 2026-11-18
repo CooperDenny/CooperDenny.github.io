@@ -28,6 +28,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D20](#d20-lower-signal-projects-are-listed-not-carded) | Lower-signal projects are listed, not carded |
 | [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
 | [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
+| [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
 
 ---
 
@@ -247,4 +248,17 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - The cricket club platform, the arbitrage finder and CricketStatsHub are all `onResume`. A big project can give the résumé several bullets through `resumeBullets` instead of its one-sentence `summary`. The club platform's bullets follow D21's rule: minimums and dated figures only, so they never need refreshing.
 
 **Consequences.** There's room to add content again, but the limit is now two pages, and page one should still lead with the strongest material. Check the page count and where the break falls after résumé edits ([how](development.md#checking-the-résumés-page-count)). Some screeners read only page one, which is why experience and the featured project stay there.
+
+### D23. The cricket club page has a full feature tour
+
+**Context.** The cricket club case study showed six screenshots. Cooper wanted every feature of epcc.org.au shown, including the admin portal, which is behind an invite-only login, and the emails, which only exist in inboxes.
+
+**Decision.**
+- A **Feature tour** section ends the page: 120 screenshots in eight galleries (homepage, fixtures and match centre, stats and player pages, club pages, phone views, clubroom TV, admin portal, emails). It comes last, with its own jump link, so the case study still reads first.
+- Galleries are data in `content.py`, rendered by the generator like charts. Each grid image is a thumbnail sized to D04's 2× rule that links to a full-size copy. The generator reads each thumbnail's real size for `width` and `height`, and refuses one that's missing or too wide.
+- Every image lazy-loads; a first visit fetches only the few above the fold. The thumbnails total about 2.7 MB, and the full-size copies about 6.7 MB, fetched only when clicked.
+- **Public pages** were captured from the live site. **The admin portal** was captured from a local copy of the club repo, with two lines temporarily changed so the auth check accepts a demo admin when Supabase isn't configured. Those changes were reverted and never committed. With no database the portal shows empty lists, so no member's details appear; the highlights screens use public Play Cricket data. Headless Chromium can't decode the clips' H.264 video, so the editor is shown on its branded intro cards and cropped above the clip thumbnails. **Emails** are the club repo's `scripts/preview-email.ts` output, with its sample content.
+- Captions describe each screen and carry no live figures, per D21.
+
+**Consequences.** The screenshots are a November 2026 snapshot. They stay accurate as a record and need re-taking only if the club site's design changes a lot. The repository grows by about 9 MB of images.
 
