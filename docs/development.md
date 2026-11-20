@@ -126,7 +126,7 @@ If it's over two pages, trim content (or set `onResume: false` on a skill group,
 | CI fails at "Check project pages are up to date" | An input changed without regenerating | `python3 scripts/build-project-pages.py`, commit, push |
 | Changes don't show after a build | Stale build cache | `rm -rf .next out && npm run build` |
 | Build fails: `Unknown project page "<slug>"` | A `pageProject('<slug>', …)` card isn't in `content/projects.json` | Register the page, or fix the slug typo |
-| Build fails: `Design token --bg not found in public/tokens.css` | `--bg` renamed or removed | Restore it; it's used for the browser theme colour |
+| Build fails: `Design token --band not found in public/tokens.css` | `--band` renamed or removed | Restore it; it's used for the browser theme colour |
 | Theme doesn't persist between visits | Browser blocks `localStorage` (private mode) | Expected: the site falls back to dark |
 | Fonts look like system fonts | Offline, or Google Fonts blocked | Expected fallback; the font stacks degrade gracefully |
 | Generator error messages | — | See [Project pages → Troubleshooting](project-pages.md#troubleshooting) |

@@ -275,6 +275,6 @@ The page title and the search/share descriptions are in [`config/site.ts`](../co
 ## Checklist before you push
 
 - [ ] `npm run dev` and look at what you changed, on a narrow window and a wide one, in **both themes** (sun/moon button).
-- [ ] If you changed project-page copy or a shared input (`content/*.json`, `config/site.json`, `lib/theme.js`, or `--bg` in `tokens.css`): run `python3 scripts/build-project-pages.py`. When unsure, just run it; it only rewrites pages that changed.
+- [ ] If you changed project-page copy or a shared input (`content/*.json`, `config/site.json`, `lib/theme.js`, or `--band` in `tokens.css`): run `python3 scripts/build-project-pages.py`. When unsure, just run it; it only rewrites pages that changed.
 - [ ] If you added content that appears on the résumé: it still prints on two pages at most, with no entry split across the break.
 - [ ] Run the four checks in [Development → Before you push](development.md#before-you-push).

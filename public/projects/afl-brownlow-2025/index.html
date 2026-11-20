@@ -2851,7 +2851,7 @@ display: none;
  * - Any element with [data-theme-toggle] toggles the theme on click (event
  *   delegation), so toggle buttons need no JavaScript of their own and React
  *   never has to know the theme (no hydration mismatch).
- * - Keeps <meta name="theme-color"> in sync with the page background.
+ * - Keeps <meta name="theme-color"> in sync with the petrol nav band (--band).
  *
  * Plain ES5 on purpose: it runs before any bundle, in every browser.
  */
@@ -2869,8 +2869,8 @@ display: none;
 
   function syncThemeColor() {
     var meta = document.querySelector('meta[name="theme-color"]');
-    var bg = getComputedStyle(root).getPropertyValue('--bg').trim();
-    if (meta && bg) meta.setAttribute('content', bg);
+    var band = getComputedStyle(root).getPropertyValue('--band').trim();
+    if (meta && band) meta.setAttribute('content', band);
   }
 
   function apply(theme) {
@@ -2896,7 +2896,7 @@ display: none;
 })();
 </script>
 <meta name="description" content="Year three of Cooper Denny’s AFL Brownlow Medal model: trained on 2015–2024 and tested on the unseen 2025 season, with its best 3-vote hit rate yet (59% of games) and top pick Nick Daicos finishing runner-up.">
-<meta name="theme-color" content="#0b1222">
+<meta name="theme-color" content="#0b3c49">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://cooperdenny.github.io/projects/afl-brownlow-2025/">
 <link rel="icon" href="/favicon.svg">

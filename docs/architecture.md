@@ -89,7 +89,7 @@ If you're about to type a fact a second time, it already has a home:
 | Project-page copy | `scripts/project_pages/content.py` | generator |
 | Icon SVG paths | `content/icons.json` | Next, generator |
 | URL, GA ID, fonts URL | `config/site.json` | Next, generator |
-| Colours, type, spacing, both themes | `public/tokens.css` | every page; `theme-color` is *read* from `--bg` |
+| Colours, type, spacing, both themes | `public/tokens.css` | every page; `theme-color` is *read* from `--band` |
 | Theme switching | `lib/theme.js` | inlined into every page |
 | Section ids, nav labels, headings | `content/sections.ts` | Navbar, sections, proof tiles, sticky bar |
 | Date-range format | `dateRange()` in `lib/format.ts` | every date range |

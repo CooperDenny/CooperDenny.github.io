@@ -115,7 +115,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Context.** Home-page and project-page styles had separate copies of the palette, "kept in sync" by hand: a guaranteed future inconsistency.
 
-**Decision.** `public/tokens.css` is the only place colours, type and spacing are defined. The Next app `@import`s it, and project pages load it via `<link>`. The browser `theme-color` is read from `--bg` at build time, not repeated.
+**Decision.** `public/tokens.css` is the only place colours, type and spacing are defined. The Next app `@import`s it, and project pages load it via `<link>`. The browser `theme-color` is read from `--band` at build time, not repeated.
 
 **Consequences.** Change a value once and every page follows. Project pages load one extra small stylesheet.
 
@@ -276,4 +276,4 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - **Brownlow card:** shows only the 3-vote recall (56%, with a bar), described in plain words. r = 0.93 and MAE 2.0 read as confusing without context on a skim; they stay on the résumé, in the card's method panel and on the project pages ([D11](#d11-brownlow-results-are-reported-without-headline-accuracy)).
 - **Rejected:** sports slang for status (LIVE/FINAL tags, "Now playing"), a stats table in the hero, and condensed uppercase "scoreboard" type.
 
-**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages inherit the new colours, font and petrol nav through `tokens.css`, but their own stylesheet (`public/projects/site.css`) still uses mono labels and the old hero glow until it's restyled. The résumé still prints on two pages with Archivo.
+**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages match: their header is the same petrol band with a curved bottom (full-bleed on the knitr reports too, via `report.css`), their labels are Archivo, and mono is kept for inline code only. The browser `theme-color` is `--band`, so the address bar runs into the nav in both themes. The résumé still prints on two pages with Archivo.

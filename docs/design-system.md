@@ -70,7 +70,7 @@ On the band, always use the `--band-*` tokens, not `--accent`: the light theme's
 |---|---|---|
 | `--font-sans` | Archivo, then system UI fonts | All text |
 | `--display-stretch` | `125%` | Archivo's width for display text: `h1`, `h2`, the brand, proof and metric values |
-| `--font-mono` | JetBrains Mono, then system monospace | Code (and project-page labels) only |
+| `--font-mono` | JetBrains Mono, then system monospace | Code only |
 | `--radius` / `--radius-sm` | `10px` / `6px` | Cards / small elements (buttons and chips stay full pills) |
 | `--tap` | `44px` | Minimum touch-target size |
 | `--container` | `1080px` | Max content width (home page) |
@@ -104,7 +104,7 @@ sequenceDiagram
 
 - **One implementation.** [`lib/theme.js`](../lib/theme.js) is inlined into `<head>` by `app/layout.tsx` (home, résumé, links) and by the generator's `Renderer.theme_script()` (project pages). Because it runs in `<head>`, the theme is set before the body renders, so there's no flash of the wrong theme.
 - **Stateless buttons.** The toggle ([`ThemeToggle.tsx`](../components/layout/ThemeToggle.tsx), and the generator's `Renderer.theme_toggle()`) is a plain `<button data-theme-toggle>` containing both icons. The script handles clicks by event delegation, and CSS shows the sun in dark mode ("switch to light") and the moon in light mode. React never holds theme state, so server and client markup always match. `<html>` carries `suppressHydrationWarning` only because the script adds `data-theme` before React hydrates.
-- **Browser chrome.** `<meta name="theme-color">` starts as the dark `--bg` (read from `tokens.css` at build time, never hard-coded) and the script updates it on every switch.
+- **Browser chrome.** `<meta name="theme-color">` is the petrol `--band` (read from `tokens.css` at build time, never hard-coded), so the browser bar runs into the nav. The band is the same in both themes; the script still re-reads it on every switch.
 - **Storage blocked?** (Private mode, strict privacy settings.) The site falls back to dark and the switch still works for the visit; it just isn't remembered.
 
 ### Contrast
@@ -179,7 +179,7 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
 | `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
-Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Hand-page bodies also have building blocks for figures, system maps, cards, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). Charts use one hue (`--accent`) and keep their text in the text tokens. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
+Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Hand-page bodies also have building blocks for figures, system maps, cards, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). Charts use one hue (`--accent`) and keep their text in the text tokens. The project header (`.cd-hero`) and nav are on the petrol band like the home hero, so anything inside them uses the `--band-*` tokens. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 
 ---
 

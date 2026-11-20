@@ -270,4 +270,4 @@ Edit the relevant `Renderer` method in `render.py`, and its styles in `public/pr
 | `<slug>: gallery slots without a gallery [...], galleries without a slot [...]` | The same mismatch for `<!-- cd:gallery:<id> -->` and `galleries` | Fix the id, or add the missing slot or gallery |
 | `<slug>: gallery '<id>' needs <folder>/<name>.webp` | A shot's thumbnail isn't on disk | Add the WebP, or fix the shot's name |
 | `<slug>: <file> is <n>px wide; a <c>-column gallery allows <max>px` | The thumbnail is more than twice its display width | Re-save it at the allowed width (the full-size copy can stay large) |
-| `design token --bg not found in …tokens.css` | `--bg` was renamed or removed | Restore it; it sets the browser theme colour |
+| `design token --band not found in …tokens.css` | `--band` was renamed or removed | Restore it; it sets the browser theme colour |

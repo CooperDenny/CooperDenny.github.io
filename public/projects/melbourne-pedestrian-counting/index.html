@@ -17,7 +17,7 @@
  * - Any element with [data-theme-toggle] toggles the theme on click (event
  *   delegation), so toggle buttons need no JavaScript of their own and React
  *   never has to know the theme (no hydration mismatch).
- * - Keeps <meta name="theme-color"> in sync with the page background.
+ * - Keeps <meta name="theme-color"> in sync with the petrol nav band (--band).
  *
  * Plain ES5 on purpose: it runs before any bundle, in every browser.
  */
@@ -35,8 +35,8 @@
 
   function syncThemeColor() {
     var meta = document.querySelector('meta[name="theme-color"]');
-    var bg = getComputedStyle(root).getPropertyValue('--bg').trim();
-    if (meta && bg) meta.setAttribute('content', bg);
+    var band = getComputedStyle(root).getPropertyValue('--band').trim();
+    if (meta && band) meta.setAttribute('content', band);
   }
 
   function apply(theme) {
@@ -63,7 +63,7 @@
 </script>
 <title>Melbourne Pedestrian Traffic Dashboard — Cooper Denny</title>
 <meta name="description" content="Interactive Power BI dashboard by Cooper Denny analysing hourly pedestrian counts from about 100 City of Melbourne sensors since 2010.">
-<meta name="theme-color" content="#0b1222">
+<meta name="theme-color" content="#0b3c49">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://cooperdenny.github.io/projects/melbourne-pedestrian-counting/">
 <link rel="icon" href="/favicon.svg">

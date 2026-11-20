@@ -18,7 +18,7 @@ function resolveSiteUrl(): string {
 
 /**
  * Read a default-theme (dark) design token from public/tokens.css at build time, so values such as
- * theme-color stay in sync with --bg. Only the plain `:root { … }` block is searched — never the
+ * theme-color stay in sync with --band. Only the plain `:root { … }` block is searched — never the
  * `:root[data-theme='light']` overrides — and a missing token fails the build.
  */
 function designToken(name: string): string {
@@ -38,6 +38,6 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   gaId: site.gaId,
   fontsHref: site.fontsHref,
-  /** Default (dark) theme's --bg; lib/theme.js keeps the meta tag in sync after a toggle. */
-  themeColor: designToken('bg'),
+  /** The petrol --band (same in both themes), so the browser bar matches the nav; lib/theme.js keeps the meta tag in sync. */
+  themeColor: designToken('band'),
 };

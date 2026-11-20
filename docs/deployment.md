@@ -27,7 +27,7 @@ flowchart LR
 |---|---|
 | `npm ci` | `package-lock.json` is out of sync with `package.json` |
 | `build-project-pages.py --check` | Committed project pages don't match their inputs ([why this exists](decisions.md#d15-generated-project-pages-are-committed-and-checked-in-ci)) |
-| `npm run build` | Type errors, a broken import, an unknown project slug, or a missing `--bg` token |
+| `npm run build` | Type errors, a broken import, an unknown project slug, or a missing `--band` token |
 | `deploy-pages` | Pages isn't configured for GitHub Actions (see below), or a permissions problem |
 
 **Triggers:** a push to `main`, or **Run workflow** on the Actions tab (`workflow_dispatch`).

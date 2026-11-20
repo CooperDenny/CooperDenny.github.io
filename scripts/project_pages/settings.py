@@ -34,14 +34,14 @@ class Settings:
 
     @classmethod
     def load(cls, root: Path = ROOT) -> "Settings":
-        """Read config/site.json, content/identity.json, public/tokens.css (--bg) and lib/theme.js."""
+        """Read config/site.json, content/identity.json, public/tokens.css (--band) and lib/theme.js."""
         site = json.loads((root / "config" / "site.json").read_text(encoding="utf-8"))
         who = json.loads((root / "content" / "identity.json").read_text(encoding="utf-8"))
         return cls(
             url=site["url"],
             ga_id=site["gaId"],
             fonts_href=site["fontsHref"],
-            theme_color=_design_token(root / "public" / "tokens.css", "bg"),
+            theme_color=_design_token(root / "public" / "tokens.css", "band"),
             theme_script=(root / "lib" / "theme.js").read_text(encoding="utf-8").strip(),
             identity=Identity(who["name"], who["role"], who["location"]),
         )
