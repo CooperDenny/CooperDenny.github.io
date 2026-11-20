@@ -162,18 +162,18 @@ Each shot is two WebP files next to the page:
 ## What every page contains
 
 ```
-<head>   theme script (inline — runs before the body renders) · meta + Open Graph · fonts · /tokens.css · ../site.css (· ../report.css)
+<head>   meta + Open Graph · fonts · /tokens.css · ../site.css (· ../report.css)
 <body>
-  skip link · nav (brand · ← Projects · Résumé · theme toggle)
+  skip link · nav (brand · ← Projects · CV)
   header      kicker · title · lede · meta · tool chips · action buttons
   At a glance question · what I did · outcome · metric tiles · note
   On this page jump links (if toc)
   …article body (hand page) or untouched knitr body (report)…
-  Next project card (from the catalog order) · All projects · View résumé
+  Next project card (from the catalog order) · All projects · View CV
   footer
 ```
 
-The nav, the theme toggle and the theme script behave exactly as on the home page: they use the same [`lib/theme.js`](../lib/theme.js) and the same `[data-theme-toggle]` contract ([Design system → Themes](design-system.md#themes-light-and-dark)).
+The nav and header use the same navy band as the home page ([Design system → One theme](design-system.md#one-theme)).
 
 ---
 
@@ -186,7 +186,7 @@ The nav, the theme toggle and the theme script behave exactly as on the home pag
 | 0 | *extension transforms* | e.g. `RemoveUpdatedBullet` for the arbitrage page (the date moves into the header) |
 | 1 | `SetTitle` | `<title>` becomes "Page title — Cooper Denny" |
 | 2 | `RemoveLegacyHeadAssets` | Drops the old per-folder `rmd-styles.css`, old fonts link and Font Awesome |
-| 3 | `UpsertBlock(head)` | Theme script, meta tags, fonts, `/tokens.css`, `../site.css`, `../report.css` |
+| 3 | `UpsertBlock(head)` | Meta tags, fonts, `/tokens.css`, `../site.css`, `../report.css` |
 | 4 | `SetBodyClass` | `<body class="cd-page cd-report">` |
 | 5 | `RemoveLegacyChrome` | First run only: the old pasted-in nav and dataset download bar |
 | 6 | `UpsertBlock(nav)` | The shared nav, straight after `<body>` |
@@ -223,13 +223,13 @@ flowchart TD
 | `cli.py` | Parses `--check`, builds every page, prints what changed, sets the exit code |
 | `site.py` | **Composition root.** Loads settings, catalog and icons, builds one page object per entry, and attaches extensions by slug |
 | `pages.py` | `ProjectPage` (abstract: `render(current) -> html`, `build(write)`); `HandPage` renders a whole document; `ReportPage` composes the transform pipeline |
-| `render.py` | `Renderer`: pure functions from copy to HTML fragments (head meta, fonts, analytics, theme script and toggle, nav, hero, summary, next-project card) |
+| `render.py` | `Renderer`: pure functions from copy to HTML fragments (head meta, fonts, analytics, nav, hero, summary, next-project card) |
 | `transforms.py` | `Transform` ABC, `Pipeline`, `MarkedBlock`/`UpsertBlock`, and the single-purpose HTML edits |
 | `extensions.py` | `ReportExtension` hook (`enrich`, `transforms`), DataTables reader, `ArbitrageFacts` |
 | `model.py` | Immutable `PageCopy`, `Glance`, `Action`, `Metric`, `TocItem`, `BarChart`, `Gallery`, `Shot`; `PageCopy.from_dict` |
 | `images.py` | `webp_size()`: a WebP's pixel size from its header, for gallery `width`/`height` and the thumbnail width check |
 | `content.py` | The copy. Data only. |
-| `catalog.py`, `icons.py`, `settings.py` | Read `content/projects.json`, `content/icons.json`, `config/site.json`, `content/identity.json`, `public/tokens.css` and `lib/theme.js` |
+| `catalog.py`, `icons.py`, `settings.py` | Read `content/projects.json`, `content/icons.json`, `config/site.json`, `content/identity.json` and `public/tokens.css` |
 
 The design follows the same [rules](architecture.md#the-rules) as the React code: one source per fact, a composition root, one level of abstraction per method, and extension without modification.
 
@@ -252,7 +252,7 @@ Don't add `if slug == …` to `ReportPage`. Instead:
 
 ### Change the shared chrome
 
-Edit the relevant `Renderer` method in `render.py`, and its styles in `public/projects/site.css`. Every page picks it up on the next run. If the nav or theme toggle changes, keep it consistent with `components/layout/` on the home page.
+Edit the relevant `Renderer` method in `render.py`, and its styles in `public/projects/site.css`. Every page picks it up on the next run. If the nav changes, keep it consistent with `components/layout/` on the home page.
 
 ---
 
@@ -270,4 +270,4 @@ Edit the relevant `Renderer` method in `render.py`, and its styles in `public/pr
 | `<slug>: gallery slots without a gallery [...], galleries without a slot [...]` | The same mismatch for `<!-- cd:gallery:<id> -->` and `galleries` | Fix the id, or add the missing slot or gallery |
 | `<slug>: gallery '<id>' needs <folder>/<name>.webp` | A shot's thumbnail isn't on disk | Add the WebP, or fix the shot's name |
 | `<slug>: <file> is <n>px wide; a <c>-column gallery allows <max>px` | The thumbnail is more than twice its display width | Re-save it at the allowed width (the full-size copy can stay large) |
-| `design token --bg not found in …tokens.css` | `--bg` was renamed or removed | Restore it; it sets the browser theme colour |
+| `design token --band not found in …tokens.css` | `--band` was renamed or removed | Restore it; it sets the browser theme colour |

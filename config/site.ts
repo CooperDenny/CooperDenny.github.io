@@ -17,9 +17,8 @@ function resolveSiteUrl(): string {
 }
 
 /**
- * Read a default-theme (dark) design token from public/tokens.css at build time, so values such as
- * theme-color stay in sync with --bg. Only the plain `:root { … }` block is searched — never the
- * `:root[data-theme='light']` overrides — and a missing token fails the build.
+ * Read a design token from the plain `:root { … }` block of public/tokens.css at build time, so values
+ * such as theme-color stay in sync with --band. A missing token fails the build.
  */
 function designToken(name: string): string {
   const css = readFileSync(join(process.cwd(), 'public', 'tokens.css'), 'utf8');
@@ -34,10 +33,10 @@ export const siteConfig = {
   name: profile.name,
   title: `${profile.name} — ${profile.role} | ${profile.location}`,
   description:
-    'Cooper Denny is a Data Scientist at PlayHQ in Melbourne: an embedded analytics product used by 50,000+ people, an XGBoost churn model built in Snowflake, and the dbt pipelines behind them. Résumé, experience and projects, including an AFL Brownlow prediction model validated on a held-out season.',
+    'Cooper Denny is a Data Scientist at PlayHQ in Melbourne: an embedded analytics product used by 50,000+ people, an XGBoost churn model built in Snowflake, and the dbt pipelines behind them. CV, experience and projects, including an AFL Brownlow prediction model validated on a held-out season.',
   url: resolveSiteUrl(),
   gaId: site.gaId,
   fontsHref: site.fontsHref,
-  /** Default (dark) theme's --bg; lib/theme.js keeps the meta tag in sync after a toggle. */
-  themeColor: designToken('bg'),
+  /** The --band navy, so the browser bar runs into the nav. */
+  themeColor: designToken('band'),
 };

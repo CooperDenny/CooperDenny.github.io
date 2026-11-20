@@ -14,7 +14,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off |
 | [D07](#d07-skills-are-text-not-logos) | Skills are text, not logos |
 | [D08](#d08-no-scroll-triggered-reveal-animations) | No scroll-triggered reveal animations |
-| [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher |
+| [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher (superseded by D25) |
 | [D10](#d10-one-set-of-design-tokens-for-every-page) | One set of design tokens for every page |
 | [D11](#d11-brownlow-results-are-reported-without-headline-accuracy) | Brownlow results are reported without headline accuracy |
 | [D12](#d12-the-résumé-is-generated-and-fits-one-a4-page) | The résumé is generated and fits one A4 page (*superseded by D22*) |
@@ -29,6 +29,10 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
 | [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
+| [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo (*superseded by D26*) |
+| [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
+| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero |
+| [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
 
 ---
 
@@ -68,7 +72,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Context.** Font Awesome's CSS and webfonts cost about 275 KB, render-blocking, for about 15 icons. `next/font` would scope font-family names, which the hand-written CSS references by name.
 
-**Decision.** Inter and JetBrains Mono load from Google Fonts via `<link>` (URL in `config/site.json`). Icons are inline SVG paths from Font Awesome Free 6.5.2 (CC BY 4.0), stored once in `content/icons.json` and used by both React and the generator.
+**Decision.** The fonts (Archivo and JetBrains Mono since [D24](#d24-navy-band-cyan-accent-and-archivo); Inter before) load from Google Fonts via `<link>` (URL in `config/site.json`). Icons are inline SVG paths from Font Awesome Free 6.5.2 (CC BY 4.0), stored once in `content/icons.json` and used by both React and the generator.
 
 **Consequences.** No icon font, and icons can't fail to load. Adding an icon means copying its path from the `@fortawesome/fontawesome-free` package into `icons.json`.
 
@@ -108,13 +112,13 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Consequences.** No flash, no hydration warnings, and identical behaviour on every page. Every new colour needs a value in both themes ([design system](design-system.md#adding-a-token)).
 
-**History.** The site briefly went dark-only (the switcher was removed), then the switcher was restored at the owner's request.
+**History.** The site briefly went dark-only (the switcher was removed), then the switcher was restored at the owner's request. In November 2026 it went dark-only again: **superseded by [D25](#d25-one-dark-theme)**.
 
 ### D10. One set of design tokens for every page
 
 **Context.** Home-page and project-page styles had separate copies of the palette, "kept in sync" by hand: a guaranteed future inconsistency.
 
-**Decision.** `public/tokens.css` is the only place colours, type and spacing are defined. The Next app `@import`s it, and project pages load it via `<link>`. The browser `theme-color` is read from `--bg` at build time, not repeated.
+**Decision.** `public/tokens.css` is the only place colours, type and spacing are defined. The Next app `@import`s it, and project pages load it via `<link>`. The browser `theme-color` is read from `--band` at build time, not repeated.
 
 **Consequences.** Change a value once and every page follows. Project pages load one extra small stylesheet.
 
@@ -127,6 +131,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 - mean absolute error, 2.0 votes per player;
 - 3-vote-player recall, 56% of games, from 46 players;
 - the qualitative result: Cripps and Daicos called as the top two, in order.
+
+(Since [D24](#d24-navy-band-cyan-accent-and-archivo) the home-page card shows only the 3-vote recall; the résumé and project pages keep all of these.)
 
 A short note on the card and on the project pages explains why accuracy isn't used.
 
@@ -146,7 +152,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 
 **Context.** Names, titles, URLs, icons, colours and anchors were each defined in two or more places across the React app and the generator.
 
-**Decision.** Facts both tools need live in JSON (`content/projects.json`, `identity.json`, `icons.json`, `config/site.json`) or in shared assets (`tokens.css`, `lib/theme.js`), read by both. Within TypeScript, derived values live in `content/selectors.ts` and section anchors in `content/sections.ts`. External-link behaviour is derived from the URL. The full table is in [architecture → Rule 1](architecture.md#rule-1-one-source-per-fact).
+**Decision.** Facts both tools need live in JSON (`content/projects.json`, `identity.json`, `icons.json`, `config/site.json`) or in shared assets (`tokens.css`), read by both. Within TypeScript, derived values live in `content/selectors.ts` and section anchors in `content/sections.ts`. External-link behaviour is derived from the URL. The full table is in [architecture → Rule 1](architecture.md#rule-1-one-source-per-fact).
 
 **Consequences.** Changes happen in one place. Some values that used to be inline now need a short trip to a JSON file.
 
@@ -261,4 +267,50 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - Captions describe each screen and carry no live figures, per D21.
 
 **Consequences.** The screenshots are a November 2026 snapshot. They stay accurate as a record and need re-taking only if the club site's design changes a lot. The repository grows by about 9 MB of images.
+
+### D24. Navy band, cyan accent and Archivo
+
+*Superseded by [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero).* The Brownlow-card rule below (3-vote recall only) still stands.
+
+**Context.** By November 2026 the site used Tailwind's stock slate background, its `cyan-400`, Inter, cyan mono uppercase labels over every heading, 14px rounded cards and a radial glow: the default look of generated portfolios. The brief was to keep the navy-and-cyan feel but make it personal, taking cues from PlayHQ's products (an indigo header band over the page, bold sans type, data shown as tables and scores) without copying its brand: no PlayHQ colours, fonts, logo or code.
+
+**Decision.**
+- **Colour:** the existing palette stays: navy page `#0b1120`, cyan accent `#22d3ee`. The nav and hero are a band in the raised navy `#131c31` (the card surface), so the hero's curved edge shows against the page. Every pair meets AA ([contrast table](design-system.md#contrast)).
+- **Type:** Archivo for everything, expanded (125% width, weight 800) for `h1`, `h2`, the brand and big numbers. Mono is kept for code only. Barlow, PlayHQ's font, was tried and rejected so the site doesn't read as PlayHQ-branded.
+- **Hero:** the band has a curved bottom edge and faint lines of a footy oval and centre square. The proof stats are a ruled strip inside it, led by the 50,000+ figure in cyan, so the first phone screen still meets D06.
+- **Brownlow card:** shows only the 3-vote recall (56%, with a bar), described in plain words. r = 0.93 and MAE 2.0 read as confusing without context on a skim; they stay on the résumé, in the card's method panel and on the project pages ([D11](#d11-brownlow-results-are-reported-without-headline-accuracy)).
+- **Rejected:** a new palette (a petrol `#0b3c49` band with cyan `#3dd3d6` was built and dropped: the owner preferred the existing navy and cyan), sports slang for status (LIVE/FINAL tags, "Now playing"), a stats table in the hero, and condensed uppercase "scoreboard" type.
+
+**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages match: their header is the same navy band with a curved bottom (full-bleed on the knitr reports too, via `report.css`), their labels are Archivo, and mono is kept for inline code only. The browser `theme-color` is `--band`, so the address bar runs into the nav. The résumé still prints on two pages with Archivo.
+
+### D25. One dark theme
+
+*Superseded by [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero): still one theme, now light.*
+
+**Context.** After the redesign (D24) the band, nav and hero were the same in both themes, so the light theme only changed the page below the hero. Keeping it meant every colour needed two AA-checked values, every page inlined a theme script, and both navs carried a toggle. The owner said one mode is fine.
+
+**Decision.** The site has one theme, dark. The light token block, `lib/theme.js`, `lib/themeScript.ts`, `ThemeToggle.tsx`, the generator's theme script and toggle, and the sun/moon icons are gone. `:root` keeps `color-scheme: dark`, and `theme-color` stays `--band`.
+
+**Consequences.** Every page has no script in `<head>` and one fewer button in the nav (and on `/links/`). New colours need one value. A visitor's old saved `theme` key in `localStorage` is now ignored. Bringing a light mode back means reversing this record and re-doing D09's no-flash script.
+
+### D26. "Test match day": light theme, PlayHQ type and a photo hero
+
+**Context.** Cooper asked for a more creative, original site with a hero that moves (like the EPCC site's) and grabs a recruiter's attention. The navy-and-cyan dark theme (D24, D25) still read as a generated portfolio: Cooper called it "very Claude-y" twice. Iterated in a design-system artifact in November 2026, the brief settled on: light, cricket-flavoured, navy instead of red, Cooper's own match photos behind his name, and PlayHQ's fonts.
+
+**Decision.**
+- **Theme:** one light theme, "Test match day": flannel-white pages (`#fbfcfa`), turf-ink text (`#0f1f17`), a navy accent (`#16305c`). Red (`#b3122b`) is reserved for the leather ball and the footy. Every text pair meets AA ([contrast](design-system.md#contrast)). Still one theme, so D25's reasoning (no theme script, one value per colour) carries over.
+- **Type:** Barlow for text and Barlow Condensed (upper case, 800–900) for display: the family PlayHQ's participant portal uses (found in its `@playhq/components` theme). IBM Plex Mono for labels and data. This reverses D24's rejection of Barlow: Cooper works at PlayHQ and wanted the connection. PlayHQ's licensed display face (Athletics) is not copied or used. Fonts still load via `<link>` (D05).
+- **Hero:** a photo masthead of Cooper bowling and batting, crossfading, with a tracking overlay (brackets and a tag on Cooper only, never another player, plus a ball reticle), then the copy and a live chart console (pitch map, wagon wheel, AFL disposal heatmap; simulated, labelled illustrative). One pause button stops it all. Everything renders without JavaScript and nothing is hidden until scripts run (D08). The phone masthead is 214px so the first screen still holds name, headline, pitch, actions and proof (D06).
+- **Details:** the delivery underline on the name and project titles, the seam on card hover, the crease under section headings, ball bullets. No sports slang for status (LIVE/FINAL tags stay rejected, per D24).
+- **Kept from D24:** the `--band-*` tokens, the proof strip led by 50,000+, and the Brownlow card showing only the 56% 3-vote recall (D11).
+
+**Consequences.** The repository gains four hero WebPs (about 450 KB in all; phones load the 1000px copies, 46–84 KB) and a small canvas engine in `lib/charts/` (`HeroMast` and `ChartConsole` are client components). Adding or changing a photo means hand-placing its overlay coordinates, and only Cooper may be tagged ([how](editing-content.md#the-hero-photos-and-charts)). `hero-image.webp` (the old desktop portrait) is gone; `hero-image.png` stays for Open Graph and JSON-LD. Project pages follow: a light header with mowing stripes and a display title.
+
+### D27. The résumé is called a CV
+
+**Context.** Cooper prefers "CV", the usual word in Australia.
+
+**Decision.** Every visitor-facing label says CV ("CV", "View CV"), the route is `/cv/` (`CV_HREF` in `content/sections.ts`), and `public/resume/index.html` redirects the old `/resume/` URL to `/cv/` with a meta refresh (no server redirects on GitHub Pages, per D01). Internal names stay as they were: `onResume`, `resumeBullets`, `resumeSummary`, `resumeProjects()`, `components/resume/` and the `.resume` CSS classes. Renaming them would touch every content entry for no visible change.
+
+**Consequences.** Old links and bookmarks keep working. Code says "resume" where the page says "CV"; the comments note it. D12 and D22 keep their original titles as history; D22's two-page rule applies to `/cv/`.
 

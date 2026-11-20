@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
 import { catalogPages, pageHref } from '@/content/catalog';
-import { RESUME_HREF } from '@/content/sections';
+import { CV_HREF } from '@/content/sections';
 
 /**
  * sitemap.xml. Project pages come from content/projects.json, so a new project page
@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: `${url}/`, lastModified: built, changeFrequency: 'monthly', priority: 1.0 },
-    { url: `${url}${RESUME_HREF}`, lastModified: built, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${url}${CV_HREF}`, lastModified: built, changeFrequency: 'monthly', priority: 0.9 },
     ...catalogPages.map((page) => ({
       url: `${url}${pageHref(page.slug)}`,
       changeFrequency: 'yearly' as const,

@@ -1,6 +1,6 @@
 /* ==========================================================================
    Shared chrome for every /projects/<slug>/ page.
-   Tokens (both themes) come from /tokens.css, shared with the home page.
+   Tokens come from /tokens.css, shared with the home page.
    Every class is prefixed `cd-` because the R Markdown reports also load
    Bootstrap 3, which already owns .nav, .btn, .label, etc.
    Mobile-first: base = phone, min-width queries add larger layouts.
@@ -38,7 +38,7 @@ body.cd-page {
   box-sizing: border-box;
 }
 .cd-page :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -83,13 +83,17 @@ body.cd-page {
   gap: 8px;
   min-height: var(--tap);
   padding: 0 18px;
-  border-radius: 999px;
-  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
   font: 600 0.9375rem/1.2 var(--font-sans);
   text-decoration: none !important;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background-color var(--dur-fast),
+    border-color var(--dur-fast),
+    color var(--dur-fast),
+    box-shadow var(--dur);
 }
 .cd-btn--primary {
   background: var(--accent);
@@ -97,25 +101,34 @@ body.cd-page {
 }
 .cd-btn--primary:hover {
   background: var(--accent-strong);
+  box-shadow: var(--shadow-glow);
 }
 .cd-btn--ghost {
-  border-color: var(--border-strong);
+  border-color: var(--control-line);
   color: var(--text) !important;
   background: transparent;
 }
 .cd-btn--ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent) !important;
+  border-color: var(--text);
+  background: var(--hover-tint);
 }
 .cd-btn--small {
+  position: relative;
+  min-height: 36px;
   padding: 0 14px;
   font-size: 0.875rem;
+}
+/* Keeps the small button's touch target at 44px. */
+.cd-btn--small::after {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
 }
 
 .cd-kicker {
   margin: 0;
   font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -131,13 +144,10 @@ body.cd-page {
 .cd-chips li {
   margin: 0;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--surface-2);
-  border: 1px solid var(--border);
   color: var(--text-muted);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  line-height: 1.5;
+  font: 500 0.75rem/1.6 var(--font-mono);
 }
 
 /* ---------- Nav (no JS, no hamburger: three items fit at 320px) ---------- */
@@ -148,9 +158,10 @@ body.cd-page {
   z-index: 50;
   height: var(--nav-h);
   background: var(--nav-bg);
-  backdrop-filter: saturate(160%) blur(12px);
-  -webkit-backdrop-filter: saturate(160%) blur(12px);
-  border-bottom: 1px solid var(--border);
+  color: var(--band-text);
+  backdrop-filter: saturate(130%) blur(12px);
+  -webkit-backdrop-filter: saturate(130%) blur(12px);
+  border-bottom: 1px solid var(--band-line);
   font-family: var(--font-sans);
 }
 .cd-nav__inner {
@@ -168,11 +179,20 @@ body.cd-page {
   min-height: var(--tap);
   margin-right: auto;
   white-space: nowrap;
-  color: var(--text) !important;
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
+  gap: 8px;
+  color: var(--band-text) !important;
+  font: 900 1.375rem/1 var(--font-display);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   text-decoration: none !important;
+}
+/* The ball after the name, as on the home page. */
+.cd-nav__brand::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--ball-shine), var(--ball) 55%, var(--ball-shade));
 }
 .cd-nav__link {
   display: inline-flex;
@@ -180,35 +200,11 @@ body.cd-page {
   gap: 6px;
   min-height: var(--tap);
   padding: 0 10px;
-  border-radius: 999px;
-  color: var(--text-muted) !important;
+  border-radius: var(--radius-pill);
+  color: var(--band-muted) !important;
   font-size: 0.9375rem;
   font-weight: 500;
   text-decoration: none !important;
-}
-.cd-theme-toggle {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: var(--tap);
-  height: var(--tap);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 1.05rem;
-  cursor: pointer;
-}
-.cd-theme-toggle:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-.cd-theme-toggle .cd-icon--moon,
-:root[data-theme='light'] .cd-theme-toggle .cd-icon--sun {
-  display: none;
-}
-:root[data-theme='light'] .cd-theme-toggle .cd-icon--moon {
-  display: inline-block;
 }
 /* Narrow phones: the Projects link collapses to its arrow (aria-label keeps its name). */
 @media (max-width: 419px) {
@@ -217,43 +213,86 @@ body.cd-page {
   }
 }
 .cd-nav__link:hover {
-  color: var(--text) !important;
-  background: var(--surface-2);
+  color: var(--band-text) !important;
+  background: var(--hover-tint);
 }
 /* ---------- Project header ---------- */
 
+/* The light band, as on the home page: --band tokens, faint mowing stripes, a ruled foot.
+   The title is display type with a delivery underline: a navy rule that draws, the ball at its end
+   (CSS only, transform only, so the title is never hidden). */
 .cd-hero {
-  padding: 24px 0 28px;
-  border-bottom: 1px solid var(--border);
-  background:
-    radial-gradient(600px 300px at 90% -20%, var(--accent-soft), transparent 70%),
-    var(--bg);
+  position: relative;
+  isolation: isolate;
+  padding: 24px 0 32px;
+  background: repeating-linear-gradient(90deg, var(--band) 0 72px, var(--mow) 72px 144px);
+  color: var(--band-text);
+  border-bottom: 1px solid var(--band-line);
+}
+.cd-hero .cd-kicker {
+  color: var(--band-accent);
 }
 .cd-hero h1 {
-  margin: 8px 0 0;
-  font: 700 1.75rem/1.15 var(--font-sans);
-  letter-spacing: -0.03em;
-  color: var(--text);
+  margin: 10px 0 0;
+  max-width: 18ch;
+  font: 900 2.75rem/0.9 var(--font-display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: var(--band-text);
   text-wrap: balance;
+  border: 0;
+  padding: 0;
+}
+.cd-hero h1::after {
+  content: '';
+  display: block;
+  width: 96px;
+  height: 14px;
+  margin-top: 16px;
+  background:
+    radial-gradient(circle at 89px 7px, var(--ball-shine) 0, var(--ball) 3.5px, var(--ball-shade) 6.5px, transparent 7px),
+    linear-gradient(var(--band-accent), var(--band-accent)) 0 50% / 82px 4px no-repeat;
+  transform-origin: left center;
+  animation: cd-trail 900ms var(--ease-ball) 300ms both;
+}
+@keyframes cd-trail {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 .cd-hero__lede {
-  margin: 12px 0 0;
+  margin: 16px 0 0;
   font-size: 1.0625rem;
-  line-height: 1.5;
-  color: var(--text-muted);
+  line-height: 1.55;
+  color: var(--band-muted);
   max-width: 62ch;
 }
 .cd-hero__lede a {
-  color: var(--accent);
+  color: var(--band-accent);
   text-underline-offset: 3px;
+}
+.cd-hero__lede strong {
+  color: var(--band-text);
 }
 .cd-hero .cd-chips {
   margin-top: 16px;
 }
+.cd-hero .cd-chips li {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+}
 .cd-hero__meta {
   margin: 12px 0 0;
-  font: 500 0.8125rem/1.5 var(--font-mono);
-  color: var(--text-faint);
+  font: 500 0.75rem/1.5 var(--font-mono);
+  color: var(--band-muted);
+}
+.cd-hero .cd-btn--primary,
+.cd-nav .cd-btn--primary {
+  background: var(--band-accent);
+  color: var(--band-accent-ink) !important;
 }
 .cd-hero__actions {
   display: flex;
@@ -266,16 +305,26 @@ body.cd-page {
 }
 @media (min-width: 600px) {
   .cd-hero {
-    padding: 48px 0 40px;
+    padding: 40px 0 44px;
   }
   .cd-hero h1 {
-    font-size: 2.5rem;
+    font-size: 4rem;
   }
   .cd-hero__lede {
     font-size: 1.1875rem;
   }
   .cd-hero__actions .cd-btn {
     flex: 0 0 auto;
+  }
+}
+@media (min-width: 861px) {
+  .cd-hero h1 {
+    font-size: 5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cd-hero h1::after {
+    animation: none;
   }
 }
 
@@ -292,7 +341,7 @@ body.cd-page {
 .cd-glance > h2 {
   margin: 0 0 14px;
   font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
   border: 0;
@@ -330,9 +379,9 @@ body.cd-page {
   position: absolute;
   left: 1px;
   top: 0.62em;
-  width: 6px;
-  height: 6px;
-  border-radius: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
   background: var(--accent);
 }
 .cd-glance strong {
@@ -357,8 +406,8 @@ body.cd-page {
 }
 .cd-metric dd {
   margin: 0;
-  font: 600 1.25rem/1.15 var(--font-mono);
-  letter-spacing: -0.03em;
+  font: 800 1.75rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
   color: var(--accent);
   white-space: nowrap;
 }
@@ -394,7 +443,7 @@ body.cd-page {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .cd-metric dd {
-    font-size: 1.625rem;
+    font-size: 2.25rem;
   }
 }
 
@@ -406,7 +455,7 @@ body.cd-page {
 .cd-toc h2 {
   margin: 0 0 8px;
   font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
   border: 0;
@@ -428,7 +477,7 @@ body.cd-page {
   align-items: center;
   min-height: 36px;
   padding: 0 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   color: var(--text-muted) !important;
   font-size: 0.875rem;
@@ -451,8 +500,8 @@ body.cd-page {
 }
 .cd-article h2 {
   margin: 40px 0 12px;
-  font: 700 1.375rem/1.25 var(--font-sans);
-  letter-spacing: -0.02em;
+  font: 800 2rem/0.95 var(--font-display);
+  text-transform: uppercase;
   color: var(--text);
 }
 .cd-article h3 {
@@ -670,7 +719,8 @@ body.cd-page {
   order: 1;
   margin-bottom: 4px;
   text-align: center;
-  font: 600 0.6875rem/1 var(--font-mono);
+  font: 600 0.6875rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
   color: var(--text-muted);
 }
 .cd-chart__fill {
@@ -687,7 +737,8 @@ body.cd-page {
   right: 0;
   padding-top: 6px;
   text-align: center;
-  font: 500 0.6875rem/1 var(--font-mono);
+  font: 500 0.6875rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
   color: var(--text-faint);
 }
 .cd-chart figcaption {
@@ -729,13 +780,13 @@ body.cd-page {
   top: -26px;
   left: 50%;
   transform: translateX(-50%);
-  font: 600 1rem/1 var(--font-mono);
+  font: 600 1rem/1 var(--font-sans);
   color: var(--accent);
 }
 .cd-arch__lane h3 {
   margin: 0 0 10px !important;
   font: 600 0.75rem/1.4 var(--font-mono) !important;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint) !important;
 }
@@ -761,7 +812,6 @@ body.cd-page {
 }
 .cd-arch__lane--core {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 @media (min-width: 861px) {
   .cd-arch {
@@ -804,12 +854,12 @@ body.cd-page {
   display: inline-block;
   margin-bottom: 8px;
   font: 600 0.6875rem/1.4 var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
 }
 .cd-card__k {
-  font: 600 0.75rem/1 var(--font-mono);
+  font: 600 0.75rem/1 var(--font-sans);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--text-faint);
@@ -865,7 +915,6 @@ body.cd-page {
 }
 .cd-timeline > li.cd-timeline__now::before {
   background: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-soft);
 }
 
 /* ---------- Footer: keep the visitor moving ---------- */
@@ -879,7 +928,7 @@ body.cd-page {
 .cd-next__label {
   margin: 0 0 10px;
   font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-faint);
 }
@@ -890,10 +939,13 @@ body.cd-page {
   border: 1px solid var(--border);
   background: var(--surface);
   text-decoration: none !important;
-  transition: border-color 0.15s;
+  transition:
+    border-color var(--dur-fast),
+    box-shadow var(--dur);
 }
 .cd-next__card:hover {
-  border-color: var(--accent);
+  border-color: rgba(22, 48, 92, 0.35);
+  box-shadow: var(--shadow-glow);
 }
 .cd-next__title {
   display: flex;

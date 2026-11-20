@@ -10,16 +10,16 @@ import {
 } from '@/components/resume/ResumeSections';
 import { siteConfig } from '@/config/site';
 import { education, experience, featuredProject, profile, projects, skills } from '@/content/profile';
-import { RESUME_HREF } from '@/content/sections';
+import { CV_HREF } from '@/content/sections';
 import { resumeProjects, resumeSkills } from '@/content/selectors';
 
 export const metadata: Metadata = {
-  title: `Résumé — ${profile.name}, ${profile.role}`,
-  description: `Résumé for ${profile.name}, ${profile.role} at ${profile.employer} in ${profile.location}.`,
-  alternates: { canonical: RESUME_HREF },
+  title: `CV — ${profile.name}, ${profile.role}`,
+  description: `CV for ${profile.name}, ${profile.role} at ${profile.employer} in ${profile.location}.`,
+  alternates: { canonical: CV_HREF },
 };
 
-// A print-optimised, single-column résumé rendered from the same content as the home page.
+// A print-optimised, single-column CV rendered from the same content as the home page.
 // "Save as PDF" uses the browser's print dialog; @media print in globals.css hides site chrome.
 export default function ResumePage() {
   return (

@@ -1,6 +1,6 @@
 {
-  "$comment": "Site-wide constants shared by the Next.js app (config/site.ts) and scripts/project_pages. The theme colour is not here: it is read from --bg in public/tokens.css.",
+  "$comment": "Site-wide constants shared by the Next.js app (config/site.ts) and scripts/project_pages. The theme colour is not here: it is read from --band in public/tokens.css.",
   "url": "https://cooperdenny.github.io",
   "gaId": "G-GPHTSF6Q5B",
-  "fontsHref": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+  "fontsHref": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
 }

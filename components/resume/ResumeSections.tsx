@@ -1,4 +1,4 @@
-// Sections of the printable résumé (app/(site)/resume/page.tsx). Each takes only the data it renders.
+// Sections of the printable CV (app/(site)/cv/page.tsx). Each takes only the data it renders.
 
 import type { ReactNode } from 'react';
 import Icon from '@/components/ui/Icon';
@@ -8,7 +8,7 @@ import type { Education, Job, Profile, ResumeEntry, SkillGroup } from '@/content
 import { dateRange } from '@/lib/format';
 import { prettyUrl } from '@/lib/links';
 
-/** Screen-only bar above the résumé: back link and Save as PDF (hidden when printing). */
+/** Screen-only bar above the CV: back link and Save as PDF (hidden when printing). */
 export function ResumeToolbar() {
   return (
     <div className="container resume-toolbar">

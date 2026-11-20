@@ -1,4 +1,3 @@
-import ThemeToggle from '@/components/layout/ThemeToggle';
 import Icon from '@/components/ui/Icon';
 import SmartLink from '@/components/ui/SmartLink';
 import type { ContactChannel, Profile } from '@/content/types';
@@ -12,9 +11,6 @@ type Props = {
 export default function LinkInBio({ profile, channels }: Props) {
   return (
     <main id="main" className="bio">
-      <div className="bio__toggle">
-        <ThemeToggle />
-      </div>
       <BioHeader profile={profile} />
       <ul className="bio__links">
         {channels.map((ch) => (

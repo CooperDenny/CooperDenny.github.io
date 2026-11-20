@@ -26,12 +26,17 @@ body.cd-report {
   padding: 0 var(--gutter) 40px !important;
   background: transparent !important;
 }
-/* The project header sits inside Bootstrap's container here, so drop its own gutter. */
+/* The project header sits inside Bootstrap's container here, so break it out to full width
+   (calc(50% - 50vw)) to keep the navy band edge to edge like the hand-written pages.
+   overflow-x: clip hides the classic-scrollbar width that 100vw includes, without making a
+   scroll container (so the sticky nav still sticks). */
+body.cd-report {
+  overflow-x: clip;
+}
 .cd-report .main-container .cd-hero {
-  margin: 0 calc(-1 * var(--gutter));
+  margin: 0 calc(50% - 50vw);
   padding-left: 0;
   padding-right: 0;
-  background: none;
   border-bottom: 0;
 }
 .cd-report .main-container .cd-hero .cd-wrap {
@@ -154,7 +159,7 @@ body.cd-report {
 }
 .cd-report pre code {
   font-family: var(--font-mono) !important;
-  /* JetBrains Mono would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
+  /* Code-font ligatures would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
   font-variant-ligatures: none !important;
   font-feature-settings: 'liga' 0, 'calt' 0 !important;
   font-size: 0.8125rem !important;

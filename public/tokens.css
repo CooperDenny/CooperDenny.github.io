@@ -7,71 +7,97 @@
      - public/projects/site.css   (project pages load /tokens.css via <link>)
      - public/projects/report.css (knitr report overrides)
 
-   Two themes: dark (the default) and light. The active theme is the
-   data-theme attribute on <html>, set before first paint by lib/theme.js.
-   Change a value here and every page follows.
+   One theme: "Test match day", light. There is no dark mode or theme switch (decision D26).
+   Flannel-white pages, turf ink, a navy cap for the accent, and the leather-red ball as the
+   only red on the site. Change a value here and every page follows.
 
-   Every text colour meets WCAG AA (≥ 4.5:1) against every background in
-   its theme — re-check contrast if you change a colour.
+   Every text colour meets WCAG AA (≥ 4.5:1) against every background it sits on —
+   re-check contrast if you change a colour (table: docs/design-system.md#contrast).
 
    Breakpoints used site-wide: 600px (large phone / tablet), 861px (desktop).
    ========================================================================== */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* Colour */
-  --bg: #0b1120;
-  --bg-alt: #0f172a;
-  --surface: #131c31;
-  --surface-2: #1a2540;
-  --border: #23304d;
-  --border-strong: #2f3f63;
-  --text: #e8edf6;
-  --text-muted: #a3b0c5;
-  --text-faint: #8090a8;
-  --accent: #22d3ee;
-  --accent-strong: #67e8f9;
-  --accent-ink: #04222a;
-  --accent-soft: rgba(34, 211, 238, 0.12);
-  --nav-bg: rgba(11, 17, 32, 0.86);
-  --code-bg: #070c18;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  /* Surfaces: a cool flannel white, never cream */
+  --bg: #fbfcfa;
+  --bg-alt: #f1f4ef;
+  --surface: #ffffff;
+  --surface-2: #eaefe7;
+  --border: #dbe2d8; /* decorative only */
+  --border-strong: #c3cdc0; /* decorative only */
+  --control-line: #7a877c; /* ghost-button and input edges: 3:1+ on every surface */
 
-  /* Type */
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Text: turf ink */
+  --text: #0f1f17;
+  --text-muted: #3d4d43;
+  --text-faint: #5b6a60;
 
-  /* Shape & layout */
-  --radius: 14px;
-  --radius-sm: 10px;
+  /* Accent: navy. One navy thing leads each view. Never on turf (2.3:1). */
+  --accent: #16305c;
+  --accent-strong: #24467f;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(22, 48, 92, 0.08);
+  --focus: #0f1f17;
+
+  /* The ball: leather red, only ever the cricket ball and the footy */
+  --ball: #b3122b;
+  --ball-shine: #e0566a;
+  --ball-shade: #5e0914;
+
+  /* The band (nav + hero copy): the same white as the page, so the hero runs into the content.
+     On the band, use these, never --accent directly. */
+  --band: #fbfcfa;
+  --band-text: #0f1f17;
+  --band-muted: #3d4d43;
+  --band-accent: #16305c;
+  --band-accent-ink: #ffffff;
+  --band-line: rgba(15, 31, 23, 0.12);
+  --nav-bg: rgba(251, 252, 250, 0.88);
+  --mow: #f2f5ef; /* faint mowing stripes on light bands; decorative only */
+  --hover-tint: rgba(15, 31, 23, 0.05);
+
+  /* The hero photos: white on a navy scrim. Small text on a photo always sits on --scrim. */
+  --on-photo: #ffffff;
+  --scrim: rgba(9, 20, 40, 0.86);
+  --scrim-soft: rgba(9, 20, 40, 0.42);
+
+  /* The fields drawn in the chart console */
+  --turf: #3b7438;
+  --turf-stripe: #427d3e;
+  --on-turf: #ffffff;
+  --pitch: #d6c18d;
+  --pitch-stripe: #ccb57f;
+
+  /* Code */
+  --code-bg: #f4f6f2;
+  --sql-keyword: #16305c;
+  --sql-string: #8a5300;
+  --sql-number: #1d6b46;
+
+  --shadow: 0 1px 2px rgba(15, 31, 23, 0.06), 0 10px 28px rgba(15, 31, 23, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(22, 48, 92, 0.3), 0 12px 32px rgba(22, 48, 92, 0.16);
+
+  /* Type: PlayHQ's Barlow for text, Barlow Condensed for display, IBM Plex Mono for data */
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Shape, motion & layout */
+  --radius: 12px;
+  --radius-sm: 6px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-ball: cubic-bezier(0.3, 0.7, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur: 280ms;
   --tap: 44px; /* minimum touch-target size */
-  --container: 1080px;
+  --container: 1120px;
   --gutter: 16px;
   --nav-h: 56px;
   --section-y: 48px;
-}
-
-/* Light theme: only colours change; type, shape and layout are shared. */
-:root[data-theme='light'] {
-  color-scheme: light;
-
-  --bg: #ffffff;
-  --bg-alt: #f5f7fb;
-  --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --border-strong: #cbd5e1;
-  --text: #0f172a;
-  --text-muted: #475569;
-  --text-faint: #5f6f85;
-  --accent: #0e7490;
-  --accent-strong: #155e75;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(14, 116, 144, 0.08);
-  --nav-bg: rgba(255, 255, 255, 0.9);
-  --code-bg: #f8fafc;
-  --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 @media (min-width: 600px) {

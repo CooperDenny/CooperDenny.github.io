@@ -27,11 +27,11 @@ export type SectionKey = keyof typeof SECTIONS;
 /** In-page anchor, e.g. "#experience". */
 export const anchor = (key: SectionKey) => `#${SECTIONS[key].id}`;
 
-/** Nav links are absolute ("/#experience") so they also work from /resume. */
+/** Nav links are absolute ("/#experience") so they also work from /cv/. */
 export const NAV_ITEMS = Object.values(SECTIONS).map((s) => ({ label: s.label, href: `/#${s.id}` }));
 
 /** The hero's action row; the mobile sticky bar appears once it scrolls out of view. */
 export const HERO_ACTIONS_ID = 'hero-ctas';
 
-/** The résumé route (with the trailing slash every route uses). */
-export const RESUME_HREF = '/resume/';
+/** The CV route (with the trailing slash every route uses). */
+export const CV_HREF = '/cv/';

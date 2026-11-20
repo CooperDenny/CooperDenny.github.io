@@ -27,7 +27,7 @@ flowchart LR
 |---|---|
 | `npm ci` | `package-lock.json` is out of sync with `package.json` |
 | `build-project-pages.py --check` | Committed project pages don't match their inputs ([why this exists](decisions.md#d15-generated-project-pages-are-committed-and-checked-in-ci)) |
-| `npm run build` | Type errors, a broken import, an unknown project slug, or a missing `--bg` token |
+| `npm run build` | Type errors, a broken import, an unknown project slug, or a missing `--band` token |
 | `deploy-pages` | Pages isn't configured for GitHub Actions (see below), or a permissions problem |
 
 **Triggers:** a push to `main`, or **Run workflow** on the Actions tab (`workflow_dispatch`).
@@ -57,7 +57,7 @@ Merge or push to `main`. Watch the run on the **Actions** tab. It takes a couple
 
 The URL is used for canonical links, Open Graph tags, the sitemap and JSON-LD. Normally you never need the environment variable.
 
-`next.config.js` sets `output: 'export'` (static files only) and `trailingSlash: true`, so routes export as `<route>/index.html` and both `/resume` and `/resume/` work ([decision D16](decisions.md#d16-trailing-slashes-on-every-route)).
+`next.config.js` sets `output: 'export'` (static files only) and `trailingSlash: true`, so routes export as `<route>/index.html` and both `/cv` and `/cv/` work ([decision D16](decisions.md#d16-trailing-slashes-on-every-route)).
 
 ## When a deploy fails
 
@@ -78,8 +78,8 @@ That redeploys the previous state through the normal pipeline. Avoid force-pushi
 
 ## After a deploy
 
-- [ ] The home page loads and the theme switch works.
-- [ ] `/resume/` loads and prints on two pages at most.
-- [ ] A project page loads (e.g. `/projects/afl-brownlow-2024/`), with its nav and theme switch.
+- [ ] The home page loads.
+- [ ] `/cv/` loads and prints on two pages at most, and `/resume/` redirects to it.
+- [ ] A project page loads (e.g. `/projects/afl-brownlow-2024/`), with its nav.
 - [ ] Power BI embeds load on the two dashboard pages. They're third-party and can be slow.
 - [ ] Optional: share the URL somewhere with link previews to check the Open Graph image and description.

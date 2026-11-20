@@ -2,7 +2,7 @@ import ActionLink from '@/components/ui/ActionLink';
 import Icon from '@/components/ui/Icon';
 import Section, { SectionHeading } from '@/components/ui/Section';
 import SmartLink from '@/components/ui/SmartLink';
-import { RESUME_HREF, SECTIONS } from '@/content/sections';
+import { CV_HREF, SECTIONS } from '@/content/sections';
 import { contactChannel, contactChannels } from '@/content/selectors';
 import type { ContactChannel, ContactLinks } from '@/content/types';
 
@@ -18,8 +18,8 @@ export default function Contact({ contact }: { contact: ContactLinks }) {
             <ActionLink href={email.href} variant="primary" icon={email.icon}>
               Email me
             </ActionLink>
-            <ActionLink href={RESUME_HREF} variant="ghost" icon="fileLines">
-              Résumé
+            <ActionLink href={CV_HREF} variant="ghost" icon="fileLines">
+              CV
             </ActionLink>
           </div>
         </div>
