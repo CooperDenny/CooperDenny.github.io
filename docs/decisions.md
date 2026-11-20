@@ -29,6 +29,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
 | [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
+| [D24](#d24-petrol-band-cyan-accent-and-archivo) | Petrol band, cyan accent and Archivo |
 
 ---
 
@@ -68,7 +69,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Context.** Font Awesome's CSS and webfonts cost about 275 KB, render-blocking, for about 15 icons. `next/font` would scope font-family names, which the hand-written CSS references by name.
 
-**Decision.** Inter and JetBrains Mono load from Google Fonts via `<link>` (URL in `config/site.json`). Icons are inline SVG paths from Font Awesome Free 6.5.2 (CC BY 4.0), stored once in `content/icons.json` and used by both React and the generator.
+**Decision.** The fonts (Archivo and JetBrains Mono since [D24](#d24-petrol-band-cyan-accent-and-archivo); Inter before) load from Google Fonts via `<link>` (URL in `config/site.json`). Icons are inline SVG paths from Font Awesome Free 6.5.2 (CC BY 4.0), stored once in `content/icons.json` and used by both React and the generator.
 
 **Consequences.** No icon font, and icons can't fail to load. Adding an icon means copying its path from the `@fortawesome/fontawesome-free` package into `icons.json`.
 
@@ -127,6 +128,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 - mean absolute error, 2.0 votes per player;
 - 3-vote-player recall, 56% of games, from 46 players;
 - the qualitative result: Cripps and Daicos called as the top two, in order.
+
+(Since [D24](#d24-petrol-band-cyan-accent-and-archivo) the home-page card shows only the 3-vote recall; the résumé and project pages keep all of these.)
 
 A short note on the card and on the project pages explains why accuracy isn't used.
 
@@ -262,3 +265,15 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** The screenshots are a November 2026 snapshot. They stay accurate as a record and need re-taking only if the club site's design changes a lot. The repository grows by about 9 MB of images.
 
+### D24. Petrol band, cyan accent and Archivo
+
+**Context.** By November 2026 the site used Tailwind's stock slate background, its `cyan-400`, Inter, cyan mono uppercase labels over every heading, 14px rounded cards and a radial glow: the default look of generated portfolios. The brief was to keep the navy-and-cyan feel but make it personal, taking cues from PlayHQ's products (an indigo header band over the page, bold sans type, data shown as tables and scores) without copying its brand: no PlayHQ colours, fonts, logo or code.
+
+**Decision.**
+- **Colour:** a navy page (`#0b1222`) and a petrol brand band (`#0b3c49`) for the nav and hero, dark in both themes, with a cyan accent (`#3dd3d6`; deep teal `#00727a` on light backgrounds). The light theme has a pale grey page with white cards. Every pair meets AA ([contrast table](design-system.md#contrast)).
+- **Type:** Archivo for everything, expanded (125% width, weight 800) for `h1`, `h2`, the brand and big numbers. Mono is kept for code only. Barlow, PlayHQ's font, was tried and rejected so the site doesn't read as PlayHQ-branded.
+- **Hero:** the band has a curved bottom edge and faint lines of a footy oval and centre square. The proof stats are a ruled strip inside it, led by the 50,000+ figure in cyan, so the first phone screen still meets D06.
+- **Brownlow card:** shows only the 3-vote recall (56%, with a bar), described in plain words. r = 0.93 and MAE 2.0 read as confusing without context on a skim; they stay on the résumé, in the card's method panel and on the project pages ([D11](#d11-brownlow-results-are-reported-without-headline-accuracy)).
+- **Rejected:** sports slang for status (LIVE/FINAL tags, "Now playing"), a stats table in the hero, and condensed uppercase "scoreboard" type.
+
+**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages inherit the new colours, font and petrol nav through `tokens.css`, but their own stylesheet (`public/projects/site.css`) still uses mono labels and the old hero glow until it's restyled. The résumé still prints on two pages with Archivo.

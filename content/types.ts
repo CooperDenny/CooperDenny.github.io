@@ -33,6 +33,8 @@ export type Metric = {
   short: string;
   /** Clause used in running prose, e.g. on the résumé. */
   sentence: string;
+  /** Shown on the home-page featured card. The résumé always lists every metric. */
+  onCard?: boolean;
 };
 
 /** A hero proof tile: a short value, what it means, and a link to the evidence. */

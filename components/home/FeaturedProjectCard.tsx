@@ -2,16 +2,17 @@ import ActionLink from '@/components/ui/ActionLink';
 import Bullets from '@/components/ui/Bullets';
 import Chips from '@/components/ui/Chips';
 import Icon from '@/components/ui/Icon';
+import { cardMetrics, metricPercent } from '@/content/selectors';
 import type { FeaturedProject, Metric } from '@/content/types';
 
-/** The large featured project: metrics up front, method behind a disclosure. */
+/** The large featured project: its headline result up front, method behind a disclosure. */
 export default function FeaturedProjectCard({ project }: { project: FeaturedProject }) {
   return (
     <article className="featured card">
       <p className="kicker">{project.kicker}</p>
       <h3>{project.title}</h3>
       <p className="featured__summary">{project.oneLiner}</p>
-      <MetricTiles metrics={project.metrics} />
+      <MetricMeters metrics={cardMetrics(project)} />
       <p className="metrics__caption">Scored on the 2024 season, which the model never saw in training.</p>
       <MethodDisclosure project={project} />
       <div className="featured__foot">
@@ -28,15 +29,27 @@ export default function FeaturedProjectCard({ project }: { project: FeaturedProj
   );
 }
 
-function MetricTiles({ metrics }: { metrics: Metric[] }) {
+// One row per card metric: label, a bar for percentages, and the value. The full
+// description is the visible label, so the figure reads without any jargon.
+function MetricMeters({ metrics }: { metrics: Metric[] }) {
   return (
     <dl className="metrics" aria-label="Results on the held-out 2024 season">
-      {metrics.map((m) => (
-        <div key={m.short} className="metric" title={m.label}>
-          <dt>{m.short}</dt>
-          <dd>{m.value}</dd>
-        </div>
-      ))}
+      {metrics.map((m) => {
+        const pct = metricPercent(m);
+        return (
+          <div key={m.short} className="metric">
+            <dt>{m.label}</dt>
+            <dd>
+              {pct !== undefined && (
+                <span className="metric__bar" aria-hidden="true">
+                  <span style={{ width: `${pct}%` }} />
+                </span>
+              )}
+              <span className="metric__value">{m.value}</span>
+            </dd>
+          </div>
+        );
+      })}
     </dl>
   );
 }

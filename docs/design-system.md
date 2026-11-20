@@ -34,30 +34,44 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 
 | Token | Dark (default) | Light | Use |
 |---|---|---|---|
-| `--bg` | `#0b1120` | `#ffffff` | Page background |
-| `--bg-alt` | `#0f172a` | `#f5f7fb` | Alternating section background |
-| `--surface` | `#131c31` | `#ffffff` | Cards |
-| `--surface-2` | `#1a2540` | `#f1f5f9` | Chips, metric tiles, raised areas inside cards |
-| `--border` | `#23304d` | `#e2e8f0` | Default borders |
-| `--border-strong` | `#2f3f63` | `#cbd5e1` | Ghost buttons, emphasised borders |
-| `--text` | `#e8edf6` | `#0f172a` | Body text, headings |
-| `--text-muted` | `#a3b0c5` | `#475569` | Secondary text |
-| `--text-faint` | `#8090a8` | `#5f6f85` | Tertiary text: dates, captions, labels |
-| `--accent` | `#22d3ee` | `#0e7490` | Links, primary buttons, highlights |
-| `--accent-strong` | `#67e8f9` | `#155e75` | Primary button hover |
-| `--accent-ink` | `#04222a` | `#ffffff` | Text on an `--accent` background |
-| `--accent-soft` | `rgba(34, 211, 238, 0.12)` | `rgba(14, 116, 144, 0.08)` | Tinted backgrounds (badges, hero glow) |
-| `--nav-bg` | `rgba(11, 17, 32, 0.86)` | `rgba(255, 255, 255, 0.9)` | Translucent sticky bars |
+| `--bg` | `#0b1222` | `#f0f3f7` | Page background |
+| `--bg-alt` | `#0e172b` | `#e7ecf2` | Alternating section background |
+| `--surface` | `#121c33` | `#ffffff` | Cards |
+| `--surface-2` | `#1a2644` | `#eaf0f6` | Chips, the metric panel, raised areas inside cards |
+| `--border` | `#22304f` | `#dce3ec` | Default borders; the empty part of a metric bar |
+| `--border-strong` | `#2f4066` | `#bfcbda` | Ghost buttons, emphasised borders |
+| `--text` | `#eef2f8` | `#0a1424` | Body text, headings |
+| `--text-muted` | `#a3afc6` | `#41516a` | Secondary text |
+| `--text-faint` | `#8a98b2` | `#55657d` | Tertiary text: dates, captions, labels |
+| `--accent` | `#3dd3d6` | `#00727a` | Links, primary buttons, labels, metric values and bars |
+| `--accent-strong` | `#7fe5e6` | `#005c63` | Primary button hover |
+| `--accent-ink` | `#06212a` | `#ffffff` | Text on an `--accent` background |
+| `--accent-soft` | `rgba(61, 211, 214, 0.14)` | `rgba(0, 114, 122, 0.09)` | Tinted backgrounds (badges) |
+| `--nav-bg` | `rgba(11, 60, 73, 0.94)` | same | The sticky nav: translucent petrol in both themes |
 | `--code-bg` | `#070c18` | `#f8fafc` | Code blocks on report pages |
 | `--shadow` | dark shadow | soft shadow | Card elevation |
+
+**The brand band.** The nav and the home-page hero are a petrol band that stays dark in both themes, so these tokens have no light values:
+
+| Token | Value | Use |
+|---|---|---|
+| `--band` | `#0b3c49` | Band background (hero, mobile menu sheet) |
+| `--band-text` | `#ffffff` | Text on the band |
+| `--band-muted` | `#b9c6d6` | Secondary text on the band (pitch, proof labels, nav links) |
+| `--band-accent` | `#3dd3d6` | Cyan on the band: primary buttons, first proof value, avatar ring, focus |
+| `--band-accent-ink` | `#06212a` | Text on `--band-accent` |
+| `--band-line` | `rgba(255, 255, 255, 0.18)` | Rules and outlines on the band |
+
+On the band, always use the `--band-*` tokens, not `--accent`: the light theme's teal is too dark on petrol.
 
 ### Type, shape and layout (same in both themes)
 
 | Token | Value | Use |
 |---|---|---|
-| `--font-sans` | Inter, then system UI fonts | All text |
-| `--font-mono` | JetBrains Mono, then system monospace | Labels, dates, metrics, code |
-| `--radius` / `--radius-sm` | `14px` / `10px` | Cards / small elements |
+| `--font-sans` | Archivo, then system UI fonts | All text |
+| `--display-stretch` | `125%` | Archivo's width for display text: `h1`, `h2`, the brand, proof and metric values |
+| `--font-mono` | JetBrains Mono, then system monospace | Code (and project-page labels) only |
+| `--radius` / `--radius-sm` | `10px` / `6px` | Cards / small elements (buttons and chips stay full pills) |
 | `--tap` | `44px` | Minimum touch-target size |
 | `--container` | `1080px` | Max content width (home page) |
 | `--gutter` | `16px` → `24px` at ≥ 600px | Horizontal page padding |
@@ -99,10 +113,13 @@ Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's us
 
 | Pair | Dark | Light |
 |---|---|---|
-| `--text-faint` on `--surface-2` | 4.68:1 | 4.68:1 |
-| `--text-faint` on `--bg` | 5.80:1 | 5.12:1 |
-| `--accent` on `--bg` | 10.42:1 | 5.36:1 |
-| `--accent-ink` on `--accent` (buttons) | 9.17:1 | 5.36:1 |
+| `--text-faint` on `--surface-2` | 5.14:1 | 5.16:1 |
+| `--text-faint` on `--bg-alt` | 6.13:1 | 4.99:1 |
+| `--accent` on `--bg-alt` | 9.77:1 | 4.79:1 |
+| `--accent` on `--surface-2` | 8.18:1 | 4.96:1 |
+| `--accent-ink` on `--accent` (buttons) | 9.13:1 | 5.69:1 |
+
+On the band (both themes): `--band-text` 11.95:1, `--band-muted` 6.89:1, `--band-accent` 6.54:1, and `--band-accent-ink` on `--band-accent` 9.13:1.
 
 If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface` and `--surface-2`, for example with the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/).
 
@@ -112,6 +129,7 @@ These ignore the theme on purpose:
 
 | Element | Why |
 |---|---|
+| The nav and hero: petrol `--band-*` | The brand band is the same in both themes |
 | Logo tiles (`.job__logo`): white | Organisation logos are designed for light backgrounds |
 | The résumé sheet (`.resume`): black on white | It's paper; it must print correctly and look like a document |
 | Report plots (`.cd-report .section img`): white background | ggplot output has a white background baked in |
@@ -122,9 +140,9 @@ These ignore the theme on purpose:
 
 | Breakpoint | Meaning | Typical changes |
 |---|---|---|
-| base (< 600px) | Phones | Single column, compact hero with a 64px avatar, 2×2 proof tiles, hamburger menu, sticky action bar |
+| base (< 600px) | Phones | Single column, compact hero with a 68px round avatar, 2×2 proof strip, hamburger menu, sticky action bar |
 | `min-width: 600px` | Large phones, small tablets | Wider gutters, two-column project grid, roomier cards |
-| `min-width: 861px` | Desktop | Inline nav, large portrait, 4-up proof tiles, 3-column grid, sticky bar hidden |
+| `min-width: 861px` | Desktop | Inline nav, large round portrait, 4-up proof strip, 3-column grid, sticky bar hidden |
 
 One component-specific exception: on project pages, the nav's "Projects" label collapses to its arrow icon below 420px, so the nav fits a 320px screen.
 
@@ -134,10 +152,10 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 ## Typography
 
-- **Inter** for all text and **JetBrains Mono** for labels, dates, metric values and code. Both come from Google Fonts via `<link>`; the URL is in `config/site.json` ([decision D05](decisions.md#d05-fonts-load-via-link-icons-are-inline-svg)).
+- **Archivo** for all text. `h1`, `h2`, the nav brand and the big numbers (proof and metric values) use its expanded width (`font-stretch: var(--display-stretch)`, 125%) at weight 800; everything else is normal width. Numbers use `tabular-nums`. **JetBrains Mono** is for code only on the home page (project pages still use it for their small labels). Both come from Google Fonts via `<link>`; the URL is in `config/site.json` ([D05](decisions.md#d05-fonts-load-via-link-icons-are-inline-svg), [D24](decisions.md#d24-petrol-band-cyan-accent-and-archivo)).
 - Headings use `text-wrap: balance`, and paragraphs `text-wrap: pretty`, to avoid orphans.
 - **Code ligatures are off** in code blocks, so R's `<-` and `%>%` show as typed rather than as arrow glyphs.
-- Small uppercase mono labels (`.eyebrow`, `.kicker`) introduce sections and cards.
+- Small uppercase labels (`.eyebrow`, `.kicker`, sans, letter-spaced) introduce sections and cards.
 
 ---
 
@@ -152,9 +170,10 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.bullets` | `ui/Bullets` | Accent-square bullets |
 | `.card` | — | Surface, border, radius, shadow |
 | `.section` (+ `--alt`) | `ui/Section` | Alternate `--alt` between neighbouring sections |
-| `.eyebrow`, `.kicker` | — | Mono uppercase labels |
+| `.eyebrow`, `.kicker` | — | Uppercase, letter-spaced labels |
+| `.hero` (+ `::before`) | Hero | The petrol band: curved bottom edge, faint footy-oval lines (an inline SVG background) |
 | `.job__logo` (+ `--wide`) | `ui/Logo` | White logo tile |
-| `.proof`, `.metrics`, `.disclosure` | Hero, FeaturedProjectCard | Proof tiles, metric tiles, `<details>` panel |
+| `.proof`, `.metrics`, `.disclosure` | Hero, FeaturedProjectCard | Proof strip (ruled, first value in cyan), metric panel (label, bar for percentages, value), `<details>` panel |
 | `.project__link::after` | ProjectCard | Stretched link: the whole card is clickable |
 | `.theme-toggle` | ThemeToggle | Sun/moon visibility is driven by `data-theme` |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |

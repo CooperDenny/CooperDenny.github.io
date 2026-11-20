@@ -34,10 +34,11 @@ export const profile: Profile = {
     'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own the reporting product clubs and associations use, and built a churn model that flags players unlikely to return next season, and what’s driving each score, so clubs can act early.',
   resumeSummary:
     'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns a reporting product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction average).',
-  // Above-the-fold evidence. Each tile jumps to the section that backs it up.
+  // Above-the-fold evidence. Each tile jumps to the section that backs it up. The first is
+  // highlighted in cyan, so it leads with the strongest figure.
   proof: [
-    { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
     { value: '50,000+', label: 'People using the embedded analytics product I own', href: anchor('experience') },
+    { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
     { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: anchor('experience') },
     { value: 'Distinction', label: 'Applied Data Science, Monash', href: anchor('education') },
   ],
@@ -142,6 +143,8 @@ export const featuredProject: FeaturedProject = {
       label: 'Games where the model picked the 3-vote player, from 46 on the field',
       short: '3-vote player found',
       sentence: 'the 3-vote player identified in 56% of games',
+      // The one figure on the home card: r and MAE read as confusing without context (D24).
+      onCard: true,
     },
   ],
   iteration:

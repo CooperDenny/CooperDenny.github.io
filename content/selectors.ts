@@ -2,7 +2,7 @@
 
 import { dateRange, listSentence } from '@/lib/format';
 import { waHref } from '@/lib/links';
-import type { ContactChannel, ContactLinks, FeaturedProject, Job, Project, ResumeEntry, SkillGroup } from '@/content/types';
+import type { ContactChannel, ContactLinks, FeaturedProject, Job, Metric, Project, ResumeEntry, SkillGroup } from '@/content/types';
 
 /**
  * The professional contact methods (hero, contact section, résumé, JSON-LD), normalised for
@@ -46,6 +46,15 @@ export const currentRole = (job: Job) => job.roles[0];
 export const previousRoles = (job: Job) => job.roles.slice(1);
 /** Whole time at the company: first role's start to current role's end. */
 export const tenure = (job: Job) => dateRange(job.roles[job.roles.length - 1].start, currentRole(job).end);
+
+/** Metrics shown on the home-page featured card (the résumé lists them all). */
+export const cardMetrics = (p: FeaturedProject) => p.metrics.filter((m) => m.onCard);
+
+/** A percentage metric's value as a number (for its meter bar), or undefined if it isn't one. */
+export function metricPercent(m: Metric): number | undefined {
+  const match = /^(\d+(?:\.\d+)?)%$/.exec(m.value);
+  return match ? Number(match[1]) : undefined;
+}
 
 /** Résumé project entries: the featured project (with its results) then any flagged side projects. */
 export function resumeProjects(featured: FeaturedProject, projects: Project[]): ResumeEntry[] {

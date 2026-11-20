@@ -100,4 +100,4 @@ A file-by-file map is in [docs/architecture.md](docs/architecture.md#directory-m
 
 ## Credits
 
-Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Inter](https://rsms.me/inter/) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), served by Google Fonts.
+Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Archivo](https://fonts.google.com/specimen/Archivo) and [JetBrains Mono](https://www.jetbrains.com/lp/mono/), served by Google Fonts.
