@@ -29,8 +29,10 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D21](#d21-the-cricket-club-page-is-an-engineering-case-study) | The cricket club page is an engineering case study |
 | [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
-| [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo |
-| [D25](#d25-one-dark-theme) | One dark theme |
+| [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo (*superseded by D26*) |
+| [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
+| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero |
+| [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
 
 ---
 
@@ -268,6 +270,8 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 ### D24. Navy band, cyan accent and Archivo
 
+*Superseded by [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero).* The Brownlow-card rule below (3-vote recall only) still stands.
+
 **Context.** By November 2026 the site used Tailwind's stock slate background, its `cyan-400`, Inter, cyan mono uppercase labels over every heading, 14px rounded cards and a radial glow: the default look of generated portfolios. The brief was to keep the navy-and-cyan feel but make it personal, taking cues from PlayHQ's products (an indigo header band over the page, bold sans type, data shown as tables and scores) without copying its brand: no PlayHQ colours, fonts, logo or code.
 
 **Decision.**
@@ -281,8 +285,32 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 ### D25. One dark theme
 
+*Superseded by [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero): still one theme, now light.*
+
 **Context.** After the redesign (D24) the band, nav and hero were the same in both themes, so the light theme only changed the page below the hero. Keeping it meant every colour needed two AA-checked values, every page inlined a theme script, and both navs carried a toggle. The owner said one mode is fine.
 
 **Decision.** The site has one theme, dark. The light token block, `lib/theme.js`, `lib/themeScript.ts`, `ThemeToggle.tsx`, the generator's theme script and toggle, and the sun/moon icons are gone. `:root` keeps `color-scheme: dark`, and `theme-color` stays `--band`.
 
 **Consequences.** Every page has no script in `<head>` and one fewer button in the nav (and on `/links/`). New colours need one value. A visitor's old saved `theme` key in `localStorage` is now ignored. Bringing a light mode back means reversing this record and re-doing D09's no-flash script.
+
+### D26. "Test match day": light theme, PlayHQ type and a photo hero
+
+**Context.** Cooper asked for a more creative, original site with a hero that moves (like the EPCC site's) and grabs a recruiter's attention. The navy-and-cyan dark theme (D24, D25) still read as a generated portfolio: Cooper called it "very Claude-y" twice. Iterated in a design-system artifact in November 2026, the brief settled on: light, cricket-flavoured, navy instead of red, Cooper's own match photos behind his name, and PlayHQ's fonts.
+
+**Decision.**
+- **Theme:** one light theme, "Test match day": flannel-white pages (`#fbfcfa`), turf-ink text (`#0f1f17`), a navy accent (`#16305c`). Red (`#b3122b`) is reserved for the leather ball and the footy. Every text pair meets AA ([contrast](design-system.md#contrast)). Still one theme, so D25's reasoning (no theme script, one value per colour) carries over.
+- **Type:** Barlow for text and Barlow Condensed (upper case, 800–900) for display: the family PlayHQ's participant portal uses (found in its `@playhq/components` theme). IBM Plex Mono for labels and data. This reverses D24's rejection of Barlow: Cooper works at PlayHQ and wanted the connection. PlayHQ's licensed display face (Athletics) is not copied or used. Fonts still load via `<link>` (D05).
+- **Hero:** a photo masthead of Cooper bowling and batting, crossfading, with a tracking overlay (brackets and a tag on Cooper only, never another player, plus a ball reticle), then the copy and a live chart console (pitch map, wagon wheel, AFL disposal heatmap; simulated, labelled illustrative). One pause button stops it all. Everything renders without JavaScript and nothing is hidden until scripts run (D08). The phone masthead is 214px so the first screen still holds name, headline, pitch, actions and proof (D06).
+- **Details:** the delivery underline on the name and project titles, the seam on card hover, the crease under section headings, ball bullets. No sports slang for status (LIVE/FINAL tags stay rejected, per D24).
+- **Kept from D24:** the `--band-*` tokens, the proof strip led by 50,000+, and the Brownlow card showing only the 56% 3-vote recall (D11).
+
+**Consequences.** The repository gains four hero WebPs (about 450 KB in all; phones load the 1000px copies, 46–84 KB) and a small canvas engine in `lib/charts/` (`HeroMast` and `ChartConsole` are client components). Adding or changing a photo means hand-placing its overlay coordinates, and only Cooper may be tagged ([how](editing-content.md#the-hero-photos-and-charts)). `hero-image.webp` (the old desktop portrait) is gone; `hero-image.png` stays for Open Graph and JSON-LD. Project pages follow: a light header with mowing stripes and a display title.
+
+### D27. The résumé is called a CV
+
+**Context.** Cooper prefers "CV", the usual word in Australia.
+
+**Decision.** Every visitor-facing label says CV ("CV", "View CV"), the route is `/cv/` (`CV_HREF` in `content/sections.ts`), and `public/resume/index.html` redirects the old `/resume/` URL to `/cv/` with a meta refresh (no server redirects on GitHub Pages, per D01). Internal names stay as they were: `onResume`, `resumeBullets`, `resumeSummary`, `resumeProjects()`, `components/resume/` and the `.resume` CSS classes. Renaming them would touch every content entry for no visible change.
+
+**Consequences.** Old links and bookmarks keep working. Code says "resume" where the page says "CV"; the comments note it. D12 and D22 keep their original titles as history; D22's two-page rule applies to `/cv/`.
+

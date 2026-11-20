@@ -17,7 +17,8 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 - [Education](#education)
 - [Contact details](#contact-details)
 - [Section headings and navigation](#section-headings-and-navigation)
-- [The résumé](#the-résumé)
+- [The hero photos and charts](#the-hero-photos-and-charts)
+- [The CV](#the-cv)
 - [Site settings: URL, analytics, fonts](#site-settings-url-analytics-fonts)
 - [Checklist before you push](#checklist-before-you-push)
 
@@ -27,7 +28,7 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 
 | Content | File |
 |---|---|
-| Home page and résumé: profile, experience, project cards, skills, education | [`content/profile.ts`](../content/profile.ts) |
+| Home page and CV: profile, experience, project cards, skills, education | [`content/profile.ts`](../content/profile.ts) |
 | Name, role, employer, location (shared with project pages) | [`content/identity.json`](../content/identity.json) |
 | Project page list: slug, title, one-line teaser, order | [`content/projects.json`](../content/projects.json) |
 | Project page wording | [`scripts/project_pages/content.py`](../scripts/project_pages/content.py) |
@@ -37,7 +38,7 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 
 Components never contain copy. If you're editing text inside a `.tsx` file under `components/`, stop: it belongs in one of the files above. ([Why](architecture.md#rule-1-one-source-per-fact).)
 
-Each fact lives in exactly one place. Change it there and every page that shows it updates: the home page, the résumé, project pages, structured data and the sitemap.
+Each fact lives in exactly one place. Change it there and every page that shows it updates: the home page, the CV, project pages, structured data and the sitemap.
 
 ---
 
@@ -49,14 +50,14 @@ Edit `profile` in [`content/profile.ts`](../content/profile.ts):
 |---|---|---|
 | `headline` | Large line under your name on the home page | One sentence. It's the first thing a recruiter reads. |
 | `pitch` | Paragraph under the headline | At most two sentences: the hero must fit one phone screen ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)). |
-| `resumeSummary` | Opening paragraph of `/resume` | Three or four sentences. |
+| `resumeSummary` | Opening paragraph of `/cv/` | Three or four sentences. |
 | `coreStack` | "Core stack" line under the proof tiles | Five or six tools, most important first. |
 
 **Check:** `npm run dev`, then look at `/` on a narrow window: the headline, pitch, buttons and first proof tiles should all be visible without scrolling.
 
 ## Name, role, employer, location
 
-Edit [`content/identity.json`](../content/identity.json). These four values appear on the home page, the résumé, the page title, structured data (JSON-LD) and the nav and footer of every project page. Then regenerate the project pages, which read the same file:
+Edit [`content/identity.json`](../content/identity.json). These four values appear on the home page, the CV, the page title, structured data (JSON-LD) and the nav and footer of every project page. Then regenerate the project pages, which read the same file:
 
 ```bash
 python3 scripts/build-project-pages.py
@@ -119,7 +120,7 @@ roles: [
 ],
 ```
 
-The job card then shows the current title, and a "Promoted from …" line for each earlier role. The résumé lists every role with its dates. Also update:
+The job card then shows the current title, and a "Promoted from …" line for each earlier role. The CV lists every role with its dates. Also update:
 
 - `role` in [`content/identity.json`](../content/identity.json), then run `python3 scripts/build-project-pages.py`;
 - the promotion [proof tile](#proof-tiles), if its wording no longer holds.
@@ -136,7 +137,7 @@ The home page has one **featured project** (the Brownlow model), a grid of **pro
 
 ### Edit a project card
 
-Each card in `projects` has a `kicker` (a small category label), a `oneLiner` (the one sentence shown on the card), a `summary` (the longer version used on the résumé) and a `stack`.
+Each card in `projects` has a `kicker` (a small category label), a `oneLiner` (the one sentence shown on the card), a `summary` (the longer version used on the CV) and a `stack`.
 
 Keep `oneLiner` to **one sentence**: the card is a teaser, and the project page has the detail ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
 
@@ -150,7 +151,7 @@ Keep `oneLiner` to **one sentence**: the card is a teaser, and the project page 
   title: 'My Project',
   kicker: 'Category · Category',
   oneLiner: 'One sentence a recruiter will read.',
-  summary: 'Two sentences for the résumé.',
+  summary: 'Two sentences for the CV.',
   stack: ['Python', 'dbt'],
   links: [{ label: 'View on GitHub', href: 'https://github.com/CooperDenny/my-project' }],
 },
@@ -175,7 +176,7 @@ External links open in a new tab automatically, because `https://` URLs are dete
    pageProject('my-project', {
      kicker: 'Category · Category',
      oneLiner: 'One sentence a recruiter will read.',
-     summary: 'Two sentences for the résumé.',
+     summary: 'Two sentences for the CV.',
      stack: ['Python', 'dbt'],
      linkLabel: 'Read the write-up',
    }),
@@ -183,7 +184,7 @@ External links open in a new tab automatically, because `https://` URLs are dete
 
 The sitemap picks up the new page automatically. If you register a page in `projects.json` but give it no copy, the generator refuses to run and names the page. A `pageProject` slug that isn't in `projects.json` fails the Next build with `Unknown project page "<slug>"`.
 
-To put a project on the printed résumé, add `onResume: true` to its card, and check the résumé still [fits two pages](#the-résumé). The résumé shows its `summary` as one bullet; for a bigger project, give it `resumeBullets: ['…', '…']` instead (the club platform has four).
+To put a project on the printed CV, add `onResume: true` to its card, and check the CV still [fits two pages](#the-cv). The CV shows its `summary` as one bullet; for a bigger project, give it `resumeBullets: ['…', '…']` instead (the club platform has four).
 
 ### The featured project
 
@@ -194,7 +195,7 @@ To put a project on the printed résumé, add `onResume: true` to its card, and 
 | `value` | The big number on the tile, e.g. `'r = 0.93'` |
 | `short` | The tile caption, 2–4 words |
 | `label` | The full description (tooltip) |
-| `sentence` | The clause used on the résumé, where the metrics are joined into one sentence |
+| `sentence` | The clause used on the CV, where the metrics are joined into one sentence |
 
 **Never use game-level accuracy as a headline metric** for the Brownlow model. It sits at the all-zeros baseline ([decision D11](decisions.md#d11-brownlow-results-are-reported-without-headline-accuracy)).
 
@@ -228,7 +229,7 @@ All seven `/projects/<slug>/` pages are produced by a generator. **Don't edit th
 
 Skills are plain text on purpose: recruiters scan and search for keywords ([why](decisions.md#d07-skills-are-text-not-logos)). Don't add collaboration tools (Slack, Teams, Zoom, Google Drive, Office); they read as padding.
 
-A group with `onResume: false` (currently Tooling) is shown on the website but left off the printed résumé.
+A group with `onResume: false` (currently Tooling) is shown on the website but left off the printed CV.
 
 ## Education
 
@@ -236,7 +237,7 @@ Edit `education` in [`content/profile.ts`](../content/profile.ts). `result` is s
 
 ## Contact details
 
-Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the résumé header, the structured data and the `/links/` page.
+Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
 
 `instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `contactChannels()` in `content/selectors.ts` is the professional set used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
 
@@ -253,16 +254,32 @@ Edit [`content/sections.ts`](../content/sections.ts). Each section has:
 
 The nav menu is generated from this list, in this order. Changing an `id` updates the nav, the proof-tile links and the sticky bar together.
 
-## The résumé
+## The CV
 
-`/resume` is built from the same data as the home page, so there's nothing separate to update. It shows:
+`/cv/` is built from the same data as the home page, so there's nothing separate to update. It shows:
 
 - every job and role;
 - the featured project, plus any project card with `onResume: true`;
 - education;
 - every skill group except those with `onResume: false`.
 
-**It must print on at most two A4 pages** ([D22](decisions.md#d22-the-résumé-is-two-pages)). Page one should carry the summary, experience and the featured project; entries never split across the break. After adding content, open `/resume`, choose **Save as PDF**, and check the page count and where the break falls. To check from the command line, use the Playwright snippet in [Development → Checking the résumé](development.md#checking-the-résumés-page-count).
+**It must print on at most two A4 pages** ([D22](decisions.md#d22-the-résumé-is-two-pages), [D27](decisions.md#d27-the-résumé-is-called-a-cv)). Page one should carry the summary, experience and the featured project; entries never split across the break. After adding content, open `/cv/`, choose **Save as PDF**, and check the page count and where the break falls. To check from the command line, use the Playwright snippet in [Development → Checking the CV](development.md#checking-the-cvs-page-count).
+
+## The hero photos and charts
+
+Both are data in [`content/profile.ts`](../content/profile.ts).
+
+**Photos (`heroShots`)** crossfade behind your name, in list order. Each needs:
+
+- `src` (2000px wide WebP) and `srcSmall` (a 1000px copy for phones), in `public/images/`. Export them with EXIF stripped; keep each under about 200 KB.
+- `alt`: what the photo shows.
+- `subject`: the tracking box round **you**, in the photo's own pixels (`x`, `y`, `w`, `h`), and its `tag`, e.g. `'BOWLER · DENNY'`. **Only ever box or tag yourself, never another player.**
+- `ball`: where the ball is, for the reticle.
+- `push: true` if you're left of centre: it frames the photo so you clear the name.
+
+Find the coordinates by opening the 2000px photo in any image editor and reading the pixel positions. Then check the home page at 390px and desktop: the box should sit on you at both crops.
+
+**Charts (`heroCharts`)** are the console's views, in the order → cycles them: `scene` (`'pitch'`, `'wagon'` or `'disposals'`, drawn by `lib/charts/scenes.ts`), `label`, `file`, the `query` it types, and the status-line `hint`. The data is simulated in the browser and the console says so; don't present it as real results. A new kind of chart is a new scene in `lib/charts/scenes.ts`, added to `SCENES` and to the `ChartScene` type.
 
 ## Site settings: URL, analytics, fonts
 
@@ -276,5 +293,5 @@ The page title and the search/share descriptions are in [`config/site.ts`](../co
 
 - [ ] `npm run dev` and look at what you changed, on a narrow window and a wide one.
 - [ ] If you changed project-page copy or a shared input (`content/*.json`, `config/site.json`, or `--band` in `tokens.css`): run `python3 scripts/build-project-pages.py`. When unsure, just run it; it only rewrites pages that changed.
-- [ ] If you added content that appears on the résumé: it still prints on two pages at most, with no entry split across the break.
+- [ ] If you added content that appears on the CV: it still prints on two pages at most, with no entry split across the break.
 - [ ] Run the four checks in [Development → Before you push](development.md#before-you-push).

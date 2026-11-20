@@ -9,7 +9,7 @@ Setting up, running, verifying and troubleshooting the site locally.
 - [Commands](#commands)
 - [Before you push](#before-you-push)
 - [Verifying layout](#verifying-layout)
-- [Checking the résumé's page count](#checking-the-résumés-page-count)
+- [Checking the CV's page count](#checking-the-cvs-page-count)
 - [Conventions](#conventions)
 - [Troubleshooting](#troubleshooting)
 
@@ -73,7 +73,8 @@ Then look at what you changed in the browser: see the next section.
 The site's quality bar is "works for a recruiter on a phone". After any visual change, check:
 
 - [ ] **Widths:** 320px (smallest phone), 390px (typical phone), 768px (tablet), 1366px (laptop). Use your browser's device toolbar. There must be no horizontal scroll at any width.
-- [ ] **First screen on a phone (home page):** name, headline, pitch, the Résumé/Email buttons and the first proof tiles are visible without scrolling.
+- [ ] **First screen on a phone (home page):** name, headline, pitch, the CV/Email buttons and the proof tiles are visible without scrolling (checked at 390 × 844).
+- [ ] **Hero motion:** the photos crossfade, → cycles the charts, and the pause button stops both. With reduced motion on, nothing moves and the charts are still, filled frames.
 - [ ] **Keyboard:** Tab reaches every link and button with a visible focus ring; Escape closes the mobile menu.
 - [ ] **Project pages too**, if you touched shared CSS, tokens or the generator.
 
@@ -81,25 +82,27 @@ Check the static export rather than only the dev server: `npm run build && npm r
 
 ---
 
-## Checking the résumé's page count
+## Checking the CV's page count
 
-The quick way: open <http://localhost:3000/resume/>, click **Save as PDF**, and check the print preview shows **2 pages or fewer**, with no entry split across the break.
+The quick way: open <http://localhost:3000/cv/>, click **Save as PDF**, and check the print preview shows **2 pages or fewer**, with no entry split across the break.
 
 Scripted, with [Playwright](https://playwright.dev/). It isn't a project dependency, so install it wherever you keep tools:
 
 ```js
-// check-resume.js — run with `node check-resume.js` while `npm run start` is serving out/
+// check-cv.js — run with `node check-cv.js` while `npm run start` is serving out/
 const { chromium } = require('playwright');
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  await page.goto('http://localhost:3000/resume/', { waitUntil: 'networkidle' });
+  await page.goto('http://localhost:3000/cv/', { waitUntil: 'networkidle' });
   const pdf = await page.pdf({ format: 'A4', preferCSSPageSize: true });
   const pages = (pdf.toString('latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
   console.log(pages <= 2 ? `OK: ${pages} page(s)` : `TOO LONG: ${pages} pages`);
   await browser.close();
 })();
 ```
+
+Without Playwright, headless Chrome works too: `"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --no-pdf-header-footer --virtual-time-budget=8000 --print-to-pdf=cv.pdf http://localhost:3000/cv/`, then open `cv.pdf`.
 
 If it's over two pages, trim content (or set `onResume: false` on a skill group, or drop `onResume` from a project) rather than shrinking the print styles.
 
@@ -108,7 +111,7 @@ If it's over two pages, trim content (or set `onResume: false` on a skill group,
 ## Conventions
 
 - **Where things go:** see [Architecture → Directory map](architecture.md#directory-map) and the [rules](architecture.md#the-rules). The short version: copy goes in `content/`, styles use tokens, components take props, and each fact lives in one place.
-- **TypeScript** runs in strict mode. Components are function components; `'use client'` only where state or effects are needed (currently `Navbar`, `MobileCta`, `PrintButton`).
+- **TypeScript** runs in strict mode. Components are function components; `'use client'` only where state or effects are needed (currently `HeroMast`, `ChartConsole`, `Navbar`, `MobileCta`, `PrintButton`).
 - **CSS:** BEM-style class names (`.block__element--modifier`), mobile-first `min-width` queries at 600px and 861px, colours only through tokens ([Design system](design-system.md)).
 - **Python:** standard library only; type-annotated; every module starts with a docstring stating its responsibility.
 - **Comments explain *why*,** not what. Non-obvious decisions get an entry in [decisions.md](decisions.md).

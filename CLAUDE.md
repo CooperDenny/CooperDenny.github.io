@@ -2,7 +2,7 @@
 
 Instructions for AI coding agents working in this repository. Humans: start with [README.md](README.md).
 
-**What this is:** Cooper Denny's portfolio and résumé — Next.js 14 (App Router, TypeScript strict), statically exported to GitHub Pages, plus seven project pages produced by a Python generator. Audience: data-science recruiters and hiring managers. Live at <https://cooperdenny.github.io>.
+**What this is:** Cooper Denny's portfolio and CV — Next.js 14 (App Router, TypeScript strict), statically exported to GitHub Pages, plus seven project pages produced by a Python generator. Audience: data-science recruiters and hiring managers. Live at <https://cooperdenny.github.io>.
 
 ## Read before changing
 
@@ -36,11 +36,12 @@ Instructions for AI coding agents working in this repository. Humans: start with
 
 **Design** ([design system](docs/design-system.md))
 - Colours only via tokens; every new colour must meet WCAG AA (4.5:1) against the backgrounds it sits on.
-- One dark theme: no light mode, theme switch or theme script ([D25](docs/decisions.md#d25-one-dark-theme)). On the hero/nav band, use `--band-*` tokens, never `--accent`.
+- One light theme ("Test match day"): no dark mode, theme switch or theme script ([D26](docs/decisions.md#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero)). On the hero/nav band, use `--band-*` tokens, never `--accent`. Red is only ever the ball.
+- Hero photos: box and tag Cooper only, never another player. Hero motion must stop with the pause button and land still under reduced motion.
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
 - The home page's first phone screen must keep: name, headline, pitch, CTAs, proof tiles ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off)).
-- `/resume/` prints on at most two A4 pages, with no entry split across the break ([D22](docs/decisions.md#d22-the-résumé-is-two-pages)).
+- `/cv/` prints on at most two A4 pages, with no entry split across the break ([D22](docs/decisions.md#d22-the-résumé-is-two-pages)).
 
 **Project pages**
 - Never hand-edit `public/projects/<slug>/index.html`. Edit the inputs, run `python3 scripts/build-project-pages.py`, and commit the output. CI fails if pages are stale.
@@ -56,7 +57,7 @@ python3 scripts/build-project-pages.py --check   # must report "all project page
 npm run build
 ```
 
-For visual changes, also check 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout)), and that `/resume/` still prints on two pages at most.
+For visual changes, also check 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout)), and that `/cv/` still prints on two pages at most.
 
 ## Keep the docs true
 

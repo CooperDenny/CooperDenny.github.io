@@ -57,7 +57,7 @@ Merge or push to `main`. Watch the run on the **Actions** tab. It takes a couple
 
 The URL is used for canonical links, Open Graph tags, the sitemap and JSON-LD. Normally you never need the environment variable.
 
-`next.config.js` sets `output: 'export'` (static files only) and `trailingSlash: true`, so routes export as `<route>/index.html` and both `/resume` and `/resume/` work ([decision D16](decisions.md#d16-trailing-slashes-on-every-route)).
+`next.config.js` sets `output: 'export'` (static files only) and `trailingSlash: true`, so routes export as `<route>/index.html` and both `/cv` and `/cv/` work ([decision D16](decisions.md#d16-trailing-slashes-on-every-route)).
 
 ## When a deploy fails
 
@@ -79,7 +79,7 @@ That redeploys the previous state through the normal pipeline. Avoid force-pushi
 ## After a deploy
 
 - [ ] The home page loads.
-- [ ] `/resume/` loads and prints on two pages at most.
+- [ ] `/cv/` loads and prints on two pages at most, and `/resume/` redirects to it.
 - [ ] A project page loads (e.g. `/projects/afl-brownlow-2024/`), with its nav.
 - [ ] Power BI embeds load on the two dashboard pages. They're third-party and can be slow.
 - [ ] Optional: share the URL somewhere with link previews to check the Open Graph image and description.

@@ -164,12 +164,12 @@ Each shot is two WebP files next to the page:
 ```
 <head>   meta + Open Graph · fonts · /tokens.css · ../site.css (· ../report.css)
 <body>
-  skip link · nav (brand · ← Projects · Résumé)
+  skip link · nav (brand · ← Projects · CV)
   header      kicker · title · lede · meta · tool chips · action buttons
   At a glance question · what I did · outcome · metric tiles · note
   On this page jump links (if toc)
   …article body (hand page) or untouched knitr body (report)…
-  Next project card (from the catalog order) · All projects · View résumé
+  Next project card (from the catalog order) · All projects · View CV
   footer
 ```
 
