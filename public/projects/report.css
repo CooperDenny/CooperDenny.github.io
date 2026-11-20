@@ -159,7 +159,7 @@ body.cd-report {
 }
 .cd-report pre code {
   font-family: var(--font-mono) !important;
-  /* JetBrains Mono would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
+  /* Code-font ligatures would render R's `<-` and `%>%` as ligature glyphs; show the real characters. */
   font-variant-ligatures: none !important;
   font-feature-settings: 'liga' 0, 'calt' 0 !important;
   font-size: 0.8125rem !important;

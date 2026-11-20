@@ -5,7 +5,7 @@ import { profile } from '@/content/profile';
 import { NAV_ITEMS } from '@/content/sections';
 
 /**
- * Site chrome for the home page and résumé: skip link, nav, footer and the sticky phone bar.
+ * Site chrome for the home page and CV: skip link, nav, footer and the sticky phone bar.
  * Kept out of the root layout so chromeless routes (the /links/ bio page) can skip it.
  * `(site)` is a route group: it adds no segment to the URL.
  */

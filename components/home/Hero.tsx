@@ -1,49 +1,56 @@
+import ChartConsole from '@/components/home/ChartConsole';
+import HeroMast from '@/components/home/HeroMast';
 import ActionLink from '@/components/ui/ActionLink';
-import { HERO_ACTIONS_ID, RESUME_HREF } from '@/content/sections';
-import { contactChannel } from '@/content/selectors';
-import type { Profile, Proof } from '@/content/types';
+import { CV_HREF, HERO_ACTIONS_ID } from '@/content/sections';
+import { contactChannel, nameLines } from '@/content/selectors';
+import type { ChartView, HeroShot, Profile, Proof } from '@/content/types';
 
 type HeroProfile = Pick<
   Profile,
-  'name' | 'role' | 'employer' | 'location' | 'photoWebp' | 'avatarWebp' | 'headline' | 'pitch' | 'proof' | 'coreStack' | 'contact'
+  'name' | 'role' | 'employer' | 'location' | 'headline' | 'pitch' | 'proof' | 'coreStack' | 'contact'
 >;
 
-// Designed so that on a phone the first screen holds: who (name, role), the pitch,
-// the two actions that matter (résumé, email) and the first row of proof tiles.
-export default function Hero({ profile }: { profile: HeroProfile }) {
+type Props = { profile: HeroProfile; shots: HeroShot[]; charts: ChartView[] };
+
+// Designed so that on a phone the first screen holds: who (name, role), the headline and pitch,
+// the two actions that matter (CV, email) and the proof tiles (D06). The photo masthead is kept
+// short on phones for that reason; the chart console comes after the proof tiles there.
+export default function Hero({ profile, shots, charts }: Props) {
+  const [first, rest] = nameLines(profile.name);
   return (
     <header className="hero">
-      <div className="container">
-        <div className="hero__grid">
-          <div className="hero__text">
-            <Identity profile={profile} />
-            <p className="hero__headline">{profile.headline}</p>
-            <p className="hero__pitch">{profile.pitch}</p>
-            <HeroActions contact={profile.contact} />
-          </div>
+      <HeroMast shots={shots}>
+        <p className="hero__eyebrow">
+          <span className="tag">
+            <span className="live" aria-hidden="true" />
+            {profile.role} · {profile.employer}
+          </span>
+          <span className="tag tag--ghost">{profile.location}</span>
+        </p>
+        <h1 className="hero__name">
+          <span className="hero__name-line">{first}</span>
+          <span className="hero__name-line">
+            <span className="hero__name-ball">
+              {rest}
+              <span className="delivery" aria-hidden="true">
+                <span className="delivery__trail" />
+                <span className="delivery__ball" />
+              </span>
+            </span>
+          </span>
+        </h1>
+      </HeroMast>
+      <div className="hero__inner">
+        <div className="hero__copy">
+          <p className="hero__headline">{profile.headline}</p>
+          <p className="hero__pitch">{profile.pitch}</p>
+          <HeroActions contact={profile.contact} />
         </div>
+        <ChartConsole views={charts} />
         <ProofTiles proof={profile.proof} />
         <CoreStack items={profile.coreStack} />
       </div>
     </header>
-  );
-}
-
-function Identity({ profile }: { profile: HeroProfile }) {
-  return (
-    <div className="hero__id">
-      <picture className="hero__avatar">
-        <source media="(min-width: 861px)" srcSet={profile.photoWebp} />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={profile.avatarWebp} alt={`Portrait of ${profile.name}`} width={160} height={160} />
-      </picture>
-      <div>
-        <h1>{profile.name}</h1>
-        <p className="hero__role">
-          {profile.role} · {profile.employer} · {profile.location}
-        </p>
-      </div>
-    </div>
   );
 }
 
@@ -52,9 +59,9 @@ function HeroActions({ contact }: { contact: HeroProfile['contact'] }) {
   const iconLinks = [contactChannel(contact, 'linkedin'), contactChannel(contact, 'github')];
   return (
     <div className="hero__ctas" id={HERO_ACTIONS_ID}>
-      <ActionLink href={RESUME_HREF} variant="primary" icon="fileLines">
-        <span className="show-mobile">Résumé</span>
-        <span className="hide-mobile">View résumé</span>
+      <ActionLink href={CV_HREF} variant="primary" icon="fileLines">
+        <span className="show-mobile">CV</span>
+        <span className="hide-mobile">View CV</span>
       </ActionLink>
       <ActionLink href={email.href} variant="ghost" icon={email.icon}>
         Email

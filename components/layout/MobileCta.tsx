@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import ActionLink from '@/components/ui/ActionLink';
-import { HERO_ACTIONS_ID, RESUME_HREF, SECTIONS } from '@/content/sections';
+import { HERO_ACTIONS_ID, CV_HREF, SECTIONS } from '@/content/sections';
 
 // Phone-only sticky action bar. Appears once the hero's own buttons have scrolled away and
 // hides again when the Contact section (which has the same actions) is on screen, so the
@@ -14,8 +14,8 @@ export default function MobileCta({ email }: { email: string }) {
 
   return (
     <div className={`mobile-cta${shown ? ' mobile-cta--shown' : ''}`} aria-hidden={!shown}>
-      <ActionLink href={RESUME_HREF} variant="primary" icon="fileLines" tabIndex={tabIndex}>
-        Résumé
+      <ActionLink href={CV_HREF} variant="primary" icon="fileLines" tabIndex={tabIndex}>
+        CV
       </ActionLink>
       <ActionLink href={`mailto:${email}`} variant="ghost" icon="envelope" tabIndex={tabIndex}>
         Email

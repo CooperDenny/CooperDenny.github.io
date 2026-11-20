@@ -33,7 +33,7 @@ export const siteConfig = {
   name: profile.name,
   title: `${profile.name} — ${profile.role} | ${profile.location}`,
   description:
-    'Cooper Denny is a Data Scientist at PlayHQ in Melbourne: an embedded analytics product used by 50,000+ people, an XGBoost churn model built in Snowflake, and the dbt pipelines behind them. Résumé, experience and projects, including an AFL Brownlow prediction model validated on a held-out season.',
+    'Cooper Denny is a Data Scientist at PlayHQ in Melbourne: an embedded analytics product used by 50,000+ people, an XGBoost churn model built in Snowflake, and the dbt pipelines behind them. CV, experience and projects, including an AFL Brownlow prediction model validated on a held-out season.',
   url: resolveSiteUrl(),
   gaId: site.gaId,
   fontsHref: site.fontsHref,

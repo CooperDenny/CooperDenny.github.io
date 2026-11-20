@@ -1,5 +1,5 @@
 // Everything the site says about Cooper — data only (types: content/types.ts,
-// derived views: content/selectors.ts). The home page and the printable résumé both
+// derived views: content/selectors.ts). The home page and the printable CV both
 // render from this file, so they can never drift apart. Edit content here, not in JSX.
 //
 // Rule for this file: every claim must be traceable to something real — a role,
@@ -8,7 +8,17 @@
 import { pageHref, pageTitle, type PageSlug } from '@/content/catalog';
 import identity from '@/content/identity.json';
 import { anchor } from '@/content/sections';
-import type { Education, FeaturedProject, Job, Profile, Project, ProjectList, SkillGroup } from '@/content/types';
+import type {
+  ChartView,
+  Education,
+  FeaturedProject,
+  HeroShot,
+  Job,
+  Profile,
+  Project,
+  ProjectList,
+  SkillGroup,
+} from '@/content/types';
 
 /** A home-page card for a project that has its own /projects/<slug>/ page: title and URL come from the catalog. */
 function pageProject(
@@ -24,9 +34,8 @@ export const profile: Profile = {
   role: identity.role,
   employer: identity.employer,
   location: identity.location,
-  /** Large PNG kept for Open Graph / JSON-LD; the page itself uses the WebP variants. */
+  /** Large PNG kept for Open Graph / JSON-LD. */
   photo: '/images/hero-image.png',
-  photoWebp: '/images/hero-image.webp',
   avatarWebp: '/images/hero-avatar.webp',
   headline:
     'I build machine-learning models, data pipelines and analytics products for community sport.',
@@ -35,7 +44,7 @@ export const profile: Profile = {
   resumeSummary:
     'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns a reporting product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction average).',
   // Above-the-fold evidence. Each tile jumps to the section that backs it up. The first is
-  // highlighted in cyan, so it leads with the strongest figure.
+  // highlighted in navy, so it leads with the strongest figure.
   proof: [
     { value: '50,000+', label: 'People using the embedded analytics product I own', href: anchor('experience') },
     { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
@@ -54,6 +63,60 @@ export const profile: Profile = {
     phone: '0478 944 105',
   },
 };
+
+/**
+ * Cooper's own match photos behind the hero name, in the order they crossfade. The tracking
+ * overlay boxes and tags Cooper only: never add a box or tag for another player.
+ */
+export const heroShots: HeroShot[] = [
+  {
+    src: '/images/hero-bowling.webp',
+    srcSmall: '/images/hero-bowling-1000.webp',
+    width: 2000,
+    height: 1333,
+    alt: `${identity.name} bowling in a club cricket match`,
+    subject: { x: 868, y: 405, w: 347, h: 637, tag: 'BOWLER · DENNY' },
+    ball: { x: 916, y: 428 },
+  },
+  {
+    src: '/images/hero-batting.webp',
+    srcSmall: '/images/hero-batting-1000.webp',
+    width: 2000,
+    height: 1333,
+    alt: `${identity.name} batting in a club cricket match`,
+    push: true,
+    subject: { x: 628, y: 548, w: 494, h: 474, tag: 'BATTER · DENNY' },
+    ball: { x: 682, y: 860 },
+  },
+];
+
+/**
+ * The hero console's charts, in the order the → button cycles them. Simulated, illustrative data:
+ * the disposal heatmap follows FootyStatsApp's field model and disposal summary.
+ */
+export const heroCharts: ChartView[] = [
+  {
+    scene: 'pitch',
+    label: 'Pitch map',
+    file: 'pitch_map.sql',
+    query: "SELECT line, length, COUNT(*) AS balls\nFROM   deliveries\nWHERE  format = 'Test'\nGROUP BY line, length;",
+    hint: 'click the pitch to bowl',
+  },
+  {
+    scene: 'wagon',
+    label: 'Wagon wheel',
+    file: 'wagon_wheel.sql',
+    query: "SELECT shot_angle, distance, runs\nFROM   deliveries\nWHERE  format = 'Test'\nORDER BY innings, ball;",
+    hint: 'click the field to play a shot',
+  },
+  {
+    scene: 'disposals',
+    label: 'AFL disposal heatmap',
+    file: 'disposals.sql',
+    query: 'SELECT disposal_start_x, disposal_start_y,\n       kick, effective_disposal\nFROM   player_data\nWHERE  quarter = 1;',
+    hint: 'click the oval to dispose',
+  },
+];
 
 /** Jobs, most recent first. Within a job, `roles` are most recent first. */
 export const experience: Job[] = [
@@ -225,7 +288,7 @@ export const earlierProjects: ProjectList = {
   ],
 };
 
-/** Skill groups, in display order. `onResume: false` keeps a group off the printed résumé. */
+/** Skill groups, in display order. `onResume: false` keeps a group off the printed CV. */
 export const skills: SkillGroup[] = [
   { label: 'Languages', items: ['SQL', 'Python', 'R', 'Cypher (Neo4j)'] },
   {

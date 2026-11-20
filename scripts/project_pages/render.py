@@ -69,13 +69,13 @@ class Renderer:
     # --- body chrome --------------------------------------------------------------
 
     def nav(self) -> str:
-        """Skip link and top bar: brand, back to Projects, Résumé."""
+        """Skip link and top bar: brand, back to Projects, CV."""
         return f"""<a href="#cd-main" class="cd-skip">Skip to content</a>
 <nav class="cd-nav" aria-label="Primary">
   <div class="cd-nav__inner">
     <a href="/" class="cd-nav__brand">{self.settings.identity.name}</a>
     <a href="/#projects" class="cd-nav__link" aria-label="All projects">{self.icon('arrowLeft')} <span class="cd-nav__label">Projects</span></a>
-    <a href="/resume/" class="cd-btn cd-btn--primary cd-btn--small">Résumé</a>
+    <a href="/cv/" class="cd-btn cd-btn--primary cd-btn--small">CV</a>
   </div>
 </nav>"""
 
@@ -170,7 +170,7 @@ class Renderer:
 </figure>"""
 
     def next_project(self, slug: str) -> str:
-        """Next-project card (catalog order, wrapping), All projects / Résumé buttons, and footer."""
+        """Next-project card (catalog order, wrapping), All projects / CV buttons, and footer."""
         nxt, who = self.catalog.next_after(slug), self.settings.identity
         return f"""<aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">
@@ -181,7 +181,7 @@ class Renderer:
     </a>
     <div class="cd-next__actions">
       <a href="/#projects" class="cd-btn cd-btn--ghost">{self.icon('arrowLeft')} All projects</a>
-      <a href="/resume/" class="cd-btn cd-btn--primary">{self.icon('fileLines')} View résumé</a>
+      <a href="/cv/" class="cd-btn cd-btn--primary">{self.icon('fileLines')} View CV</a>
     </div>
   </div>
 </aside>

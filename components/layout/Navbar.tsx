@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Icon from '@/components/ui/Icon';
-import { RESUME_HREF } from '@/content/sections';
+import { CV_HREF } from '@/content/sections';
 
 type NavItem = { label: string; href: string };
 type Props = { brand: string; items: NavItem[] };
 
-/** Sticky top bar: brand, section links (a menu on phones), Résumé. */
+/** Sticky top bar: brand, section links (a menu on phones), CV. */
 export default function Navbar({ brand, items }: Props) {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(8);
@@ -30,15 +30,15 @@ export default function Navbar({ brand, items }: Props) {
             </li>
           ))}
           <li className="nav__resume-mobile">
-            <a href={RESUME_HREF} onClick={close}>
-              Résumé
+            <a href={CV_HREF} onClick={close}>
+              CV
             </a>
           </li>
         </ul>
 
         <div className="nav__actions">
-          <a href={RESUME_HREF} className="btn btn--small btn--primary nav__resume">
-            Résumé
+          <a href={CV_HREF} className="btn btn--small btn--primary nav__resume">
+            CV
           </a>
           <button
             type="button"
