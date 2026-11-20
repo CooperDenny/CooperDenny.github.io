@@ -29,12 +29,11 @@ class Settings:
     ga_id: str
     fonts_href: str
     theme_color: str
-    theme_script: str  # lib/theme.js, inlined in every page's <head>
     identity: Identity
 
     @classmethod
     def load(cls, root: Path = ROOT) -> "Settings":
-        """Read config/site.json, content/identity.json, public/tokens.css (--band) and lib/theme.js."""
+        """Read config/site.json, content/identity.json and public/tokens.css (--band)."""
         site = json.loads((root / "config" / "site.json").read_text(encoding="utf-8"))
         who = json.loads((root / "content" / "identity.json").read_text(encoding="utf-8"))
         return cls(
@@ -42,13 +41,12 @@ class Settings:
             ga_id=site["gaId"],
             fonts_href=site["fontsHref"],
             theme_color=_design_token(root / "public" / "tokens.css", "band"),
-            theme_script=(root / "lib" / "theme.js").read_text(encoding="utf-8").strip(),
             identity=Identity(who["name"], who["role"], who["location"]),
         )
 
 
 def _design_token(tokens_css: Path, name: str) -> str:
-    """A default-theme (dark) token: searches only the plain `:root { … }` block, never the light overrides."""
+    """A design token from the plain `:root { … }` block of tokens.css."""
     defaults = re.search(r"^:root\s*\{([^}]*)\}", tokens_css.read_text(encoding="utf-8"), flags=re.M)
     match = re.search(rf"--{name}:\s*([^;]+);", defaults.group(1) if defaults else "")
     if not match:

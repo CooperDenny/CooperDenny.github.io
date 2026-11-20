@@ -1,12 +1,12 @@
 # Design system
 
-Tokens, themes, layout rules, components and accessibility standards: everything you need to change how the site looks without breaking it.
+Tokens, the one dark theme, layout rules, components and accessibility standards: everything you need to change how the site looks without breaking it.
 
 ## Contents
 
 - [Principles](#principles)
 - [Design tokens](#design-tokens)
-- [Themes: light and dark](#themes-light-and-dark)
+- [One theme](#one-theme)
 - [Layout and breakpoints](#layout-and-breakpoints)
 - [Typography](#typography)
 - [Components](#components)
@@ -19,10 +19,10 @@ Tokens, themes, layout rules, components and accessibility standards: everything
 
 ## Principles
 
-1. **Tokens, not values.** Components never hard-code a colour, font or spacing value; they use a `var(--token)` from [`public/tokens.css`](../public/tokens.css). The deliberate exceptions are listed under [Themes](#deliberate-fixed-colours).
+1. **Tokens, not values.** Components never hard-code a colour, font or spacing value; they use a `var(--token)` from [`public/tokens.css`](../public/tokens.css). The deliberate exceptions are listed under [Deliberate fixed colours](#deliberate-fixed-colours).
 2. **Mobile first.** Base styles are for a phone; `min-width` media queries add the larger layouts.
 3. **Evidence first.** Layout decisions serve one goal: a recruiter sees the important things before they leave ([decision D06](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
-4. **Accessible by default.** AA contrast in both themes, 44px touch targets, keyboard-operable, respects reduced motion.
+4. **Accessible by default.** AA contrast, 44px touch targets, keyboard-operable, respects reduced motion.
 
 ---
 
@@ -32,26 +32,26 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 
 ### Colour
 
-| Token | Dark (default) | Light | Use |
-|---|---|---|---|
-| `--bg` | `#0b1222` | `#f0f3f7` | Page background |
-| `--bg-alt` | `#0e172b` | `#e7ecf2` | Alternating section background |
-| `--surface` | `#121c33` | `#ffffff` | Cards |
-| `--surface-2` | `#1a2644` | `#eaf0f6` | Chips, the metric panel, raised areas inside cards |
-| `--border` | `#22304f` | `#dce3ec` | Default borders; the empty part of a metric bar |
-| `--border-strong` | `#2f4066` | `#bfcbda` | Ghost buttons, emphasised borders |
-| `--text` | `#eef2f8` | `#0a1424` | Body text, headings |
-| `--text-muted` | `#a3afc6` | `#41516a` | Secondary text |
-| `--text-faint` | `#8a98b2` | `#55657d` | Tertiary text: dates, captions, labels |
-| `--accent` | `#3dd3d6` | `#00727a` | Links, primary buttons, labels, metric values and bars |
-| `--accent-strong` | `#7fe5e6` | `#005c63` | Primary button hover |
-| `--accent-ink` | `#06212a` | `#ffffff` | Text on an `--accent` background |
-| `--accent-soft` | `rgba(61, 211, 214, 0.14)` | `rgba(0, 114, 122, 0.09)` | Tinted backgrounds (badges) |
-| `--nav-bg` | `rgba(11, 60, 73, 0.94)` | same | The sticky nav: translucent petrol in both themes |
-| `--code-bg` | `#070c18` | `#f8fafc` | Code blocks on report pages |
-| `--shadow` | dark shadow | soft shadow | Card elevation |
+| Token | Value | Use |
+|---|---|---|
+| `--bg` | `#0b1222` | Page background |
+| `--bg-alt` | `#0e172b` | Alternating section background |
+| `--surface` | `#121c33` | Cards |
+| `--surface-2` | `#1a2644` | Chips, the metric panel, raised areas inside cards |
+| `--border` | `#22304f` | Default borders; the empty part of a metric bar |
+| `--border-strong` | `#2f4066` | Ghost buttons, emphasised borders |
+| `--text` | `#eef2f8` | Body text, headings |
+| `--text-muted` | `#a3afc6` | Secondary text |
+| `--text-faint` | `#8a98b2` | Tertiary text: dates, captions, labels |
+| `--accent` | `#3dd3d6` | Links, primary buttons, labels, metric values and bars |
+| `--accent-strong` | `#7fe5e6` | Primary button hover |
+| `--accent-ink` | `#06212a` | Text on an `--accent` background |
+| `--accent-soft` | `rgba(61, 211, 214, 0.14)` | Tinted backgrounds (badges) |
+| `--nav-bg` | `rgba(11, 60, 73, 0.94)` | The sticky nav: translucent petrol |
+| `--code-bg` | `#070c18` | Code blocks on report pages |
+| `--shadow` | dark shadow | Card elevation |
 
-**The brand band.** The nav and the home-page hero are a petrol band that stays dark in both themes, so these tokens have no light values:
+**The brand band.** The nav and the hero on every page are a petrol band:
 
 | Token | Value | Use |
 |---|---|---|
@@ -62,9 +62,9 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 | `--band-accent-ink` | `#06212a` | Text on `--band-accent` |
 | `--band-line` | `rgba(255, 255, 255, 0.18)` | Rules and outlines on the band |
 
-On the band, always use the `--band-*` tokens, not `--accent`: the light theme's teal is too dark on petrol.
+On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette.
 
-### Type, shape and layout (same in both themes)
+### Type, shape and layout
 
 | Token | Value | Use |
 |---|---|---|
@@ -82,54 +82,36 @@ Project pages add one local token, `--cd-wrap: 860px`, a narrower reading column
 
 ---
 
-## Themes: light and dark
+## One theme
 
-**Dark is the default.** A visitor can switch with the sun/moon button in the nav, and the choice is remembered in `localStorage` under the key `theme`.
+The site has **one dark theme**: no light mode, no theme switch, and no theme script ([decision D25](decisions.md#d25-one-dark-theme)). `:root` sets `color-scheme: dark`, so form controls and scrollbars match.
 
-### How it works
-
-```mermaid
-sequenceDiagram
-  participant B as Browser
-  participant T as lib/theme.js (inline in head)
-  participant C as tokens.css
-  B->>T: parse head
-  T->>T: localStorage "theme" → "light" or default "dark"
-  T->>B: set html data-theme
-  Note over B,C: :root[data-theme='light'] overrides the colour tokens
-  B->>B: render body in the right theme (no flash)
-  B->>T: click on any [data-theme-toggle]
-  T->>B: flip data-theme, save choice, update meta theme-color
-```
-
-- **One implementation.** [`lib/theme.js`](../lib/theme.js) is inlined into `<head>` by `app/layout.tsx` (home, résumé, links) and by the generator's `Renderer.theme_script()` (project pages). Because it runs in `<head>`, the theme is set before the body renders, so there's no flash of the wrong theme.
-- **Stateless buttons.** The toggle ([`ThemeToggle.tsx`](../components/layout/ThemeToggle.tsx), and the generator's `Renderer.theme_toggle()`) is a plain `<button data-theme-toggle>` containing both icons. The script handles clicks by event delegation, and CSS shows the sun in dark mode ("switch to light") and the moon in light mode. React never holds theme state, so server and client markup always match. `<html>` carries `suppressHydrationWarning` only because the script adds `data-theme` before React hydrates.
-- **Browser chrome.** `<meta name="theme-color">` is the petrol `--band` (read from `tokens.css` at build time, never hard-coded), so the browser bar runs into the nav. The band is the same in both themes; the script still re-reads it on every switch.
-- **Storage blocked?** (Private mode, strict privacy settings.) The site falls back to dark and the switch still works for the visit; it just isn't remembered.
+- **Browser chrome.** `<meta name="theme-color">` is the petrol `--band` (read from `tokens.css` at build time, never hard-coded), so the browser bar runs into the nav.
+- **Don't add a light theme back** without reversing D25: it would need a second value for every colour, a no-flash script in every page's `<head>`, and toggles in both kinds of nav.
 
 ### Contrast
 
-Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's used on, in both themes. The tightest pairs:
+Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's used on. The tightest pairs:
 
-| Pair | Dark | Light |
-|---|---|---|
-| `--text-faint` on `--surface-2` | 5.14:1 | 5.16:1 |
-| `--text-faint` on `--bg-alt` | 6.13:1 | 4.99:1 |
-| `--accent` on `--bg-alt` | 9.77:1 | 4.79:1 |
-| `--accent` on `--surface-2` | 8.18:1 | 4.96:1 |
-| `--accent-ink` on `--accent` (buttons) | 9.13:1 | 5.69:1 |
+| Pair | Ratio |
+|---|---|
+| `--text-faint` on `--surface-2` | 5.14:1 |
+| `--text-faint` on `--bg-alt` | 6.13:1 |
+| `--accent` on `--surface-2` | 8.18:1 |
+| `--accent` on `--bg-alt` | 9.77:1 |
+| `--accent-ink` on `--accent` (buttons) | 9.13:1 |
 
-On the band (both themes): `--band-text` 11.95:1, `--band-muted` 6.89:1, `--band-accent` 6.54:1, and `--band-accent-ink` on `--band-accent` 9.13:1.
+On the band: `--band-text` 11.95:1, `--band-muted` 6.89:1, `--band-accent` 6.54:1, and `--band-accent-ink` on `--band-accent` 9.13:1.
 
 If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface` and `--surface-2`, for example with the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/).
 
 ### Deliberate fixed colours
 
-These ignore the theme on purpose:
+These don't follow the page palette, on purpose:
 
 | Element | Why |
 |---|---|
-| The nav and hero: petrol `--band-*` | The brand band is the same in both themes |
+| The nav and hero: petrol `--band-*` | The brand band has its own palette |
 | Logo tiles (`.job__logo`): white | Organisation logos are designed for light backgrounds |
 | The résumé sheet (`.resume`): black on white | It's paper; it must print correctly and look like a document |
 | Report plots (`.cd-report .section img`): white background | ggplot output has a white background baked in |
@@ -146,7 +128,7 @@ These ignore the theme on purpose:
 
 One component-specific exception: on project pages, the nav's "Projects" label collapses to its arrow icon below 420px, so the nav fits a 320px screen.
 
-Every layout must work from **320px to 1440px wide with no horizontal scroll**. That's checked as part of [verification](development.md#verifying-layout-and-themes).
+Every layout must work from **320px to 1440px wide with no horizontal scroll**. That's checked as part of [verification](development.md#verifying-layout).
 
 ---
 
@@ -175,7 +157,6 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.job__logo` (+ `--wide`) | `ui/Logo` | White logo tile |
 | `.proof`, `.metrics`, `.disclosure` | Hero, FeaturedProjectCard | Proof strip (ruled, first value in cyan), metric panel (label, bar for percentages, value), `<details>` panel |
 | `.project__link::after` | ProjectCard | Stretched link: the whole card is clickable |
-| `.theme-toggle` | ThemeToggle | Sun/moon visibility is driven by `data-theme` |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
 | `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
@@ -187,8 +168,8 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 
 | Standard | How it's met |
 |---|---|
-| Contrast ≥ 4.5:1 | Token palette checked in both themes ([table above](#contrast)) |
-| Touch targets ≥ 44px | `--tap` on every button, nav link and toggle; whole project cards are links |
+| Contrast ≥ 4.5:1 | Token palette checked ([table above](#contrast)) |
+| Touch targets ≥ 44px | `--tap` on every button, nav link and menu toggle; whole project cards are links |
 | Keyboard | Everything is a real `<a>` or `<button>`; visible `:focus-visible` outline; Escape closes the mobile menu |
 | Skip link | "Skip to content" is the first focusable element on every page with a nav; `/links/` has none, because there is nothing to skip |
 | Screen readers | Icon-only buttons have `aria-label`; decorative SVGs are `aria-hidden`; the menu button has `aria-expanded` / `aria-controls`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
@@ -208,7 +189,7 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 
 | File | Loaded by | Contains |
 |---|---|---|
-| `public/tokens.css` | Every page | Tokens only: both themes and the breakpoint overrides |
+| `public/tokens.css` | Every page | Tokens only: the palette and the breakpoint overrides |
 | `app/globals.css` | Home, résumé (bundled by Next) | Reset, base, components, print |
 | `public/projects/site.css` | Project pages | Shared project-page chrome (`cd-` classes) |
 | `public/projects/report.css` | Report pages only | Overrides for pandoc, Bootstrap 3 and DataTables, scoped to `.cd-report` |
@@ -219,7 +200,7 @@ Tailwind is installed, but its preflight reset is disabled and existing componen
 
 ## Adding a token
 
-1. Add it to `:root` in [`public/tokens.css`](../public/tokens.css). If it's a colour, also add a value to the `:root[data-theme='light']` block.
-2. Check contrast in both themes if text will sit on it, or it will sit behind text.
+1. Add it to `:root` in [`public/tokens.css`](../public/tokens.css).
+2. Check contrast if text will sit on it, or it will sit behind text.
 3. Use it as `var(--name)` in any stylesheet.
 4. Run `python3 scripts/build-project-pages.py --check`. Token changes don't alter project-page HTML, but the check confirms nothing else drifted.

@@ -21,9 +21,8 @@ The site has two kinds of page, produced by two tools, and they share their cont
 ```mermaid
 flowchart LR
   subgraph shared["Shared sources of truth"]
-    T["public/tokens.css<br/>design tokens, both themes"]
+    T["public/tokens.css<br/>design tokens"]
     J["content/*.json · config/site.json<br/>identity, project catalog, icons, URL, GA, fonts"]
-    S["lib/theme.js<br/>theme switcher"]
   end
   P["content/profile.ts<br/>home + résumé copy"] --> N["Next.js build<br/>(npm run build)"]
   C["scripts/project_pages/content.py<br/>project-page copy"] --> G["Python generator<br/>(build-project-pages.py)"]
@@ -36,7 +35,7 @@ flowchart LR
 
 - **The Next.js app** renders the home page (`/`), the résumé (`/resume/`) and the unlisted link-in-bio page (`/links/`) from `content/profile.ts`, then exports everything to static HTML in `out/`.
 - **The Python generator** produces the seven project pages under `public/projects/`. Three are generated in full; four are R Markdown (knitr) reports that it enhances in place. Next copies `public/` into `out/` unchanged.
-- **The shared files** (tokens, JSON, the theme script) are why both kinds of page have the same look, nav, theme switcher and facts, with nothing defined twice.
+- **The shared files** (tokens and JSON) are why both kinds of page have the same look, nav and facts, with nothing defined twice.
 
 There is no server, database or runtime API: every page is static HTML ([decision D01](decisions.md#d01-static-export-to-github-pages)).
 
@@ -89,8 +88,7 @@ If you're about to type a fact a second time, it already has a home:
 | Project-page copy | `scripts/project_pages/content.py` | generator |
 | Icon SVG paths | `content/icons.json` | Next, generator |
 | URL, GA ID, fonts URL | `config/site.json` | Next, generator |
-| Colours, type, spacing, both themes | `public/tokens.css` | every page; `theme-color` is *read* from `--band` |
-| Theme switching | `lib/theme.js` | inlined into every page |
+| Colours, type, spacing | `public/tokens.css` | every page; `theme-color` is *read* from `--band` |
 | Section ids, nav labels, headings | `content/sections.ts` | Navbar, sections, proof tiles, sticky bar |
 | Date-range format | `dateRange()` in `lib/format.ts` | every date range |
 | "Is this link external?" | the URL itself (`lib/links.ts`, `model.Action.external`) | every link; there are no hand-set flags |
@@ -142,7 +140,7 @@ Components take the smallest props that do the job (interface segregation): `Chi
 
 ### Home page
 
-1. `app/layout.tsx` renders `<html>`. Its `<head>` inlines `lib/theme.js`, so the saved theme applies before the body renders, along with the fonts link and JSON-LD built by `lib/seo.ts`. The `<body>` holds `Analytics` and the route.
+1. `app/layout.tsx` renders `<html>`. Its `<head>` holds the fonts link and the JSON-LD built by `lib/seo.ts`. The `<body>` holds `Analytics` and the route.
 2. `app/(site)/layout.tsx` wraps the home page and résumé in the site chrome: a skip link, `Navbar`, `<main>`, `Footer` and `MobileCta`. `(site)` is a route group, so it adds nothing to the URL.
 3. `app/(site)/page.tsx` passes content into six sections: `Hero`, `Experience`, `Projects`, `Skills`, `Education` and `Contact`.
 4. Each section wraps itself in `ui/Section`, which takes its id, label and heading from `content/sections.ts`.
@@ -154,7 +152,7 @@ Components take the smallest props that do the job (interface segregation): `Chi
 
 ### Link-in-bio page
 
-`app/links/page.tsx` sits outside the `(site)` group, so it gets the root layout (theme, fonts, analytics) but no nav, footer or sticky bar. It renders `components/links/LinkInBio.tsx` with `linkInBioChannels()` from `content/selectors.ts`: website, Instagram, Facebook, Spotify, LinkedIn, X, GitHub, WhatsApp, email. It is deliberately unlisted ([decision D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)): nothing links to it, it isn't in the sitemap, and it carries `noindex, nofollow`.
+`app/links/page.tsx` sits outside the `(site)` group, so it gets the root layout (fonts, analytics) but no nav, footer or sticky bar. It renders `components/links/LinkInBio.tsx` with `linkInBioChannels()` from `content/selectors.ts`: website, Instagram, Facebook, Spotify, LinkedIn, X, GitHub, WhatsApp, email. It is deliberately unlisted ([decision D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)): nothing links to it, it isn't in the sitemap, and it carries `noindex, nofollow`.
 
 ### Project pages
 
@@ -168,7 +166,6 @@ The site is server-rendered HTML; JavaScript only adds behaviour.
 
 | Code | Runs | Does |
 |---|---|---|
-| `lib/theme.js` | Inline in `<head>` on every page | Applies the saved theme; toggles it on click of any `[data-theme-toggle]` |
 | `Navbar` (`'use client'`) | Home, résumé | Mobile menu open/close (and Escape key); border once scrolled |
 | `MobileCta` (`'use client'`) | Home, résumé | Shows the sticky Résumé/Email bar between the hero and Contact on phones |
 | `PrintButton` (`'use client'`) | Résumé | Calls `window.print()` |
@@ -185,7 +182,7 @@ Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-
 .github/workflows/deploy.yml     CI: check generated pages → build → deploy to GitHub Pages
 
 app/
-  layout.tsx                     <html>, <head> (theme script, fonts, JSON-LD), analytics
+  layout.tsx                     <html>, <head> (fonts, JSON-LD), analytics
   (site)/                        Route group (no URL segment) for pages with site chrome
     layout.tsx                   Skip link, Navbar, <main>, Footer, MobileCta
     page.tsx                     Home page — composition root
@@ -209,12 +206,11 @@ components/
     Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid + ProjectLinkList.tsx
     Skills.tsx · Education.tsx · Contact.tsx
   layout/                        Site chrome
-    Navbar.tsx                   Top bar, mobile menu, ThemeToggle ('use client')
-    ThemeToggle.tsx              Stateless sun/moon button; lib/theme.js does the work
+    Navbar.tsx                   Top bar, mobile menu ('use client')
     MobileCta.tsx                Sticky phone action bar ('use client')
     Footer.tsx · Analytics.tsx
   links/
-    LinkInBio.tsx                Avatar, name, one large button per channel, theme toggle
+    LinkInBio.tsx                Avatar, name, one large button per channel
   resume/
     ResumeSections.tsx           Résumé header, summary, experience, projects, education, skills
     PrintButton.tsx              "Save as PDF" ('use client')
@@ -236,11 +232,9 @@ lib/
   format.ts                      dateRange(), listSentence(), cx()
   links.ts                       isExternal(), externalAttrs(), waHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
-  theme.js                       The theme switcher (plain ES5, inlined everywhere)
-  themeScript.ts                 Reads theme.js at build time for inlining
 
 public/
-  tokens.css                     Design tokens, both themes
+  tokens.css                     Design tokens
   favicon.svg · .nojekyll        Icon · stops GitHub Pages running Jekyll over _next/
   images/                        Hero photo (WebP; PNG kept for social previews) and logos
   projects/
@@ -265,7 +259,7 @@ tailwind.config.ts               Preflight disabled (see decision D03)
 | New home-page section | Add to `content/sections.ts`, create `components/home/<Name>.tsx` using `ui/Section`, render it from `app/page.tsx` | The nav updates itself |
 | New UI primitive | `components/ui/` | Keep it content-agnostic: props in, markup out |
 | New derived value | `content/selectors.ts` | Not inline in a component |
-| New colour or spacing value | `public/tokens.css`, in **both** theme blocks if it's a colour | See [Design system](design-system.md#adding-a-token) |
+| New colour or spacing value | `public/tokens.css` | See [Design system](design-system.md#adding-a-token) |
 | New icon | `content/icons.json` (paths from `@fortawesome/fontawesome-free/svgs/`) | Usable from TSX and the generator |
 | New project page | [Editing content → Add a project](editing-content.md#add-a-project) | |
 | New report behaviour | A `Transform` or `ReportExtension` | [Project pages → Extending](project-pages.md#extending-the-generator) |

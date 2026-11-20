@@ -7,12 +7,11 @@
      - public/projects/site.css   (project pages load /tokens.css via <link>)
      - public/projects/report.css (knitr report overrides)
 
-   Two themes: dark (the default) and light. The active theme is the
-   data-theme attribute on <html>, set before first paint by lib/theme.js.
+   One theme: dark. There is no light mode or theme switch (decision D25).
    Change a value here and every page follows.
 
-   Every text colour meets WCAG AA (≥ 4.5:1) against every background in
-   its theme — re-check contrast if you change a colour.
+   Every text colour meets WCAG AA (≥ 4.5:1) against every background —
+   re-check contrast if you change a colour.
 
    Breakpoints used site-wide: 600px (large phone / tablet), 861px (desktop).
    ========================================================================== */
@@ -38,7 +37,7 @@
   --code-bg: #070c18;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
 
-  /* The petrol brand band (nav + hero). Dark in both themes, so these don't change in light. */
+  /* The petrol brand band (nav + hero). On the band, use these, never --accent. */
   --band: #0b3c49;
   --band-text: #ffffff;
   --band-muted: #b9c6d6;
@@ -59,27 +58,6 @@
   --gutter: 16px;
   --nav-h: 56px;
   --section-y: 48px;
-}
-
-/* Light theme: only colours change; type, shape, layout and the band are shared. */
-:root[data-theme='light'] {
-  color-scheme: light;
-
-  --bg: #f0f3f7;
-  --bg-alt: #e7ecf2;
-  --surface: #ffffff;
-  --surface-2: #eaf0f6;
-  --border: #dce3ec;
-  --border-strong: #bfcbda;
-  --text: #0a1424;
-  --text-muted: #41516a;
-  --text-faint: #55657d;
-  --accent: #00727a;
-  --accent-strong: #005c63;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(0, 114, 122, 0.09);
-  --code-bg: #f8fafc;
-  --shadow: 0 1px 3px rgba(10, 20, 36, 0.06), 0 6px 18px rgba(10, 20, 36, 0.06);
 }
 
 @media (min-width: 600px) {

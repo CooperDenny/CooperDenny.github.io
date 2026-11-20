@@ -31,7 +31,7 @@ npm run start          # serve out/ at http://localhost:3000
 | Change my headline, pitch, experience, skills or education | [`content/profile.ts`](content/profile.ts) | `npm run dev` to preview |
 | Change a project page's wording | [`scripts/project_pages/content.py`](scripts/project_pages/content.py) | `python3 scripts/build-project-pages.py` |
 | Update a project report after re-knitting it in R | Replace `public/projects/<slug>/index.html` | `python3 scripts/build-project-pages.py` |
-| Change a colour, font or spacing value | [`public/tokens.css`](public/tokens.css) | Check both themes |
+| Change a colour, font or spacing value | [`public/tokens.css`](public/tokens.css) | Check contrast |
 | Add a project | See [Editing content → Add a project](docs/editing-content.md#add-a-project) | |
 
 Step-by-step recipes for these and more are in **[docs/editing-content.md](docs/editing-content.md)**.
@@ -53,7 +53,7 @@ Every push to `main` deploys automatically — see [docs/deployment.md](docs/dep
 |---|---|
 | [Editing content](docs/editing-content.md) | change what the site says — recipes for every common edit |
 | [Architecture](docs/architecture.md) | understand how the code is organised and the rules that keep it that way |
-| [Design system](docs/design-system.md) | change styles: tokens, light/dark themes, breakpoints, components, accessibility |
+| [Design system](docs/design-system.md) | change styles: tokens, the dark theme, breakpoints, components, accessibility |
 | [Project pages](docs/project-pages.md) | work on `/projects/*`: the page generator and the R Markdown workflow |
 | [Development](docs/development.md) | set up, run, verify and troubleshoot locally |
 | [Deployment](docs/deployment.md) | understand or fix the GitHub Pages pipeline |
@@ -66,7 +66,7 @@ Every push to `main` deploys automatically — see [docs/deployment.md](docs/dep
 |---|---|
 | Framework | [Next.js 14](https://nextjs.org/) (App Router), React 18, TypeScript (strict) |
 | Output | Static export (`output: 'export'`) — plain HTML/CSS/JS, no server |
-| Styling | Hand-written CSS on shared design tokens; light and dark themes |
+| Styling | Hand-written CSS on shared design tokens; one dark theme |
 | Project pages | Static HTML produced by a Python generator; three are R Markdown (knitr) reports |
 | Hosting | GitHub Pages, deployed by GitHub Actions on every push to `main` |
 | Analytics | Google Analytics 4 |
@@ -78,7 +78,7 @@ app/                  Next.js routes: layout, (site)/ home page + /resume, /link
 components/           React components — ui/ primitives, home/ sections, layout/ chrome, links/, resume/
 content/              What the site says: data, types, and JSON shared with the Python generator
 config/               Site constants (URL, analytics ID, fonts)
-lib/                  Framework-free helpers and the theme script
+lib/                  Framework-free helpers
 public/               Static files: tokens.css, images/, projects/ (generated pages)
 scripts/              The project-page generator (Python)
 docs/                 Documentation

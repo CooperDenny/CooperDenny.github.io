@@ -8,7 +8,7 @@ Setting up, running, verifying and troubleshooting the site locally.
 - [Setup](#setup)
 - [Commands](#commands)
 - [Before you push](#before-you-push)
-- [Verifying layout and themes](#verifying-layout-and-themes)
+- [Verifying layout](#verifying-layout)
 - [Checking the résumé's page count](#checking-the-résumés-page-count)
 - [Conventions](#conventions)
 - [Troubleshooting](#troubleshooting)
@@ -68,15 +68,14 @@ Then look at what you changed in the browser: see the next section.
 
 ---
 
-## Verifying layout and themes
+## Verifying layout
 
 The site's quality bar is "works for a recruiter on a phone". After any visual change, check:
 
 - [ ] **Widths:** 320px (smallest phone), 390px (typical phone), 768px (tablet), 1366px (laptop). Use your browser's device toolbar. There must be no horizontal scroll at any width.
-- [ ] **Both themes:** toggle the sun/moon button; text stays readable and nothing keeps a hard-coded colour that clashes.
 - [ ] **First screen on a phone (home page):** name, headline, pitch, the Résumé/Email buttons and the first proof tiles are visible without scrolling.
 - [ ] **Keyboard:** Tab reaches every link and button with a visible focus ring; Escape closes the mobile menu.
-- [ ] **Project pages too**, if you touched shared CSS, tokens, the theme script or the generator.
+- [ ] **Project pages too**, if you touched shared CSS, tokens or the generator.
 
 Check the static export rather than only the dev server: `npm run build && npm run start`.
 
@@ -127,6 +126,5 @@ If it's over two pages, trim content (or set `onResume: false` on a skill group,
 | Changes don't show after a build | Stale build cache | `rm -rf .next out && npm run build` |
 | Build fails: `Unknown project page "<slug>"` | A `pageProject('<slug>', …)` card isn't in `content/projects.json` | Register the page, or fix the slug typo |
 | Build fails: `Design token --band not found in public/tokens.css` | `--band` renamed or removed | Restore it; it's used for the browser theme colour |
-| Theme doesn't persist between visits | Browser blocks `localStorage` (private mode) | Expected: the site falls back to dark |
 | Fonts look like system fonts | Offline, or Google Fonts blocked | Expected fallback; the font stacks degrade gracefully |
 | Generator error messages | — | See [Project pages → Troubleshooting](project-pages.md#troubleshooting) |

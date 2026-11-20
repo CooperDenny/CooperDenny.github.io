@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import ThemeToggle from '@/components/layout/ThemeToggle';
 import Icon from '@/components/ui/Icon';
 import { RESUME_HREF } from '@/content/sections';
 
 type NavItem = { label: string; href: string };
 type Props = { brand: string; items: NavItem[] };
 
-/** Sticky top bar: brand, section links (a menu on phones), Résumé, theme toggle. */
+/** Sticky top bar: brand, section links (a menu on phones), Résumé. */
 export default function Navbar({ brand, items }: Props) {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(8);
@@ -41,7 +40,6 @@ export default function Navbar({ brand, items }: Props) {
           <a href={RESUME_HREF} className="btn btn--small btn--primary nav__resume">
             Résumé
           </a>
-          <ThemeToggle />
           <button
             type="button"
             className="nav__toggle"

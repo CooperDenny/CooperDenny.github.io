@@ -9,7 +9,7 @@
    Design system — mobile-first.
    Base rules target phones; @media (min-width: …) layers add tablet/desktop.
    Breakpoints: 600px (large phone / small tablet), 861px (desktop nav + 2-col layouts).
-   Light + dark themes (dark default). Tokens: public/tokens.css.
+   One dark theme. Tokens: public/tokens.css.
    Components only use tokens. Every interactive element is ≥ 44px tall.
    ========================================================================== */
 
@@ -307,31 +307,6 @@ h2 {
   align-items: center;
   gap: 8px;
 }
-/* Theme switch: both icons are rendered; CSS shows the one for the theme you'd switch TO. */
-.theme-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: var(--tap);
-  height: var(--tap);
-  border: 1px solid var(--band-line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--band-muted);
-  font-size: 1.05rem;
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-.theme-toggle:hover {
-  color: var(--band-accent);
-  border-color: var(--band-accent);
-}
-.theme-toggle__moon,
-:root[data-theme='light'] .theme-toggle__sun {
-  display: none;
-}
-:root[data-theme='light'] .theme-toggle__moon {
-  display: block;
-}
 .nav__toggle {
   display: inline-grid;
   place-items: center;
@@ -413,7 +388,7 @@ h2 {
 }
 
 /* ---------- Hero ----------
-   The petrol brand band: dark in both themes (--band tokens), curved bottom edge, and faint
+   The petrol brand band (--band tokens), curved bottom edge, and faint
    lines of a footy oval and centre square behind the text. Proof stats sit in a strip along
    its base so the first phone screen keeps name, headline, pitch, actions and proof (D06). */
 
@@ -491,7 +466,7 @@ h2 {
   flex: 1 1 auto;
   padding: 0 14px;
 }
-/* On the band, buttons use the band palette (the light theme's teal is too dark on petrol). */
+/* On the band, buttons use the band palette. */
 .hero .btn--primary,
 .nav .btn--primary {
   background: var(--band-accent);
@@ -1199,11 +1174,6 @@ h2 {
   min-height: 100svh;
   margin: 0 auto;
   padding: calc(28px + env(safe-area-inset-top)) var(--gutter) calc(28px + env(safe-area-inset-bottom));
-}
-.bio__toggle {
-  position: absolute;
-  top: calc(8px + env(safe-area-inset-top));
-  right: var(--gutter);
 }
 .bio__header {
   display: grid;

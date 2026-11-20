@@ -1,6 +1,6 @@
 /* ==========================================================================
    Shared chrome for every /projects/<slug>/ page.
-   Tokens (both themes) come from /tokens.css, shared with the home page.
+   Tokens come from /tokens.css, shared with the home page.
    Every class is prefixed `cd-` because the R Markdown reports also load
    Bootstrap 3, which already owns .nav, .btn, .label, etc.
    Mobile-first: base = phone, min-width queries add larger layouts.
@@ -195,30 +195,6 @@ body.cd-page {
   font-weight: 500;
   text-decoration: none !important;
 }
-.cd-theme-toggle {
-  display: inline-grid;
-  place-items: center;
-  flex: none;
-  width: var(--tap);
-  height: var(--tap);
-  border: 1px solid var(--band-line);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--band-muted);
-  font-size: 1.05rem;
-  cursor: pointer;
-}
-.cd-theme-toggle:hover {
-  color: var(--band-accent);
-  border-color: var(--band-accent);
-}
-.cd-theme-toggle .cd-icon--moon,
-:root[data-theme='light'] .cd-theme-toggle .cd-icon--sun {
-  display: none;
-}
-:root[data-theme='light'] .cd-theme-toggle .cd-icon--moon {
-  display: inline-block;
-}
 /* Narrow phones: the Projects link collapses to its arrow (aria-label keeps its name). */
 @media (max-width: 419px) {
   .cd-nav__label {
@@ -231,7 +207,7 @@ body.cd-page {
 }
 /* ---------- Project header ---------- */
 
-/* The petrol band, as on the home hero: dark in both themes (--band tokens, never --accent),
+/* The petrol band, as on the home hero: --band tokens, never --accent,
    with the same curved bottom edge. */
 .cd-hero {
   padding: 24px 0 36px;

@@ -14,7 +14,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off |
 | [D07](#d07-skills-are-text-not-logos) | Skills are text, not logos |
 | [D08](#d08-no-scroll-triggered-reveal-animations) | No scroll-triggered reveal animations |
-| [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher |
+| [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher (superseded by D25) |
 | [D10](#d10-one-set-of-design-tokens-for-every-page) | One set of design tokens for every page |
 | [D11](#d11-brownlow-results-are-reported-without-headline-accuracy) | Brownlow results are reported without headline accuracy |
 | [D12](#d12-the-résumé-is-generated-and-fits-one-a4-page) | The résumé is generated and fits one A4 page (*superseded by D22*) |
@@ -30,6 +30,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D22](#d22-the-résumé-is-two-pages) | The résumé is two pages |
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
 | [D24](#d24-petrol-band-cyan-accent-and-archivo) | Petrol band, cyan accent and Archivo |
+| [D25](#d25-one-dark-theme) | One dark theme |
 
 ---
 
@@ -109,7 +110,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Consequences.** No flash, no hydration warnings, and identical behaviour on every page. Every new colour needs a value in both themes ([design system](design-system.md#adding-a-token)).
 
-**History.** The site briefly went dark-only (the switcher was removed), then the switcher was restored at the owner's request.
+**History.** The site briefly went dark-only (the switcher was removed), then the switcher was restored at the owner's request. In November 2026 it went dark-only again: **superseded by [D25](#d25-one-dark-theme)**.
 
 ### D10. One set of design tokens for every page
 
@@ -149,7 +150,7 @@ A short note on the card and on the project pages explains why accuracy isn't us
 
 **Context.** Names, titles, URLs, icons, colours and anchors were each defined in two or more places across the React app and the generator.
 
-**Decision.** Facts both tools need live in JSON (`content/projects.json`, `identity.json`, `icons.json`, `config/site.json`) or in shared assets (`tokens.css`, `lib/theme.js`), read by both. Within TypeScript, derived values live in `content/selectors.ts` and section anchors in `content/sections.ts`. External-link behaviour is derived from the URL. The full table is in [architecture → Rule 1](architecture.md#rule-1-one-source-per-fact).
+**Decision.** Facts both tools need live in JSON (`content/projects.json`, `identity.json`, `icons.json`, `config/site.json`) or in shared assets (`tokens.css`), read by both. Within TypeScript, derived values live in `content/selectors.ts` and section anchors in `content/sections.ts`. External-link behaviour is derived from the URL. The full table is in [architecture → Rule 1](architecture.md#rule-1-one-source-per-fact).
 
 **Consequences.** Changes happen in one place. Some values that used to be inline now need a short trip to a JSON file.
 
@@ -270,10 +271,18 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 **Context.** By November 2026 the site used Tailwind's stock slate background, its `cyan-400`, Inter, cyan mono uppercase labels over every heading, 14px rounded cards and a radial glow: the default look of generated portfolios. The brief was to keep the navy-and-cyan feel but make it personal, taking cues from PlayHQ's products (an indigo header band over the page, bold sans type, data shown as tables and scores) without copying its brand: no PlayHQ colours, fonts, logo or code.
 
 **Decision.**
-- **Colour:** a navy page (`#0b1222`) and a petrol brand band (`#0b3c49`) for the nav and hero, dark in both themes, with a cyan accent (`#3dd3d6`; deep teal `#00727a` on light backgrounds). The light theme has a pale grey page with white cards. Every pair meets AA ([contrast table](design-system.md#contrast)).
+- **Colour:** a navy page (`#0b1222`) and a petrol brand band (`#0b3c49`) for the nav and hero, with a cyan accent (`#3dd3d6`). (A light theme with deep teal `#00727a` shipped with this record, then was dropped in [D25](#d25-one-dark-theme).) Every pair meets AA ([contrast table](design-system.md#contrast)).
 - **Type:** Archivo for everything, expanded (125% width, weight 800) for `h1`, `h2`, the brand and big numbers. Mono is kept for code only. Barlow, PlayHQ's font, was tried and rejected so the site doesn't read as PlayHQ-branded.
 - **Hero:** the band has a curved bottom edge and faint lines of a footy oval and centre square. The proof stats are a ruled strip inside it, led by the 50,000+ figure in cyan, so the first phone screen still meets D06.
 - **Brownlow card:** shows only the 3-vote recall (56%, with a bar), described in plain words. r = 0.93 and MAE 2.0 read as confusing without context on a skim; they stay on the résumé, in the card's method panel and on the project pages ([D11](#d11-brownlow-results-are-reported-without-headline-accuracy)).
 - **Rejected:** sports slang for status (LIVE/FINAL tags, "Now playing"), a stats table in the hero, and condensed uppercase "scoreboard" type.
 
-**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages match: their header is the same petrol band with a curved bottom (full-bleed on the knitr reports too, via `report.css`), their labels are Archivo, and mono is kept for inline code only. The browser `theme-color` is `--band`, so the address bar runs into the nav in both themes. The résumé still prints on two pages with Archivo.
+**Consequences.** The band is `--band-*` tokens; anything placed on it must use them, not `--accent`. Project pages match: their header is the same petrol band with a curved bottom (full-bleed on the knitr reports too, via `report.css`), their labels are Archivo, and mono is kept for inline code only. The browser `theme-color` is `--band`, so the address bar runs into the nav. The résumé still prints on two pages with Archivo.
+
+### D25. One dark theme
+
+**Context.** After the petrol redesign (D24) the band, nav and hero were the same in both themes, so the light theme only changed the page below the hero. Keeping it meant every colour needed two AA-checked values, every page inlined a theme script, and both navs carried a toggle. The owner said one mode is fine.
+
+**Decision.** The site has one theme, dark. The light token block, `lib/theme.js`, `lib/themeScript.ts`, `ThemeToggle.tsx`, the generator's theme script and toggle, and the sun/moon icons are gone. `:root` keeps `color-scheme: dark`, and `theme-color` stays `--band`.
+
+**Consequences.** Every page has no script in `<head>` and one fewer button in the nav (and on `/links/`). New colours need one value. A visitor's old saved `theme` key in `localStorage` is now ignored. Bringing a light mode back means reversing this record and re-doing D09's no-flash script.

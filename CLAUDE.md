@@ -10,7 +10,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 |---|---|
 | Change copy / add a job, project, skill | [docs/editing-content.md](docs/editing-content.md) |
 | Change code structure | [docs/architecture.md](docs/architecture.md) |
-| Change styles, tokens, themes | [docs/design-system.md](docs/design-system.md) |
+| Change styles or tokens | [docs/design-system.md](docs/design-system.md) |
 | Touch `public/projects/` or `scripts/` | [docs/project-pages.md](docs/project-pages.md) |
 | Reverse an existing choice | [docs/decisions.md](docs/decisions.md) — find the record first |
 
@@ -35,8 +35,8 @@ Instructions for AI coding agents working in this repository. Humans: start with
 - No icon fonts (inline SVG via `content/icons.json`). Fonts via `<link>`, not `next/font`.
 
 **Design** ([design system](docs/design-system.md))
-- Colours only via tokens; every new colour needs a dark **and** a light value meeting WCAG AA (4.5:1).
-- Two themes, dark default. The theme logic lives only in `lib/theme.js`; toggles are stateless `[data-theme-toggle]` buttons. Don't add React theme state.
+- Colours only via tokens; every new colour must meet WCAG AA (4.5:1) against the backgrounds it sits on.
+- One dark theme: no light mode, theme switch or theme script ([D25](docs/decisions.md#d25-one-dark-theme)). On the petrol band, use `--band-*` tokens, never `--accent`.
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
 - The home page's first phone screen must keep: name, headline, pitch, CTAs, proof tiles ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off)).
@@ -56,7 +56,7 @@ python3 scripts/build-project-pages.py --check   # must report "all project page
 npm run build
 ```
 
-For visual changes, also check both themes at 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout-and-themes)), and that `/resume/` still prints on two pages at most.
+For visual changes, also check 320px, 390px and desktop widths ([checklist](docs/development.md#verifying-layout)), and that `/resume/` still prints on two pages at most.
 
 ## Keep the docs true
 

@@ -61,10 +61,6 @@ class Renderer:
             f"gtag('js',new Date());gtag('config','{ga}');</script>"
         )
 
-    def theme_script(self) -> str:
-        """lib/theme.js inlined, so the saved theme applies before first paint (same file the Next app inlines)."""
-        return f"<script>\n{self.settings.theme_script}\n</script>"
-
     @staticmethod
     def stylesheets(*hrefs: str) -> str:
         """<link rel=stylesheet> tags, in the order given."""
@@ -73,24 +69,15 @@ class Renderer:
     # --- body chrome --------------------------------------------------------------
 
     def nav(self) -> str:
-        """Skip link and top bar: brand, back to Projects, Résumé, theme toggle."""
+        """Skip link and top bar: brand, back to Projects, Résumé."""
         return f"""<a href="#cd-main" class="cd-skip">Skip to content</a>
 <nav class="cd-nav" aria-label="Primary">
   <div class="cd-nav__inner">
     <a href="/" class="cd-nav__brand">{self.settings.identity.name}</a>
     <a href="/#projects" class="cd-nav__link" aria-label="All projects">{self.icon('arrowLeft')} <span class="cd-nav__label">Projects</span></a>
     <a href="/resume/" class="cd-btn cd-btn--primary cd-btn--small">Résumé</a>
-    {self.theme_toggle()}
   </div>
 </nav>"""
-
-    def theme_toggle(self) -> str:
-        """Same contract as components/layout/ThemeToggle.tsx: lib/theme.js handles [data-theme-toggle] clicks."""
-        label = "Toggle light and dark theme"
-        return (
-            f'<button type="button" class="cd-theme-toggle" data-theme-toggle aria-label="{label}" title="{label}">'
-            f'{self.icons.svg("sun", "sun")}{self.icons.svg("moon", "moon")}</button>'
-        )
 
     def hero(self, copy: PageCopy) -> str:
         """Project header: kicker, title, lede, meta line, tool chips, action buttons."""
