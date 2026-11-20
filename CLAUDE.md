@@ -36,7 +36,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 
 **Design** ([design system](docs/design-system.md))
 - Colours only via tokens; every new colour must meet WCAG AA (4.5:1) against the backgrounds it sits on.
-- One dark theme: no light mode, theme switch or theme script ([D25](docs/decisions.md#d25-one-dark-theme)). On the petrol band, use `--band-*` tokens, never `--accent`.
+- One dark theme: no light mode, theme switch or theme script ([D25](docs/decisions.md#d25-one-dark-theme)). On the hero/nav band, use `--band-*` tokens, never `--accent`.
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
 - The home page's first phone screen must keep: name, headline, pitch, CTAs, proof tiles ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off)).

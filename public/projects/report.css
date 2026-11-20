@@ -27,7 +27,7 @@ body.cd-report {
   background: transparent !important;
 }
 /* The project header sits inside Bootstrap's container here, so break it out to full width
-   (calc(50% - 50vw)) to keep the petrol band edge to edge like the hand-written pages.
+   (calc(50% - 50vw)) to keep the navy band edge to edge like the hand-written pages.
    overflow-x: clip hides the classic-scrollbar width that 100vw includes, without making a
    scroll container (so the sticky nav still sticks). */
 body.cd-report {

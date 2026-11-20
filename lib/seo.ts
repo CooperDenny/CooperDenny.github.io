@@ -51,7 +51,7 @@ export function siteMetadata(profile: Profile): Metadata {
   };
 }
 
-/** Mobile browser chrome matches the petrol nav band. */
+/** Mobile browser chrome matches the nav band. */
 export const siteViewport: Viewport = {
   themeColor: siteConfig.themeColor,
   colorScheme: 'dark light',

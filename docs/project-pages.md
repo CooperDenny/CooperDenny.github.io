@@ -173,7 +173,7 @@ Each shot is two WebP files next to the page:
   footer
 ```
 
-The nav and header use the same petrol band as the home page ([Design system → One theme](design-system.md#one-theme)).
+The nav and header use the same navy band as the home page ([Design system → One theme](design-system.md#one-theme)).
 
 ---
 

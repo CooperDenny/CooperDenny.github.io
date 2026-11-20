@@ -34,33 +34,33 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#0b1222` | Page background |
-| `--bg-alt` | `#0e172b` | Alternating section background |
-| `--surface` | `#121c33` | Cards |
-| `--surface-2` | `#1a2644` | Chips, the metric panel, raised areas inside cards |
-| `--border` | `#22304f` | Default borders; the empty part of a metric bar |
-| `--border-strong` | `#2f4066` | Ghost buttons, emphasised borders |
-| `--text` | `#eef2f8` | Body text, headings |
-| `--text-muted` | `#a3afc6` | Secondary text |
-| `--text-faint` | `#8a98b2` | Tertiary text: dates, captions, labels |
-| `--accent` | `#3dd3d6` | Links, primary buttons, labels, metric values and bars |
-| `--accent-strong` | `#7fe5e6` | Primary button hover |
-| `--accent-ink` | `#06212a` | Text on an `--accent` background |
-| `--accent-soft` | `rgba(61, 211, 214, 0.14)` | Tinted backgrounds (badges) |
-| `--nav-bg` | `rgba(11, 60, 73, 0.94)` | The sticky nav: translucent petrol |
+| `--bg` | `#0b1120` | Page background |
+| `--bg-alt` | `#0f172a` | Alternating section background |
+| `--surface` | `#131c31` | Cards |
+| `--surface-2` | `#1a2540` | Chips, the metric panel, raised areas inside cards |
+| `--border` | `#23304d` | Default borders; the empty part of a metric bar |
+| `--border-strong` | `#2f3f63` | Ghost buttons, emphasised borders |
+| `--text` | `#e8edf6` | Body text, headings |
+| `--text-muted` | `#a3b0c5` | Secondary text |
+| `--text-faint` | `#8090a8` | Tertiary text: dates, captions, labels |
+| `--accent` | `#22d3ee` | Links, primary buttons, labels, metric values and bars |
+| `--accent-strong` | `#67e8f9` | Primary button hover |
+| `--accent-ink` | `#04222a` | Text on an `--accent` background |
+| `--accent-soft` | `rgba(34, 211, 238, 0.12)` | Tinted backgrounds (badges) |
+| `--nav-bg` | `rgba(19, 28, 49, 0.94)` | The sticky nav: translucent `--band` |
 | `--code-bg` | `#070c18` | Code blocks on report pages |
 | `--shadow` | dark shadow | Card elevation |
 
-**The brand band.** The nav and the hero on every page are a petrol band:
+**The brand band.** The nav and the hero on every page are a band of raised navy, the same colour as cards, so the hero's curved edge shows against the page:
 
 | Token | Value | Use |
 |---|---|---|
-| `--band` | `#0b3c49` | Band background (hero, mobile menu sheet) |
-| `--band-text` | `#ffffff` | Text on the band |
-| `--band-muted` | `#b9c6d6` | Secondary text on the band (pitch, proof labels, nav links) |
-| `--band-accent` | `#3dd3d6` | Cyan on the band: primary buttons, first proof value, avatar ring, focus |
-| `--band-accent-ink` | `#06212a` | Text on `--band-accent` |
-| `--band-line` | `rgba(255, 255, 255, 0.18)` | Rules and outlines on the band |
+| `--band` | `#131c31` | Band background (hero, mobile menu sheet) |
+| `--band-text` | `#e8edf6` | Text on the band |
+| `--band-muted` | `#a3b0c5` | Secondary text on the band (pitch, proof labels, nav links) |
+| `--band-accent` | `#22d3ee` | Cyan on the band: primary buttons, first proof value, avatar ring, focus |
+| `--band-accent-ink` | `#04222a` | Text on `--band-accent` |
+| `--band-line` | `rgba(255, 255, 255, 0.14)` | Rules and outlines on the band |
 
 On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette.
 
@@ -86,7 +86,7 @@ Project pages add one local token, `--cd-wrap: 860px`, a narrower reading column
 
 The site has **one dark theme**: no light mode, no theme switch, and no theme script ([decision D25](decisions.md#d25-one-dark-theme)). `:root` sets `color-scheme: dark`, so form controls and scrollbars match.
 
-- **Browser chrome.** `<meta name="theme-color">` is the petrol `--band` (read from `tokens.css` at build time, never hard-coded), so the browser bar runs into the nav.
+- **Browser chrome.** `<meta name="theme-color">` is the `--band` navy (read from `tokens.css` at build time, never hard-coded), so the browser bar runs into the nav.
 - **Don't add a light theme back** without reversing D25: it would need a second value for every colour, a no-flash script in every page's `<head>`, and toggles in both kinds of nav.
 
 ### Contrast
@@ -95,13 +95,13 @@ Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's us
 
 | Pair | Ratio |
 |---|---|
-| `--text-faint` on `--surface-2` | 5.14:1 |
-| `--text-faint` on `--bg-alt` | 6.13:1 |
-| `--accent` on `--surface-2` | 8.18:1 |
-| `--accent` on `--bg-alt` | 9.77:1 |
-| `--accent-ink` on `--accent` (buttons) | 9.13:1 |
+| `--text-faint` on `--surface-2` | 4.68:1 |
+| `--text-faint` on `--surface` | 5.23:1 |
+| `--text-faint` on `--bg-alt` | 5.50:1 |
+| `--accent` on `--surface-2` | 8.40:1 |
+| `--accent-ink` on `--accent` (buttons) | 9.17:1 |
 
-On the band: `--band-text` 11.95:1, `--band-muted` 6.89:1, `--band-accent` 6.54:1, and `--band-accent-ink` on `--band-accent` 9.13:1.
+On the band: `--band-text` 14.44:1, `--band-muted` 7.73:1, `--band-accent` 9.39:1, and `--band-accent-ink` on `--band-accent` 9.17:1.
 
 If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface` and `--surface-2`, for example with the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/).
 
@@ -111,7 +111,7 @@ These don't follow the page palette, on purpose:
 
 | Element | Why |
 |---|---|
-| The nav and hero: petrol `--band-*` | The brand band has its own palette |
+| The nav and hero: `--band-*` | The brand band has its own palette |
 | Logo tiles (`.job__logo`): white | Organisation logos are designed for light backgrounds |
 | The résumé sheet (`.resume`): black on white | It's paper; it must print correctly and look like a document |
 | Report plots (`.cd-report .section img`): white background | ggplot output has a white background baked in |
@@ -134,7 +134,7 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 ## Typography
 
-- **Archivo** for all text. `h1`, `h2`, the nav brand and the big numbers (proof and metric values) use its expanded width (`font-stretch: var(--display-stretch)`, 125%) at weight 800; everything else is normal width. Numbers use `tabular-nums`. **JetBrains Mono** is for code only on the home page (project pages still use it for their small labels). Both come from Google Fonts via `<link>`; the URL is in `config/site.json` ([D05](decisions.md#d05-fonts-load-via-link-icons-are-inline-svg), [D24](decisions.md#d24-petrol-band-cyan-accent-and-archivo)).
+- **Archivo** for all text. `h1`, `h2`, the nav brand and the big numbers (proof and metric values) use its expanded width (`font-stretch: var(--display-stretch)`, 125%) at weight 800; everything else is normal width. Numbers use `tabular-nums`. **JetBrains Mono** is for code only, on every page. Both come from Google Fonts via `<link>`; the URL is in `config/site.json` ([D05](decisions.md#d05-fonts-load-via-link-icons-are-inline-svg), [D24](decisions.md#d24-navy-band-cyan-accent-and-archivo)).
 - Headings use `text-wrap: balance`, and paragraphs `text-wrap: pretty`, to avoid orphans.
 - **Code ligatures are off** in code blocks, so R's `<-` and `%>%` show as typed rather than as arrow glyphs.
 - Small uppercase labels (`.eyebrow`, `.kicker`, sans, letter-spaced) introduce sections and cards.
@@ -153,14 +153,14 @@ Home-page and résumé styles live in `app/globals.css`, in BEM-style blocks (`.
 | `.card` | — | Surface, border, radius, shadow |
 | `.section` (+ `--alt`) | `ui/Section` | Alternate `--alt` between neighbouring sections |
 | `.eyebrow`, `.kicker` | — | Uppercase, letter-spaced labels |
-| `.hero` (+ `::before`) | Hero | The petrol band: curved bottom edge, faint footy-oval lines (an inline SVG background) |
+| `.hero` (+ `::before`) | Hero | The navy band: curved bottom edge, faint footy-oval lines (an inline SVG background) |
 | `.job__logo` (+ `--wide`) | `ui/Logo` | White logo tile |
 | `.proof`, `.metrics`, `.disclosure` | Hero, FeaturedProjectCard | Proof strip (ruled, first value in cyan), metric panel (label, bar for percentages, value), `<details>` panel |
 | `.project__link::after` | ProjectCard | Stretched link: the whole card is clickable |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
 | `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding for notched phones |
 
-Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Hand-page bodies also have building blocks for figures, system maps, cards, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). Charts use one hue (`--accent`) and keep their text in the text tokens. The project header (`.cd-hero`) and nav are on the petrol band like the home hero, so anything inside them uses the `--band-*` tokens. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
+Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Hand-page bodies also have building blocks for figures, system maps, cards, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). Charts use one hue (`--accent`) and keep their text in the text tokens. The project header (`.cd-hero`) and nav are on the navy band like the home hero, so anything inside them uses the `--band-*` tokens. The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 
 ---
 

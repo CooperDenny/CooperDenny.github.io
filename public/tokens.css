@@ -19,31 +19,32 @@
 :root {
   color-scheme: dark;
 
-  /* Colour: navy page, petrol brand band, cyan accent */
-  --bg: #0b1222;
-  --bg-alt: #0e172b;
-  --surface: #121c33;
-  --surface-2: #1a2644;
-  --border: #22304f;
-  --border-strong: #2f4066;
-  --text: #eef2f8;
-  --text-muted: #a3afc6;
-  --text-faint: #8a98b2;
-  --accent: #3dd3d6;
-  --accent-strong: #7fe5e6;
-  --accent-ink: #06212a;
-  --accent-soft: rgba(61, 211, 214, 0.14);
-  --nav-bg: rgba(11, 60, 73, 0.94);
+  /* Colour: navy page, a raised navy brand band, cyan accent */
+  --bg: #0b1120;
+  --bg-alt: #0f172a;
+  --surface: #131c31;
+  --surface-2: #1a2540;
+  --border: #23304d;
+  --border-strong: #2f3f63;
+  --text: #e8edf6;
+  --text-muted: #a3b0c5;
+  --text-faint: #8090a8;
+  --accent: #22d3ee;
+  --accent-strong: #67e8f9;
+  --accent-ink: #04222a;
+  --accent-soft: rgba(34, 211, 238, 0.12);
+  --nav-bg: rgba(19, 28, 49, 0.94);
   --code-bg: #070c18;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
 
-  /* The petrol brand band (nav + hero). On the band, use these, never --accent. */
-  --band: #0b3c49;
-  --band-text: #ffffff;
-  --band-muted: #b9c6d6;
-  --band-accent: #3dd3d6;
-  --band-accent-ink: #06212a;
-  --band-line: rgba(255, 255, 255, 0.18);
+  /* The brand band (nav + hero): main's raised navy, so the hero's curved edge shows against
+     the page. On the band, use these, never --accent. */
+  --band: #131c31;
+  --band-text: #e8edf6;
+  --band-muted: #a3b0c5;
+  --band-accent: #22d3ee;
+  --band-accent-ink: #04222a;
+  --band-line: rgba(255, 255, 255, 0.14);
 
   /* Type: Archivo throughout; display text uses its expanded width. Mono is for code only. */
   --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;

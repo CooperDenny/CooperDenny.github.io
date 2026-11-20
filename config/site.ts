@@ -37,6 +37,6 @@ export const siteConfig = {
   url: resolveSiteUrl(),
   gaId: site.gaId,
   fontsHref: site.fontsHref,
-  /** The petrol --band, so the browser bar runs into the nav. */
+  /** The --band navy, so the browser bar runs into the nav. */
   themeColor: designToken('band'),
 };
