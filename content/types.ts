@@ -20,6 +20,7 @@ export type Job = {
   /** Most recent first. More than one entry renders as a promotion. */
   roles: Role[];
   summary: string;
+  /** Strongest first: the home page shows the first few (selectors.homeHighlights), the CV all. */
   highlights: string[];
   stack: string[];
 };
@@ -29,19 +30,12 @@ export type Metric = {
   value: string;
   /** Full description (tooltip, screen readers). */
   label: string;
-  /** Two-to-four-word caption for the compact metric tiles. */
+  /** Two-to-four-word caption, for tight spaces. */
   short: string;
   /** Clause used in running prose, e.g. on the CV. */
   sentence: string;
-  /** Shown on the home-page featured card. The CV always lists every metric. */
+  /** Leads the home-page results table (the CV lists every metric in its own order). */
   onCard?: boolean;
-};
-
-/** A hero proof tile: a short value, what it means, and a link to the evidence. */
-export type Proof = {
-  value: string;
-  label: string;
-  href: string;
 };
 
 /** A link; whether it opens in a new tab is derived from the URL (see lib/links.ts). */
@@ -50,12 +44,11 @@ export type Link = {
   href: string;
 };
 
-/** A project card on the home page (and optionally the CV). */
+/** A project row on the home page (and optionally the CV). */
 export type Project = {
   slug: string;
   title: string;
-  kicker: string;
-  /** One sentence for the home-page card. Full detail lives on the project page. */
+  /** One sentence for the home-page row. Full detail lives on the project page. */
   oneLiner: string;
   /** Longer description, used on the CV. */
   summary: string;
@@ -73,16 +66,15 @@ export type ProjectList = {
   projects: Project[];
 };
 
-/** The large featured card: a project plus its question, method, results and caveats. */
+/** The featured project: a project plus its results and how it improved. */
 export type FeaturedProject = Project & {
-  problem: string;
-  approach: string[];
   metrics: Metric[];
+  /** Caption under the home-page results table: what the figures were scored on. */
+  resultsCaption: string;
   iteration: string;
-  evaluationNote: string;
 };
 
-/** A labelled group of skills, shown as chips. */
+/** A labelled group of skills, shown as one plain comma-separated line. */
 export type SkillGroup = {
   label: string;
   items: string[];
@@ -125,11 +117,14 @@ export type Profile = {
   photo: string;
   /** Small round portrait, used on /links/. */
   avatarWebp: string;
+  /**
+   * The hero's round profile picture: `src` is the 480 px square WebP (desktop, shown at 240 px),
+   * `srcSmall` a 160 px copy for phones, so neither is more than 2× its display size (D04).
+   */
+  portrait: { src: string; srcSmall: string; width: number; height: number };
   headline: string;
   pitch: string;
   resumeSummary: string;
-  proof: Proof[];
-  coreStack: string[];
   contact: ContactLinks;
 };
 
@@ -140,45 +135,6 @@ export type ContactChannel = {
   href: string;
   display: string;
   icon: IconName;
-};
-
-/** The charts lib/charts can draw. */
-export type ChartScene = 'pitch' | 'wagon' | 'disposals';
-
-/**
- * One chart in the hero's console: the SQL it appears to run and how it's labelled.
- * The data is simulated in the browser (illustrative only, never a real player or result).
- */
-export type ChartView = {
-  scene: ChartScene;
-  /** Plain name, e.g. 'Wagon wheel' (the → button and the canvas's accessible name). */
-  label: string;
-  /** Shown as the console's file name, e.g. 'wagon_wheel.sql'. */
-  file: string;
-  /** Typed into the console; keywords, strings and numbers are highlighted by `sqlTokens()`. */
-  query: string;
-  /** Status-bar prompt, e.g. 'click the field to play a shot'. */
-  hint: string;
-};
-
-/**
- * One of Cooper's match photos behind the hero name, with its tracking overlay.
- * Coordinates are in the photo's own pixels. Only ever box or tag Cooper, never another player.
- */
-export type HeroShot = {
-  /** Full-size WebP (2000 px wide). */
-  src: string;
-  /** 1000 px wide copy for phones. */
-  srcSmall: string;
-  width: number;
-  height: number;
-  alt: string;
-  /** Subject sits left of centre: frame the photo so he clears the name. */
-  push?: boolean;
-  /** Cooper's tracking box and its tag, e.g. 'BOWLER · DENNY'. */
-  subject: { x: number; y: number; w: number; h: number; tag: string };
-  /** Where the ball is, for the reticle. */
-  ball: { x: number; y: number };
 };
 
 /** A home-page section: one definition drives its anchor id, nav link and heading. */

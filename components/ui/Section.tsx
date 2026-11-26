@@ -2,41 +2,26 @@ import type { ReactNode } from 'react';
 import type { SectionDef } from '@/content/types';
 import { cx } from '@/lib/format';
 
-/** Eyebrow + heading + optional intro, without a wrapper (used by Section and by Contact's custom layout). */
-export function SectionHeading({ section }: { section: SectionDef }) {
-  return (
-    <>
-      <p className="eyebrow">{section.label}</p>
-      <h2 id={`${section.id}-title`}>{section.title}</h2>
-      {section.intro && <p className="section__intro">{section.intro}</p>}
-    </>
-  );
-}
-
 type SectionProps = {
   section: SectionDef;
-  tone?: 'default' | 'alt';
   className?: string;
-  /** Render children instead of the standard header + container layout. */
-  bare?: boolean;
   children: ReactNode;
 };
 
-/** A home-page `<section>`: id, accessible name and heading all come from its SectionDef. */
-export default function Section({ section, tone = 'default', className, bare, children }: SectionProps) {
-  const classes = cx('section', tone === 'alt' && 'section--alt', className);
+/**
+ * A home-page `<section>`: id, accessible name and heading all come from its SectionDef.
+ * Every section opens on the same ink rule and plain heading, like a new page of the scorebook (D32).
+ */
+export default function Section({ section, className, children }: SectionProps) {
   return (
-    <section id={section.id} className={classes} aria-labelledby={`${section.id}-title`}>
-      {bare ? (
-        children
-      ) : (
-        <div className="container">
-          <header className="section__header">
-            <SectionHeading section={section} />
-          </header>
-          {children}
-        </div>
-      )}
+    <section id={section.id} className={cx('section', className)} aria-labelledby={`${section.id}-title`}>
+      <div className="container">
+        <header className="section__header">
+          <h2 id={`${section.id}-title`}>{section.title}</h2>
+          {section.intro && <p className="section__intro">{section.intro}</p>}
+        </header>
+        {children}
+      </div>
     </section>
   );
 }

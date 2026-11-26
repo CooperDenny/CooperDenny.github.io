@@ -1,4 +1,4 @@
-/** A bulleted list with accent-square markers. */
+/** A plain bulleted list with short ink-rule markers. */
 export default function Bullets({ items }: { items: string[] }) {
   return (
     <ul className="bullets">

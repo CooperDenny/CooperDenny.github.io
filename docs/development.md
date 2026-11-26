@@ -73,8 +73,8 @@ Then look at what you changed in the browser: see the next section.
 The site's quality bar is "works for a recruiter on a phone". After any visual change, check:
 
 - [ ] **Widths:** 320px (smallest phone), 390px (typical phone), 768px (tablet), 1366px (laptop). Use your browser's device toolbar. There must be no horizontal scroll at any width.
-- [ ] **First screen on a phone (home page):** name, headline, pitch, the CV/Email buttons and the proof tiles are visible without scrolling (checked at 390 × 844).
-- [ ] **Hero motion:** the photos crossfade, → cycles the charts, and the pause button stops both. With reduced motion on, nothing moves and the charts are still, filled frames.
+- [ ] **First screen on a phone (home page):** photo, name (on one line, the ball not past the edge), headline, pitch and the CV/LinkedIn buttons are visible without scrolling (checked at 390 × 844), and the hero ends well before the bottom of the screen.
+- [ ] **Hero motion:** the name rises and the ball rolls to rest just past it, once. With reduced motion on, nothing moves and the ball is already at rest.
 - [ ] **Keyboard:** Tab reaches every link and button with a visible focus ring; Escape closes the mobile menu.
 - [ ] **Project pages too**, if you touched shared CSS, tokens or the generator.
 
@@ -111,7 +111,7 @@ If it's over two pages, trim content (or set `onResume: false` on a skill group,
 ## Conventions
 
 - **Where things go:** see [Architecture → Directory map](architecture.md#directory-map) and the [rules](architecture.md#the-rules). The short version: copy goes in `content/`, styles use tokens, components take props, and each fact lives in one place.
-- **TypeScript** runs in strict mode. Components are function components; `'use client'` only where state or effects are needed (currently `HeroMast`, `ChartConsole`, `Navbar`, `MobileCta`, `PrintButton`).
+- **TypeScript** runs in strict mode. Components are function components; `'use client'` only where state or effects are needed (currently `Navbar`, `MobileCta`, `PrintButton`).
 - **CSS:** BEM-style class names (`.block__element--modifier`), mobile-first `min-width` queries at 600px and 861px, colours only through tokens ([Design system](design-system.md)).
 - **Python:** standard library only; type-annotated; every module starts with a docstring stating its responsibility.
 - **Comments explain *why*,** not what. Non-obvious decisions get an entry in [decisions.md](decisions.md).

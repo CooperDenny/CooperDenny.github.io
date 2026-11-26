@@ -11,7 +11,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D03](#d03-tailwind-preflight-is-disabled) | Tailwind preflight is disabled |
 | [D04](#d04-images-are-plain-img-self-hosted-webp) | Images are plain `<img>`, self-hosted WebP |
 | [D05](#d05-fonts-load-via-link-icons-are-inline-svg) | Fonts load via `<link>`; icons are inline SVG |
-| [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off |
+| [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off (*first-screen list amended by D28*) |
 | [D07](#d07-skills-are-text-not-logos) | Skills are text, not logos |
 | [D08](#d08-no-scroll-triggered-reveal-animations) | No scroll-triggered reveal animations |
 | [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher (superseded by D25) |
@@ -31,8 +31,13 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
 | [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo (*superseded by D26*) |
 | [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
-| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero |
+| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero (*hero replaced by D29; home layout by D32*) |
 | [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
+| [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
+| [D29](#d29-the-hero-is-a-profile-picture-not-match-photos) | The hero is a profile picture, not match photos |
+| [D30](#d30-linkedin-is-the-main-contact) | LinkedIn is the main contact |
+| [D31](#d31-the-hero-is-a-navy-band) | The hero is a navy band (*superseded by D32*) |
+| [D32](#d32-the-home-page-is-a-scorebook) | The home page is a scorebook |
 
 ---
 
@@ -66,7 +71,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Decision.** Plain `<img>` tags (the `no-img-element` lint rule is disabled per line). Every image is self-hosted in `public/images/` as WebP, sized to at most 2× its display size. The hero uses a `<picture>` with a 5 KB mobile avatar and a 14 KB desktop portrait.
 
-**Consequences.** Images load fast and can't break due to someone else's server. New images must be resized before committing ([how](editing-content.md#add-a-logo)). `hero-image.png` is kept only for social-preview images.
+**Consequences.** Images load fast and can't break due to someone else's server. New images must be resized before committing ([how](editing-content.md#add-a-logo)). `hero-image.png` is kept for social-preview images; its 480px WebP copy, `hero-image.webp`, is the hero's profile picture (D29).
 
 ### D05. Fonts load via `<link>`; icons are inline SVG
 
@@ -85,6 +90,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 - Cards show a one-sentence `oneLiner`; detail is one tap away. The Brownlow method sits in a native `<details>`.
 - Whole project cards are tap targets.
 - A phone-only sticky Résumé/Email bar appears between the hero and Contact.
+
+*Amended by [D28](#d28-a-quieter-hero-and-shorter-sections): the proof tiles and the Brownlow `<details>` are gone; the first screen now holds name, headline, pitch and actions.*
 
 **Consequences.** The page is about 9.7 screens on a phone (measured November 2026), and 408 KB versus 1.07 MB before. New content has to earn its place: no extra paragraphs in the hero, one sentence per card.
 
@@ -306,6 +313,8 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** The repository gains four hero WebPs (about 450 KB in all; phones load the 1000px copies, 46–84 KB) and a small canvas engine in `lib/charts/` (`HeroMast` and `ChartConsole` are client components). Adding or changing a photo means hand-placing its overlay coordinates, and only Cooper may be tagged ([how](editing-content.md#the-hero-photos-and-charts)). `hero-image.webp` (the old desktop portrait) is gone; `hero-image.png` stays for Open Graph and JSON-LD. Project pages follow: a light header with mowing stripes and a display title.
 
+*Partly reversed by [D28](#d28-a-quieter-hero-and-shorter-sections): the chart console, the HUD frame counter, the proof strip and the core-stack line are gone. The photo masthead itself is replaced by a profile picture in [D29](#d29-the-hero-is-a-profile-picture-not-match-photos); the theme, type and details stand.*
+
 ### D27. The résumé is called a CV
 
 **Context.** Cooper prefers "CV", the usual word in Australia.
@@ -314,3 +323,66 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** Old links and bookmarks keep working. Code says "resume" where the page says "CV"; the comments note it. D12 and D22 keep their original titles as history; D22's two-page rule applies to `/cv/`.
 
+### D28. A quieter hero and shorter sections
+
+**Context.** Once the "Test match day" design (D26) was on the real site, Cooper asked to strip it back: remove the pitch map, wagon wheel and disposal map, the "Tracking · FRM" HUD on the photos, and the headline stats under the hero, fix the cricket ball beside his name (a CSS gradient with a dotted slit that sat over the "Y"), and cut anything too detailed or long, or that didn't need a heading.
+
+**Decision.**
+- **Hero:** the photos, the tracking overlay on Cooper and the pause button stay. The chart console (`ChartConsole`, the `lib/charts/` engine and its turf, pitch and SQL tokens), the HUD, the proof tiles and the core-stack line are removed, and so is `lib/motion/heroPause.ts`: `HeroMast` keeps its own paused state. The first phone screen holds name, headline, pitch and actions (amending D06).
+- **Ball:** an SVG ball (`components/ui/CricketBall.tsx`) with a radial leather gradient and a curved, stitched seam (`--ball-seam`), resting just past the end of the delivery underline instead of on top of the last letter.
+- **Headings:** each section has one heading. The mono label above it (`.eyebrow`) and the small category line above each project card (`kicker`) are gone, and so is the Projects intro line. The nav still uses each section's `label`.
+- **Length:** the home page shows each job's first three highlights (`homeHighlights()`); the CV still lists every one, so PlayHQ's bullets are ordered strongest first, with the churn model second. The Brownlow card drops its "Method, iteration & evaluation" disclosure: the method is on the season write-ups, and the card keeps its one 56% 3-vote figure, its caption and links to every season (D11). The Tooling skills group (Jupyter, VS Code, Jira, Confluence, Excel), already off the CV, is removed.
+
+**Consequences.** The home page loads no canvas code and is shorter on every screen. Nothing was reworded or invented: content was only removed or reordered, and the CV's text is unchanged (still two pages, D22). The Brownlow question, approach and accuracy note no longer live in `profile.ts`; the write-ups under `public/projects/afl-brownlow-*` are their home.
+
+### D29. The hero is a profile picture, not match photos
+
+**Context.** With the hero stripped back (D28), Cooper asked to "scrap the cricket hero at the top and just have my profile picture". Of the two photos in the repository he chose the heart-sunglasses one (`hero-image.png`), which already fronts link previews and `/links/`, over the jumper headshot (`profile-photo.jpg`).
+
+**Decision.**
+- The hero is Cooper's round profile picture with the copy on the white band, and it is **compact**: Cooper asked for it to take far less vertical space. On phones the photo sits beside the role and location tags (72px, 88px from 600px) and the name is one line; on desktop the photo is 240px beside the copy and the name one line at 5.5rem. The hero is about 465px tall on a 390px phone and 445px on desktop (from about 680 and 720), so Experience starts on the first screen. Desktop uses `hero-image.webp`, the 480px WebP the pre-D26 site used, restored from history; phones get the 160px `hero-avatar.webp` through `srcset`, so the 2× rule of D04 holds at every size.
+- The photo masthead goes: `HeroMast` (crossfade, drift, tracking overlay), the four match WebPs (about 450 KB), `heroShots`, `HeroShot`, `trackOverlay()`, the `--on-photo` and `--scrim` tokens, the pause and play icons and `lib/motion/reducedMotion.ts`.
+- The name keeps its delivery underline, now navy (`--band-accent`) with the SVG ball (D28) resting past it. The role and location tags become a navy pill and an outlined pill.
+- No pause button: the hero's only motion is CSS that plays once in under two seconds, below WCAG 2.2.2's five-second threshold. The CLAUDE.md rule is updated to match.
+
+**Consequences.** The home page ships no hero JavaScript (`Hero` is a server component) and about 450 KB less imagery. The "only ever tag Cooper" rule has nothing to apply to now; it comes back with any photo overlay. `profile-photo.jpg` stays in `public/images/` unused, available if Cooper wants the headshot instead: that would be a new square WebP and one change to `profile.portrait`.
+
+### D30. LinkedIn is the main contact
+
+**Context.** Cooper: LinkedIn is the fastest way to reach him. The site led with email everywhere: the hero's labelled button, the phone's sticky bar, Contact's primary "Email me" and its intro line.
+
+**Decision.** LinkedIn takes email's place as the labelled action: "LinkedIn" in the hero (CV stays primary) and in the sticky phone bar, "Message me on LinkedIn" as Contact's primary button, and Contact's intro says LinkedIn is the fastest way to reach him. Email stays one tap away: an icon button in the hero, and listed in Contact, on the CV and in JSON-LD. `contactChannels()` keeps its order (email first) for the CV header and the contact list.
+
+**Consequences.** The main contact action now opens LinkedIn in a new tab instead of a mail client. If Cooper's preference changes, the switch is in `Hero.tsx`, `Contact.tsx`, `MobileCta.tsx` and the Contact intro in `content/sections.ts`.
+
+### D31. The hero is a navy band
+
+*Superseded by [D32](#d32-the-home-page-is-a-scorebook): the hero is paper again.*
+
+**Context.** With the compact profile-picture hero (D29) on the same white as the page, Cooper suggested a darker background for contrast. The all-dark navy theme of D24 and D25 had been rejected as "very Claude-y", so the darkness is kept to the hero.
+
+**Decision.**
+- The hero sits on deep navy (`--hero`, `#0f2142`), with a soft light behind the photo. The nav, the mobile menu and everything below stay on the light theme; there is still one theme and no theme script (D26).
+- The hero gets its own `--hero-*` tokens rather than a dark `--band`, because `--band` also sets the nav, the mobile menu sheet, `theme-color` and every project-page header.
+- Inverted for the band: white name, headline and delivery rule; `--hero-muted` pitch; a white role tag and an outlined location tag; a white CV button with navy text; outlined white LinkedIn, Email and GitHub buttons; a white ring round the photo; white focus outlines. Every text pair is at least 10:1, and outlines are about 5:1.
+- The red ball stays red: still the only red on the site.
+
+**Consequences.** The top of the page now has a clear edge, and the photo and name stand out. Anything added to the hero must use `--hero-*` tokens; the CLAUDE.md rule says so. Project pages are unchanged (their headers read `--band`).
+
+### D32. The home page is a scorebook
+
+**Context.** Cooper felt the navy hero (D31) "looks a bit off" and asked for the site to look less like generated AI work. A critique of the home page (November 2026) found the usual tells: a card around every entry, about 45 chips, monospace labels used as decoration, a pulsing role pill, stock headings ("Where I’ve worked", "Let’s talk"), a big-number metric strip in the Brownlow card, and decoration standing in for structure (the photo glow, the crease ticks, alternating section bands, a glass nav). Cooper accepted every recommendation and chose the "scorebook" direction.
+
+**Decision.** The home page is drawn like a cricket scorebook: ink on paper, structure from ruled lines, figures in columns.
+- **No boxes.** Jobs, projects, education, skills and contact are rows split by hairlines (`--rule`); each section opens on a 2px ink rule (`--rule-heavy`) and a plain heading. On desktop every row has the same 14rem left column (dates, or the skill group) so figures line up down the page. No cards, shadows, glows, alternating bands or glass: the nav and phone bar are solid paper.
+- **The hero** is paper again, in `--band-*` tokens, closed by a double ink rule. The role pill and live dot became a plain line ("Data Scientist at PlayHQ", location under it). The `--hero-*` tokens are gone. The profile picture (D29), the one-line name with the red ball (D28) and LinkedIn first (D30) stay.
+- **Plain headings:** Experience, Projects, Skills, Education, Contact.
+- **No chips.** Tools are one plain "Tools" line under each job and project; skills are one comma-separated line per group.
+- **Monospace only for figures** (dates and results, `.figure`, with tabular numerals). Labels are Barlow.
+- **Only the Brownlow model gets a featured treatment:** its claim and write-up links beside a small results table: 56% 3-vote recall first, then r = 0.93 and MAE 2.0, each with a plain label, and a caption saying they were scored on the unseen 2024 season. The meter bar is gone. With a label on every row, r and MAE no longer need hiding, which amends D24's one-figure card. Accuracy is still never shown (D11).
+- **X leaves the professional set** (`contactChannels()`): it's not on the home page, the CV or the JSON-LD any more, only on `/links/`.
+- Buttons are square-cornered (`--radius-sm`), not pills.
+
+**Consequences.** The page reads as one system, made of rules, columns and type, and says less about itself. Anything new on the home page should be a ruled row, not a box. Barlow, Barlow Condensed and IBM Plex Mono stay (the PlayHQ connection, D26).
+
+**Project pages follow suit.** The seven write-ups use the same world: a paper header closed by a double ink rule, with no kicker (the `kicker` field is gone) and a plain tools line instead of chips; "At a glance" as ruled rows with its figures in a results table; a ruled jump-link index; ink rules opening every article and report section; ruled entries instead of cards for the ADRs and hard problems; a ruled timeline; a next-project row instead of a card; report tables between ink rules; a solid nav with no blur. The stray `color-scheme: dark` meta tag is now `light`. The `--mow`, `--nav-bg` and `--radius-pill` tokens are gone.

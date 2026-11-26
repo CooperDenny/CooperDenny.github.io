@@ -1,7 +1,7 @@
 import SmartLink from '@/components/ui/SmartLink';
 import type { ProjectList } from '@/content/types';
 
-/** Compact list of secondary projects under the card grid: a title link and one line each. */
+/** Compact list of secondary projects under the project rows: a title link and one line each. */
 export default function ProjectLinkList({ list }: { list: ProjectList }) {
   return (
     <div className="more-projects">

@@ -18,7 +18,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <Navbar brand={profile.name} items={NAV_ITEMS} />
       <main id="main">{children}</main>
       <Footer name={profile.name} role={profile.role} location={profile.location} />
-      <MobileCta email={profile.contact.email} />
+      <MobileCta linkedin={profile.contact.linkedin.href} />
     </>
   );
 }

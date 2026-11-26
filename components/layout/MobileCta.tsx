@@ -8,7 +8,7 @@ import { HERO_ACTIONS_ID, CV_HREF, SECTIONS } from '@/content/sections';
 // hides again when the Contact section (which has the same actions) is on screen, so the
 // two primary actions are always exactly one tap away without ever being duplicated on screen.
 // Purely additive: it never hides page content, and the page works the same without JS.
-export default function MobileCta({ email }: { email: string }) {
+export default function MobileCta({ linkedin }: { linkedin: string }) {
   const shown = useStickyBarVisible(HERO_ACTIONS_ID, SECTIONS.contact.id);
   const tabIndex = shown ? 0 : -1;
 
@@ -17,8 +17,8 @@ export default function MobileCta({ email }: { email: string }) {
       <ActionLink href={CV_HREF} variant="primary" icon="fileLines" tabIndex={tabIndex}>
         CV
       </ActionLink>
-      <ActionLink href={`mailto:${email}`} variant="ghost" icon="envelope" tabIndex={tabIndex}>
-        Email
+      <ActionLink href={linkedin} variant="ghost" icon="linkedin" tabIndex={tabIndex}>
+        LinkedIn
       </ActionLink>
     </div>
   );

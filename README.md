@@ -66,7 +66,7 @@ Every push to `main` deploys automatically — see [docs/deployment.md](docs/dep
 |---|---|
 | Framework | [Next.js 14](https://nextjs.org/) (App Router), React 18, TypeScript (strict) |
 | Output | Static export (`output: 'export'`) — plain HTML/CSS/JS, no server |
-| Styling | Hand-written CSS on shared design tokens; one light theme; a small canvas engine for the hero charts |
+| Styling | Hand-written CSS on shared design tokens; one light theme |
 | Project pages | Static HTML produced by a Python generator; three are R Markdown (knitr) reports |
 | Hosting | GitHub Pages, deployed by GitHub Actions on every push to `main` |
 | Analytics | Google Analytics 4 |
@@ -100,4 +100,4 @@ A file-by-file map is in [docs/architecture.md](docs/architecture.md#directory-m
 
 ## Credits
 
-Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Barlow, Barlow Condensed](https://fonts.google.com/specimen/Barlow) and [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono), served by Google Fonts. The hero photos are Cooper's own.
+Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Barlow, Barlow Condensed](https://fonts.google.com/specimen/Barlow) and [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono), served by Google Fonts. The profile picture is Cooper's own.

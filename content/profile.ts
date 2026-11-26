@@ -7,12 +7,9 @@
 
 import { pageHref, pageTitle, type PageSlug } from '@/content/catalog';
 import identity from '@/content/identity.json';
-import { anchor } from '@/content/sections';
 import type {
-  ChartView,
   Education,
   FeaturedProject,
-  HeroShot,
   Job,
   Profile,
   Project,
@@ -28,7 +25,7 @@ function pageProject(
   return { slug, title: pageTitle(slug), ...card, links: [{ label: linkLabel, href: pageHref(slug) }] };
 }
 
-/** Identity, hero copy, proof tiles and contact details. */
+/** Identity, hero copy and contact details. */
 export const profile: Profile = {
   name: identity.name,
   role: identity.role,
@@ -37,21 +34,13 @@ export const profile: Profile = {
   /** Large PNG kept for Open Graph / JSON-LD. */
   photo: '/images/hero-image.png',
   avatarWebp: '/images/hero-avatar.webp',
+  portrait: { src: '/images/hero-image.webp', srcSmall: '/images/hero-avatar.webp', width: 480, height: 480 },
   headline:
     'I build machine-learning models, data pipelines and analytics products for community sport.',
   pitch:
     'Data Scientist at PlayHQ, the platform behind community sport in Australia, New Zealand, the UK and Canada. I own the reporting product clubs and associations use, and built a churn model that flags players unlikely to return next season, and what’s driving each score, so clubs can act early.',
   resumeSummary:
     'Data Scientist with 2+ years at PlayHQ across machine learning, analytics engineering and analytics products in community sport. Owns a reporting product used by 50,000+ people and built the churn model end to end in Snowflake. Monash Applied Data Science graduate (Distinction average).',
-  // Above-the-fold evidence. Each tile jumps to the section that backs it up. The first is
-  // highlighted in navy, so it leads with the strongest figure.
-  proof: [
-    { value: '50,000+', label: 'People using the embedded analytics product I own', href: anchor('experience') },
-    { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
-    { value: '3', label: 'Sport orgs: PlayHQ, Boccia Australia, VIS', href: anchor('experience') },
-    { value: 'Distinction', label: 'Applied Data Science, Monash', href: anchor('education') },
-  ],
-  coreStack: ['SQL', 'Python', 'dbt', 'Snowflake', 'XGBoost', 'Omni'],
   contact: {
     email: 'cooper.denny@icloud.com',
     linkedin: { href: 'https://www.linkedin.com/in/cooper-denny/', handle: 'in/cooper-denny' },
@@ -63,60 +52,6 @@ export const profile: Profile = {
     phone: '0478 944 105',
   },
 };
-
-/**
- * Cooper's own match photos behind the hero name, in the order they crossfade. The tracking
- * overlay boxes and tags Cooper only: never add a box or tag for another player.
- */
-export const heroShots: HeroShot[] = [
-  {
-    src: '/images/hero-bowling.webp',
-    srcSmall: '/images/hero-bowling-1000.webp',
-    width: 2000,
-    height: 1333,
-    alt: `${identity.name} bowling in a club cricket match`,
-    subject: { x: 868, y: 405, w: 347, h: 637, tag: 'BOWLER · DENNY' },
-    ball: { x: 916, y: 428 },
-  },
-  {
-    src: '/images/hero-batting.webp',
-    srcSmall: '/images/hero-batting-1000.webp',
-    width: 2000,
-    height: 1333,
-    alt: `${identity.name} batting in a club cricket match`,
-    push: true,
-    subject: { x: 628, y: 548, w: 494, h: 474, tag: 'BATTER · DENNY' },
-    ball: { x: 682, y: 860 },
-  },
-];
-
-/**
- * The hero console's charts, in the order the → button cycles them. Simulated, illustrative data:
- * the disposal heatmap follows FootyStatsApp's field model and disposal summary.
- */
-export const heroCharts: ChartView[] = [
-  {
-    scene: 'pitch',
-    label: 'Pitch map',
-    file: 'pitch_map.sql',
-    query: "SELECT line, length, COUNT(*) AS balls\nFROM   deliveries\nWHERE  format = 'Test'\nGROUP BY line, length;",
-    hint: 'click the pitch to bowl',
-  },
-  {
-    scene: 'wagon',
-    label: 'Wagon wheel',
-    file: 'wagon_wheel.sql',
-    query: "SELECT shot_angle, distance, runs\nFROM   deliveries\nWHERE  format = 'Test'\nORDER BY innings, ball;",
-    hint: 'click the field to play a shot',
-  },
-  {
-    scene: 'disposals',
-    label: 'AFL disposal heatmap',
-    file: 'disposals.sql',
-    query: 'SELECT disposal_start_x, disposal_start_y,\n       kick, effective_disposal\nFROM   player_data\nWHERE  quarter = 1;',
-    hint: 'click the oval to dispose',
-  },
-];
 
 /** Jobs, most recent first. Within a job, `roles` are most recent first. */
 export const experience: Job[] = [
@@ -133,10 +68,10 @@ export const experience: Job[] = [
       'Sports-tech platform running tens of thousands of community games a week across Australia, New Zealand, the UK and Canada.',
     highlights: [
       'Own AnalyticsHQ, PlayHQ’s Omni-based reporting product, used by 50,000+ people at 15,000+ local sporting organisations, with an AI assistant that answers questions in plain English.',
+      'Rebuilt churn prediction inside Snowflake: a 286-feature dbt dataset over 2M+ participant-seasons, XGBoost trained and scored in Snowpark (0.81 ROC AUC on unseen seasons), and TreeSHAP reasons for each score.',
       'Built the dashboards on the Admin Portal home page, among them Registrations, Finances, Retention, Season Readiness, Child Safety, Concussion and Memberships, with French versions for Canada.',
       'Rebuilt the Report Builder: 63 topics across 11 domains, every pre-built report carried over, and game-level statistics and custom registration questions reportable for the first time.',
       'Built the Finances dashboard treasurers use to reconcile payouts to bank deposits and track refunds, instalments and shop sales, plus Finance’s revenue and invoicing dashboards.',
-      'Rebuilt churn prediction inside Snowflake: a 286-feature dbt dataset over 2M+ participant-seasons, XGBoost trained and scored in Snowpark (0.81 ROC AUC on unseen seasons), and TreeSHAP reasons for each score.',
       'Helped set up self-serve analytics, and build data shares for national bodies such as AFL and Cricket Australia.',
     ],
     stack: ['SQL', 'Python', 'dbt', 'Snowflake', 'Snowpark', 'XGBoost', 'Omni', 'Lightdash', 'Tableau'],
@@ -172,22 +107,14 @@ export const experience: Job[] = [
   },
 ];
 
-/** The large featured card (the Brownlow model — one card for both seasons). */
+/** The featured project (the Brownlow model: one entry for every season). */
 export const featuredProject: FeaturedProject = {
   slug: 'afl-brownlow',
   title: 'AFL Brownlow Medal Prediction Model',
-  kicker: 'Statistical modelling · Out-of-sample validated',
   oneLiner:
     'Predicts the 3-2-1 umpire votes for every player in every game. Called Patrick Cripps breaking the all-time vote record in 2024.',
   summary:
     'Predicts the 3-2-1 umpire votes for every player in every AFL game, then rolls them up into a season leaderboard. Correctly forecast Patrick Cripps breaking the all-time Brownlow vote record in 2024.',
-  problem:
-    'Brownlow votes are awarded by umpires, not stats — so can player-game statistics predict who polls, game by game?',
-  approach: [
-    'Compiled a player-game dataset (88 raw variables) from fitzRoy, afl.com.au, AFL Tables and the AFL Coaches Association; engineered features such as ineffective disposals and prior-season votes.',
-    'Fitted an ordinal logistic regression (cumulative link model) on 2015–2023 home-and-away seasons, then scored the unseen 2024 season.',
-    'Converted per-player vote probabilities into expected votes and allocated 3-2-1 within each game, mirroring how umpires vote.',
-  ],
   metrics: [
     {
       value: 'r = 0.93',
@@ -206,14 +133,13 @@ export const featuredProject: FeaturedProject = {
       label: 'Games where the model picked the 3-vote player, from 46 on the field',
       short: '3-vote player found',
       sentence: 'the 3-vote player identified in 56% of games',
-      // The one figure on the home card: r and MAE read as confusing without context (D24).
+      // Leads the home-page results table: the plainest of the three to read (D24, D32).
       onCard: true,
     },
   ],
+  resultsCaption: 'Scored on the 2024 season, which the model never saw in training.',
   iteration:
     'v1 (2023) over-rated ruckmen such as Max Gawn; v2 (2024) added player position, lifting r from 0.885 to 0.928 and cutting MAE from 2.17 to 2.01. In 2025 it found the 3-vote player in 59% of games, its best yet.',
-  evaluationNote:
-    'Raw game-level accuracy (93%) is deliberately not the headline: with ~93.5% of player-games polling zero, an all-zeros baseline scores about the same. Per-class recall and season-level error are the honest measures.',
   stack: ['R', 'Ordinal regression', 'tidyverse', 'Feature engineering'],
   onResume: true,
   links: [
@@ -223,10 +149,9 @@ export const featuredProject: FeaturedProject = {
   ],
 };
 
-/** Project cards under the featured card, in display order. */
+/** Project rows under the featured project, in display order. */
 export const projects: Project[] = [
   pageProject('eildon-park-cricket-club', {
-    kicker: 'Data engineering · Full-stack',
     oneLiner: 'Designed, built and still run my cricket club’s platform: every senior season since 1989/90 joined to live Play Cricket data, plus an admin portal, email, video and an MCP server.',
     summary:
       'Built and run epcc.org.au solo with Claude Code (531 commits and 131 PRs in its first eight months): 36 seasons of club records joined to 1,100+ Play Cricket scorecards and live data for 800+ player pages, plus an invite-only admin portal, SES email platform, in-browser MP4 highlights editor and a public MCP server.',
@@ -241,7 +166,6 @@ export const projects: Project[] = [
     ],
   }),
   pageProject('h2h-arbitrage-finder', {
-    kicker: 'APIs · Data pipelines',
     oneLiner: 'Scans live odds from 12 Australian bookmakers for guaranteed-profit markets — and shows why real edges are rare and under 1%.',
     summary:
       'Pulls live head-to-head odds from 12 Australian bookmakers via The Odds API, adjusts for exchange commission and back/lay pricing, and flags any market where the best implied probabilities sum to under 100%.',
@@ -252,7 +176,6 @@ export const projects: Project[] = [
   {
     slug: 'cricket-stats-hub',
     title: 'CricketStatsHub',
-    kicker: 'Open data · R',
     oneLiner: 'An R library that fetches clean ball-by-ball, batting, bowling and match data for 40+ cricket competitions, plus a BBL dashboard.',
     summary:
       'R library over Cricsheet (via cricketdata) that returns tidy ball-by-ball, per-innings batting and bowling, and match data for 40+ men’s and women’s international and domestic competitions, with a Big Bash League dashboard built on it.',
@@ -270,7 +193,6 @@ export const earlierProjects: ProjectList = {
   title: 'Earlier work',
   projects: [
     pageProject('melbourne-pedestrian-counting', {
-      kicker: 'Time series · BI',
       oneLiner: 'Python pipeline over ~100 city sensors (hourly, 2010 to 2024) into a Power BI dashboard with rolling trends.',
       summary:
         'Python pipeline over the City of Melbourne’s hourly sensor files (~100 sensors, January 2010 to October 2024) feeding an interactive Power BI dashboard with 4- and 52-week rolling averages and mapped sensor locations.',
@@ -278,7 +200,6 @@ export const earlierProjects: ProjectList = {
       linkLabel: 'Open the dashboard',
     }),
     pageProject('victorian-property-prices-dashboard', {
-      kicker: 'Geospatial · BI',
       oneLiner: 'Power BI view of Victorian sales: cleaned in Power Query, DAX medians and year-on-year change, suburb maps.',
       summary:
         'Interactive Power BI view of Victorian property sales: Power Query cleaning, DAX measures for median prices and year-on-year change, and suburb-level mapping.',
@@ -288,7 +209,7 @@ export const earlierProjects: ProjectList = {
   ],
 };
 
-/** Skill groups, in display order. `onResume: false` keeps a group off the printed CV. */
+/** Skill groups, in display order. `onResume: false` would keep a group off the printed CV. */
 export const skills: SkillGroup[] = [
   { label: 'Languages', items: ['SQL', 'Python', 'R', 'Cypher (Neo4j)'] },
   {
@@ -311,11 +232,6 @@ export const skills: SkillGroup[] = [
   {
     label: 'BI & product analytics',
     items: ['Tableau', 'Power BI', 'Omni', 'Lightdash', 'Explo', 'R Shiny', 'PostHog', 'Google Analytics'],
-  },
-  {
-    label: 'Tooling',
-    items: ['Jupyter', 'VS Code', 'Claude Code', 'Jira', 'Confluence', 'Excel'],
-    onResume: false, // low-signal on paper; stays on the web page
   },
 ];
 

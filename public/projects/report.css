@@ -1,7 +1,8 @@
 /* ==========================================================================
    Overrides for knitr / pandoc / Bootstrap 3 / DataTables output on the
    R Markdown report pages (body.cd-report). Loaded after site.css.
-   Dark only. Content rules are scoped to pandoc's `.section` blocks so they
+   One light theme, drawn as a scorebook like the rest of the site (D32): ruled tables, ink rules
+   opening each section, no boxes round tables. Content rules are scoped to pandoc's `.section` blocks so they
    never leak into the shared cd- chrome injected by scripts/build-project-pages.py.
    `!important` is needed throughout: Bootstrap 3 is inlined in each report's <head>.
    ========================================================================== */
@@ -27,7 +28,7 @@ body.cd-report {
   background: transparent !important;
 }
 /* The project header sits inside Bootstrap's container here, so break it out to full width
-   (calc(50% - 50vw)) to keep the navy band edge to edge like the hand-written pages.
+   (calc(50% - 50vw)) so it lines up with the hand-written pages.
    overflow-x: clip hides the classic-scrollbar width that 100vw includes, without making a
    scroll container (so the sticky nav still sticks). */
 body.cd-report {
@@ -37,14 +38,10 @@ body.cd-report {
   margin: 0 calc(50% - 50vw);
   padding-left: 0;
   padding-right: 0;
-  border-bottom: 0;
-}
-.cd-report .main-container .cd-hero .cd-wrap {
-  padding: 0 var(--gutter);
 }
 .cd-report .cd-hero h1 {
   font-size: 1.75rem !important;
-  margin: 8px 0 0 !important;
+  margin: 0 !important;
 }
 @media (min-width: 600px) {
   .cd-report .cd-hero h1 {
@@ -75,12 +72,17 @@ body.cd-report {
   font-weight: inherit;
   text-decoration: none;
 }
+/* Each part opens on an ink rule and a display heading, as on the hand-written pages. */
 .cd-report .section.level1 > h1 {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  margin: 48px 0 12px !important;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
+  font-family: var(--font-display) !important;
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  line-height: 0.95 !important;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  margin: 48px 0 14px !important;
+  padding-top: 14px;
+  border-top: 2px solid var(--rule-heavy);
 }
 .cd-report .section.level2 > h2 {
   font-size: 1.1875rem !important;
@@ -94,7 +96,7 @@ body.cd-report {
 }
 @media (min-width: 600px) {
   .cd-report .section.level1 > h1 {
-    font-size: 1.75rem !important;
+    font-size: 2.25rem !important;
   }
   .cd-report .section.level2 > h2 {
     font-size: 1.3125rem !important;
@@ -121,7 +123,7 @@ body.cd-report {
   margin: 4px 0 !important;
 }
 .cd-report .section li::marker {
-  color: var(--accent);
+  color: var(--text-faint);
 }
 .cd-report .section strong {
   color: var(--text);
@@ -195,8 +197,7 @@ body.cd-report {
   padding: 0 14px;
   cursor: pointer;
   list-style: none;
-  font: 600 0.8125rem/1.2 var(--font-mono);
-  letter-spacing: 0.02em;
+  font: 600 0.875rem/1.2 var(--font-sans);
   color: var(--text-faint);
   user-select: none;
 }
@@ -226,11 +227,8 @@ body.cd-report {
 .cd-report details.cd-code > summary::after {
   content: 'R';
   margin-left: auto;
-  padding: 1px 7px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 0.6875rem;
+  color: var(--text-faint);
+  font: 600 0.8125rem/1 var(--font-mono);
 }
 
 /* ---------- DataTables widgets ---------- */
@@ -246,9 +244,8 @@ body.cd-report {
 }
 .cd-report .dataTables_scroll,
 .cd-report .dataTables_wrapper > table.dataTable {
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
+  border-top: 2px solid var(--rule-heavy);
+  border-bottom: 2px solid var(--rule-heavy);
 }
 .cd-report .dataTables_wrapper {
   overflow-x: auto;
@@ -258,23 +255,23 @@ body.cd-report {
   width: 100% !important;
   margin: 0 !important;
   border-collapse: collapse !important;
-  background: var(--surface) !important;
+  background: transparent !important;
   color: var(--text) !important;
 }
 .cd-report table.dataTable thead th,
 .cd-report table.dataTable thead td {
-  background: var(--surface-2) !important;
+  background: transparent !important;
   color: var(--text) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   font-size: 0.8125rem !important;
-  border-bottom: 1px solid var(--border-strong) !important;
+  border-bottom: 1px solid var(--rule-heavy) !important;
   padding: 10px 12px !important;
   white-space: nowrap;
 }
 .cd-report table.dataTable tbody td {
   background: transparent !important;
   color: var(--text-muted) !important;
-  border-top: 1px solid var(--border) !important;
+  border-top: 1px solid var(--rule) !important;
   padding: 8px 12px !important;
   font-size: 0.8125rem !important;
   font-variant-numeric: tabular-nums;
@@ -308,7 +305,7 @@ body.cd-report {
   background: var(--surface) !important;
   color: var(--text) !important;
   border: 1px solid var(--border-strong) !important;
-  border-radius: 8px !important;
+  border-radius: var(--radius-sm) !important;
   padding: 4px 10px !important;
   font-size: 16px !important; /* ≥16px stops iOS zooming into the field */
 }
@@ -318,7 +315,7 @@ body.cd-report {
   color: var(--text-muted) !important;
   background: transparent !important;
   border: 1px solid transparent !important;
-  border-radius: 8px !important;
+  border-radius: var(--radius-sm) !important;
   padding: 6px 10px !important;
 }
 .cd-report .dataTables_wrapper .dataTables_paginate .paginate_button.current,
@@ -334,16 +331,21 @@ body.cd-report {
 
 /* Pandoc's own (non-DataTables) tables */
 .cd-report .section table.table {
-  background: var(--surface);
+  background: transparent;
   color: var(--text-muted);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-top: 2px solid var(--rule-heavy);
+  border-bottom: 2px solid var(--rule-heavy);
   display: block;
   overflow-x: auto;
+  font-variant-numeric: tabular-nums;
 }
-.cd-report .section table.table > thead > tr > th,
+.cd-report .section table.table > thead > tr > th {
+  color: var(--text);
+  border-bottom: 1px solid var(--rule-heavy) !important;
+  padding: 8px 12px !important;
+}
 .cd-report .section table.table > tbody > tr > td {
-  border-color: var(--border) !important;
+  border-color: var(--rule) !important;
   padding: 8px 12px !important;
 }
 

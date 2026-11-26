@@ -6,7 +6,7 @@
 <title>Eildon Park Cricket Club Platform — Cooper Denny</title>
 <meta name="description" content="How Cooper Denny designed, built and still runs epcc.org.au: a production Next.js and Supabase platform for Eildon Park Cricket Club, with 37 seasons of stats, live Play Cricket data, an admin portal, an email platform, an in-browser video editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 pull requests in its first eight months.">
 <meta name="theme-color" content="#fbfcfa">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="https://cooperdenny.github.io/projects/eildon-park-cricket-club/">
 <link rel="icon" href="/favicon.svg">
 <meta property="og:type" content="article">
@@ -37,11 +37,10 @@
 <main id="cd-main">
 <header class="cd-hero">
   <div class="cd-wrap">
-    <p class="cd-kicker">Data engineering · Full-stack · Cricket</p>
     <h1>Eildon Park Cricket Club Platform</h1>
     <p class="cd-hero__lede">I designed, built and still run <a href="https://epcc.org.au" target="_blank" rel="noopener noreferrer">epcc.org.au</a>, Eildon Park Cricket Club’s website. It began as a stats page and is now the club’s platform: <strong>every senior season since 1989/90 joined to live Play Cricket data</strong>, an admin portal the committee runs the club from, an email platform, an in-browser highlights editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 merged pull requests in its first eight months, from March to November 2026.</p>
     <p class="cd-hero__meta">Since March 2026 · Solo, built with Claude Code</p>
-    <ul class="cd-chips" aria-label="Tools used"><li>Next.js 14</li><li>TypeScript</li><li>Supabase (Postgres, RLS)</li><li>Play Cricket API</li><li>Amazon SES</li><li>WebCodecs</li><li>MCP</li><li>Claude Code</li><li>Netlify</li></ul>
+    <p class="cd-tools"><span class="cd-tools__label">Tools</span> Next.js 14, TypeScript, Supabase (Postgres, RLS), Play Cricket API, Amazon SES, WebCodecs, MCP, Claude Code, Netlify</p>
     <div class="cd-hero__actions"><a href="https://epcc.org.au" class="cd-btn cd-btn--primary" target="_blank" rel="noopener noreferrer"><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg> Visit epcc.org.au</a><a href="https://epcc.org.au/stats" class="cd-btn cd-btn--ghost" target="_blank" rel="noopener noreferrer"><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z"/></svg> Open the player stats</a></div>
   </div>
 </header>
@@ -142,38 +141,38 @@
 <p>Each load-bearing choice is written down as an architecture decision record: the context that forced it, the decision, and what it costs. Six of them:</p>
 <div class="cd-cards cd-cards--2">
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0003 · Performance</span>
     <h3>Public pages are static</h3>
+    <p class="cd-card__tag">ADR 0003 · Performance</p>
     <p><span class="cd-card__k">Why</span>The homepage once took 1.7–3.5 s to first byte, because one Supabase client read cookies, which silently makes a whole route render per request.</p>
     <p><span class="cd-card__k">Cost</span>Data can be up to one cache window old, so every write refreshes exactly the pages it changes.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0007 · Reliability</span>
     <h3>The unofficial API fails soft</h3>
+    <p class="cd-card__tag">ADR 0007 · Reliability</p>
     <p><span class="cd-card__k">Why</span>Play Cricket’s API is reverse-engineered, with no documentation or SLA, and endpoints that disagree on shape.</p>
     <p><span class="cd-card__k">Cost</span>In an outage a section renders empty, never a broken page. New fields are checked against live responses before they’re used.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0004 · Security</span>
     <h3>Invite-only, checked twice</h3>
+    <p class="cd-card__tag">ADR 0004 · Security</p>
     <p><span class="cd-card__k">Why</span>The site holds a mailing list of members’ and parents’ emails. A login only proves someone has an account.</p>
     <p><span class="cd-card__k">Cost</span>Every Server Action checks the admin’s role, and every database policy checks it again. Personal data has no public read path.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0006 · Email</span>
     <h3>Sends are resumable batches</h3>
+    <p class="cd-card__tag">ADR 0006 · Email</p>
     <p><span class="cd-card__k">Why</span>400+ recipients at SES’s 14 a second outlasts a serverless function. A killed send once left no record of who was missed.</p>
     <p><span class="cd-card__k">Cost</span>At most one batch of 60 can be duplicated if a process dies mid-batch.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0008 · Data</span>
     <h3>Archive plus live, one model</h3>
+    <p class="cd-card__tag">ADR 0008 · Data</p>
     <p><span class="cd-card__k">Why</span>Thirty-six seasons predate Play Cricket’s data, and Play Cricket’s own figures are sometimes wrong.</p>
     <p><span class="cd-card__k">Cost</span>Two sources to reconcile, by a name map and an explicit override rule rather than by hand.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0011 · AI</span>
     <h3>An MCP server, hand-written</h3>
+    <p class="cd-card__tag">ADR 0011 · AI</p>
     <p><span class="cd-card__k">Why</span>Assistants answer from whatever page they happen to fetch, which can’t answer “how many runs has X made?” for 800+ players.</p>
     <p><span class="cd-card__k">Cost</span>About 100 lines, no dependency, checked against the official SDK client. Read-only and public data only, so it needs no auth.</p>
   </div>
@@ -183,18 +182,18 @@
 <p>The bugs worth telling are the ones that changed how the system is built.</p>
 <div class="cd-cards">
   <div class="cd-card">
-    <span class="cd-card__tag">Security</span>
     <h3>Middleware doesn’t protect Server Actions</h3>
+    <p class="cd-card__tag">Security</p>
     <p>Next.js makes every export of a <code>'use server'</code> module callable from any page that imports one of them, so an admin-only write behind a protected route isn’t protected at all. I closed it by checking the admin at the top of every action and on uploads, split the actions into one module per domain, and made “every action starts with an auth check” the first rule in the rulebook, with row-level security in Postgres as the backstop.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">In-browser video</span>
     <h3>A rendering bug only production could see</h3>
+    <p class="cd-card__tag">In-browser video</p>
     <p>The highlights editor renders MP4s in the browser: hls.js streams each clip into a hidden video element, frames go through WebCodecs’ <code>VideoEncoder</code> into <code>mp4-muxer</code>, and the animated intros are rasterised through SVG <code>&lt;foreignObject&gt;</code>. On the live site, every intro frame failed with “The source image cannot be decoded”. The cause: production’s minified CSS writes font variables in double quotes, which cut an inline <code>style=""</code> attribute short. Development CSS uses single quotes, so it never showed up locally. Moving the declarations into a <code>&lt;style&gt;</code> block fixed it. The same feature also taught me that the muxer rejects every chunk unless the first frame sits at timestamp exactly zero.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">Data</span>
     <h3>Dates that lie about their time zone</h3>
+    <p class="cd-card__tag">Data</p>
     <p>Older Play Cricket records store local Melbourne times labelled <code>+00:00</code>, and Netlify runs in UTC, so a naive conversion puts games on the wrong day. Play Cricket dates are now read exactly as written, club-side dates go through one Melbourne time-zone module, and the single-match endpoint, which isn’t shaped like the team list, has its quirks recorded where the next change will see them.</p>
   </div>
 </div>
@@ -291,7 +290,7 @@
 <aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">
     <p class="cd-next__label">Next project</p>
-    <a class="cd-next__card" href="/projects/melbourne-pedestrian-counting/">
+    <a class="cd-next__row" href="/projects/melbourne-pedestrian-counting/">
       <span class="cd-next__title">Melbourne Pedestrian Traffic Dashboard <svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span>
       <p class="cd-next__desc">~100 city sensors, hourly from 2010 to 2024, in Power BI.</p>
     </a>

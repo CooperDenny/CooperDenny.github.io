@@ -4,6 +4,8 @@
    Every class is prefixed `cd-` because the R Markdown reports also load
    Bootstrap 3, which already owns .nav, .btn, .label, etc.
    Mobile-first: base = phone, min-width queries add larger layouts.
+   Drawn as a scorebook, like the home page (D32): ink on paper, structure from ruled lines
+   (--rule hairlines, --rule-heavy ink rules), figures in tabular mono, no cards, chips or glows.
    ========================================================================== */
 
 :root {
@@ -36,6 +38,10 @@ body.cd-page {
 .cd-page *::before,
 .cd-page *::after {
   box-sizing: border-box;
+}
+.cd-page ::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 .cd-page :focus-visible {
   outline: 2px solid var(--focus);
@@ -83,7 +89,7 @@ body.cd-page {
   gap: 8px;
   min-height: var(--tap);
   padding: 0 18px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   border: 1.5px solid transparent;
   font: 600 0.9375rem/1.2 var(--font-sans);
   text-decoration: none !important;
@@ -92,8 +98,7 @@ body.cd-page {
   transition:
     background-color var(--dur-fast),
     border-color var(--dur-fast),
-    color var(--dur-fast),
-    box-shadow var(--dur);
+    color var(--dur-fast);
 }
 .cd-btn--primary {
   background: var(--accent);
@@ -101,7 +106,6 @@ body.cd-page {
 }
 .cd-btn--primary:hover {
   background: var(--accent-strong);
-  box-shadow: var(--shadow-glow);
 }
 .cd-btn--ghost {
   border-color: var(--control-line);
@@ -125,29 +129,17 @@ body.cd-page {
   inset: -4px 0;
 }
 
-.cd-kicker {
+/* The plain tools line (no chips): "Tools" in bold, then one comma-separated line. */
+.cd-tools {
   margin: 0;
-  font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.cd-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.cd-chips li {
-  margin: 0;
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-  background: var(--surface-2);
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: var(--text-muted);
-  font: 500 0.75rem/1.6 var(--font-mono);
+}
+.cd-tools__label {
+  margin-right: 4px;
+  font-weight: 700;
+  color: var(--text);
 }
 
 /* ---------- Nav (no JS, no hamburger: three items fit at 320px) ---------- */
@@ -157,10 +149,8 @@ body.cd-page {
   top: 0;
   z-index: 50;
   height: var(--nav-h);
-  background: var(--nav-bg);
+  background: var(--band);
   color: var(--band-text);
-  backdrop-filter: saturate(130%) blur(12px);
-  -webkit-backdrop-filter: saturate(130%) blur(12px);
   border-bottom: 1px solid var(--band-line);
   font-family: var(--font-sans);
 }
@@ -200,7 +190,7 @@ body.cd-page {
   gap: 6px;
   min-height: var(--tap);
   padding: 0 10px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-sm);
   color: var(--band-muted) !important;
   font-size: 0.9375rem;
   font-weight: 500;
@@ -218,22 +208,26 @@ body.cd-page {
 }
 /* ---------- Project header ---------- */
 
-/* The light band, as on the home page: --band tokens, faint mowing stripes, a ruled foot.
-   The title is display type with a delivery underline: a navy rule that draws, the ball at its end
-   (CSS only, transform only, so the title is never hidden). */
+/* Plain paper in --band tokens, closed by a double ink rule like the home hero (D32). The title is
+   display type with a delivery underline: an ink rule that draws, the ball at its end (CSS only,
+   transform only, so the title is never hidden). */
 .cd-hero {
   position: relative;
-  isolation: isolate;
-  padding: 24px 0 32px;
-  background: repeating-linear-gradient(90deg, var(--band) 0 72px, var(--mow) 72px 144px);
+  padding: 24px 0 0;
+  background: var(--band);
   color: var(--band-text);
-  border-bottom: 1px solid var(--band-line);
 }
-.cd-hero .cd-kicker {
-  color: var(--band-accent);
+.cd-hero > .cd-wrap {
+  padding-bottom: 28px;
+  border-bottom: 3px double var(--rule-heavy);
+  /* Keep the rule inside the gutters, aligned with the text. */
+  width: calc(100% - 2 * var(--gutter));
+  max-width: calc(var(--cd-wrap) - 2 * var(--gutter));
+  padding-left: 0;
+  padding-right: 0;
 }
 .cd-hero h1 {
-  margin: 10px 0 0;
+  margin: 0;
   max-width: 18ch;
   font: 900 2.75rem/0.9 var(--font-display);
   letter-spacing: 0.005em;
@@ -251,7 +245,7 @@ body.cd-page {
   margin-top: 16px;
   background:
     radial-gradient(circle at 89px 7px, var(--ball-shine) 0, var(--ball) 3.5px, var(--ball-shade) 6.5px, transparent 7px),
-    linear-gradient(var(--band-accent), var(--band-accent)) 0 50% / 82px 4px no-repeat;
+    linear-gradient(var(--band-text), var(--band-text)) 0 50% / 82px 4px no-repeat;
   transform-origin: left center;
   animation: cd-trail 900ms var(--ease-ball) 300ms both;
 }
@@ -277,17 +271,14 @@ body.cd-page {
 .cd-hero__lede strong {
   color: var(--band-text);
 }
-.cd-hero .cd-chips {
-  margin-top: 16px;
-}
-.cd-hero .cd-chips li {
-  background: var(--surface);
-  box-shadow: inset 0 0 0 1px var(--border);
-}
 .cd-hero__meta {
   margin: 12px 0 0;
-  font: 500 0.75rem/1.5 var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.5;
   color: var(--band-muted);
+}
+.cd-hero .cd-tools {
+  margin-top: 12px;
 }
 .cd-hero .cd-btn--primary,
 .cd-nav .cd-btn--primary {
@@ -305,7 +296,10 @@ body.cd-page {
 }
 @media (min-width: 600px) {
   .cd-hero {
-    padding: 40px 0 44px;
+    padding-top: 40px;
+  }
+  .cd-hero > .cd-wrap {
+    padding-bottom: 36px;
   }
   .cd-hero h1 {
     font-size: 4rem;
@@ -328,32 +322,33 @@ body.cd-page {
   }
 }
 
-/* ---------- At a glance ---------- */
+/* ---------- At a glance ----------
+   No box: it opens on an ink rule like every section, and each part is a ruled row with its
+   label in a left column from 600px. The figures are a small results table. */
 
 .cd-glance {
-  margin: 24px 0 0;
-  padding: 20px 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  margin: 36px 0 0;
+  padding-top: 14px;
+  border-top: 2px solid var(--rule-heavy);
 }
 .cd-glance > h2 {
-  margin: 0 0 14px;
-  font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.12em;
+  margin: 0 0 4px;
+  font: 800 1.75rem/0.95 var(--font-display);
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text);
   border: 0;
   padding: 0;
 }
-.cd-glance__grid {
-  display: grid;
-  gap: 16px;
+.cd-glance__grid > div {
+  padding: 16px 0;
+  border-top: 1px solid var(--rule);
+}
+.cd-glance__grid > div:first-child {
+  border-top: 0;
 }
 .cd-glance h3 {
   margin: 0 0 6px;
-  font: 600 0.9375rem/1.3 var(--font-sans);
+  font: 700 0.9375rem/1.3 var(--font-sans);
   color: var(--text);
 }
 .cd-glance p,
@@ -372,125 +367,118 @@ body.cd-page {
 }
 .cd-glance li {
   position: relative;
-  padding-left: 16px;
+  padding-left: 20px;
 }
+/* A short ink rule, as on the home page. */
 .cd-glance li::before {
   content: '';
   position: absolute;
-  left: 1px;
-  top: 0.62em;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
+  left: 0;
+  top: 0.8em;
+  width: 10px;
+  height: 1.5px;
+  background: var(--text-faint);
 }
 .cd-glance strong {
   color: var(--text);
 }
 
 .cd-metrics {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin: 18px 0 0;
+  margin: 8px 0 0;
+  border-top: 2px solid var(--rule-heavy);
+  border-bottom: 2px solid var(--rule-heavy);
 }
 .cd-metric {
   display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
   margin: 0;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  padding: 12px 0;
+}
+.cd-metric + .cd-metric {
+  border-top: 1px solid var(--rule);
+}
+.cd-metric dt {
+  margin: 0;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--text-muted);
 }
 .cd-metric dd {
   margin: 0;
-  font: 800 1.75rem/1 var(--font-display);
+  font: 600 1.375rem/1.1 var(--font-mono);
   font-variant-numeric: tabular-nums;
-  color: var(--accent);
+  letter-spacing: -0.01em;
+  color: var(--text);
   white-space: nowrap;
 }
-.cd-metric dt {
-  margin: 4px 0 0;
-  font-weight: 400;
-  font-size: 0.8125rem;
-  line-height: 1.35;
-  color: var(--text-muted);
-}
 .cd-glance__note {
-  margin: 14px 0 0 !important;
-  font-size: 0.8125rem !important;
+  margin: 10px 0 0 !important;
+  font-size: 0.875rem !important;
   color: var(--text-faint) !important;
 }
 
 @media (min-width: 600px) {
-  .cd-glance {
-    padding: 24px;
+  .cd-glance > h2 {
+    font-size: 2rem;
   }
-  .cd-glance__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
+  .cd-glance__grid > div {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    column-gap: 32px;
   }
-  .cd-glance__grid > div:nth-child(3) {
-    grid-column: 1 / -1;
-  }
-  .cd-metrics {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .cd-metrics--3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .cd-metric dd {
-    font-size: 2.25rem;
+  .cd-glance h3 {
+    margin: 0;
   }
 }
 
-/* ---------- On this page ---------- */
+/* ---------- On this page: a ruled index ---------- */
 
 .cd-toc {
-  margin: 16px 0 0;
+  margin: 28px 0 0;
 }
 .cd-toc h2 {
-  margin: 0 0 8px;
-  font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+  margin: 0 0 6px;
+  font: 700 0.9375rem/1.3 var(--font-sans);
+  color: var(--text);
   border: 0;
   padding: 0;
 }
 .cd-toc ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
   margin: 0;
   padding: 0;
   list-style: none;
+  border-top: 1px solid var(--rule-heavy);
 }
 .cd-toc li {
   margin: 0;
+  break-inside: avoid;
+  border-bottom: 1px solid var(--rule);
 }
 .cd-toc a {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  min-height: 36px;
-  padding: 0 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border);
+  min-height: var(--tap);
   color: var(--text-muted) !important;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   text-decoration: none !important;
 }
 .cd-toc a:hover {
-  border-color: var(--accent);
   color: var(--accent) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
 }
 .cd-toc a.cd-toc__key {
-  border-color: var(--accent);
   color: var(--accent) !important;
   font-weight: 600;
+}
+@media (min-width: 600px) {
+  .cd-toc ol {
+    columns: 2;
+    column-gap: 32px;
+  }
 }
 
 /* ---------- Article body (hand-written pages) ---------- */
@@ -498,8 +486,11 @@ body.cd-page {
 .cd-article {
   padding: 8px 0 48px;
 }
+/* Each part opens on an ink rule, like a new page of the scorebook. */
 .cd-article h2 {
-  margin: 40px 0 12px;
+  margin: 44px 0 14px;
+  padding-top: 14px;
+  border-top: 2px solid var(--rule-heavy);
   font: 800 2rem/0.95 var(--font-display);
   text-transform: uppercase;
   color: var(--text);
@@ -527,7 +518,7 @@ body.cd-page {
   margin: 4px 0;
 }
 .cd-article li::marker {
-  color: var(--accent);
+  color: var(--text-faint);
 }
 .cd-article strong {
   color: var(--text);
@@ -547,8 +538,8 @@ body.cd-page {
 }
 @media (min-width: 600px) {
   .cd-article h2 {
-    font-size: 1.625rem;
-    margin-top: 48px;
+    font-size: 2.25rem;
+    margin-top: 56px;
   }
 }
 
@@ -634,10 +625,9 @@ body.cd-page {
   position: relative;
   aspect-ratio: 16 / 10;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
+  border: 1px solid var(--rule);
   overflow: hidden;
-  background:
-    var(--surface-2);
+  background: var(--surface-2);
 }
 .cd-embed::before {
   content: 'Loading interactive dashboard…';
@@ -685,10 +675,8 @@ body.cd-page {
    the list doubles as the table view. One accent hue; text stays in text tokens. */
 .cd-chart {
   margin: 24px 0;
-  padding: 16px 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  padding: 12px 0 14px;
+  border-top: 1px solid var(--rule-heavy);
 }
 .cd-chart__title {
   margin: 0 0 12px !important;
@@ -704,7 +692,7 @@ body.cd-page {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-bottom: 1px solid var(--border-strong);
+  border-bottom: 1.5px solid var(--rule-heavy);
 }
 .cd-chart__bar {
   display: flex;
@@ -727,7 +715,6 @@ body.cd-page {
   order: 2;
   height: calc(var(--v) * (100% - 18px));
   min-height: 2px;
-  border-radius: 4px 4px 0 0;
   background: var(--accent);
 }
 .cd-chart__label {
@@ -749,7 +736,7 @@ body.cd-page {
 }
 @media (min-width: 600px) {
   .cd-chart {
-    padding: 20px 20px 16px;
+    padding: 14px 0 16px;
   }
   .cd-chart__bars {
     gap: 10px;
@@ -761,48 +748,40 @@ body.cd-page {
   }
 }
 
-/* ---------- System map: lanes that stack on phones, sit side by side on desktop ---------- */
+/* ---------- System map: lanes that stack on phones, sit side by side on desktop ----------
+   Each lane is a column under an ink rule; its parts are ruled rows, not boxes. */
 .cd-arch {
   display: grid;
-  gap: 28px;
+  gap: 32px;
   margin: 24px 0;
 }
 .cd-arch__lane {
   position: relative;
-  padding: 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  padding-top: 10px;
+  border-top: 2px solid var(--rule-heavy);
 }
 .cd-arch__lane + .cd-arch__lane::before {
   content: '↓';
   position: absolute;
-  top: -26px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: -28px;
+  left: 0;
   font: 600 1rem/1 var(--font-sans);
   color: var(--accent);
 }
 .cd-arch__lane h3 {
-  margin: 0 0 10px !important;
-  font: 600 0.75rem/1.4 var(--font-mono) !important;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-faint) !important;
+  margin: 0 0 4px !important;
+  font: 700 0.9375rem/1.3 var(--font-sans) !important;
+  color: var(--text) !important;
 }
 .cd-arch__nodes {
-  display: grid;
-  gap: 8px;
   margin: 0 !important;
   padding: 0 !important;
   list-style: none;
 }
 .cd-arch__nodes li {
   margin: 0 !important;
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface-2);
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
   font-size: 0.875rem !important;
   line-height: 1.45 !important;
 }
@@ -810,37 +789,35 @@ body.cd-page {
   display: block;
   font-size: 0.9375rem;
 }
+/* The app itself: a navy rule instead of ink. */
 .cd-arch__lane--core {
-  border-color: var(--accent);
+  border-top-color: var(--accent);
 }
 @media (min-width: 861px) {
   .cd-arch {
     grid-template-columns: 0.8fr 1.2fr 1fr;
-    gap: 32px;
+    gap: 40px;
   }
   .cd-arch__lane + .cd-arch__lane::before {
     content: '→';
-    top: 50%;
-    left: -24px;
-    transform: translateY(-50%);
+    top: 2px;
+    left: -28px;
   }
 }
 
-/* ---------- Cards: decisions, war stories ---------- */
+/* ---------- Entries: decisions, war stories (ruled rows, not cards) ---------- */
 .cd-cards {
   display: grid;
-  gap: 12px;
-  margin: 20px 0 24px;
+  margin: 16px 0 24px;
+  border-top: 1px solid var(--rule-heavy);
 }
 .cd-card {
-  padding: 16px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--rule);
 }
 .cd-card h3 {
-  margin: 0 0 8px !important;
-  font-size: 1rem !important;
+  margin: 0 !important;
+  font-size: 1.0625rem !important;
 }
 .cd-card p {
   margin: 0 0 8px !important;
@@ -850,62 +827,41 @@ body.cd-page {
 .cd-card p:last-child {
   margin-bottom: 0 !important;
 }
-.cd-card__tag {
-  display: inline-block;
-  margin-bottom: 8px;
-  font: 600 0.6875rem/1.4 var(--font-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
+/* The record's number and area: a plain line under its heading. */
+.cd-card .cd-card__tag {
+  margin: 2px 0 8px !important;
+  font-size: 0.8125rem !important;
+  color: var(--text-faint) !important;
 }
 .cd-card__k {
-  font: 600 0.75rem/1 var(--font-sans);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-right: 4px;
+  margin-right: 6px;
+  font-weight: 700;
+  color: var(--text);
 }
 @media (min-width: 600px) {
   .cd-cards--2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .cd-card {
-    padding: 18px 20px;
+    column-gap: 32px;
   }
 }
 
-/* ---------- Timeline ---------- */
+/* ---------- Timeline: a ruled ledger, the period in the left column ---------- */
 .cd-timeline {
-  margin: 20px 0 24px !important;
+  margin: 16px 0 24px !important;
   padding: 0 !important;
   list-style: none;
-  border-left: 2px solid var(--border-strong);
+  border-top: 1px solid var(--rule-heavy);
 }
 .cd-timeline > li {
-  position: relative;
-  margin: 0 0 20px !important;
-  padding-left: 20px;
-}
-.cd-timeline > li:last-child {
-  margin-bottom: 0 !important;
-}
-.cd-timeline > li::before {
-  content: '';
-  position: absolute;
-  left: -7px;
-  top: 0.35em;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 2px solid var(--accent);
+  margin: 0 !important;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
 }
 .cd-timeline__when {
   display: block;
-  font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--accent);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-faint);
 }
 .cd-timeline h3 {
   margin: 2px 0 4px !important;
@@ -913,52 +869,71 @@ body.cd-page {
 .cd-timeline p {
   margin: 0 !important;
 }
-.cd-timeline > li.cd-timeline__now::before {
-  background: var(--accent);
+.cd-timeline > li.cd-timeline__now .cd-timeline__when {
+  color: var(--accent);
+  font-weight: 700;
+}
+@media (min-width: 600px) {
+  .cd-timeline > li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    column-gap: 32px;
+  }
+  .cd-timeline__when {
+    grid-row: span 2;
+    padding-top: 2px;
+  }
+  .cd-timeline h3 {
+    margin-top: 0 !important;
+  }
 }
 
 /* ---------- Footer: keep the visitor moving ---------- */
 
 .cd-next {
   margin: 32px 0 0;
-  border-top: 1px solid var(--border);
-  background: var(--bg-alt);
-  padding: 28px 0 32px;
+  padding: 0 0 32px;
+}
+.cd-next > .cd-wrap {
+  padding-top: 14px;
+  border-top: 2px solid var(--rule-heavy);
+  width: calc(100% - 2 * var(--gutter));
+  max-width: calc(var(--cd-wrap) - 2 * var(--gutter));
+  padding-left: 0;
+  padding-right: 0;
 }
 .cd-next__label {
-  margin: 0 0 10px;
-  font: 600 0.75rem/1.4 var(--font-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+  margin: 0;
+  font: 700 0.9375rem/1.3 var(--font-sans);
+  color: var(--text);
 }
-.cd-next__card {
+.cd-next__row {
   display: block;
-  padding: 16px;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: var(--surface);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
   text-decoration: none !important;
-  transition:
-    border-color var(--dur-fast),
-    box-shadow var(--dur);
-}
-.cd-next__card:hover {
-  border-color: rgba(22, 48, 92, 0.35);
-  box-shadow: var(--shadow-glow);
 }
 .cd-next__title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 4px 0 4px;
+  gap: 10px;
+  margin: 0 0 4px;
   font-weight: 700;
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   color: var(--text);
 }
 .cd-next__title .cd-icon {
+  font-size: 0.8em;
   color: var(--accent);
+  transition: transform var(--dur) var(--ease-out);
+}
+.cd-next__row:hover .cd-next__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.cd-next__row:hover .cd-icon {
+  transform: translateX(3px);
 }
 .cd-next__desc {
   margin: 0;
@@ -983,7 +958,7 @@ body.cd-page {
   padding: 20px 0 28px;
   color: var(--text-faint);
   font-size: 0.875rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--rule);
 }
 .cd-footer p {
   margin: 0;

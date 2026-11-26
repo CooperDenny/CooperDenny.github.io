@@ -9,15 +9,14 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 - [Where content lives](#where-content-lives)
 - [Profile: headline, pitch, summary](#profile-headline-pitch-summary)
 - [Name, role, employer, location](#name-role-employer-location)
-- [Proof tiles](#proof-tiles)
 - [Experience](#experience) — [add a job](#add-a-job) · [record a promotion](#record-a-promotion) · [add a logo](#add-a-logo)
-- [Projects](#projects) — [edit a card](#edit-a-project-card) · [add a project](#add-a-project) · [the featured project](#the-featured-project)
+- [Projects](#projects) — [edit a project](#edit-a-project) · [add a project](#add-a-project) · [the featured project](#the-featured-project)
 - [Project pages](#project-pages) — [edit wording](#edit-a-project-pages-wording) · [update a report after re-knitting](#update-a-report-after-re-knitting-it)
 - [Skills](#skills)
 - [Education](#education)
 - [Contact details](#contact-details)
 - [Section headings and navigation](#section-headings-and-navigation)
-- [The hero photos and charts](#the-hero-photos-and-charts)
+- [The profile picture](#the-profile-picture)
 - [The CV](#the-cv)
 - [Site settings: URL, analytics, fonts](#site-settings-url-analytics-fonts)
 - [Checklist before you push](#checklist-before-you-push)
@@ -51,9 +50,8 @@ Edit `profile` in [`content/profile.ts`](../content/profile.ts):
 | `headline` | Large line under your name on the home page | One sentence. It's the first thing a recruiter reads. |
 | `pitch` | Paragraph under the headline | At most two sentences: the hero must fit one phone screen ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)). |
 | `resumeSummary` | Opening paragraph of `/cv/` | Three or four sentences. |
-| `coreStack` | "Core stack" line under the proof tiles | Five or six tools, most important first. |
 
-**Check:** `npm run dev`, then look at `/` on a narrow window: the headline, pitch, buttons and first proof tiles should all be visible without scrolling.
+**Check:** `npm run dev`, then look at `/` on a narrow window: the name, headline, pitch and buttons should all be visible without scrolling.
 
 ## Name, role, employer, location
 
@@ -64,21 +62,6 @@ python3 scripts/build-project-pages.py
 ```
 
 When your **role** changes, also update the matching entry in [Experience](#record-a-promotion).
-
-## Proof tiles
-
-The four tiles under the hero buttons are the "evidence at a glance". Each one links to the section that backs it up. Edit `profile.proof` in [`content/profile.ts`](../content/profile.ts):
-
-```ts
-proof: [
-  { value: '2+ yrs', label: 'Junior → Data Scientist at PlayHQ', href: anchor('experience') },
-  // value: short and numeric if possible · label: what it means · href: anchor('<section>')
-],
-```
-
-Use `anchor('experience' | 'projects' | 'skills' | 'education' | 'contact')` for `href`, never a hand-typed `'#…'`, so links can't break if a section id changes.
-
-Tile text is **not** computed from your data. If a fact behind a tile changes (for example tenure), update the tile by hand.
 
 ---
 
@@ -100,9 +83,9 @@ Add an object at the top of the list:
   summary: 'One sentence on what the company does and the scale you worked at.',
   highlights: [
     'Lead with the outcome, then how — a number if you have a real one.',
-    // 3–4 bullets
+    // strongest first: the home page shows the first three, the CV shows every one
   ],
-  stack: ['SQL', 'Python', 'dbt'],        // shown as chips; keep to the tools you actually used here
+  stack: ['SQL', 'Python', 'dbt'],        // shown as one plain "Tools" line; keep to the tools you actually used here
 },
 ```
 
@@ -120,26 +103,23 @@ roles: [
 ],
 ```
 
-The job card then shows the current title, and a "Promoted from …" line for each earlier role. The CV lists every role with its dates. Also update:
-
-- `role` in [`content/identity.json`](../content/identity.json), then run `python3 scripts/build-project-pages.py`;
-- the promotion [proof tile](#proof-tiles), if its wording no longer holds.
+The job's row then shows the current title, and a "Promoted from …" line for each earlier role. The CV lists every role with its dates. Also update `role` in [`content/identity.json`](../content/identity.json), then run `python3 scripts/build-project-pages.py`.
 
 ### Add a logo
 
-Put the file in `public/images/` as `logo-<name>.webp`, **at most 240px on the long side** (it's shown at 48–56px, so 240px is ample even on high-density screens). Any converter works, for example [Squoosh](https://squoosh.app/), or `cwebp -resize 240 0 logo.png -o logo-name.webp`. Host logos locally; don't hotlink ([why](decisions.md#d04-images-are-plain-img-self-hosted-webp)). SVG is fine too, as with `logo-monash.svg`.
+Put the file in `public/images/` as `logo-<name>.webp`, **at most 240px on the long side** (it's shown at 40px, so 240px is ample even on high-density screens). Any converter works, for example [Squoosh](https://squoosh.app/), or `cwebp -resize 240 0 logo.png -o logo-name.webp`. Host logos locally; don't hotlink ([why](decisions.md#d04-images-are-plain-img-self-hosted-webp)). SVG is fine too, as with `logo-monash.svg`.
 
 ---
 
 ## Projects
 
-The home page has one **featured project** (the Brownlow model), a grid of **project cards** (`projects`), and a compact **Earlier work** list of title links (`earlierProjects`), all in [`content/profile.ts`](../content/profile.ts). Entries in both `projects` and `earlierProjects` have the same shape, so to demote or promote a project, move its entry from one list to the other ([why](decisions.md#d20-lower-signal-projects-are-listed-not-carded)).
+The home page has one **featured project** (the Brownlow model), one ruled row per **project** (`projects`), and a compact **Earlier work** list of title links (`earlierProjects`), all in [`content/profile.ts`](../content/profile.ts). Entries in both `projects` and `earlierProjects` have the same shape, so to demote or promote a project, move its entry from one list to the other ([why](decisions.md#d20-lower-signal-projects-are-listed-not-carded)).
 
-### Edit a project card
+### Edit a project
 
-Each card in `projects` has a `kicker` (a small category label), a `oneLiner` (the one sentence shown on the card), a `summary` (the longer version used on the CV) and a `stack`.
+Each entry in `projects` has a `oneLiner` (the one sentence shown in its row), a `summary` (the longer version used on the CV) and a `stack`.
 
-Keep `oneLiner` to **one sentence**: the card is a teaser, and the project page has the detail ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
+Keep `oneLiner` to **one sentence**: the row is a teaser, and the project page has the detail ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
 
 ### Add a project
 
@@ -149,7 +129,6 @@ Keep `oneLiner` to **one sentence**: the card is a teaser, and the project page 
 {
   slug: 'my-project',
   title: 'My Project',
-  kicker: 'Category · Category',
   oneLiner: 'One sentence a recruiter will read.',
   summary: 'Two sentences for the CV.',
   stack: ['Python', 'dbt'],
@@ -174,8 +153,7 @@ External links open in a new tab automatically, because `https://` URLs are dete
 4. **Add the card** to `projects` with `pageProject`, which takes the title and URL from the catalog so you don't type them twice:
    ```ts
    pageProject('my-project', {
-     kicker: 'Category · Category',
-     oneLiner: 'One sentence a recruiter will read.',
+        oneLiner: 'One sentence a recruiter will read.',
      summary: 'Two sentences for the CV.',
      stack: ['Python', 'dbt'],
      linkLabel: 'Read the write-up',
@@ -188,14 +166,15 @@ To put a project on the printed CV, add `onResume: true` to its card, and check 
 
 ### The featured project
 
-`featuredProject` is the large Brownlow card. Keep it as **one consolidated card** linking to every season's write-up; don't add a card per season. Its `metrics` each have four fields:
+`featuredProject` is the Brownlow model, the one featured entry. Keep it as **one consolidated entry** linking to every season's write-up; don't add one per season. It shows the title, `oneLiner`, the tools, the links and a small results table of every metric (the one marked `onCard` first, by `resultRows()`), with `resultsCaption` under it saying what the figures were scored on. The method lives on the write-ups; `summary` and `iteration` are used on the CV. Its `metrics` each have these fields:
 
 | Field | Used for |
 |---|---|
-| `value` | The big number on the tile, e.g. `'r = 0.93'` |
-| `short` | The tile caption, 2–4 words |
-| `label` | The full description (tooltip) |
+| `value` | The figure in the results table's right column, e.g. `'r = 0.93'` |
+| `label` | The row's description in the results table: say plainly what was measured |
+| `short` | A 2–4 word name (React key; for tight spaces) |
 | `sentence` | The clause used on the CV, where the metrics are joined into one sentence |
+| `onCard` | Optional: leads the results table |
 
 **Never use game-level accuracy as a headline metric** for the Brownlow model. It sits at the all-zeros baseline ([decision D11](decisions.md#d11-brownlow-results-are-reported-without-headline-accuracy)).
 
@@ -227,9 +206,9 @@ All seven `/projects/<slug>/` pages are produced by a generator. **Don't edit th
 { label: 'Data engineering', items: ['dbt / dbt Cloud', 'Snowflake', 'Fivetran'] },
 ```
 
-Skills are plain text on purpose: recruiters scan and search for keywords ([why](decisions.md#d07-skills-are-text-not-logos)). Don't add collaboration tools (Slack, Teams, Zoom, Google Drive, Office); they read as padding.
+Each group renders as one ruled row: the label, then the items as one comma-separated line. Skills are plain text on purpose: recruiters scan and search for keywords ([why](decisions.md#d07-skills-are-text-not-logos)). Don't add collaboration tools (Slack, Teams, Zoom, Google Drive, Office); they read as padding.
 
-A group with `onResume: false` (currently Tooling) is shown on the website but left off the printed CV.
+A group with `onResume: false` is shown on the website but left off the printed CV (none is, at the moment).
 
 ## Education
 
@@ -237,9 +216,9 @@ Edit `education` in [`content/profile.ts`](../content/profile.ts). `result` is s
 
 ## Contact details
 
-Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
+Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). LinkedIn is the fastest way to reach Cooper, so it's the labelled button in the hero and the sticky phone bar and the primary button in Contact; email is an icon button ([D30](decisions.md#d30-linkedin-is-the-main-contact)). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
 
-`instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `contactChannels()` in `content/selectors.ts` is the professional set used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
+`instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `x` appears only on `/links/` too ([D32](decisions.md#d32-the-home-page-is-a-scorebook)). `contactChannels()` in `content/selectors.ts` is the professional set (email, LinkedIn, GitHub) used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
 
 ## Section headings and navigation
 
@@ -248,11 +227,11 @@ Edit [`content/sections.ts`](../content/sections.ts). Each section has:
 | Field | Used for |
 |---|---|
 | `id` | The `#anchor` |
-| `label` | The nav link and the small label above the heading |
+| `label` | The nav link |
 | `title` | The heading |
-| `intro` | An optional line under the heading |
+| `intro` | An optional line under the heading (only Contact has one) |
 
-The nav menu is generated from this list, in this order. Changing an `id` updates the nav, the proof-tile links and the sticky bar together.
+The nav menu is generated from this list, in this order. Changing an `id` updates the nav and the sticky bar together.
 
 ## The CV
 
@@ -265,21 +244,9 @@ The nav menu is generated from this list, in this order. Changing an `id` update
 
 **It must print on at most two A4 pages** ([D22](decisions.md#d22-the-résumé-is-two-pages), [D27](decisions.md#d27-the-résumé-is-called-a-cv)). Page one should carry the summary, experience and the featured project; entries never split across the break. After adding content, open `/cv/`, choose **Save as PDF**, and check the page count and where the break falls. To check from the command line, use the Playwright snippet in [Development → Checking the CV](development.md#checking-the-cvs-page-count).
 
-## The hero photos and charts
+## The profile picture
 
-Both are data in [`content/profile.ts`](../content/profile.ts).
-
-**Photos (`heroShots`)** crossfade behind your name, in list order. Each needs:
-
-- `src` (2000px wide WebP) and `srcSmall` (a 1000px copy for phones), in `public/images/`. Export them with EXIF stripped; keep each under about 200 KB.
-- `alt`: what the photo shows.
-- `subject`: the tracking box round **you**, in the photo's own pixels (`x`, `y`, `w`, `h`), and its `tag`, e.g. `'BOWLER · DENNY'`. **Only ever box or tag yourself, never another player.**
-- `ball`: where the ball is, for the reticle.
-- `push: true` if you're left of centre: it frames the photo so you clear the name.
-
-Find the coordinates by opening the 2000px photo in any image editor and reading the pixel positions. Then check the home page at 390px and desktop: the box should sit on you at both crops.
-
-**Charts (`heroCharts`)** are the console's views, in the order → cycles them: `scene` (`'pitch'`, `'wagon'` or `'disposals'`, drawn by `lib/charts/scenes.ts`), `label`, `file`, the `query` it types, and the status-line `hint`. The data is simulated in the browser and the console says so; don't present it as real results. A new kind of chart is a new scene in `lib/charts/scenes.ts`, added to `SCENES` and to the `ChartScene` type.
+`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src` (`/images/hero-image.webp`, a 480px square WebP for desktop, shown at 220px), `srcSmall` (the 160px `/images/hero-avatar.webp`, shown at 72–88px on phones and also used on `/links/`), `width` and `height`. Each file is at most 2× the size it's shown at, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change the photo, export both square WebPs with EXIF stripped (480px under about 40 KB, 160px under about 8 KB) and update the fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
 
 ## Site settings: URL, analytics, fonts
 

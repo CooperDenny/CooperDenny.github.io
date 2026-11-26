@@ -2844,7 +2844,7 @@ display: none;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Cooper Denny’s ordinal logistic regression for AFL Brownlow Medal votes, tested on the unseen 2024 season: r = 0.93 on season tallies, Cripps and Daicos called as the top two.">
 <meta name="theme-color" content="#fbfcfa">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="https://cooperdenny.github.io/projects/afl-brownlow-2024/">
 <link rel="icon" href="/favicon.svg">
 <meta property="og:type" content="article">
@@ -2888,11 +2888,10 @@ display: none;
 <div id="cd-main">
 <header class="cd-hero">
   <div class="cd-wrap">
-    <p class="cd-kicker">Statistical modelling · AFL</p>
     <h1>Predicting the 2024 Brownlow Medal</h1>
     <p class="cd-hero__lede">An ordinal logistic regression that predicts every player’s 3-2-1 umpire votes, game by game. Trained on 2015–2023 and scored on the unseen 2024 season, it named <strong>Patrick Cripps and Nick Daicos as the top two, in order</strong>, and had Cripps breaking the all-time vote record.</p>
     <p class="cd-hero__meta">Trained on 2015–2023 · Tested on 2024 · Written in R</p>
-    <ul class="cd-chips" aria-label="Tools used"><li>R</li><li>ordinal (CLM)</li><li>tidyverse</li><li>DT</li><li>Feature engineering</li></ul>
+    <p class="cd-tools"><span class="cd-tools__label">Tools</span> R, ordinal (CLM), tidyverse, DT, Feature engineering</p>
     <div class="cd-hero__actions"><a href="brownlow_data_2024.csv" class="cd-btn cd-btn--primary" download><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg> Download the dataset (CSV)</a><a href="/projects/afl-brownlow-2025/" class="cd-btn cd-btn--ghost"><svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg> See the 2025 model</a><a href="/projects/afl-brownlow-2023/" class="cd-btn cd-btn--ghost"><svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg> See the 2023 model</a></div>
   </div>
 </header>
@@ -3812,7 +3811,7 @@ $(document).ready(function () {
 <aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">
     <p class="cd-next__label">Next project</p>
-    <a class="cd-next__card" href="/projects/afl-brownlow-2023/">
+    <a class="cd-next__row" href="/projects/afl-brownlow-2023/">
       <span class="cd-next__title">Predicting the 2023 Brownlow Medal <svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span>
       <p class="cd-next__desc">Version one of the model, and what it taught me for 2024.</p>
     </a>

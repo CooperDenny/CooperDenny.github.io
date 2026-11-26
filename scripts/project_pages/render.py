@@ -35,7 +35,7 @@ class Renderer:
         title = html.escape(self.page_title(copy), quote=True)
         return f"""<meta name="description" content="{desc}">
 <meta name="theme-color" content="{s.theme_color}">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="{url}">
 <link rel="icon" href="/favicon.svg">
 <meta property="og:type" content="article">
@@ -80,15 +80,14 @@ class Renderer:
 </nav>"""
 
     def hero(self, copy: PageCopy) -> str:
-        """Project header: kicker, title, lede, meta line, tool chips, action buttons."""
+        """Project header: title, lede, meta line, the plain tools line, action buttons (D32: no kicker, no chips)."""
         meta = f'<p class="cd-hero__meta">{copy.meta}</p>' if copy.meta else ""
         return f"""<header class="cd-hero">
   <div class="cd-wrap">
-    <p class="cd-kicker">{copy.kicker}</p>
     <h1>{copy.title}</h1>
     <p class="cd-hero__lede">{copy.lede}</p>
     {meta}
-    <ul class="cd-chips" aria-label="Tools used">{self._items(copy.stack)}</ul>
+    <p class="cd-tools"><span class="cd-tools__label">Tools</span> {", ".join(copy.stack)}</p>
     <div class="cd-hero__actions">{self._actions(copy)}</div>
   </div>
 </header>"""
@@ -170,12 +169,12 @@ class Renderer:
 </figure>"""
 
     def next_project(self, slug: str) -> str:
-        """Next-project card (catalog order, wrapping), All projects / CV buttons, and footer."""
+        """Next-project row (catalog order, wrapping), All projects / CV buttons, and footer."""
         nxt, who = self.catalog.next_after(slug), self.settings.identity
         return f"""<aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">
     <p class="cd-next__label">Next project</p>
-    <a class="cd-next__card" href="{nxt.href}">
+    <a class="cd-next__row" href="{nxt.href}">
       <span class="cd-next__title">{nxt.title} {self.icon('arrowRight')}</span>
       <p class="cd-next__desc">{nxt.teaser}</p>
     </a>
@@ -218,9 +217,9 @@ class Renderer:
     def _metrics(g: Glance) -> str:
         if not g.metrics:
             return ""
-        cls = " cd-metrics--3" if len(g.metrics) == 3 else ""
-        tiles = "".join(f'<div class="cd-metric"><dt>{m.label}</dt><dd>{m.value}</dd></div>' for m in g.metrics)
-        return f'<dl class="cd-metrics{cls}">{tiles}</dl>'
+        # A scorebook results table: what was measured on the left, the figure on the right (D32).
+        rows = "".join(f'<div class="cd-metric"><dt>{m.label}</dt><dd>{m.value}</dd></div>' for m in g.metrics)
+        return f'<dl class="cd-metrics">{rows}</dl>'
 
     @staticmethod
     def _toc(copy: PageCopy) -> str:

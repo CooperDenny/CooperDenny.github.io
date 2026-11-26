@@ -11,7 +11,6 @@ from __future__ import annotations
 HAND_PAGES: dict[str, dict] = {
     "eildon-park-cricket-club": {
         "description": "How Cooper Denny designed, built and still runs epcc.org.au: a production Next.js and Supabase platform for Eildon Park Cricket Club, with 37 seasons of stats, live Play Cricket data, an admin portal, an email platform, an in-browser video editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 pull requests in its first eight months.",
-        "kicker": "Data engineering · Full-stack · Cricket",
         "lede": "I designed, built and still run <a href=\"https://epcc.org.au\" target=\"_blank\" rel=\"noopener noreferrer\">epcc.org.au</a>, Eildon Park Cricket Club’s website. It began as a stats page and is now the club’s platform: <strong>every senior season since 1989/90 joined to live Play Cricket data</strong>, an admin portal the committee runs the club from, an email platform, an in-browser highlights editor, a clubroom TV and an MCP server for AI assistants. 531 commits and 131 merged pull requests in its first eight months, from March to November 2026.",
         "meta": "Since March 2026 · Solo, built with Claude Code",
         "stack": ["Next.js 14", "TypeScript", "Supabase (Postgres, RLS)", "Play Cricket API", "Amazon SES", "WebCodecs", "MCP", "Claude Code", "Netlify"],
@@ -320,38 +319,38 @@ HAND_PAGES: dict[str, dict] = {
 <p>Each load-bearing choice is written down as an architecture decision record: the context that forced it, the decision, and what it costs. Six of them:</p>
 <div class="cd-cards cd-cards--2">
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0003 · Performance</span>
     <h3>Public pages are static</h3>
+    <p class="cd-card__tag">ADR 0003 · Performance</p>
     <p><span class="cd-card__k">Why</span>The homepage once took 1.7–3.5 s to first byte, because one Supabase client read cookies, which silently makes a whole route render per request.</p>
     <p><span class="cd-card__k">Cost</span>Data can be up to one cache window old, so every write refreshes exactly the pages it changes.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0007 · Reliability</span>
     <h3>The unofficial API fails soft</h3>
+    <p class="cd-card__tag">ADR 0007 · Reliability</p>
     <p><span class="cd-card__k">Why</span>Play Cricket’s API is reverse-engineered, with no documentation or SLA, and endpoints that disagree on shape.</p>
     <p><span class="cd-card__k">Cost</span>In an outage a section renders empty, never a broken page. New fields are checked against live responses before they’re used.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0004 · Security</span>
     <h3>Invite-only, checked twice</h3>
+    <p class="cd-card__tag">ADR 0004 · Security</p>
     <p><span class="cd-card__k">Why</span>The site holds a mailing list of members’ and parents’ emails. A login only proves someone has an account.</p>
     <p><span class="cd-card__k">Cost</span>Every Server Action checks the admin’s role, and every database policy checks it again. Personal data has no public read path.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0006 · Email</span>
     <h3>Sends are resumable batches</h3>
+    <p class="cd-card__tag">ADR 0006 · Email</p>
     <p><span class="cd-card__k">Why</span>400+ recipients at SES’s 14 a second outlasts a serverless function. A killed send once left no record of who was missed.</p>
     <p><span class="cd-card__k">Cost</span>At most one batch of 60 can be duplicated if a process dies mid-batch.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0008 · Data</span>
     <h3>Archive plus live, one model</h3>
+    <p class="cd-card__tag">ADR 0008 · Data</p>
     <p><span class="cd-card__k">Why</span>Thirty-six seasons predate Play Cricket’s data, and Play Cricket’s own figures are sometimes wrong.</p>
     <p><span class="cd-card__k">Cost</span>Two sources to reconcile, by a name map and an explicit override rule rather than by hand.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">ADR 0011 · AI</span>
     <h3>An MCP server, hand-written</h3>
+    <p class="cd-card__tag">ADR 0011 · AI</p>
     <p><span class="cd-card__k">Why</span>Assistants answer from whatever page they happen to fetch, which can’t answer “how many runs has X made?” for 800+ players.</p>
     <p><span class="cd-card__k">Cost</span>About 100 lines, no dependency, checked against the official SDK client. Read-only and public data only, so it needs no auth.</p>
   </div>
@@ -361,18 +360,18 @@ HAND_PAGES: dict[str, dict] = {
 <p>The bugs worth telling are the ones that changed how the system is built.</p>
 <div class="cd-cards">
   <div class="cd-card">
-    <span class="cd-card__tag">Security</span>
     <h3>Middleware doesn’t protect Server Actions</h3>
+    <p class="cd-card__tag">Security</p>
     <p>Next.js makes every export of a <code>'use server'</code> module callable from any page that imports one of them, so an admin-only write behind a protected route isn’t protected at all. I closed it by checking the admin at the top of every action and on uploads, split the actions into one module per domain, and made “every action starts with an auth check” the first rule in the rulebook, with row-level security in Postgres as the backstop.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">In-browser video</span>
     <h3>A rendering bug only production could see</h3>
+    <p class="cd-card__tag">In-browser video</p>
     <p>The highlights editor renders MP4s in the browser: hls.js streams each clip into a hidden video element, frames go through WebCodecs’ <code>VideoEncoder</code> into <code>mp4-muxer</code>, and the animated intros are rasterised through SVG <code>&lt;foreignObject&gt;</code>. On the live site, every intro frame failed with “The source image cannot be decoded”. The cause: production’s minified CSS writes font variables in double quotes, which cut an inline <code>style=""</code> attribute short. Development CSS uses single quotes, so it never showed up locally. Moving the declarations into a <code>&lt;style&gt;</code> block fixed it. The same feature also taught me that the muxer rejects every chunk unless the first frame sits at timestamp exactly zero.</p>
   </div>
   <div class="cd-card">
-    <span class="cd-card__tag">Data</span>
     <h3>Dates that lie about their time zone</h3>
+    <p class="cd-card__tag">Data</p>
     <p>Older Play Cricket records store local Melbourne times labelled <code>+00:00</code>, and Netlify runs in UTC, so a naive conversion puts games on the wrong day. Play Cricket dates are now read exactly as written, club-side dates go through one Melbourne time-zone module, and the single-match endpoint, which isn’t shaped like the team list, has its quirks recorded where the next change will see them.</p>
   </div>
 </div>
@@ -414,7 +413,6 @@ HAND_PAGES: dict[str, dict] = {
     },
     "melbourne-pedestrian-counting": {
         "description": "Interactive Power BI dashboard by Cooper Denny analysing hourly pedestrian counts from about 100 City of Melbourne sensors since 2010.",
-        "kicker": "Time series · BI · Open data",
         "lede": "An interactive Power BI dashboard over the City of Melbourne’s pedestrian sensor network (hourly counts from about 100 locations, January 2010 to October 2024), built to show how foot traffic shifts by hour, weekday and year.",
         "stack": ["Python", "Jupyter", "Power BI", "DAX"],
         "actions": [
@@ -455,7 +453,6 @@ HAND_PAGES: dict[str, dict] = {
     },
     "victorian-property-prices-dashboard": {
         "description": "Interactive Power BI report by Cooper Denny on Victorian property sales: median prices, year-on-year change and suburb-level maps.",
-        "kicker": "Geospatial · BI · Real estate",
         "lede": "An interactive Power BI report on Victorian residential property sales. Compare median prices and year-on-year change by region, suburb and property type, and see every sale on a map.",
         "stack": ["Power BI", "Power Query", "DAX"],
         "actions": [
@@ -506,7 +503,6 @@ BROWNLOW_NOTE = (
 REPORT_PAGES: dict[str, dict] = {
     "afl-brownlow-2025": {
         "description": "Year three of Cooper Denny’s AFL Brownlow Medal model: trained on 2015–2024 and tested on the unseen 2025 season, with its best 3-vote hit rate yet (59% of games) and top pick Nick Daicos finishing runner-up.",
-        "kicker": "Statistical modelling · AFL",
         "lede": "The third season of my Brownlow model, retrained on 2015–2024 and scored on the unseen 2025 season. It found the 3-vote player in <strong>59% of games, its best hit rate yet</strong>, and its top pick, Nick Daicos, finished runner-up.",
         "meta": "Trained on 2015–2024 · Tested on 2025 · Written in R",
         "stack": ["R", "ordinal (CLM)", "tidyverse", "caret", "DT"],
@@ -541,7 +537,6 @@ REPORT_PAGES: dict[str, dict] = {
     },
     "afl-brownlow-2024": {
         "description": "Cooper Denny’s ordinal logistic regression for AFL Brownlow Medal votes, tested on the unseen 2024 season: r = 0.93 on season tallies, Cripps and Daicos called as the top two.",
-        "kicker": "Statistical modelling · AFL",
         "lede": "An ordinal logistic regression that predicts every player’s 3-2-1 umpire votes, game by game. Trained on 2015–2023 and scored on the unseen 2024 season, it named <strong>Patrick Cripps and Nick Daicos as the top two, in order</strong>, and had Cripps breaking the all-time vote record.",
         "meta": "Trained on 2015–2023 · Tested on 2024 · Written in R",
         "stack": ["R", "ordinal (CLM)", "tidyverse", "DT", "Feature engineering"],
@@ -576,7 +571,6 @@ REPORT_PAGES: dict[str, dict] = {
     },
     "afl-brownlow-2023": {
         "description": "Version one of Cooper Denny’s AFL Brownlow Medal prediction model: an ordinal logistic regression trained on 2015–2022 and tested on 2023.",
-        "kicker": "Statistical modelling · AFL",
         "lede": "Version one of my Brownlow model: an ordinal logistic regression trained on 2015–2022 and tested on the unseen 2023 season. It didn’t pick the winner, Lachie Neale, but <strong>the real top three all finished inside its predicted top four</strong>.",
         "meta": "Trained on 2015–2022 · Tested on 2023 · Written in R",
         "stack": ["R", "ordinal (CLM)", "tidyverse", "DT"],
@@ -611,7 +605,6 @@ REPORT_PAGES: dict[str, dict] = {
     },
     "h2h-arbitrage-finder": {
         "description": "An R pipeline by Cooper Denny that pulls live head-to-head odds from 12 Australian bookmakers via The Odds API and flags guaranteed-profit (arbitrage) markets.",
-        "kicker": "APIs · Data pipelines · R",
         "lede": "An R pipeline that pulls live head-to-head odds from 12 Australian bookmakers through The Odds API, adjusts for exchange commission, and flags any market where backing every outcome locks in a profit.",
         "meta": None,  # filled in from the report: "Snapshot: <date> · …"
         "stack": ["R", "REST API (The Odds API)", "oddsapiR", "tidyverse", "DT"],
