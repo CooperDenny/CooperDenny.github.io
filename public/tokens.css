@@ -56,12 +56,10 @@
   --band-accent: #16305c;
   --band-accent-ink: #ffffff;
   --band-line: rgba(15, 31, 23, 0.12);
-  --nav-bg: rgba(251, 252, 250, 0.88);
 
   /* Scorebook rules (D32): structure comes from ruled lines, not boxes. */
   --rule: #c3cdc0; /* hairline between rows; decorative only */
   --rule-heavy: #0f1f17; /* the ink rule that opens each section and closes the hero */
-  --mow: #f2f5ef; /* faint mowing stripes on light bands; decorative only */
   --hover-tint: rgba(15, 31, 23, 0.05);
 
 
@@ -79,7 +77,6 @@
   /* Shape, motion & layout */
   --radius: 12px;
   --radius-sm: 6px;
-  --radius-pill: 999px;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-ball: cubic-bezier(0.3, 0.7, 0.2, 1);
   --dur-fast: 160ms;

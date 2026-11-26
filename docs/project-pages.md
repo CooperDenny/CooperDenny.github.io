@@ -82,15 +82,14 @@ Each entry in `HAND_PAGES` / `REPORT_PAGES` is a dict, keyed by slug, that becom
 |---|---|---|
 | `title` | no | Defaults to the title in `content/projects.json`. Leave it out, so the title has one source. |
 | `description` | yes | Meta description and social-share text |
-| `kicker` | yes | Small uppercase category line above the title |
 | `lede` | yes | The one-paragraph summary under the title: lead with the result |
-| `meta` | no | Mono line under the lede (e.g. "Trained on 2015–2023 · Tested on 2024"). For the arbitrage page it's computed. |
-| `stack` | yes | List of tools, shown as chips |
+| `meta` | no | A small line under the lede (e.g. "Trained on 2015–2023 · Tested on 2024"). For the arbitrage page it's computed. |
+| `stack` | yes | List of tools, shown as one plain "Tools" line |
 | `actions` | yes | Header buttons; the first is primary. Each is `{"label", "href", "icon"}` plus optional `"download": True`. `http(s)` links open in a new tab automatically. `icon` must be a key in `content/icons.json`. |
 | `glance.question` | yes | "The question" in the At a glance panel |
 | `glance.did` | yes | "What I did" bullets |
-| `glance.outcome` | no | An "Outcome" paragraph (full width) |
-| `glance.metrics` | no | List of `(value, label)` tuples shown as metric tiles: use 3 or 4 |
+| `glance.outcome` | no | An "Outcome" row |
+| `glance.metrics` | no | List of `(value, label)` tuples shown as a small results table: label left, figure right. Never lead with Brownlow accuracy (D11) |
 | `glance.note` | no | Small print under the metrics, e.g. an evaluation caveat |
 | `toc` | no | Jump links: `(label, anchor_id, is_key)` tuples; `is_key=True` highlights one (e.g. results) |
 | `body` | hand pages | The article HTML. Use the `cd-` classes from `site.css` (`cd-figure`, `cd-gallery`, `cd-embed`, …). |
@@ -105,9 +104,9 @@ Hand-page bodies are plain HTML using these `site.css` classes (all token-colour
 |---|---|
 | `cd-figure`, `cd-gallery`, `cd-gallery--2` | Screenshots with captions; `--2` puts two side by side from 861px |
 | `cd-embed`, `cd-embed-actions` | A Power BI iframe with a full-screen link |
-| `cd-arch`, `cd-arch__lane`, `cd-arch__lane--core`, `cd-arch__nodes` | A system map: lanes stack with ↓ arrows on phones and sit in three columns with → arrows from 861px |
-| `cd-cards`, `cd-cards--2`, `cd-card`, `cd-card__tag`, `cd-card__k` | Cards for decisions or problems; `--2` is two columns from 600px; `__k` is a small label such as "Why" |
-| `cd-timeline`, `cd-timeline__when`, `cd-timeline__now` | A vertical timeline; `__now` fills the last dot |
+| `cd-arch`, `cd-arch__lane`, `cd-arch__lane--core`, `cd-arch__nodes` | A system map: lanes under ink rules (navy for `--core`), parts as ruled rows; lanes stack with ↓ arrows on phones and sit in three columns with → arrows from 861px |
+| `cd-cards`, `cd-cards--2`, `cd-card`, `cd-card__tag`, `cd-card__k` | Ruled entries (not boxes) for decisions or problems; `--2` is two columns from 600px. Put `__tag` (e.g. "ADR 0003 · Performance") as a `<p>` **after** the `<h3>`, never above it; `__k` is a bold inline label such as "Why" |
+| `cd-timeline`, `cd-timeline__when`, `cd-timeline__now` | A ruled timeline: the period in a left column from 600px; `__now` marks the latest period in navy |
 | `cd-sr` | Visually hidden text for screen readers |
 | `cd-tour`, `cd-gallery--3`, `cd-figure__zoom` | Rendered by the generator for `galleries` (don't hand-write them): a titled grid, three columns from 861px (two from 600px), and thumbnails that link to their full-size copy |
 
@@ -165,11 +164,11 @@ Each shot is two WebP files next to the page:
 <head>   meta + Open Graph · fonts · /tokens.css · ../site.css (· ../report.css)
 <body>
   skip link · nav (brand · ← Projects · CV)
-  header      kicker · title · lede · meta · tool chips · action buttons
-  At a glance question · what I did · outcome · metric tiles · note
+  header      title · lede · meta · tools line · action buttons
+  At a glance question · what I did · outcome · results table · note
   On this page jump links (if toc)
   …article body (hand page) or untouched knitr body (report)…
-  Next project card (from the catalog order) · All projects · View CV
+  Next project row (from the catalog order) · All projects · View CV
   footer
 ```
 
@@ -193,7 +192,7 @@ The nav and header use the same navy band as the home page ([Design system → O
 | 7 | `UpsertBlock(header)` | Replaces pandoc's `<div id="header">` with the project header, At a glance panel and jump links |
 | 8 | `FoldCodeChunks` | Every R chunk goes inside `<details>` ("R code"), so the narrative reads first |
 | 9 | `FoldLongOutputs` | Printed output over 14 lines goes inside `<details>`, except output containing "Confusion Matrix" |
-| 10 | `UpsertBlock(next)` | Next-project card and footer, before `</body>` |
+| 10 | `UpsertBlock(next)` | Next-project row and footer, before `</body>` |
 
 **Idempotence.** Injected blocks sit between markers such as `<!-- cd:header -->` and `<!-- /cd:header -->`. `UpsertBlock` replaces the block if its markers exist, or inserts it on the first run. The fold transforms skip chunks that are already folded. That's why re-running is always safe, and why a fresh knit and a re-run converge on the same output.
 
@@ -223,7 +222,7 @@ flowchart TD
 | `cli.py` | Parses `--check`, builds every page, prints what changed, sets the exit code |
 | `site.py` | **Composition root.** Loads settings, catalog and icons, builds one page object per entry, and attaches extensions by slug |
 | `pages.py` | `ProjectPage` (abstract: `render(current) -> html`, `build(write)`); `HandPage` renders a whole document; `ReportPage` composes the transform pipeline |
-| `render.py` | `Renderer`: pure functions from copy to HTML fragments (head meta, fonts, analytics, nav, hero, summary, next-project card) |
+| `render.py` | `Renderer`: pure functions from copy to HTML fragments (head meta, fonts, analytics, nav, hero, summary, next-project row) |
 | `transforms.py` | `Transform` ABC, `Pipeline`, `MarkedBlock`/`UpsertBlock`, and the single-purpose HTML edits |
 | `extensions.py` | `ReportExtension` hook (`enrich`, `transforms`), DataTables reader, `ArbitrageFacts` |
 | `model.py` | Immutable `PageCopy`, `Glance`, `Action`, `Metric`, `TocItem`, `BarChart`, `Gallery`, `Shot`; `PageCopy.from_dict` |

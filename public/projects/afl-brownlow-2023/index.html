@@ -2844,7 +2844,7 @@ display: none;
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Version one of Cooper Denny’s AFL Brownlow Medal prediction model: an ordinal logistic regression trained on 2015–2022 and tested on 2023.">
 <meta name="theme-color" content="#fbfcfa">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="https://cooperdenny.github.io/projects/afl-brownlow-2023/">
 <link rel="icon" href="/favicon.svg">
 <meta property="og:type" content="article">
@@ -2888,11 +2888,10 @@ display: none;
 <div id="cd-main">
 <header class="cd-hero">
   <div class="cd-wrap">
-    <p class="cd-kicker">Statistical modelling · AFL</p>
     <h1>Predicting the 2023 Brownlow Medal</h1>
     <p class="cd-hero__lede">Version one of my Brownlow model: an ordinal logistic regression trained on 2015–2022 and tested on the unseen 2023 season. It didn’t pick the winner, Lachie Neale, but <strong>the real top three all finished inside its predicted top four</strong>.</p>
     <p class="cd-hero__meta">Trained on 2015–2022 · Tested on 2023 · Written in R</p>
-    <ul class="cd-chips" aria-label="Tools used"><li>R</li><li>ordinal (CLM)</li><li>tidyverse</li><li>DT</li></ul>
+    <p class="cd-tools"><span class="cd-tools__label">Tools</span> R, ordinal (CLM), tidyverse, DT</p>
     <div class="cd-hero__actions"><a href="brownlow_data.csv" class="cd-btn cd-btn--primary" download><svg class="cd-icon" viewBox="0 0 512 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg> Download the dataset (CSV)</a><a href="/projects/afl-brownlow-2024/" class="cd-btn cd-btn--ghost"><svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg> See the improved 2024 model</a></div>
   </div>
 </header>
@@ -3770,7 +3769,7 @@ $(document).ready(function () {
 <aside class="cd-next" aria-label="More work">
   <div class="cd-wrap">
     <p class="cd-next__label">Next project</p>
-    <a class="cd-next__card" href="/projects/h2h-arbitrage-finder/">
+    <a class="cd-next__row" href="/projects/h2h-arbitrage-finder/">
       <span class="cd-next__title">Australian Betting Arbitrage Finder <svg class="cd-icon" viewBox="0 0 448 512" aria-hidden="true" focusable="false"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></span>
       <p class="cd-next__desc">Live odds from 12 bookmakers, scanned for guaranteed-profit markets.</p>
     </a>

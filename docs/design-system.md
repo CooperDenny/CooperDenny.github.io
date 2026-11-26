@@ -39,9 +39,9 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 | Token | Value | Use |
 |---|---|---|
 | `--bg` | `#fbfcfa` | Page background: a cool flannel white, never cream |
-| `--bg-alt` | `#f1f4ef` | The CV page's backdrop; project-page panels |
-| `--surface` | `#ffffff` | Logo tiles, the CV sheet, project-page cards |
-| `--surface-2` | `#eaefe7` | Project-page chips and raised areas |
+| `--bg-alt` | `#f1f4ef` | The CV page's backdrop |
+| `--surface` | `#ffffff` | Logo tiles, the CV sheet, `/links/` buttons, folded code on reports |
+| `--surface-2` | `#eaefe7` | Inline code, the Power BI placeholder, table hover |
 | `--border` / `--border-strong` | `#dbe2d8` / `#c3cdc0` | Decorative borders and rules only |
 | `--rule` | `#c3cdc0` | The scorebook hairline between rows; decorative only |
 | `--rule-heavy` | `#0f1f17` | The ink rule that opens each section, the hero's closing double rule, the results table's top and bottom |
@@ -56,11 +56,9 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 | `--focus` | `#0f1f17` | Focus rings |
 | `--ball` / `--ball-shine` / `--ball-shade` | `#b3122b` / `#e0566a` / `#5e0914` | The leather ball. **The only red on the site**: the cricket ball and the footy, nothing else |
 | `--ball-seam` | `#fff3e0` | The stitched seam on the hero's SVG ball (`ui/CricketBall`); decorative only |
-| `--nav-bg` | `rgba(251, 252, 250, 0.88)` | Project-page nav: translucent `--band` (the home nav and phone action bar are solid `--band`, no blur) |
 | `--hover-tint` | `rgba(15, 31, 23, 0.05)` | Hover wash on ghost buttons and nav links |
-| `--mow` | `#f2f5ef` | Faint mowing stripes behind project headers; decorative only |
 | `--code-bg` | `#f4f6f2` | Code blocks on project pages |
-| `--shadow` / `--shadow-glow` | soft green-grey / navy ring | Project pages and the CV sheet only; the home page has no shadows |
+| `--shadow` / `--shadow-glow` | soft green-grey / navy ring | The mobile menu sheet, the CV sheet and `/links/` only; the home and project pages have no shadows |
 
 **The band.** The nav, the mobile menu sheet and the home hero sit on a band that is the same white as the page:
 
@@ -82,8 +80,7 @@ The navy hero and its `--hero-*` tokens ([D31](decisions.md#d31-the-hero-is-a-na
 | `--font-display` | Barlow Condensed (700–900), then Arial Narrow | `h1`, `h2` (upper case), the brand, and the featured project's title (normal case) |
 | `--font-sans` | Barlow (400–700), then system UI fonts | All other text |
 | `--font-mono` | IBM Plex Mono (500–600), then system monospace | Figures only on the home page: dates and results (`.figure`); code on project pages |
-| `--radius` / `--radius-sm` | `12px` / `6px` | Project-page cards / buttons, logo tiles, nav controls |
-| `--radius-pill` | `999px` | Project-page chips only; home-page buttons are `--radius-sm` |
+| `--radius` / `--radius-sm` | `12px` / `6px` | `/links/` and the CV sheet / buttons, logo tiles, nav controls, images |
 | `--ease-out` / `--ease-ball` | cubic-béziers | General easing / a ball decelerating |
 | `--dur-fast` / `--dur` | `160ms` / `280ms` | Colour changes / movement |
 | `--tap` | `44px` | Minimum touch-target size |
@@ -193,7 +190,7 @@ Home-page and CV styles live in `app/globals.css`, in BEM-style blocks (`.block_
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
 | `.bio`, `.bio__link` | LinkInBio | `/links/`: 480px column, 58px-tall link buttons, safe-area padding |
 
-Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips`, `.cd-glance`, …), defined in `public/projects/site.css`. Their header (`.cd-hero`) is the light band with faint mowing stripes, a display-type title and a CSS-only delivery underline (a navy rule that draws, the ball at its end). Hand-page bodies also have building blocks for figures, system maps, cards, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
+Project pages are scorebook pages too ([D32](decisions.md#d32-the-home-page-is-a-scorebook)), with the same vocabulary under a `cd-` prefix (`.cd-btn`, `.cd-tools`, `.cd-glance`, …), defined in `public/projects/site.css` and, for the R Markdown reports, `public/projects/report.css`. Their header (`.cd-hero`) is plain paper closed by a double ink rule, with a display-type title and a CSS-only delivery underline (an ink rule that draws, the ball at its end), and no kicker above the title. "At a glance" opens on an ink rule, its parts are ruled rows and its figures a small results table; the jump links are a ruled index; every article and report section opens on an ink rule; report tables sit between ink rules with hairline rows. Hand-page bodies also have building blocks for figures, system maps, ruled entries, timelines, bar charts and screenshot galleries, listed in [Project pages → Body building blocks](project-pages.md#body-building-blocks). The prefix is needed because the R Markdown reports load Bootstrap 3, which already defines `.btn`, `.nav` and others ([decision D02](decisions.md#d02-project-pages-are-static-html-not-react)).
 
 ---
 

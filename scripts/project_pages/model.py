@@ -114,7 +114,6 @@ class PageCopy:
     slug: str
     title: str
     description: str
-    kicker: str
     lede: str
     stack: tuple[str, ...]
     actions: tuple[Action, ...]
@@ -133,7 +132,6 @@ class PageCopy:
             slug=slug,
             title=d.get("title") or catalog.get(slug).title,
             description=d["description"],
-            kicker=d["kicker"],
             lede=d["lede"],
             meta=d.get("meta"),
             stack=tuple(d["stack"]),

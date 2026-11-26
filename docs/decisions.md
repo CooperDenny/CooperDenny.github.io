@@ -383,4 +383,6 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - **X leaves the professional set** (`contactChannels()`): it's not on the home page, the CV or the JSON-LD any more, only on `/links/`.
 - Buttons are square-cornered (`--radius-sm`), not pills.
 
-**Consequences.** The page reads as one system, made of rules, columns and type, and says less about itself. Anything new on the home page should be a ruled row, not a box. Barlow, Barlow Condensed and IBM Plex Mono stay (the PlayHQ connection, D26). Project pages keep their own layout and tokens for now; they could move to the scorebook in a later change.
+**Consequences.** The page reads as one system, made of rules, columns and type, and says less about itself. Anything new on the home page should be a ruled row, not a box. Barlow, Barlow Condensed and IBM Plex Mono stay (the PlayHQ connection, D26).
+
+**Project pages follow suit.** The seven write-ups use the same world: a paper header closed by a double ink rule, with no kicker (the `kicker` field is gone) and a plain tools line instead of chips; "At a glance" as ruled rows with its figures in a results table; a ruled jump-link index; ink rules opening every article and report section; ruled entries instead of cards for the ADRs and hard problems; a ruled timeline; a next-project row instead of a card; report tables between ink rules; a solid nav with no blur. The stray `color-scheme: dark` meta tag is now `light`. The `--mow`, `--nav-bg` and `--radius-pill` tokens are gone.
