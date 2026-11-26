@@ -12,7 +12,7 @@ export const SECTIONS = {
     id: 'contact',
     label: 'Contact',
     title: 'Let’s talk',
-    intro: 'Hiring for data science, analytics or analytics engineering? Email is the fastest way to reach me.',
+    intro: 'Hiring for data science, analytics or analytics engineering? LinkedIn is the fastest way to reach me.',
   },
 } as const satisfies Record<string, SectionDef>;
 

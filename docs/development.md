@@ -73,7 +73,7 @@ Then look at what you changed in the browser: see the next section.
 The site's quality bar is "works for a recruiter on a phone". After any visual change, check:
 
 - [ ] **Widths:** 320px (smallest phone), 390px (typical phone), 768px (tablet), 1366px (laptop). Use your browser's device toolbar. There must be no horizontal scroll at any width.
-- [ ] **First screen on a phone (home page):** name, headline, pitch and the CV/Email buttons are visible without scrolling (checked at 390 × 844).
+- [ ] **First screen on a phone (home page):** photo, name (on one line, the ball not past the edge), headline, pitch and the CV/LinkedIn buttons are visible without scrolling (checked at 390 × 844), and the hero ends well before the bottom of the screen.
 - [ ] **Hero motion:** the name rises and the ball rolls to rest just past it, once. With reduced motion on, nothing moves and the ball is already at rest.
 - [ ] **Keyboard:** Tab reaches every link and button with a visible focus ring; Escape closes the mobile menu.
 - [ ] **Project pages too**, if you touched shared CSS, tokens or the generator.

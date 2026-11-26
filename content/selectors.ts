@@ -91,7 +91,7 @@ export function resumeProjects(featured: FeaturedProject, projects: Project[]): 
 /** Skill groups for the printed CV (drops groups with `onResume: false`). */
 export const resumeSkills = (groups: SkillGroup[]) => groups.filter((g) => g.onResume !== false);
 
-/** The hero name set on two lines: first name, then the rest (which carries the delivery underline). */
+/** The hero name split into first name and the rest (the rest carries the delivery underline). */
 export function nameLines(name: string): [string, string] {
   const [first, ...rest] = name.split(' ');
   return [first, rest.join(' ')];

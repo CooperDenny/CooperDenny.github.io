@@ -429,8 +429,8 @@ h2 {
 }
 
 /* ---------- Hero ----------
-   Cooper's profile picture, then his name, headline, pitch and actions on the white band.
-   Phones stack them so the first screen holds all of it (D06, D29); desktop puts the photo beside the copy. */
+   Compact by design (D29): the profile picture sits beside the tags on phones and beside the copy
+   on desktop, and the name is one line, so the hero ends well inside the first screen (D06). */
 
 .hero {
   position: relative;
@@ -440,33 +440,45 @@ h2 {
 .hero__inner {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 24px var(--gutter) 36px;
+  padding: 20px var(--gutter) 28px;
   display: grid;
-  gap: 18px;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    'photo tags'
+    'name name'
+    'head head'
+    'pitch pitch'
+    'ctas ctas';
+  column-gap: 14px;
+  align-items: center;
   border-bottom: 1px solid var(--band-line);
 }
 
-/* The profile picture: a round crop with a navy ring standing off a white gap. */
+/* The profile picture: a round crop with a white gap and a navy ring. */
 .hero__photo {
-  width: 104px;
-  height: 104px;
+  grid-area: photo;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   object-fit: cover;
   background: var(--surface-2);
-  border: 4px solid var(--band);
+  border: 3px solid var(--band);
   box-shadow:
     0 0 0 2px var(--band-accent),
     var(--shadow);
 }
 
 .hero__name {
-  font-size: 4rem;
-  line-height: 0.84;
+  grid-area: name;
+  margin-top: 16px;
+  font-size: clamp(1.875rem, 9.4vw, 2.75rem); /* one line, ball included, from 320px */
+  line-height: 0.9;
   font-weight: 900;
   color: var(--band-text);
+  white-space: nowrap;
 }
 .hero__name-line {
-  display: block;
+  display: inline-block;
   animation: rise 620ms var(--ease-out) both;
 }
 .hero__name-line + .hero__name-line {
@@ -482,8 +494,8 @@ h2 {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -0.09em;
-  height: 6px;
+  bottom: -0.1em;
+  height: 4px;
   pointer-events: none;
 }
 .delivery__trail {
@@ -496,11 +508,11 @@ h2 {
 }
 .delivery__ball {
   position: absolute;
-  left: calc(100% + 6px);
+  left: calc(100% + 5px);
   top: 50%;
-  width: 22px;
-  height: 22px;
-  margin-top: -11px;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
   filter: drop-shadow(0 2px 4px rgba(15, 31, 23, 0.25));
   animation: roll 900ms var(--ease-ball) 380ms both;
 }
@@ -531,13 +543,13 @@ h2 {
   }
 }
 
-/* Role and location tags above the name. */
+/* Role and location tags, beside the photo on phones and above the name on desktop. */
 .hero__eyebrow {
+  grid-area: tags;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 14px;
+  gap: 6px;
 }
 .tag {
   display: inline-flex;
@@ -568,25 +580,28 @@ h2 {
 }
 
 .hero__headline {
-  max-width: 34ch;
-  margin-top: 22px;
-  font-size: 1.1875rem;
-  line-height: 1.37;
+  grid-area: head;
+  max-width: 40ch;
+  margin-top: 16px;
+  font-size: 1.125rem;
+  line-height: 1.35;
   font-weight: 600;
   text-wrap: balance;
 }
 .hero__pitch {
-  max-width: 60ch;
-  margin-top: 10px;
+  grid-area: pitch;
+  max-width: 64ch;
+  margin-top: 8px;
   font-size: 0.9375rem;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--band-muted);
 }
 .hero__ctas {
+  grid-area: ctas;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 .hero__ctas .btn--primary,
 .hero__ctas .btn--ghost:not(.btn--icon) {
@@ -608,29 +623,32 @@ h2 {
     display: inline;
   }
   .hero__inner {
-    padding-top: 40px;
-    padding-bottom: 48px;
-    gap: 24px;
+    padding-top: 28px;
+    padding-bottom: 36px;
+    column-gap: 18px;
   }
   .hero__photo {
-    width: 136px;
-    height: 136px;
+    width: 88px;
+    height: 88px;
   }
   .hero__name {
-    font-size: 7rem;
+    font-size: 4.25rem;
+  }
+  .delivery {
+    height: 5px;
   }
   .delivery__ball {
-    width: 30px;
-    height: 30px;
-    margin-top: -15px;
-    left: calc(100% + 10px);
+    width: 24px;
+    height: 24px;
+    margin-top: -12px;
+    left: calc(100% + 8px);
   }
   .hero__headline {
-    font-size: 1.375rem;
+    font-size: 1.25rem;
   }
   .hero__pitch {
     font-size: 1rem;
-    line-height: 1.625;
+    line-height: 1.6;
   }
   .hero__ctas .btn--primary,
   .hero__ctas .btn--ghost:not(.btn--icon) {
@@ -640,39 +658,46 @@ h2 {
 }
 
 @media (min-width: 861px) {
-  /* Desktop: the copy on the left, the photo on the right. */
+  /* Desktop: the copy on the left, the photo on the right, spanning it. */
   .hero__inner {
     grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 64px;
-    align-items: center;
-    padding-top: 64px;
-    padding-bottom: 72px;
+    grid-template-areas:
+      'tags photo'
+      'name photo'
+      'head photo'
+      'pitch photo'
+      'ctas photo';
+    column-gap: 56px;
+    align-items: start;
+    padding-top: 36px;
+    padding-bottom: 40px;
   }
   .hero__photo {
-    order: 2;
-    width: 300px;
-    height: 300px;
-    border-width: 8px;
+    align-self: center;
+    width: 240px;
+    height: 240px;
+    border-width: 6px;
     box-shadow:
       0 0 0 3px var(--band-accent),
       var(--shadow);
   }
   .hero__name {
-    font-size: 8.5rem;
+    margin-top: 14px;
+    font-size: 5.5rem;
   }
   .delivery__ball {
-    width: 34px;
-    height: 34px;
-    margin-top: -17px;
-    left: calc(100% + 12px);
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    left: calc(100% + 10px);
   }
   .hero__headline {
-    margin-top: 32px;
-    font-size: 1.625rem;
+    margin-top: 18px;
+    font-size: 1.375rem;
     line-height: 1.3;
   }
   .hero__ctas {
-    margin-top: 24px;
+    margin-top: 18px;
   }
 }
 

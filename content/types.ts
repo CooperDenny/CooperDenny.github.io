@@ -115,8 +115,11 @@ export type Profile = {
   photo: string;
   /** Small round portrait, used on /links/. */
   avatarWebp: string;
-  /** The hero's round profile picture (480 px square WebP; shown at 240 px or smaller per 2× rule). */
-  portrait: { src: string; width: number; height: number };
+  /**
+   * The hero's round profile picture: `src` is the 480 px square WebP (desktop, shown at 240 px),
+   * `srcSmall` a 160 px copy for phones, so neither is more than 2× its display size (D04).
+   */
+  portrait: { src: string; srcSmall: string; width: number; height: number };
   headline: string;
   pitch: string;
   resumeSummary: string;

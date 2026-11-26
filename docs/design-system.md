@@ -128,9 +128,9 @@ If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface`, `--
 
 | Breakpoint | Meaning | Typical changes |
 |---|---|---|
-| base (< 600px) | Phones | 104px round photo above the copy, single column, hamburger menu, sticky action bar |
-| `min-width: 600px` | Large phones, small tablets | 136px photo, two-column project grid |
-| `min-width: 861px` | Desktop | 300px photo beside the copy, inline nav, 3-column grid, sticky bar hidden |
+| base (< 600px) | Phones | Compact hero: 72px round photo beside the tags, the name on one line, single column, hamburger menu, sticky action bar |
+| `min-width: 600px` | Large phones, small tablets | 88px photo, two-column project grid |
+| `min-width: 861px` | Desktop | 240px photo beside the copy, inline nav, 3-column grid, sticky bar hidden |
 
 One component-specific exception: on project pages, the nav's "Projects" label collapses to its arrow icon below 420px, so the nav fits a 320px screen.
 
@@ -152,8 +152,10 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 The home hero (`components/home/Hero.tsx`) is server-rendered and deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections), [D29](decisions.md#d29-the-hero-is-a-profile-picture-not-match-photos)), all on the white band:
 
-1. **The profile picture** (`profile.portrait`, the 480px `hero-image.webp`): a round crop with a white gap and a navy `--band-accent` ring. On phones it sits above the copy at 104px (136px from 600px); on desktop it is 300px, beside the copy.
-2. **The copy**: the role and location tags (a navy pill and an outlined one), the name in display type, the headline, the pitch and the CV / Email / LinkedIn / GitHub actions.
+1. **The profile picture** (`profile.portrait`): a round crop with a white gap and a navy `--band-accent` ring. On phones it sits beside the role and location tags at 72px (88px from 600px), served from the 160px `hero-avatar.webp` through `srcset`; on desktop it is 240px, beside the copy, from the 480px `hero-image.webp`.
+2. **The copy**: the role and location tags (a navy pill and an outlined one), the name in display type on **one line**, the headline, the pitch and the actions: CV, LinkedIn (labelled, since it's the fastest way to reach Cooper), and Email and GitHub as icons.
+
+The hero is kept short on purpose: about 465px on a 390px phone and 445px on desktop, so the next section starts on the first screen. Every piece is a direct grid item of `.hero__inner`, placed by `grid-template-areas` at each breakpoint.
 3. **The delivery underline**: the name's second line carries a navy rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. It plays once, in under two seconds, so the hero needs no pause button.
 
 There is no photo masthead, tracking overlay, chart console, HUD, proof strip or core-stack line any more (D28, D29). The portrait is data in `content/profile.ts`; see [Editing content](editing-content.md#the-profile-picture).

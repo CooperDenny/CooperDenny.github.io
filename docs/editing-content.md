@@ -215,7 +215,7 @@ Edit `education` in [`content/profile.ts`](../content/profile.ts). `result` is s
 
 ## Contact details
 
-Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
+Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). LinkedIn is the fastest way to reach Cooper, so it's the labelled button in the hero and the sticky phone bar and the primary button in Contact; email is an icon button ([D30](decisions.md#d30-linkedin-is-the-main-contact)). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
 
 `instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `contactChannels()` in `content/selectors.ts` is the professional set used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
 
@@ -245,7 +245,7 @@ The nav menu is generated from this list, in this order. Changing an `id` update
 
 ## The profile picture
 
-`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src`, `width` and `height`. It's `/images/hero-image.webp`, a 480px square WebP, so it's sharp at its largest size (300px on desktop) and at most 2× that size, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change it, export a square WebP of about 480–600px with EXIF stripped, keep it under about 40 KB, and update the three fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
+`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src` (`/images/hero-image.webp`, a 480px square WebP for desktop, shown at 240px), `srcSmall` (the 160px `/images/hero-avatar.webp`, shown at 72–88px on phones and also used on `/links/`), `width` and `height`. Each file is at most 2× the size it's shown at, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change the photo, export both square WebPs with EXIF stripped (480px under about 40 KB, 160px under about 8 KB) and update the fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
 
 ## Site settings: URL, analytics, fonts
 

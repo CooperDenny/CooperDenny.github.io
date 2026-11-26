@@ -167,7 +167,7 @@ The site is server-rendered HTML; JavaScript only adds behaviour.
 | Code | Runs | Does |
 |---|---|---|
 | `Navbar` (`'use client'`) | Home, CV | Mobile menu open/close (and Escape key); border once scrolled |
-| `MobileCta` (`'use client'`) | Home, CV | Shows the sticky CV/Email bar between the hero and Contact on phones |
+| `MobileCta` (`'use client'`) | Home, CV | Shows the sticky CV/LinkedIn bar between the hero and Contact on phones |
 | `PrintButton` (`'use client'`) | CV | Calls `window.print()` |
 | Google Analytics | Every page | Page-view analytics |
 | knitr's bundled jQuery/DataTables | The three report pages | Interactive tables |
@@ -237,7 +237,7 @@ lib/
 public/
   tokens.css                     Design tokens
   favicon.svg · .nojekyll        Icon · stops GitHub Pages running Jekyll over _next/
-  images/                        Hero profile picture (480px WebP), /links/ avatar, logos, PNG for social previews
+  images/                        Hero profile picture (480px WebP; phones get the 160px /links/ avatar), logos, logos, PNG for social previews
   resume/index.html              Redirects the old /resume/ URL to /cv/ (D27)
   projects/
     site.css                     Shared project-page chrome (cd- prefixed)

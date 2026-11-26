@@ -35,6 +35,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
 | [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
 | [D29](#d29-the-hero-is-a-profile-picture-not-match-photos) | The hero is a profile picture, not match photos |
+| [D30](#d30-linkedin-is-the-main-contact) | LinkedIn is the main contact |
 
 ---
 
@@ -337,9 +338,17 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 **Context.** With the hero stripped back (D28), Cooper asked to "scrap the cricket hero at the top and just have my profile picture". Of the two photos in the repository he chose the heart-sunglasses one (`hero-image.png`), which already fronts link previews and `/links/`, over the jumper headshot (`profile-photo.jpg`).
 
 **Decision.**
-- The hero is Cooper's round profile picture with the copy on the white band: above the copy on phones (104px, 136px from 600px), beside it on desktop (300px). It's `hero-image.webp`, the 480px WebP the pre-D26 site used, restored from history, so the 2× rule of D04 holds at every size.
+- The hero is Cooper's round profile picture with the copy on the white band, and it is **compact**: Cooper asked for it to take far less vertical space. On phones the photo sits beside the role and location tags (72px, 88px from 600px) and the name is one line; on desktop the photo is 240px beside the copy and the name one line at 5.5rem. The hero is about 465px tall on a 390px phone and 445px on desktop (from about 680 and 720), so Experience starts on the first screen. Desktop uses `hero-image.webp`, the 480px WebP the pre-D26 site used, restored from history; phones get the 160px `hero-avatar.webp` through `srcset`, so the 2× rule of D04 holds at every size.
 - The photo masthead goes: `HeroMast` (crossfade, drift, tracking overlay), the four match WebPs (about 450 KB), `heroShots`, `HeroShot`, `trackOverlay()`, the `--on-photo` and `--scrim` tokens, the pause and play icons and `lib/motion/reducedMotion.ts`.
 - The name keeps its delivery underline, now navy (`--band-accent`) with the SVG ball (D28) resting past it. The role and location tags become a navy pill and an outlined pill.
 - No pause button: the hero's only motion is CSS that plays once in under two seconds, below WCAG 2.2.2's five-second threshold. The CLAUDE.md rule is updated to match.
 
 **Consequences.** The home page ships no hero JavaScript (`Hero` is a server component) and about 450 KB less imagery. The "only ever tag Cooper" rule has nothing to apply to now; it comes back with any photo overlay. `profile-photo.jpg` stays in `public/images/` unused, available if Cooper wants the headshot instead: that would be a new square WebP and one change to `profile.portrait`.
+
+### D30. LinkedIn is the main contact
+
+**Context.** Cooper: LinkedIn is the fastest way to reach him. The site led with email everywhere: the hero's labelled button, the phone's sticky bar, Contact's primary "Email me" and its intro line.
+
+**Decision.** LinkedIn takes email's place as the labelled action: "LinkedIn" in the hero (CV stays primary) and in the sticky phone bar, "Message me on LinkedIn" as Contact's primary button, and Contact's intro says LinkedIn is the fastest way to reach him. Email stays one tap away: an icon button in the hero, and listed in Contact, on the CV and in JSON-LD. `contactChannels()` keeps its order (email first) for the CV header and the contact list.
+
+**Consequences.** The main contact action now opens LinkedIn in a new tab instead of a mail client. If Cooper's preference changes, the switch is in `Hero.tsx`, `Contact.tsx`, `MobileCta.tsx` and the Contact intro in `content/sections.ts`.

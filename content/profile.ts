@@ -34,7 +34,7 @@ export const profile: Profile = {
   /** Large PNG kept for Open Graph / JSON-LD. */
   photo: '/images/hero-image.png',
   avatarWebp: '/images/hero-avatar.webp',
-  portrait: { src: '/images/hero-image.webp', width: 480, height: 480 },
+  portrait: { src: '/images/hero-image.webp', srcSmall: '/images/hero-avatar.webp', width: 480, height: 480 },
   headline:
     'I build machine-learning models, data pipelines and analytics products for community sport.',
   pitch:
