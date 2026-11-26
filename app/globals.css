@@ -119,18 +119,6 @@ h2 {
 
 /* ---------- Atoms ---------- */
 
-/* Mono labels: section eyebrows and card kickers. */
-.eyebrow,
-.kicker {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 1.35;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
 /* The live dot: a navy marker breathing. */
 .live {
   position: relative;
@@ -441,9 +429,8 @@ h2 {
 }
 
 /* ---------- Hero ----------
-   Cooper's match photos (the masthead) behind his name, then the copy, the live chart
-   console and the proof tiles. The phone masthead is short so the first screen still holds
-   name, headline, pitch, actions and proof (D06); the console follows the proof there. */
+   Cooper's match photos (the masthead) behind his name, then the headline, pitch and actions
+   on the white band. The phone masthead is short so the first screen holds all of it (D06, D28). */
 
 .hero {
   position: relative;
@@ -453,23 +440,10 @@ h2 {
 .hero__inner {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 16px var(--gutter) 40px;
+  padding: 16px var(--gutter) 36px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: 'copy' 'proof' 'stack' 'console';
-}
-.hero__copy {
-  grid-area: copy;
-}
-.hero__inner > .proof {
-  grid-area: proof;
-}
-.hero__inner > .hero__stack {
-  grid-area: stack;
-}
-.hero__inner > .hero__console {
-  grid-area: console;
-  margin-top: 28px;
+  gap: 10px;
+  border-bottom: 1px solid var(--band-line);
 }
 
 .hero__name {
@@ -491,7 +465,7 @@ h2 {
   display: inline-block;
 }
 
-/* The delivery underline: a rule that draws as the ball rolls to its end (a nod to the EPCC hero). */
+/* The delivery underline: a rule that draws as the ball rolls to rest just past its end (a nod to the EPCC hero). */
 .delivery {
   position: absolute;
   left: 0;
@@ -510,24 +484,13 @@ h2 {
 }
 .delivery__ball {
   position: absolute;
-  right: -10px;
+  left: calc(100% + 6px);
   top: 50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -10px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--ball-shine), var(--ball) 55%, var(--ball-shade));
-  box-shadow: 0 4px 10px rgba(94, 9, 20, 0.3);
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  filter: drop-shadow(0 3px 6px rgba(9, 20, 40, 0.45));
   animation: roll 900ms var(--ease-ball) 380ms both;
-}
-.delivery__ball::before {
-  content: '';
-  position: absolute;
-  inset: 2px 8px;
-  border-left: 1.5px dotted var(--on-turf);
-  border-right: 1.5px dotted var(--on-turf);
-  border-radius: 50%;
-  opacity: 0.85;
 }
 /* Motion only, never opacity: if animations stall (a background tab), the text is still there. */
 @keyframes rise {
@@ -598,10 +561,9 @@ h2 {
   text-wrap: balance;
 }
 .hero__pitch {
-  margin-top: 10px;
   max-width: 60ch;
-  font-size: 0.875rem;
-  line-height: 1.57;
+  font-size: 0.9375rem;
+  line-height: 1.6;
   color: var(--band-muted);
 }
 .hero__ctas {
@@ -623,7 +585,7 @@ h2 {
 }
 
 /* ---------- Photo masthead ----------
-   The photos are content (they have alt text). The tracking boxes, tags, HUD and drift are decoration. */
+   The photos are content (they have alt text). The tracking boxes, tags and drift are decoration. */
 
 .mast {
   position: relative;
@@ -777,8 +739,7 @@ h2 {
   opacity: 1;
 }
 .mast.is-paused .shot__frame,
-.mast.is-paused .track__spin,
-.mast.is-paused .mast__rec {
+.mast.is-paused .track__spin {
   animation-play-state: paused;
 }
 @keyframes spin {
@@ -797,49 +758,12 @@ h2 {
   flex-direction: column;
   justify-content: flex-end;
 }
-/* Phones: no HUD and no tag text (the frame is too small); the pause button sits bottom-right, beside the name. */
-.mast__bar {
+/* The pause button: bottom-right beside the name on phones, top-right from 600px. */
+.mast__pause {
   position: absolute;
   bottom: 16px;
   right: var(--gutter);
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.mast__hud {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  background: var(--scrim);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  line-height: 16px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-.mast__rec {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--on-photo);
-  animation: rec 1.6s steps(2, jump-none) infinite;
-}
-.mast__frame {
-  color: rgba(255, 255, 255, 0.78);
-}
-@keyframes rec {
-  50% {
-    transform: scale(0.35);
-  }
-}
-.mast__pause {
-  flex: none;
   width: var(--tap);
   height: var(--tap);
   display: grid;
@@ -861,227 +785,6 @@ h2 {
   background: var(--accent);
 }
 
-/* ---------- Proof tiles (the scoreboard) ----------
-   A ruled strip, 2×2 on phones, 4-up from 600px. Each tile jumps to its evidence. */
-
-.proof {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: 16px;
-  border-top: 1px solid var(--band-line);
-}
-.proof li {
-  border-bottom: 1px solid var(--band-line);
-}
-.proof li:nth-child(odd) {
-  border-right: 1px solid var(--band-line);
-}
-.proof__item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  height: 100%;
-  min-height: var(--tap);
-  padding: 10px 12px 10px 0;
-  transition: background-color var(--dur-fast);
-}
-.proof li:nth-child(even) .proof__item {
-  padding-left: 14px;
-}
-.proof__item:hover {
-  background: var(--hover-tint);
-}
-.proof__value {
-  font-family: var(--font-display);
-  font-size: 2.125rem;
-  line-height: 0.95;
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  color: var(--band-text);
-}
-.proof li:first-child .proof__value {
-  color: var(--band-accent);
-}
-.proof__label {
-  font-size: 0.8125rem;
-  line-height: 1.38;
-  color: var(--band-muted);
-}
-
-.hero__stack {
-  margin-top: 14px;
-  font-size: 0.875rem;
-  color: var(--band-muted);
-}
-.hero__stack-label {
-  margin-right: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--band-text);
-}
-
-/* ---------- Chart console ---------- */
-
-.console {
-  position: relative;
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
-.console__bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 52px;
-  padding: 4px 4px 4px 14px;
-  border-bottom: 1px solid var(--border);
-}
-.console__file {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--text);
-}
-.console__pips {
-  display: inline-flex;
-  gap: 5px;
-  margin-left: auto;
-}
-.console__pips i {
-  width: 18px;
-  height: 4px;
-  border-radius: var(--radius-pill);
-  background: var(--border-strong);
-  transition:
-    background-color var(--dur),
-    width var(--dur) var(--ease-out);
-}
-.console__pips i[aria-current='true'] {
-  width: 28px;
-  background: var(--accent);
-}
-.console__next {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: var(--tap);
-  min-width: var(--tap);
-  padding: 0 14px;
-  border-radius: var(--radius-pill);
-  border: 1.5px solid var(--control-line);
-  background: var(--surface);
-  color: var(--text);
-  font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1;
-  cursor: pointer;
-  transition:
-    border-color var(--dur-fast),
-    background-color var(--dur-fast);
-}
-.console__next:hover {
-  border-color: var(--text);
-  background: var(--hover-tint);
-}
-.console__next .icon {
-  font-size: 0.875rem;
-  transition: transform var(--dur) var(--ease-out);
-}
-.console__next:hover .icon {
-  transform: translateX(3px);
-}
-.console__next-label {
-  display: none;
-}
-.console__query {
-  min-height: calc(22px * 4 + 28px);
-  padding: 14px 16px;
-  background: var(--code-bg);
-  color: var(--text);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  line-height: 22px;
-  font-weight: 500;
-  font-variant-ligatures: none;
-  white-space: pre;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-}
-.console__query .k {
-  color: var(--sql-keyword);
-  font-weight: 600;
-}
-.console__query .s {
-  color: var(--sql-string);
-}
-.console__query .n {
-  color: var(--sql-number);
-}
-.console__caret {
-  display: inline-block;
-  width: 8px;
-  height: 16px;
-  margin-left: 1px;
-  vertical-align: -3px;
-  background: var(--accent);
-  animation: caret 1s steps(1) infinite;
-}
-@keyframes caret {
-  50% {
-    opacity: 0;
-  }
-}
-.console__stage {
-  position: relative;
-  height: 280px;
-  background: var(--turf);
-}
-.console__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  cursor: crosshair;
-  transition: opacity 220ms;
-}
-.console__canvas.is-swapping {
-  opacity: 0;
-}
-.console__status {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px 16px;
-  padding: 10px 14px;
-  border-top: 1px solid var(--border);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  line-height: 16px;
-  font-weight: 500;
-  color: var(--text-faint);
-}
-.console__status b {
-  color: var(--sql-number);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-.console__last {
-  color: var(--text-muted);
-}
-.console__hint {
-  margin-left: auto;
-}
-
 @media (min-width: 600px) {
   .show-mobile {
     display: none;
@@ -1091,10 +794,16 @@ h2 {
   }
   .hero__inner {
     padding-top: 32px;
-    padding-bottom: 56px;
+    padding-bottom: 48px;
   }
   .hero__name {
     font-size: 7rem;
+  }
+  .delivery__ball {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    left: calc(100% + 10px);
   }
   .hero__headline {
     font-size: 1.375rem;
@@ -1114,68 +823,36 @@ h2 {
   .mast__inner {
     padding-bottom: 28px;
   }
-  .mast__bar {
-    top: 10px;
+  .mast__pause {
+    top: 12px;
     bottom: auto;
-    left: var(--gutter);
-  }
-  .mast__hud {
-    display: inline-flex;
   }
   .track__tag {
-    display: inline;
-  }
-  .proof {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .proof li,
-  .proof li:nth-child(odd) {
-    border-right: 1px solid var(--band-line);
-  }
-  .proof li:last-child {
-    border-right: 0;
-  }
-  .proof li:nth-child(n) .proof__item {
-    padding: 16px 14px;
-  }
-  .proof li:first-child .proof__item {
-    padding-left: 0;
-  }
-  .console__stage {
-    height: 320px;
-  }
-  .console__next-label {
     display: inline;
   }
 }
 
 @media (min-width: 861px) {
+  /* Desktop: the headline on the left, the pitch and actions beside it. */
   .hero__inner {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas: 'copy console' 'proof proof' 'stack stack';
-    align-items: start;
     column-gap: 56px;
-    padding-top: 40px;
-    padding-bottom: 64px;
-  }
-  .hero__copy {
-    padding-top: 8px;
-  }
-  /* The console steps up onto the photo's foot, so the two read as one piece. */
-  .hero__inner > .hero__console {
-    z-index: 1;
-    margin-top: -80px;
-    border-radius: var(--radius-lg);
-  }
-  .hero__inner > .proof {
-    margin-top: 48px;
+    align-items: start;
+    padding-top: 44px;
+    padding-bottom: 56px;
   }
   .hero__name {
     font-size: 9.25rem;
   }
+  .delivery__ball {
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    left: calc(100% + 12px);
+  }
   .hero__headline {
-    font-size: 1.5rem;
-    line-height: 1.33;
+    font-size: 1.75rem;
+    line-height: 1.29;
   }
   .hero__ctas {
     margin-top: 24px;
@@ -1186,20 +863,9 @@ h2 {
   .mast__inner {
     padding-bottom: 40px;
   }
-  .mast__bar {
+  .mast__pause {
     top: 16px;
-    left: auto;
     right: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
-  }
-  .proof__value {
-    font-size: 3rem;
-  }
-  .proof__label {
-    font-size: 0.875rem;
-    line-height: 1.43;
-  }
-  .console__stage {
-    height: 340px;
   }
 }
 
@@ -1239,21 +905,8 @@ h2 {
   height: 13px;
   background: var(--text-faint);
 }
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.eyebrow::before {
-  content: '';
-  width: 18px;
-  height: 2px;
-  border-radius: var(--radius-pill);
-  background: var(--accent);
-}
 .section__header h2,
 .contact h2 {
-  margin-top: 12px;
   font-size: 2.5rem;
 }
 .section__intro {
@@ -1487,52 +1140,6 @@ h2 {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--text-faint);
-}
-
-.disclosure {
-  margin-top: 14px;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.disclosure summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 48px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  color: var(--accent);
-  list-style: none;
-}
-.disclosure summary::-webkit-details-marker {
-  display: none;
-}
-.disclosure__chevron {
-  transition: transform var(--dur) var(--ease-out);
-}
-.disclosure[open] .disclosure__chevron {
-  transform: rotate(180deg);
-}
-.disclosure__body {
-  padding-bottom: 16px;
-}
-.disclosure__body h4 {
-  margin: 14px 0 6px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-faint);
-  font-weight: 600;
-}
-.disclosure__body h4:first-child {
-  margin-top: 0;
-}
-.disclosure__body p {
-  color: var(--text-muted);
-  font-size: 0.9375rem;
 }
 
 .featured__foot {
@@ -2185,8 +1792,7 @@ h2 {
     animation-iteration-count: 1 !important;
     transition-duration: 1ms !important;
   }
-  .live::after,
-  .console__caret {
+  .live::after {
     display: none;
   }
 }

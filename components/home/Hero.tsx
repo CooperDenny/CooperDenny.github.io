@@ -1,21 +1,17 @@
-import ChartConsole from '@/components/home/ChartConsole';
 import HeroMast from '@/components/home/HeroMast';
 import ActionLink from '@/components/ui/ActionLink';
+import CricketBall from '@/components/ui/CricketBall';
 import { CV_HREF, HERO_ACTIONS_ID } from '@/content/sections';
 import { contactChannel, nameLines } from '@/content/selectors';
-import type { ChartView, HeroShot, Profile, Proof } from '@/content/types';
+import type { HeroShot, Profile } from '@/content/types';
 
-type HeroProfile = Pick<
-  Profile,
-  'name' | 'role' | 'employer' | 'location' | 'headline' | 'pitch' | 'proof' | 'coreStack' | 'contact'
->;
+type HeroProfile = Pick<Profile, 'name' | 'role' | 'employer' | 'location' | 'headline' | 'pitch' | 'contact'>;
 
-type Props = { profile: HeroProfile; shots: HeroShot[]; charts: ChartView[] };
+type Props = { profile: HeroProfile; shots: HeroShot[] };
 
 // Designed so that on a phone the first screen holds: who (name, role), the headline and pitch,
-// the two actions that matter (CV, email) and the proof tiles (D06). The photo masthead is kept
-// short on phones for that reason; the chart console comes after the proof tiles there.
-export default function Hero({ profile, shots, charts }: Props) {
+// and the two actions that matter (CV, email) (D06, D28). The photo masthead is kept short on phones for that reason.
+export default function Hero({ profile, shots }: Props) {
   const [first, rest] = nameLines(profile.name);
   return (
     <header className="hero">
@@ -34,21 +30,18 @@ export default function Hero({ profile, shots, charts }: Props) {
               {rest}
               <span className="delivery" aria-hidden="true">
                 <span className="delivery__trail" />
-                <span className="delivery__ball" />
+                <CricketBall className="delivery__ball" />
               </span>
             </span>
           </span>
         </h1>
       </HeroMast>
       <div className="hero__inner">
-        <div className="hero__copy">
-          <p className="hero__headline">{profile.headline}</p>
+        <p className="hero__headline">{profile.headline}</p>
+        <div className="hero__body">
           <p className="hero__pitch">{profile.pitch}</p>
           <HeroActions contact={profile.contact} />
         </div>
-        <ChartConsole views={charts} />
-        <ProofTiles proof={profile.proof} />
-        <CoreStack items={profile.coreStack} />
       </div>
     </header>
   );
@@ -70,29 +63,5 @@ function HeroActions({ contact }: { contact: HeroProfile['contact'] }) {
         <ActionLink key={ch.key} href={ch.href} variant="ghost" icon={ch.icon} ariaLabel={`${ch.label} profile`} />
       ))}
     </div>
-  );
-}
-
-function ProofTiles({ proof }: { proof: Proof[] }) {
-  return (
-    <ul className="proof" aria-label="Highlights">
-      {proof.map((p) => (
-        <li key={p.label}>
-          <a href={p.href} className="proof__item">
-            <span className="proof__value">{p.value}</span>
-            <span className="proof__label">{p.label}</span>
-          </a>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function CoreStack({ items }: { items: string[] }) {
-  return (
-    <p className="hero__stack">
-      <span className="hero__stack-label">Core stack</span>
-      {items.join(' · ')}
-    </p>
   );
 }

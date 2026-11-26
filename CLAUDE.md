@@ -40,7 +40,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 - Hero photos: box and tag Cooper only, never another player. Hero motion must stop with the pause button and land still under reduced motion.
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
-- The home page's first phone screen must keep: name, headline, pitch, CTAs, proof tiles ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off)).
+- The home page's first phone screen must keep: name, headline, pitch, CTAs ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off), [D28](docs/decisions.md#d28-a-quieter-hero-and-shorter-sections)).
 - `/cv/` prints on at most two A4 pages, with no entry split across the break ([D22](docs/decisions.md#d22-the-résumé-is-two-pages)).
 
 **Project pages**
