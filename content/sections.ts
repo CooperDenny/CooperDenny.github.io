@@ -1,16 +1,11 @@
 import type { SectionDef } from '@/content/types';
 
 // Single source for home-page sections. Each entry drives the section's anchor id,
-// its nav link, its eyebrow (label) and its heading. Reordering or adding a section
+// its nav link (label) and its heading. Reordering or adding a section
 // is a change here, not in Navbar or the section components.
 export const SECTIONS = {
   experience: { id: 'experience', label: 'Experience', title: 'Where I’ve worked' },
-  projects: {
-    id: 'projects',
-    label: 'Projects',
-    title: 'Selected work',
-    intro: 'Independent projects with public write-ups, code and data.',
-  },
+  projects: { id: 'projects', label: 'Projects', title: 'Selected work' },
   skills: { id: 'skills', label: 'Skills', title: 'What I work with' },
   education: { id: 'education', label: 'Education', title: 'Education' },
   contact: {

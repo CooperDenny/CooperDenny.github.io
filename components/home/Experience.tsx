@@ -3,7 +3,7 @@ import Chips from '@/components/ui/Chips';
 import Logo from '@/components/ui/Logo';
 import Section from '@/components/ui/Section';
 import { SECTIONS } from '@/content/sections';
-import { currentRole, previousRoles, tenure } from '@/content/selectors';
+import { currentRole, homeHighlights, previousRoles, tenure } from '@/content/selectors';
 import type { Job, Role } from '@/content/types';
 import { dateRange } from '@/lib/format';
 
@@ -28,7 +28,7 @@ function JobCard({ job }: { job: Job }) {
         <Promotion key={role.title} from={role} />
       ))}
       <p className="job__summary">{job.summary}</p>
-      <Bullets items={job.highlights} />
+      <Bullets items={homeHighlights(job)} />
       <Chips items={job.stack} label="Tools used" />
     </li>
   );

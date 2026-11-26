@@ -34,7 +34,7 @@
   --text-muted: #3d4d43;
   --text-faint: #5b6a60;
 
-  /* Accent: navy. One navy thing leads each view. Never on turf (2.3:1). */
+  /* Accent: navy. One navy thing leads each view. */
   --accent: #16305c;
   --accent-strong: #24467f;
   --accent-ink: #ffffff;
@@ -45,6 +45,7 @@
   --ball: #b3122b;
   --ball-shine: #e0566a;
   --ball-shade: #5e0914;
+  --ball-seam: #fff3e0; /* the stitched seam on the ball; decorative only */
 
   /* The band (nav + hero copy): the same white as the page, so the hero runs into the content.
      On the band, use these, never --accent directly. */
@@ -63,18 +64,8 @@
   --scrim: rgba(9, 20, 40, 0.86);
   --scrim-soft: rgba(9, 20, 40, 0.42);
 
-  /* The fields drawn in the chart console */
-  --turf: #3b7438;
-  --turf-stripe: #427d3e;
-  --on-turf: #ffffff;
-  --pitch: #d6c18d;
-  --pitch-stripe: #ccb57f;
-
   /* Code */
   --code-bg: #f4f6f2;
-  --sql-keyword: #16305c;
-  --sql-string: #8a5300;
-  --sql-number: #1d6b46;
 
   --shadow: 0 1px 2px rgba(15, 31, 23, 0.06), 0 10px 28px rgba(15, 31, 23, 0.08);
   --shadow-glow: 0 0 0 1px rgba(22, 48, 92, 0.3), 0 12px 32px rgba(22, 48, 92, 0.16);
@@ -87,7 +78,6 @@
   /* Shape, motion & layout */
   --radius: 12px;
   --radius-sm: 6px;
-  --radius-lg: 20px;
   --radius-pill: 999px;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-ball: cubic-bezier(0.3, 0.7, 0.2, 1);

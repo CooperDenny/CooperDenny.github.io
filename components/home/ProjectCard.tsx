@@ -8,7 +8,6 @@ export default function ProjectCard({ project }: { project: Project }) {
   const [link] = project.links;
   return (
     <li className="project card">
-      <p className="kicker">{project.kicker}</p>
       <h3>
         <SmartLink href={link.href} className="project__link">
           {project.title}

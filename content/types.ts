@@ -20,6 +20,7 @@ export type Job = {
   /** Most recent first. More than one entry renders as a promotion. */
   roles: Role[];
   summary: string;
+  /** Strongest first: the home page shows the first few (selectors.homeHighlights), the CV all. */
   highlights: string[];
   stack: string[];
 };
@@ -37,13 +38,6 @@ export type Metric = {
   onCard?: boolean;
 };
 
-/** A hero proof tile: a short value, what it means, and a link to the evidence. */
-export type Proof = {
-  value: string;
-  label: string;
-  href: string;
-};
-
 /** A link; whether it opens in a new tab is derived from the URL (see lib/links.ts). */
 export type Link = {
   label: string;
@@ -54,7 +48,6 @@ export type Link = {
 export type Project = {
   slug: string;
   title: string;
-  kicker: string;
   /** One sentence for the home-page card. Full detail lives on the project page. */
   oneLiner: string;
   /** Longer description, used on the CV. */
@@ -73,13 +66,10 @@ export type ProjectList = {
   projects: Project[];
 };
 
-/** The large featured card: a project plus its question, method, results and caveats. */
+/** The large featured card: a project plus its results and how it improved. */
 export type FeaturedProject = Project & {
-  problem: string;
-  approach: string[];
   metrics: Metric[];
   iteration: string;
-  evaluationNote: string;
 };
 
 /** A labelled group of skills, shown as chips. */
@@ -128,8 +118,6 @@ export type Profile = {
   headline: string;
   pitch: string;
   resumeSummary: string;
-  proof: Proof[];
-  coreStack: string[];
   contact: ContactLinks;
 };
 
@@ -140,25 +128,6 @@ export type ContactChannel = {
   href: string;
   display: string;
   icon: IconName;
-};
-
-/** The charts lib/charts can draw. */
-export type ChartScene = 'pitch' | 'wagon' | 'disposals';
-
-/**
- * One chart in the hero's console: the SQL it appears to run and how it's labelled.
- * The data is simulated in the browser (illustrative only, never a real player or result).
- */
-export type ChartView = {
-  scene: ChartScene;
-  /** Plain name, e.g. 'Wagon wheel' (the → button and the canvas's accessible name). */
-  label: string;
-  /** Shown as the console's file name, e.g. 'wagon_wheel.sql'. */
-  file: string;
-  /** Typed into the console; keywords, strings and numbers are highlighted by `sqlTokens()`. */
-  query: string;
-  /** Status-bar prompt, e.g. 'click the field to play a shot'. */
-  hint: string;
 };
 
 /**

@@ -11,7 +11,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D03](#d03-tailwind-preflight-is-disabled) | Tailwind preflight is disabled |
 | [D04](#d04-images-are-plain-img-self-hosted-webp) | Images are plain `<img>`, self-hosted WebP |
 | [D05](#d05-fonts-load-via-link-icons-are-inline-svg) | Fonts load via `<link>`; icons are inline SVG |
-| [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off |
+| [D06](#d06-the-home-page-is-designed-against-drop-off) | The home page is designed against drop-off (*first-screen list amended by D28*) |
 | [D07](#d07-skills-are-text-not-logos) | Skills are text, not logos |
 | [D08](#d08-no-scroll-triggered-reveal-animations) | No scroll-triggered reveal animations |
 | [D09](#d09-dark-by-default-with-a-lightdark-switcher) | Dark by default, with a light/dark switcher (superseded by D25) |
@@ -33,6 +33,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
 | [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero |
 | [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
+| [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
 
 ---
 
@@ -85,6 +86,8 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 - Cards show a one-sentence `oneLiner`; detail is one tap away. The Brownlow method sits in a native `<details>`.
 - Whole project cards are tap targets.
 - A phone-only sticky Résumé/Email bar appears between the hero and Contact.
+
+*Amended by [D28](#d28-a-quieter-hero-and-shorter-sections): the proof tiles and the Brownlow `<details>` are gone; the first screen now holds name, headline, pitch and actions.*
 
 **Consequences.** The page is about 9.7 screens on a phone (measured November 2026), and 408 KB versus 1.07 MB before. New content has to earn its place: no extra paragraphs in the hero, one sentence per card.
 
@@ -306,6 +309,8 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** The repository gains four hero WebPs (about 450 KB in all; phones load the 1000px copies, 46–84 KB) and a small canvas engine in `lib/charts/` (`HeroMast` and `ChartConsole` are client components). Adding or changing a photo means hand-placing its overlay coordinates, and only Cooper may be tagged ([how](editing-content.md#the-hero-photos-and-charts)). `hero-image.webp` (the old desktop portrait) is gone; `hero-image.png` stays for Open Graph and JSON-LD. Project pages follow: a light header with mowing stripes and a display title.
 
+*Partly reversed by [D28](#d28-a-quieter-hero-and-shorter-sections): the chart console, the HUD frame counter, the proof strip and the core-stack line are gone.*
+
 ### D27. The résumé is called a CV
 
 **Context.** Cooper prefers "CV", the usual word in Australia.
@@ -314,3 +319,14 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** Old links and bookmarks keep working. Code says "resume" where the page says "CV"; the comments note it. D12 and D22 keep their original titles as history; D22's two-page rule applies to `/cv/`.
 
+### D28. A quieter hero and shorter sections
+
+**Context.** Once the "Test match day" design (D26) was on the real site, Cooper asked to strip it back: remove the pitch map, wagon wheel and disposal map, the "Tracking · FRM" HUD on the photos, and the headline stats under the hero, fix the cricket ball beside his name (a CSS gradient with a dotted slit that sat over the "Y"), and cut anything too detailed or long, or that didn't need a heading.
+
+**Decision.**
+- **Hero:** the photos, the tracking overlay on Cooper and the pause button stay. The chart console (`ChartConsole`, the `lib/charts/` engine and its turf, pitch and SQL tokens), the HUD, the proof tiles and the core-stack line are removed, and so is `lib/motion/heroPause.ts`: `HeroMast` keeps its own paused state. The first phone screen holds name, headline, pitch and actions (amending D06).
+- **Ball:** an SVG ball (`components/ui/CricketBall.tsx`) with a radial leather gradient and a curved, stitched seam (`--ball-seam`), resting just past the end of the delivery underline instead of on top of the last letter.
+- **Headings:** each section has one heading. The mono label above it (`.eyebrow`) and the small category line above each project card (`kicker`) are gone, and so is the Projects intro line. The nav still uses each section's `label`.
+- **Length:** the home page shows each job's first three highlights (`homeHighlights()`); the CV still lists every one, so PlayHQ's bullets are ordered strongest first, with the churn model second. The Brownlow card drops its "Method, iteration & evaluation" disclosure: the method is on the season write-ups, and the card keeps its one 56% 3-vote figure, its caption and links to every season (D11). The Tooling skills group (Jupyter, VS Code, Jira, Confluence, Excel), already off the CV, is removed.
+
+**Consequences.** The home page loads no canvas code and is shorter on every screen. Nothing was reworded or invented: content was only removed or reordered, and the CV's text is unchanged (still two pages, D22). The Brownlow question, approach and accuracy note no longer live in `profile.ts`; the write-ups under `public/projects/afl-brownlow-*` are their home.

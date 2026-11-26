@@ -66,7 +66,7 @@ Every push to `main` deploys automatically — see [docs/deployment.md](docs/dep
 |---|---|
 | Framework | [Next.js 14](https://nextjs.org/) (App Router), React 18, TypeScript (strict) |
 | Output | Static export (`output: 'export'`) — plain HTML/CSS/JS, no server |
-| Styling | Hand-written CSS on shared design tokens; one light theme; a small canvas engine for the hero charts |
+| Styling | Hand-written CSS on shared design tokens; one light theme |
 | Project pages | Static HTML produced by a Python generator; three are R Markdown (knitr) reports |
 | Hosting | GitHub Pages, deployed by GitHub Actions on every push to `main` |
 | Analytics | Google Analytics 4 |

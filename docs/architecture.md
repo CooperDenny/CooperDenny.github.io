@@ -82,14 +82,14 @@ If you're about to type a fact a second time, it already has a home:
 
 | Fact | Single source | Read by |
 |---|---|---|
-| Home/CV copy, hero photos and charts | `content/profile.ts` | Next |
+| Home/CV copy and hero photos | `content/profile.ts` | Next |
 | Name, role, employer, location | `content/identity.json` | Next, generator |
 | Project pages: slug, title, teaser, order | `content/projects.json` | Next (cards, sitemap), generator |
 | Project-page copy | `scripts/project_pages/content.py` | generator |
 | Icon SVG paths | `content/icons.json` | Next, generator |
 | URL, GA ID, fonts URL | `config/site.json` | Next, generator |
 | Colours, type, spacing | `public/tokens.css` | every page; `theme-color` is *read* from `--band` |
-| Section ids, nav labels, headings | `content/sections.ts` | Navbar, sections, proof tiles, sticky bar |
+| Section ids, nav labels, headings | `content/sections.ts` | Navbar, sections, sticky bar |
 | Date-range format | `dateRange()` in `lib/format.ts` | every date range |
 | "Is this link external?" | the URL itself (`lib/links.ts`, `model.Action.external`) | every link; there are no hand-set flags |
 
@@ -166,17 +166,14 @@ The site is server-rendered HTML; JavaScript only adds behaviour.
 
 | Code | Runs | Does |
 |---|---|---|
-| `HeroMast` (`'use client'`) | Home | Crossfades the hero photos, sizes the tracking tags (`--tag-k`), runs the HUD frame counter, and owns the pause button |
-| `ChartConsole` (`'use client'`) | Home | Types the query and runs the canvas charts (`lib/charts/`); → cycles them; follows the pause button |
+| `HeroMast` (`'use client'`) | Home | Crossfades the hero photos, sizes the tracking tags (`--tag-k`), and owns the pause button |
 | `Navbar` (`'use client'`) | Home, CV | Mobile menu open/close (and Escape key); border once scrolled |
 | `MobileCta` (`'use client'`) | Home, CV | Shows the sticky CV/Email bar between the hero and Contact on phones |
 | `PrintButton` (`'use client'`) | CV | Calls `window.print()` |
 | Google Analytics | Every page | Page-view analytics |
 | knitr's bundled jQuery/DataTables | The three report pages | Interactive tables |
 
-Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)). With JavaScript off, every page still shows everything: the hero shows its first photo, fully tagged, and the console its query.
-
-`HeroMast` and `ChartConsole` share one pause switch, `lib/motion/heroPause.ts`, a tiny external store read with `useSyncExternalStore`.
+Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)). With JavaScript off, every page still shows everything: the hero shows its first photo, fully tagged.
 
 ---
 
@@ -204,11 +201,11 @@ components/
     Chips.tsx · Bullets.tsx      Tag list · bulleted list
     Logo.tsx                     Organisation logo on a white tile
     Section.tsx                  <section> + heading from a SectionDef (also exports SectionHeading)
+    CricketBall.tsx              The SVG ball at the end of the hero's delivery underline
   home/                          The home page's sections
-    Hero.tsx                     Masthead, headline, pitch, CTAs, chart console, proof tiles, core stack
+    Hero.tsx                     Masthead, name, headline, pitch, CTAs
     HeroMast.tsx                 Photo masthead: crossfade, tracking overlay, pause ('use client')
-    ChartConsole.tsx             Typed query + live canvas charts ('use client')
-    Experience.tsx               Job cards with promotion lines
+    Experience.tsx               Job cards with promotion lines (first three highlights; the CV has all)
     Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid + ProjectLinkList.tsx
     Skills.tsx · Education.tsx · Contact.tsx
   layout/                        Site chrome
@@ -223,8 +220,8 @@ components/
 
 content/
   types.ts                       Domain model (types only)
-  profile.ts                     Home/CV data, hero photos (heroShots) and charts (heroCharts)
-  selectors.ts                   Derived views: contact channels, link-in-bio links, tenure, CV entries, trackOverlay(), sqlTokens()
+  profile.ts                     Home/CV data and hero photos (heroShots)
+  selectors.ts                   Derived views: contact channels, link-in-bio links, tenure, homeHighlights(), CV entries, trackOverlay(), nameLines()
   sections.ts                    Section definitions, nav items, anchor(), HERO_ACTIONS_ID, CV_HREF
   catalog.ts · projects.json     Project-page catalog (shared with the generator)
   icons.ts · icons.json          Icon set (shared with the generator)
@@ -238,9 +235,7 @@ lib/
   format.ts                      dateRange(), listSentence(), cx()
   links.ts                       isExternal(), externalAttrs(), waHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
-  charts/                        Hero chart engine: draw.ts (canvas helpers, token palette), scenes.ts (pitch map,
-                                 wagon wheel, disposal heatmap), runner.ts (sizing, loop, clicks, pause, reduced motion)
-  motion/                        heroPause.ts (shared pause switch), reducedMotion.ts
+  motion/                        reducedMotion.ts
 
 public/
   tokens.css                     Design tokens

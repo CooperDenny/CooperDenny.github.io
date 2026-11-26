@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Icon from '@/components/ui/Icon';
 import { trackOverlay } from '@/content/selectors';
 import type { HeroShot } from '@/content/types';
-import { heroPause } from '@/lib/motion/heroPause';
 import { prefersReducedMotion } from '@/lib/motion/reducedMotion';
 
 /** How long each photo holds before the crossfade. */
@@ -13,19 +12,18 @@ const HOLD_MS = 7000;
 /**
  * The hero masthead: Cooper's match photos crossfading behind his name, each with a tracking
  * overlay (brackets and a tag on Cooper only, plus a ball reticle). The photos are content;
- * the overlay, drift, HUD and frame counter are decoration.
+ * the overlay and drift are decoration.
  *
  * Without JavaScript the first photo shows, fully tagged, and nothing moves. With it, the mast
  * "arms": photos crossfade every 7s and drift slowly (transform only). The pause button stops
- * all of it, and the chart console too (WCAG 2.2.2). Reduced motion: still, first photo, no button.
+ * all of it (WCAG 2.2.2). Reduced motion: still, first photo, no button.
  */
 export default function HeroMast({ shots, children }: { shots: HeroShot[]; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<HTMLSpanElement>(null);
   const [armed, setArmed] = useState(false);
   const [current, setCurrent] = useState(0);
   const visible = usePageVisible(ref);
-  const paused = useSyncExternalStore(heroPause.subscribe, heroPause.get, heroPause.getServer);
+  const [paused, setPaused] = useState(false);
   const running = armed && visible && !paused;
 
   useEffect(() => {
@@ -53,24 +51,6 @@ export default function HeroMast({ shots, children }: { shots: HeroShot[]; child
     return () => window.clearTimeout(t);
   }, [running, current, shots.length]);
 
-  // The HUD's frame counter, written straight to the DOM (25 fps) so it never re-renders React.
-  useEffect(() => {
-    if (!running) return;
-    let raf = 0;
-    let last = 0;
-    let frames = Number(frameRef.current?.textContent ?? 0);
-    const tick = (now: number) => {
-      if (now - last > 40) {
-        last = now;
-        frames = (frames + 1) % 100000;
-        if (frameRef.current) frameRef.current.textContent = String(frames).padStart(5, '0');
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [running]);
-
   const classes = ['mast', armed && 'is-armed', paused && 'is-paused'].filter(Boolean).join(' ');
 
   return (
@@ -80,25 +60,16 @@ export default function HeroMast({ shots, children }: { shots: HeroShot[]; child
           <Shot key={shot.src} shot={shot} on={i === current} first={i === 0} />
         ))}
       </div>
-      <div className="mast__bar">
-        <div className="mast__hud" aria-hidden="true">
-          <span className="mast__rec" />
-          Tracking
-          <span className="mast__frame">
-            FRM <span ref={frameRef}>00000</span>
-          </span>
-        </div>
-        <button
-          type="button"
-          className="mast__pause"
-          aria-pressed={paused}
-          aria-label={paused ? 'Play hero animation' : 'Pause hero animation'}
-          hidden={!armed}
-          onClick={() => heroPause.set(!paused)}
-        >
-          <Icon name={paused ? 'play' : 'pause'} />
-        </button>
-      </div>
+      <button
+        type="button"
+        className="mast__pause"
+        aria-pressed={paused}
+        aria-label={paused ? 'Play hero animation' : 'Pause hero animation'}
+        hidden={!armed}
+        onClick={() => setPaused((p) => !p)}
+      >
+        <Icon name={paused ? 'play' : 'pause'} />
+      </button>
       <div className="mast__inner">{children}</div>
     </div>
   );
@@ -118,7 +89,7 @@ function Shot({ shot, on, first }: { shot: HeroShot; on: boolean; first: boolean
           width={shot.width}
           height={shot.height}
           alt={shot.alt}
-          aria-hidden={!on}
+        aria-hidden={!on}
           loading={first ? 'eager' : 'lazy'}
           decoding={first ? 'sync' : 'async'}
         />
@@ -126,8 +97,8 @@ function Shot({ shot, on, first }: { shot: HeroShot; on: boolean; first: boolean
           className="shot__track"
           viewBox={`0 0 ${shot.width} ${shot.height}`}
           preserveAspectRatio="xMidYMid slice"
-          aria-hidden="true"
-        >
+        aria-hidden="true"
+      >
           <g style={{ '--i': 0 } as React.CSSProperties}>
             <rect className="track__outline track__fade" x={t.box.x} y={t.box.y} width={t.box.w} height={t.box.h} />
             <path className="track__box" pathLength={1} d={t.brackets} />

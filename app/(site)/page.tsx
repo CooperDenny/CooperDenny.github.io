@@ -9,7 +9,6 @@ import {
   education,
   experience,
   featuredProject,
-  heroCharts,
   heroShots,
   profile,
   projects,
@@ -21,7 +20,7 @@ import {
 export default function Home() {
   return (
     <>
-      <Hero profile={profile} shots={heroShots} charts={heroCharts} />
+      <Hero profile={profile} shots={heroShots} />
       <Experience jobs={experience} />
       <Projects featured={featuredProject} projects={projects} earlier={earlierProjects} />
       <Skills groups={skills} />

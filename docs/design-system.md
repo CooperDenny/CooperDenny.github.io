@@ -25,13 +25,13 @@
 2. **Mobile first.** Base styles are for a phone; `min-width` media queries add the larger layouts.
 3. **Evidence first.** Layout decisions serve one goal: a recruiter sees the important things before they leave ([decision D06](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
 4. **Accessible by default.** AA contrast, 44px touch targets, keyboard-operable, respects reduced motion, and a pause button for anything that moves for more than five seconds.
-5. **Cricket, not costume.** The sport shows up in the details (a ball, a seam, a crease, the hero's photos and charts), never as slang or fake scores.
+5. **Cricket, not costume.** The sport shows up in the details (a ball, a seam, a crease, the hero's photos), never as slang or fake scores.
 
 ---
 
 ## Design tokens
 
-All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They're loaded by the Next.js app (`@import` at the top of `app/globals.css`) and by every project page (`<link href="/tokens.css">`), so the whole site has exactly one palette. The hero's canvas charts read their colours from the same tokens at runtime (`readPalette()` in `lib/charts/draw.ts`).
+All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They're loaded by the Next.js app (`@import` at the top of `app/globals.css`) and by every project page (`<link href="/tokens.css">`), so the whole site has exactly one palette.
 
 ### Colour
 
@@ -39,7 +39,7 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 |---|---|---|
 | `--bg` | `#fbfcfa` | Page background: a cool flannel white, never cream |
 | `--bg-alt` | `#f1f4ef` | Alternating section background |
-| `--surface` | `#ffffff` | Cards, the chart console |
+| `--surface` | `#ffffff` | Cards |
 | `--surface-2` | `#eaefe7` | Chips, metric rows, raised areas inside cards |
 | `--border` / `--border-strong` | `#dbe2d8` / `#c3cdc0` | Decorative borders and rules only |
 | `--control-line` | `#7a877c` | Ghost-button and toggle edges (3:1 or more on every surface) |
@@ -52,11 +52,11 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 | `--accent-soft` | `rgba(22, 48, 92, 0.08)` | Tinted backgrounds (badges) |
 | `--focus` | `#0f1f17` | Focus rings |
 | `--ball` / `--ball-shine` / `--ball-shade` | `#b3122b` / `#e0566a` / `#5e0914` | The leather ball. **The only red on the site**: the cricket ball and the footy, nothing else |
+| `--ball-seam` | `#fff3e0` | The stitched seam on the hero's SVG ball (`ui/CricketBall`); decorative only |
 | `--nav-bg` | `rgba(251, 252, 250, 0.88)` | The sticky nav and phone action bar: translucent `--band` |
-| `--hover-tint` | `rgba(15, 31, 23, 0.05)` | Hover wash on ghost buttons, nav links, proof tiles |
+| `--hover-tint` | `rgba(15, 31, 23, 0.05)` | Hover wash on ghost buttons and nav links |
 | `--mow` | `#f2f5ef` | Faint mowing stripes behind project headers; decorative only |
-| `--code-bg` | `#f4f6f2` | Code blocks and the console query |
-| `--sql-keyword` / `--sql-string` / `--sql-number` | `#16305c` / `#8a5300` / `#1d6b46` | Console query highlighting, the console's row count |
+| `--code-bg` | `#f4f6f2` | Code blocks on project pages |
 | `--shadow` / `--shadow-glow` | soft green-grey / navy ring | Card elevation / hover lift |
 
 **The band.** The nav and the hero copy sit on a band that is the same white as the page, so the hero runs into the content:
@@ -65,31 +65,26 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 |---|---|---|
 | `--band` | `#fbfcfa` | Band background (hero, mobile menu sheet) |
 | `--band-text` / `--band-muted` | `#0f1f17` / `#3d4d43` | Text on the band |
-| `--band-accent` / `--band-accent-ink` | `#16305c` / `#ffffff` | Primary buttons, the first proof value, the live dot |
+| `--band-accent` / `--band-accent-ink` | `#16305c` / `#ffffff` | Primary buttons, the live dot |
 | `--band-line` | `rgba(15, 31, 23, 0.12)` | Rules on the band |
 
 On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette.
 
-**The photo and the field.**
+**The photo.**
 
 | Token | Value | Use |
 |---|---|---|
 | `--on-photo` | `#ffffff` | Text and overlay strokes on the hero photos |
 | `--scrim` / `--scrim-soft` | `rgba(9, 20, 40, 0.86)` / `0.42` | Navy scrim over the photos; small text on a photo always sits on solid `--scrim` (a tag) |
-| `--turf` / `--turf-stripe` | `#3b7438` / `#427d3e` | Grass in the chart console |
-| `--on-turf` | `#ffffff` | Lines and labels on the grass |
-| `--pitch` / `--pitch-stripe` | `#d6c18d` / `#ccb57f` | The pitch strip |
-
-`--accent` never goes on turf (2.3:1).
 
 ### Type, shape, motion and layout
 
 | Token | Value | Use |
 |---|---|---|
-| `--font-display` | Barlow Condensed (700–900), then Arial Narrow | `h1`, `h2`, the brand, proof and metric values; always upper case |
+| `--font-display` | Barlow Condensed (700–900), then Arial Narrow | `h1`, `h2`, the brand and metric values; always upper case |
 | `--font-sans` | Barlow (400–700), then system UI fonts | All other text |
-| `--font-mono` | IBM Plex Mono (500–600), then system monospace | Labels, dates, chips, stack lists, code and the console |
-| `--radius` / `--radius-sm` / `--radius-lg` | `12px` / `6px` / `20px` | Cards / small elements / the desktop console |
+| `--font-mono` | IBM Plex Mono (500–600), then system monospace | Labels, dates, chips, stack lists and code |
+| `--radius` / `--radius-sm` | `12px` / `6px` | Cards / small elements |
 | `--radius-pill` | `999px` | Buttons, chips and tags are always full pills |
 | `--ease-out` / `--ease-ball` | cubic-béziers | General easing / a ball decelerating |
 | `--dur-fast` / `--dur` | `160ms` / `280ms` | Colour changes / movement |
@@ -116,12 +111,9 @@ Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's us
 
 | Pair | Ratio |
 |---|---|
-| `--on-turf` on `--turf-stripe` (chart labels) | 4.96:1 |
 | `--text-faint` on `--surface-2` | 4.90:1 |
 | `--text-faint` on `--bg-alt` | 5.15:1 |
 | `--text-faint` on `--code-bg` | 5.25:1 |
-| `--sql-string` on `--code-bg` | 5.82:1 |
-| `--sql-number` on `--code-bg` | 5.95:1 |
 | `--text-muted` on `--surface-2` | 7.69:1 |
 | `--accent-ink` on `--accent-strong` (button hover) | 9.30:1 |
 | `--accent` on `--surface-2` | 11.17:1 |
@@ -144,9 +136,9 @@ If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface`, `--
 
 | Breakpoint | Meaning | Typical changes |
 |---|---|---|
-| base (< 600px) | Phones | 214px photo masthead, single column, 2×2 proof strip, console after the proof, hamburger menu, sticky action bar |
-| `min-width: 600px` | Large phones, small tablets | 380px masthead with the tracking tags and HUD, 4-up proof strip, two-column project grid |
-| `min-width: 861px` | Desktop | Masthead up to 640px, copy and console side by side with the console stepping up onto the photo, inline nav, 3-column grid, sticky bar hidden |
+| base (< 600px) | Phones | 214px photo masthead, single column, hamburger menu, sticky action bar |
+| `min-width: 600px` | Large phones, small tablets | 380px masthead with the tracking tags, two-column project grid |
+| `min-width: 861px` | Desktop | Masthead up to 640px, headline beside the pitch and actions, inline nav, 3-column grid, sticky bar hidden |
 
 One component-specific exception: on project pages, the nav's "Projects" label collapses to its arrow icon below 420px, so the nav fits a 320px screen.
 
@@ -158,21 +150,22 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 - **PlayHQ's type family.** Barlow for text and Barlow Condensed for display, the family PlayHQ's participant portal uses; IBM Plex Mono for data. All three come from Google Fonts via `<link>`; the URL is in `config/site.json` ([D05](decisions.md#d05-fonts-load-via-link-icons-are-inline-svg), [D26](decisions.md#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero)). PlayHQ's paid display face (Athletics) is not used.
 - Display type (`h1`, `h2`, the brand, big numbers) is Barlow Condensed, upper case, weight 800–900, tight line height. Numbers use `tabular-nums`.
-- Small labels (`.eyebrow`, `.kicker`, dates, chips, stack lists, skill groups) are IBM Plex Mono, upper case where they're labels, letter-spaced 0.12em.
+- Small labels (dates, chips, stack lists, skill groups, the hero tags) are IBM Plex Mono, upper case where they're labels, letter-spaced 0.12em.
 - Headings use `text-wrap: balance`, and paragraphs `text-wrap: pretty`, to avoid orphans.
-- **Code ligatures are off** in code blocks and the console, so R's `<-` and `%>%` show as typed.
+- **Code ligatures are off** in code blocks, so R's `<-` and `%>%` show as typed.
 
 ---
 
 ## The hero
 
-The home hero is three pieces (`components/home/Hero.tsx`):
+The home hero is two pieces (`components/home/Hero.tsx`), kept deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections)):
 
-1. **The masthead** (`HeroMast`, client). Cooper's own match photos crossfade behind the name every 7s and drift slowly. Each photo carries a tracking overlay drawn in SVG over the `<img>`: corner brackets and a white tag **on Cooper only** (never another player), and a ball reticle. The SVG uses `preserveAspectRatio="xMidYMid slice"`, matching the image's `object-fit: cover`, so the overlay stays on him at any crop. `--tag-k` keeps the tags a constant on-screen size. A photo whose subject sits left of centre is marked `push`, which frames it so he clears the name. Below 600px the tags and HUD hide. The pause button stops the crossfade, drift, HUD and the chart console together (WCAG 2.2.2).
-2. **The copy**: headline, pitch, the CV / Email / LinkedIn / GitHub actions, proof tiles and core stack, on the white band.
-3. **The chart console** (`ChartConsole`, client). A SQL query types itself, then a canvas chart fills: a Test-match pitch map, a wagon wheel, and an AFL disposal heatmap (FootyStatsApp's field model). → cycles them; clicking the field adds a ball, shot or disposal. The data is **simulated and labelled illustrative**. The engine is plain TypeScript in `lib/charts/` (`scenes.ts`, `runner.ts`, `draw.ts`): it caps the canvas at 2× DPR, pauses off-screen and in background tabs, and draws a still, filled chart under reduced motion.
+1. **The masthead** (`HeroMast`, client). Cooper's own match photos crossfade behind the name every 7s and drift slowly. Each photo carries a tracking overlay drawn in SVG over the `<img>`: corner brackets and a white tag **on Cooper only** (never another player), and a ball reticle. The SVG uses `preserveAspectRatio="xMidYMid slice"`, matching the image's `object-fit: cover`, so the overlay stays on him at any crop. `--tag-k` keeps the tags a constant on-screen size. A photo whose subject sits left of centre is marked `push`, which frames it so he clears the name. Below 600px the tags hide. The name's second line carries the delivery underline: a white rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. The pause button stops the crossfade and drift (WCAG 2.2.2).
+2. **The copy**: headline, pitch and the CV / Email / LinkedIn / GitHub actions, on the white band; on desktop the headline sits beside the pitch and actions.
 
-Photos and charts are data in `content/profile.ts` (`heroShots`, `heroCharts`); see [Editing content](editing-content.md#the-hero-photos-and-charts).
+There is no chart console, HUD, proof strip or core-stack line any more (D28).
+
+The photos are data in `content/profile.ts` (`heroShots`); see [Editing content](editing-content.md#the-hero-photos).
 
 ---
 
@@ -186,14 +179,11 @@ Home-page and CV styles live in `app/globals.css`, in BEM-style blocks (`.block_
 | `.chips` / `.chip` (+ `--lg`) | `ui/Chips` | Mono tag lists |
 | `.bullets` | `ui/Bullets` | Navy ball bullets |
 | `.card` | — | Surface, border, radius, shadow |
-| `.section` (+ `--alt`) | `ui/Section` | `.section__header` ends in **the crease**: a hairline with one short tick |
-| `.eyebrow`, `.kicker` | — | Mono labels; the eyebrow has a short navy rule before it |
+| `.section` (+ `--alt`) | `ui/Section` | One heading, no label above it; `.section__header` ends in **the crease**: a hairline with one short tick |
 | `.mast`, `.shot`, `.track__*` | HeroMast | Photo masthead, crossfade, tracking overlay |
 | `.tag` (+ `--ghost`), `.live` | Hero | Broadcast tags over the photo (solid fills); the breathing navy dot |
-| `.delivery` | Hero | The name's underline: a rule that draws as the ball rolls to its end |
-| `.console` | ChartConsole | Query, canvas stage, status line |
-| `.proof` | Hero | The scoreboard: ruled 2×2 / 4-up strip, display numbers, first value navy |
-| `.metrics`, `.disclosure` | FeaturedProjectCard | Metric rows (label, bar for percentages, value) and `<details>` panel |
+| `.delivery` | Hero + `ui/CricketBall` | The name's underline: a rule that draws as the SVG ball rolls to rest just past its end |
+| `.metrics` | FeaturedProjectCard | Metric rows (label, bar for percentages, value) |
 | `.project` (+ `::before` / `::after`) | ProjectCard | **The seam**: a stitched navy line draws across the top on hover, the ball riding it; the whole card is a link |
 | `.job__logo` (+ `--wide`) | `ui/Logo` | White logo tile |
 | `.mobile-cta` (+ `--shown`) | MobileCta | Fixed bottom bar on phones; reserves `env(safe-area-inset-bottom)` |
@@ -206,9 +196,9 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 ## Motion
 
 - CSS animates **transform and opacity of decoration only**, and plays on first paint. Text never waits on JavaScript or an animation to appear ([D08](decisions.md#d08-no-scroll-triggered-reveal-animations)): the name rises from an offset, never from invisible.
-- Without JavaScript the masthead shows the first photo, fully tagged, and nothing moves; the console shows its query over an empty field.
-- Anything that moves for more than five seconds (the crossfade, drift, HUD and charts) stops with the hero's pause button.
-- `prefers-reduced-motion: reduce` lands every animation on its final frame, hides the pause button, and draws the charts as still, filled frames.
+- Without JavaScript the masthead shows the first photo, fully tagged, and nothing moves; the ball is at rest.
+- Anything that moves for more than five seconds (the crossfade and drift) stops with the hero's pause button.
+- `prefers-reduced-motion: reduce` lands every animation on its final frame, and hides the pause button.
 
 ---
 
@@ -217,11 +207,11 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 | Standard | How it's met |
 |---|---|
 | Contrast ≥ 4.5:1 | Token palette checked ([table above](#contrast)) |
-| Touch targets ≥ 44px | `--tap` on every button, nav link, menu toggle, the pause and → buttons; whole project cards are links |
+| Touch targets ≥ 44px | `--tap` on every button, nav link, menu toggle, the pause button; whole project cards are links |
 | Keyboard | Everything is a real `<a>` or `<button>`; visible `:focus-visible` outline (white on the photo); Escape closes the mobile menu |
 | Pause, stop, hide | The hero's pause button (`aria-pressed`) stops all hero motion |
 | Skip link | "Skip to content" is the first focusable element on every page with a nav; `/links/` has none |
-| Screen readers | Photos have alt text; the tracking overlay, HUD and query are `aria-hidden`; the console canvas is `role="img"` with a label; icon-only buttons have `aria-label`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
+| Screen readers | Photos have alt text; the tracking overlay and the delivery ball are `aria-hidden`; icon-only buttons have `aria-label`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
 | Reduced motion | See [Motion](#motion) |
 | Works without JavaScript | No content is hidden until scripts run ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)) |
 | Zoom / text size | Relative units for type; no fixed-height text containers |

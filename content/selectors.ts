@@ -4,7 +4,6 @@ import { dateRange, listSentence } from '@/lib/format';
 import { waHref } from '@/lib/links';
 import type {
   ContactChannel,
-  ChartView,
   ContactLinks,
   FeaturedProject,
   HeroShot,
@@ -58,6 +57,11 @@ export const previousRoles = (job: Job) => job.roles.slice(1);
 /** Whole time at the company: first role's start to current role's end. */
 export const tenure = (job: Job) => dateRange(job.roles[job.roles.length - 1].start, currentRole(job).end);
 
+/** Bullets per job on the home page; the CV lists every one. */
+export const HOME_HIGHLIGHTS = 3;
+/** A job's leading highlights for the home page (put the strongest first in profile.ts). */
+export const homeHighlights = (job: Job) => job.highlights.slice(0, HOME_HIGHLIGHTS);
+
 /** Metrics shown on the home-page featured card (the CV lists them all). */
 export const cardMetrics = (p: FeaturedProject) => p.metrics.filter((m) => m.onCard);
 
@@ -106,30 +110,9 @@ export function trackOverlay(shot: HeroShot) {
   };
 }
 
-/** A piece of highlighted SQL: `k` keyword, `s` string, `n` number, none for plain text. */
-export type SqlToken = { text: string; kind?: 'k' | 's' | 'n' };
-
-/** Splits a hero-console query into highlighted tokens. */
-export function sqlTokens(sql: string): SqlToken[] {
-  const re = /('[^']*')|\b(SELECT|FROM|WHERE|GROUP BY|ORDER BY|AS|COUNT)\b|\b(\d+)\b/g;
-  const out: SqlToken[] = [];
-  let last = 0;
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(sql))) {
-    if (m.index > last) out.push({ text: sql.slice(last, m.index) });
-    out.push({ text: m[0], kind: m[1] ? 's' : m[2] ? 'k' : 'n' });
-    last = m.index + m[0].length;
-  }
-  if (last < sql.length) out.push({ text: sql.slice(last) });
-  return out;
-}
-
 /** The hero name set on two lines: first name, then the rest (which carries the delivery underline). */
 export function nameLines(name: string): [string, string] {
   const [first, ...rest] = name.split(' ');
   return [first, rest.join(' ')];
 }
 
-/** Accessible name for the hero chart console. */
-export const chartsLabel = (views: ChartView[]) =>
-  `Live charts: ${listSentence(views.map((v) => v.label))} (illustrative data)`;
