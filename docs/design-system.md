@@ -24,8 +24,8 @@
 1. **Tokens, not values.** Components never hard-code a colour, font or spacing value; they use a `var(--token)` from [`public/tokens.css`](../public/tokens.css). The deliberate exceptions are listed under [Deliberate fixed colours](#deliberate-fixed-colours).
 2. **Mobile first.** Base styles are for a phone; `min-width` media queries add the larger layouts.
 3. **Evidence first.** Layout decisions serve one goal: a recruiter sees the important things before they leave ([decision D06](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
-4. **Accessible by default.** AA contrast, 44px touch targets, keyboard-operable, respects reduced motion, and a pause button for anything that moves for more than five seconds.
-5. **Cricket, not costume.** The sport shows up in the details (a ball, a seam, a crease, the hero's photos), never as slang or fake scores.
+4. **Accessible by default.** AA contrast, 44px touch targets, keyboard-operable, respects reduced motion, and nothing moves for more than five seconds (so nothing needs a pause button).
+5. **Cricket, not costume.** The sport shows up in the details (a ball, a seam, a crease, the delivery underline), never as slang or fake scores.
 
 ---
 
@@ -70,13 +70,6 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 
 On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette.
 
-**The photo.**
-
-| Token | Value | Use |
-|---|---|---|
-| `--on-photo` | `#ffffff` | Text and overlay strokes on the hero photos |
-| `--scrim` / `--scrim-soft` | `rgba(9, 20, 40, 0.86)` / `0.42` | Navy scrim over the photos; small text on a photo always sits on solid `--scrim` (a tag) |
-
 ### Type, shape, motion and layout
 
 | Token | Value | Use |
@@ -118,7 +111,7 @@ Every text colour meets **WCAG AA (≥ 4.5:1)** against every background it's us
 | `--accent-ink` on `--accent-strong` (button hover) | 9.30:1 |
 | `--accent` on `--surface-2` | 11.17:1 |
 
-On the photo, white text sits on solid `--scrim` tags (18:1), and the name is large display type over the scrim gradient. Non-text edges: `--control-line` is 3.39:1 on `--bg-alt` and 3.76:1 on `--surface`.
+Non-text edges: `--control-line` is 3.39:1 on `--bg-alt` and 3.76:1 on `--surface`.
 
 If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface`, `--surface-2` and `--code-bg`, for example with the [WebAIM contrast checker](https://webaim.org/resources/contrastchecker/).
 
@@ -128,7 +121,6 @@ If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface`, `--
 |---|---|
 | The ball: `--ball-*` | Red is reserved for the leather ball so it stays special |
 | Report plots (`.cd-report .section img`): white background | ggplot output has a white background baked in |
-| Small white-alpha strokes on the photo (`rgba(255, 255, 255, …)`) | Hairlines on a photograph, never text |
 
 ---
 
@@ -136,9 +128,9 @@ If you change a colour, re-check it against `--bg`, `--bg-alt`, `--surface`, `--
 
 | Breakpoint | Meaning | Typical changes |
 |---|---|---|
-| base (< 600px) | Phones | 214px photo masthead, single column, hamburger menu, sticky action bar |
-| `min-width: 600px` | Large phones, small tablets | 380px masthead with the tracking tags, two-column project grid |
-| `min-width: 861px` | Desktop | Masthead up to 640px, headline beside the pitch and actions, inline nav, 3-column grid, sticky bar hidden |
+| base (< 600px) | Phones | 104px round photo above the copy, single column, hamburger menu, sticky action bar |
+| `min-width: 600px` | Large phones, small tablets | 136px photo, two-column project grid |
+| `min-width: 861px` | Desktop | 300px photo beside the copy, inline nav, 3-column grid, sticky bar hidden |
 
 One component-specific exception: on project pages, the nav's "Projects" label collapses to its arrow icon below 420px, so the nav fits a 320px screen.
 
@@ -158,14 +150,13 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 ## The hero
 
-The home hero is two pieces (`components/home/Hero.tsx`), kept deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections)):
+The home hero (`components/home/Hero.tsx`) is server-rendered and deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections), [D29](decisions.md#d29-the-hero-is-a-profile-picture-not-match-photos)), all on the white band:
 
-1. **The masthead** (`HeroMast`, client). Cooper's own match photos crossfade behind the name every 7s and drift slowly. Each photo carries a tracking overlay drawn in SVG over the `<img>`: corner brackets and a white tag **on Cooper only** (never another player), and a ball reticle. The SVG uses `preserveAspectRatio="xMidYMid slice"`, matching the image's `object-fit: cover`, so the overlay stays on him at any crop. `--tag-k` keeps the tags a constant on-screen size. A photo whose subject sits left of centre is marked `push`, which frames it so he clears the name. Below 600px the tags hide. The name's second line carries the delivery underline: a white rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. The pause button stops the crossfade and drift (WCAG 2.2.2).
-2. **The copy**: headline, pitch and the CV / Email / LinkedIn / GitHub actions, on the white band; on desktop the headline sits beside the pitch and actions.
+1. **The profile picture** (`profile.portrait`, the 480px `hero-image.webp`): a round crop with a white gap and a navy `--band-accent` ring. On phones it sits above the copy at 104px (136px from 600px); on desktop it is 300px, beside the copy.
+2. **The copy**: the role and location tags (a navy pill and an outlined one), the name in display type, the headline, the pitch and the CV / Email / LinkedIn / GitHub actions.
+3. **The delivery underline**: the name's second line carries a navy rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. It plays once, in under two seconds, so the hero needs no pause button.
 
-There is no chart console, HUD, proof strip or core-stack line any more (D28).
-
-The photos are data in `content/profile.ts` (`heroShots`); see [Editing content](editing-content.md#the-hero-photos).
+There is no photo masthead, tracking overlay, chart console, HUD, proof strip or core-stack line any more (D28, D29). The portrait is data in `content/profile.ts`; see [Editing content](editing-content.md#the-profile-picture).
 
 ---
 
@@ -180,8 +171,8 @@ Home-page and CV styles live in `app/globals.css`, in BEM-style blocks (`.block_
 | `.bullets` | `ui/Bullets` | Navy ball bullets |
 | `.card` | — | Surface, border, radius, shadow |
 | `.section` (+ `--alt`) | `ui/Section` | One heading, no label above it; `.section__header` ends in **the crease**: a hairline with one short tick |
-| `.mast`, `.shot`, `.track__*` | HeroMast | Photo masthead, crossfade, tracking overlay |
-| `.tag` (+ `--ghost`), `.live` | Hero | Broadcast tags over the photo (solid fills); the breathing navy dot |
+| `.hero__photo` | Hero | The round profile picture with its navy ring |
+| `.tag` (+ `--ghost`), `.live` | Hero | Role and location tags: a navy pill and an outlined one; the breathing dot |
 | `.delivery` | Hero + `ui/CricketBall` | The name's underline: a rule that draws as the SVG ball rolls to rest just past its end |
 | `.metrics` | FeaturedProjectCard | Metric rows (label, bar for percentages, value) |
 | `.project` (+ `::before` / `::after`) | ProjectCard | **The seam**: a stitched navy line draws across the top on hover, the ball riding it; the whole card is a link |
@@ -196,9 +187,9 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 ## Motion
 
 - CSS animates **transform and opacity of decoration only**, and plays on first paint. Text never waits on JavaScript or an animation to appear ([D08](decisions.md#d08-no-scroll-triggered-reveal-animations)): the name rises from an offset, never from invisible.
-- Without JavaScript the masthead shows the first photo, fully tagged, and nothing moves; the ball is at rest.
-- Anything that moves for more than five seconds (the crossfade and drift) stops with the hero's pause button.
-- `prefers-reduced-motion: reduce` lands every animation on its final frame, and hides the pause button.
+- The hero needs no JavaScript at all: its only motion is CSS that plays once on load (the name rising, the ball rolling in).
+- Nothing moves for more than five seconds, so there is no pause button. Anything added that does must come with one (WCAG 2.2.2).
+- `prefers-reduced-motion: reduce` lands every animation on its final frame.
 
 ---
 
@@ -207,11 +198,11 @@ Project pages use the same vocabulary with a `cd-` prefix (`.cd-btn`, `.cd-chips
 | Standard | How it's met |
 |---|---|
 | Contrast ≥ 4.5:1 | Token palette checked ([table above](#contrast)) |
-| Touch targets ≥ 44px | `--tap` on every button, nav link, menu toggle, the pause button; whole project cards are links |
-| Keyboard | Everything is a real `<a>` or `<button>`; visible `:focus-visible` outline (white on the photo); Escape closes the mobile menu |
-| Pause, stop, hide | The hero's pause button (`aria-pressed`) stops all hero motion |
+| Touch targets ≥ 44px | `--tap` on every button, nav link, menu toggle; whole project cards are links |
+| Keyboard | Everything is a real `<a>` or `<button>`; visible `:focus-visible` outline; Escape closes the mobile menu |
+| Pause, stop, hide | Nothing moves for more than five seconds, so no control is needed |
 | Skip link | "Skip to content" is the first focusable element on every page with a nav; `/links/` has none |
-| Screen readers | Photos have alt text; the tracking overlay and the delivery ball are `aria-hidden`; icon-only buttons have `aria-label`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
+| Screen readers | The profile picture has alt text; the delivery ball is `aria-hidden`; icon-only buttons have `aria-label`; the hidden sticky bar is `aria-hidden` with `tabindex="-1"` |
 | Reduced motion | See [Motion](#motion) |
 | Works without JavaScript | No content is hidden until scripts run ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)) |
 | Zoom / text size | Relative units for type; no fixed-height text containers |

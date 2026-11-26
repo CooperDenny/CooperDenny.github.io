@@ -16,7 +16,7 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 - [Education](#education)
 - [Contact details](#contact-details)
 - [Section headings and navigation](#section-headings-and-navigation)
-- [The hero photos](#the-hero-photos)
+- [The profile picture](#the-profile-picture)
 - [The CV](#the-cv)
 - [Site settings: URL, analytics, fonts](#site-settings-url-analytics-fonts)
 - [Checklist before you push](#checklist-before-you-push)
@@ -243,17 +243,9 @@ The nav menu is generated from this list, in this order. Changing an `id` update
 
 **It must print on at most two A4 pages** ([D22](decisions.md#d22-the-résumé-is-two-pages), [D27](decisions.md#d27-the-résumé-is-called-a-cv)). Page one should carry the summary, experience and the featured project; entries never split across the break. After adding content, open `/cv/`, choose **Save as PDF**, and check the page count and where the break falls. To check from the command line, use the Playwright snippet in [Development → Checking the CV](development.md#checking-the-cvs-page-count).
 
-## The hero photos
+## The profile picture
 
-`heroShots` in [`content/profile.ts`](../content/profile.ts) crossfade behind your name, in list order. Each needs:
-
-- `src` (2000px wide WebP) and `srcSmall` (a 1000px copy for phones), in `public/images/`. Export them with EXIF stripped; keep each under about 200 KB.
-- `alt`: what the photo shows.
-- `subject`: the tracking box round **you**, in the photo's own pixels (`x`, `y`, `w`, `h`), and its `tag`, e.g. `'BOWLER · DENNY'`. **Only ever box or tag yourself, never another player.**
-- `ball`: where the ball is, for the reticle.
-- `push: true` if you're left of centre: it frames the photo so you clear the name.
-
-Find the coordinates by opening the 2000px photo in any image editor and reading the pixel positions. Then check the home page at 390px and desktop: the box should sit on you at both crops.
+`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src`, `width` and `height`. It's `/images/hero-image.webp`, a 480px square WebP, so it's sharp at its largest size (300px on desktop) and at most 2× that size, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change it, export a square WebP of about 480–600px with EXIF stripped, keep it under about 40 KB, and update the three fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
 
 ## Site settings: URL, analytics, fonts
 

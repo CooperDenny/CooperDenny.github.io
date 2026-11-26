@@ -82,7 +82,7 @@ If you're about to type a fact a second time, it already has a home:
 
 | Fact | Single source | Read by |
 |---|---|---|
-| Home/CV copy and hero photos | `content/profile.ts` | Next |
+| Home/CV copy and the hero's profile picture | `content/profile.ts` | Next |
 | Name, role, employer, location | `content/identity.json` | Next, generator |
 | Project pages: slug, title, teaser, order | `content/projects.json` | Next (cards, sitemap), generator |
 | Project-page copy | `scripts/project_pages/content.py` | generator |
@@ -122,7 +122,7 @@ function JobCard({ job }: { job: Job }) {
 }
 ```
 
-Data shaping (tenure, contact channels, CV entries, the hero's tracking overlay and SQL highlighting) lives in `content/selectors.ts`, not in JSX. The same rule applies to the generator: `ReportPage._pipeline()` lists *what* happens to a report, and each `Transform` class holds *how*.
+Data shaping (tenure, contact channels, CV entries, the hero's name lines) lives in `content/selectors.ts`, not in JSX. The same rule applies to the generator: `ReportPage._pipeline()` lists *what* happens to a report, and each `Transform` class holds *how*.
 
 ### Rule 4: Extend with data or new classes, not edits (open/closed)
 
@@ -166,14 +166,13 @@ The site is server-rendered HTML; JavaScript only adds behaviour.
 
 | Code | Runs | Does |
 |---|---|---|
-| `HeroMast` (`'use client'`) | Home | Crossfades the hero photos, sizes the tracking tags (`--tag-k`), and owns the pause button |
 | `Navbar` (`'use client'`) | Home, CV | Mobile menu open/close (and Escape key); border once scrolled |
 | `MobileCta` (`'use client'`) | Home, CV | Shows the sticky CV/Email bar between the hero and Contact on phones |
 | `PrintButton` (`'use client'`) | CV | Calls `window.print()` |
 | Google Analytics | Every page | Page-view analytics |
 | knitr's bundled jQuery/DataTables | The three report pages | Interactive tables |
 
-Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)). With JavaScript off, every page still shows everything: the hero shows its first photo, fully tagged.
+Nothing hides content until JavaScript runs ([decision D08](decisions.md#d08-no-scroll-triggered-reveal-animations)). With JavaScript off, every page still shows everything; the hero has no JavaScript at all.
 
 ---
 
@@ -203,8 +202,7 @@ components/
     Section.tsx                  <section> + heading from a SectionDef (also exports SectionHeading)
     CricketBall.tsx              The SVG ball at the end of the hero's delivery underline
   home/                          The home page's sections
-    Hero.tsx                     Masthead, name, headline, pitch, CTAs
-    HeroMast.tsx                 Photo masthead: crossfade, tracking overlay, pause ('use client')
+    Hero.tsx                     Profile picture, name, headline, pitch, CTAs (server-rendered)
     Experience.tsx               Job cards with promotion lines (first three highlights; the CV has all)
     Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid + ProjectLinkList.tsx
     Skills.tsx · Education.tsx · Contact.tsx
@@ -220,8 +218,8 @@ components/
 
 content/
   types.ts                       Domain model (types only)
-  profile.ts                     Home/CV data and hero photos (heroShots)
-  selectors.ts                   Derived views: contact channels, link-in-bio links, tenure, homeHighlights(), CV entries, trackOverlay(), nameLines()
+  profile.ts                     Home/CV data, including the hero's portrait
+  selectors.ts                   Derived views: contact channels, link-in-bio links, tenure, homeHighlights(), CV entries, nameLines()
   sections.ts                    Section definitions, nav items, anchor(), HERO_ACTIONS_ID, CV_HREF
   catalog.ts · projects.json     Project-page catalog (shared with the generator)
   icons.ts · icons.json          Icon set (shared with the generator)
@@ -235,12 +233,11 @@ lib/
   format.ts                      dateRange(), listSentence(), cx()
   links.ts                       isExternal(), externalAttrs(), waHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
-  motion/                        reducedMotion.ts
 
 public/
   tokens.css                     Design tokens
   favicon.svg · .nojekyll        Icon · stops GitHub Pages running Jekyll over _next/
-  images/                        Hero match photos (2000px + 1000px WebP), /links/ avatar, logos, PNG for social previews
+  images/                        Hero profile picture (480px WebP), /links/ avatar, logos, PNG for social previews
   resume/index.html              Redirects the old /resume/ URL to /cv/ (D27)
   projects/
     site.css                     Shared project-page chrome (cd- prefixed)

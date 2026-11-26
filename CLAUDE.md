@@ -37,7 +37,7 @@ Instructions for AI coding agents working in this repository. Humans: start with
 **Design** ([design system](docs/design-system.md))
 - Colours only via tokens; every new colour must meet WCAG AA (4.5:1) against the backgrounds it sits on.
 - One light theme ("Test match day"): no dark mode, theme switch or theme script ([D26](docs/decisions.md#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero)). On the hero/nav band, use `--band-*` tokens, never `--accent`. Red is only ever the ball.
-- Hero photos: box and tag Cooper only, never another player. Hero motion must stop with the pause button and land still under reduced motion.
+- The hero is Cooper's profile picture beside his name, with no photo masthead ([D29](docs/decisions.md#d29-the-hero-is-a-profile-picture-not-match-photos)). Hero motion plays once, in under five seconds, and lands still under reduced motion; anything longer needs a pause button.
 - Mobile-first: base styles for phones, `min-width` at 600px and 861px. No horizontal scroll from 320px to 1440px. Touch targets ≥ 44px (`--tap`).
 - Never hide content until JavaScript runs (no scroll-reveal) ([D08](docs/decisions.md#d08-no-scroll-triggered-reveal-animations)).
 - The home page's first phone screen must keep: name, headline, pitch, CTAs ([D06](docs/decisions.md#d06-the-home-page-is-designed-against-drop-off), [D28](docs/decisions.md#d28-a-quieter-hero-and-shorter-sections)).

@@ -100,4 +100,4 @@ A file-by-file map is in [docs/architecture.md](docs/architecture.md#directory-m
 
 ## Credits
 
-Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Barlow, Barlow Condensed](https://fonts.google.com/specimen/Barlow) and [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono), served by Google Fonts. The hero photos are Cooper's own.
+Icons are from [Font Awesome Free](https://fontawesome.com/) 6.5.2, licensed [CC BY 4.0](https://fontawesome.com/license/free); their SVG paths are stored in [`content/icons.json`](content/icons.json). Fonts are [Barlow, Barlow Condensed](https://fonts.google.com/specimen/Barlow) and [IBM Plex Mono](https://fonts.google.com/specimen/IBM+Plex+Mono), served by Google Fonts. The profile picture is Cooper's own.

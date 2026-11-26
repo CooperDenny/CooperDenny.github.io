@@ -429,8 +429,8 @@ h2 {
 }
 
 /* ---------- Hero ----------
-   Cooper's match photos (the masthead) behind his name, then the headline, pitch and actions
-   on the white band. The phone masthead is short so the first screen holds all of it (D06, D28). */
+   Cooper's profile picture, then his name, headline, pitch and actions on the white band.
+   Phones stack them so the first screen holds all of it (D06, D29); desktop puts the photo beside the copy. */
 
 .hero {
   position: relative;
@@ -440,18 +440,30 @@ h2 {
 .hero__inner {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 16px var(--gutter) 36px;
+  padding: 24px var(--gutter) 36px;
   display: grid;
-  gap: 10px;
+  gap: 18px;
   border-bottom: 1px solid var(--band-line);
+}
+
+/* The profile picture: a round crop with a navy ring standing off a white gap. */
+.hero__photo {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--surface-2);
+  border: 4px solid var(--band);
+  box-shadow:
+    0 0 0 2px var(--band-accent),
+    var(--shadow);
 }
 
 .hero__name {
   font-size: 4rem;
   line-height: 0.84;
   font-weight: 900;
-  color: var(--on-photo);
-  text-shadow: 0 2px 28px rgba(9, 20, 40, 0.45);
+  color: var(--band-text);
 }
 .hero__name-line {
   display: block;
@@ -465,7 +477,7 @@ h2 {
   display: inline-block;
 }
 
-/* The delivery underline: a rule that draws as the ball rolls to rest just past its end (a nod to the EPCC hero). */
+/* The delivery underline: a navy rule that draws as the ball rolls to rest just past its end. */
 .delivery {
   position: absolute;
   left: 0;
@@ -478,7 +490,7 @@ h2 {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-pill);
-  background: var(--on-photo);
+  background: var(--band-accent);
   transform-origin: left center;
   animation: trail 900ms var(--ease-ball) 380ms both;
 }
@@ -489,10 +501,11 @@ h2 {
   width: 22px;
   height: 22px;
   margin-top: -11px;
-  filter: drop-shadow(0 3px 6px rgba(9, 20, 40, 0.45));
+  filter: drop-shadow(0 2px 4px rgba(15, 31, 23, 0.25));
   animation: roll 900ms var(--ease-ball) 380ms both;
 }
-/* Motion only, never opacity: if animations stall (a background tab), the text is still there. */
+/* Motion only, never opacity: if animations stall (a background tab), the text is still there.
+   It all runs once, in under two seconds, so the hero needs no pause button. */
 @keyframes rise {
   from {
     transform: translateY(0.18em);
@@ -518,13 +531,13 @@ h2 {
   }
 }
 
-/* Broadcast tags over the photo: solid fills, so small text never depends on the photo behind it. */
+/* Role and location tags above the name. */
 .hero__eyebrow {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 }
 .tag {
   display: inline-flex;
@@ -533,8 +546,8 @@ h2 {
   min-height: 26px;
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--band-accent);
+  color: var(--band-accent-ink);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   line-height: 16px;
@@ -543,18 +556,20 @@ h2 {
   text-transform: uppercase;
 }
 .tag--ghost {
-  background: var(--scrim);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: var(--band-muted);
+  box-shadow: inset 0 0 0 1px var(--control-line);
 }
 .tag .live {
-  background: var(--on-photo);
+  background: var(--band-accent-ink);
 }
 .tag .live::after {
-  border-color: var(--on-photo);
+  border-color: var(--band-accent-ink);
 }
 
 .hero__headline {
   max-width: 34ch;
+  margin-top: 22px;
   font-size: 1.1875rem;
   line-height: 1.37;
   font-weight: 600;
@@ -562,6 +577,7 @@ h2 {
 }
 .hero__pitch {
   max-width: 60ch;
+  margin-top: 10px;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--band-muted);
@@ -584,207 +600,6 @@ h2 {
   display: none;
 }
 
-/* ---------- Photo masthead ----------
-   The photos are content (they have alt text). The tracking boxes, tags and drift are decoration. */
-
-.mast {
-  position: relative;
-  height: 214px;
-  overflow: hidden;
-  isolation: isolate;
-  color: var(--on-photo);
-  background: var(--scrim);
-}
-.mast::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    linear-gradient(to top, var(--scrim) 0%, var(--scrim-soft) 44%, transparent 74%),
-    linear-gradient(to right, var(--scrim-soft) 0%, transparent 62%),
-    linear-gradient(to bottom, var(--scrim-soft) 0%, transparent 26%);
-}
-.mast :focus-visible {
-  outline-color: var(--on-photo);
-}
-.mast__reel {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-}
-.shot {
-  position: absolute;
-  inset: 0;
-}
-.shot:not(:first-child) {
-  opacity: 0; /* without JS: the first photo only */
-}
-.mast.is-armed .shot {
-  opacity: 0;
-  transition: opacity 1400ms var(--ease-out);
-}
-.mast.is-armed .shot.is-on {
-  opacity: 1;
-}
-.shot__frame {
-  position: absolute;
-  inset: 0;
-  transform-origin: 55% 45%;
-}
-.mast.is-armed .shot__frame {
-  animation: drift 24s ease-in-out infinite alternate;
-}
-.shot__img,
-.shot__track {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-}
-.shot__img {
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-/* --push: the subject sits left of centre. A 130% frame anchored left moves him right, clear of the name. */
-.shot--push .shot__frame {
-  inset: auto;
-  left: 0;
-  top: -30%;
-  width: 130%;
-  height: 130%;
-  transform-origin: 35% 60%;
-}
-@keyframes drift {
-  from {
-    transform: scale(1.02);
-  }
-  to {
-    transform: scale(1.1) translate(-1.2%, -0.8%);
-  }
-}
-
-/* Tracking overlay: corner brackets and a tag on Cooper only (never another player), plus a ball reticle. */
-.track__outline {
-  fill: rgba(255, 255, 255, 0.05);
-  stroke: var(--on-photo);
-  stroke-opacity: 0.35;
-  stroke-width: 1;
-  vector-effect: non-scaling-stroke;
-}
-.track__box {
-  fill: none;
-  stroke: var(--on-photo);
-  stroke-width: 2.5;
-  stroke-linecap: square;
-  vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-.track__mark {
-  transform: scale(var(--tag-k, 1.2));
-  transform-origin: 0 0;
-}
-.track__tag {
-  display: none;
-}
-.track__tag rect {
-  fill: var(--accent);
-}
-.track__tag text {
-  fill: var(--on-photo);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-}
-.track__tag--me rect {
-  fill: var(--on-photo);
-}
-.track__tag--me text {
-  fill: var(--accent);
-}
-.track__ring,
-.track__spin {
-  fill: none;
-  stroke: var(--on-photo);
-  stroke-width: 2;
-  vector-effect: non-scaling-stroke;
-}
-.track__spin {
-  stroke-dasharray: 5 4;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-.track__core {
-  fill: var(--on-photo);
-}
-.mast.is-armed .track__spin {
-  animation: spin 6s linear infinite;
-}
-.mast.is-armed .shot .track__box {
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 760ms var(--ease-out) calc(420ms + var(--i, 0) * 200ms);
-}
-.mast.is-armed .shot .track__fade {
-  opacity: 0;
-  transition: opacity 360ms var(--ease-out) calc(780ms + var(--i, 0) * 200ms);
-}
-.mast.is-armed .shot.is-on .track__box {
-  stroke-dashoffset: 0;
-}
-.mast.is-armed .shot.is-on .track__fade {
-  opacity: 1;
-}
-.mast.is-paused .shot__frame,
-.mast.is-paused .track__spin {
-  animation-play-state: paused;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.mast__inner {
-  position: relative;
-  height: 100%;
-  max-width: var(--container);
-  margin: 0 auto;
-  padding: 0 var(--gutter) 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
-/* The pause button: bottom-right beside the name on phones, top-right from 600px. */
-.mast__pause {
-  position: absolute;
-  bottom: 16px;
-  right: var(--gutter);
-  z-index: 1;
-  width: var(--tap);
-  height: var(--tap);
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: var(--scrim);
-  color: var(--on-photo);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: background-color var(--dur-fast);
-}
-.mast__pause[hidden] {
-  display: none;
-}
-.mast__pause:hover {
-  background: var(--accent);
-}
-
 @media (min-width: 600px) {
   .show-mobile {
     display: none;
@@ -793,8 +608,13 @@ h2 {
     display: inline;
   }
   .hero__inner {
-    padding-top: 32px;
+    padding-top: 40px;
     padding-bottom: 48px;
+    gap: 24px;
+  }
+  .hero__photo {
+    width: 136px;
+    height: 136px;
   }
   .hero__name {
     font-size: 7rem;
@@ -817,55 +637,42 @@ h2 {
     flex: 0 0 auto;
     padding: 0 20px;
   }
-  .mast {
-    height: 380px;
-  }
-  .mast__inner {
-    padding-bottom: 28px;
-  }
-  .mast__pause {
-    top: 12px;
-    bottom: auto;
-  }
-  .track__tag {
-    display: inline;
-  }
 }
 
 @media (min-width: 861px) {
-  /* Desktop: the headline on the left, the pitch and actions beside it. */
+  /* Desktop: the copy on the left, the photo on the right. */
   .hero__inner {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: 56px;
-    align-items: start;
-    padding-top: 44px;
-    padding-bottom: 56px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 64px;
+    align-items: center;
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+  .hero__photo {
+    order: 2;
+    width: 300px;
+    height: 300px;
+    border-width: 8px;
+    box-shadow:
+      0 0 0 3px var(--band-accent),
+      var(--shadow);
   }
   .hero__name {
-    font-size: 9.25rem;
+    font-size: 8.5rem;
   }
   .delivery__ball {
-    width: 36px;
-    height: 36px;
-    margin-top: -18px;
+    width: 34px;
+    height: 34px;
+    margin-top: -17px;
     left: calc(100% + 12px);
   }
   .hero__headline {
-    font-size: 1.75rem;
-    line-height: 1.29;
+    margin-top: 32px;
+    font-size: 1.625rem;
+    line-height: 1.3;
   }
   .hero__ctas {
     margin-top: 24px;
-  }
-  .mast {
-    height: clamp(460px, 62vh, 640px);
-  }
-  .mast__inner {
-    padding-bottom: 40px;
-  }
-  .mast__pause {
-    top: 16px;
-    right: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
   }
 }
 

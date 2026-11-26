@@ -6,7 +6,6 @@ import type {
   ContactChannel,
   ContactLinks,
   FeaturedProject,
-  HeroShot,
   Job,
   Metric,
   Project,
@@ -91,24 +90,6 @@ export function resumeProjects(featured: FeaturedProject, projects: Project[]): 
 
 /** Skill groups for the printed CV (drops groups with `onResume: false`). */
 export const resumeSkills = (groups: SkillGroup[]) => groups.filter((g) => g.onResume !== false);
-
-/** Width of a tracking tag (13px mono caps, 0.1em tracking) holding `text`, in photo pixels. */
-const tagWidth = (text: string) => Math.round(text.length * 9.2 + 18);
-
-/** The drawn parts of a hero photo's tracking overlay: corner brackets round Cooper, his tag, and the ball reticle. */
-export function trackOverlay(shot: HeroShot) {
-  const { x, y, w, h, tag } = shot.subject;
-  const c = Math.round(0.16 * Math.min(w, h));
-  const r = x + w;
-  const b = y + h;
-  const ballTag = 'BALL';
-  return {
-    box: { x, y, w, h },
-    brackets: `M${x} ${y + c}V${y}H${x + c}M${r - c} ${y}H${r}V${y + c}M${r} ${b - c}V${b}H${r - c}M${x + c} ${b}H${x}V${b - c}`,
-    tag: { text: tag, width: tagWidth(tag) },
-    ball: { ...shot.ball, tag: { text: ballTag, width: tagWidth(ballTag) } },
-  };
-}
 
 /** The hero name set on two lines: first name, then the rest (which carries the delivery underline). */
 export function nameLines(name: string): [string, string] {

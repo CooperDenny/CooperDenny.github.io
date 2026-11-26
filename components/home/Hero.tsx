@@ -1,44 +1,52 @@
-import HeroMast from '@/components/home/HeroMast';
 import ActionLink from '@/components/ui/ActionLink';
 import CricketBall from '@/components/ui/CricketBall';
 import { CV_HREF, HERO_ACTIONS_ID } from '@/content/sections';
 import { contactChannel, nameLines } from '@/content/selectors';
-import type { HeroShot, Profile } from '@/content/types';
+import type { Profile } from '@/content/types';
 
-type HeroProfile = Pick<Profile, 'name' | 'role' | 'employer' | 'location' | 'headline' | 'pitch' | 'contact'>;
+type HeroProfile = Pick<
+  Profile,
+  'name' | 'role' | 'employer' | 'location' | 'portrait' | 'headline' | 'pitch' | 'contact'
+>;
 
-type Props = { profile: HeroProfile; shots: HeroShot[] };
-
-// Designed so that on a phone the first screen holds: who (name, role), the headline and pitch,
-// and the two actions that matter (CV, email) (D06, D28). The photo masthead is kept short on phones for that reason.
-export default function Hero({ profile, shots }: Props) {
+// Designed so that on a phone the first screen holds: who (photo, name, role), the headline
+// and pitch, and the two actions that matter (CV, email) (D06, D28, D29).
+export default function Hero({ profile }: { profile: HeroProfile }) {
   const [first, rest] = nameLines(profile.name);
   return (
     <header className="hero">
-      <HeroMast shots={shots}>
-        <p className="hero__eyebrow">
-          <span className="tag">
-            <span className="live" aria-hidden="true" />
-            {profile.role} · {profile.employer}
-          </span>
-          <span className="tag tag--ghost">{profile.location}</span>
-        </p>
-        <h1 className="hero__name">
-          <span className="hero__name-line">{first}</span>
-          <span className="hero__name-line">
-            <span className="hero__name-ball">
-              {rest}
-              <span className="delivery" aria-hidden="true">
-                <span className="delivery__trail" />
-                <CricketBall className="delivery__ball" />
+      <div className="hero__inner">
+        {/* Plain <img>: static export, no next/image optimisation (D01, D04). */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="hero__photo"
+          src={profile.portrait.src}
+          width={profile.portrait.width}
+          height={profile.portrait.height}
+          alt={profile.name}
+          fetchPriority="high"
+        />
+        <div className="hero__copy">
+          <p className="hero__eyebrow">
+            <span className="tag">
+              <span className="live" aria-hidden="true" />
+              {profile.role} · {profile.employer}
+            </span>
+            <span className="tag tag--ghost">{profile.location}</span>
+          </p>
+          <h1 className="hero__name">
+            <span className="hero__name-line">{first}</span>
+            <span className="hero__name-line">
+              <span className="hero__name-ball">
+                {rest}
+                <span className="delivery" aria-hidden="true">
+                  <span className="delivery__trail" />
+                  <CricketBall className="delivery__ball" />
+                </span>
               </span>
             </span>
-          </span>
-        </h1>
-      </HeroMast>
-      <div className="hero__inner">
-        <p className="hero__headline">{profile.headline}</p>
-        <div className="hero__body">
+          </h1>
+          <p className="hero__headline">{profile.headline}</p>
           <p className="hero__pitch">{profile.pitch}</p>
           <HeroActions contact={profile.contact} />
         </div>

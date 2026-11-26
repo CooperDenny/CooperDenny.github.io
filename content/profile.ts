@@ -10,7 +10,6 @@ import identity from '@/content/identity.json';
 import type {
   Education,
   FeaturedProject,
-  HeroShot,
   Job,
   Profile,
   Project,
@@ -35,6 +34,7 @@ export const profile: Profile = {
   /** Large PNG kept for Open Graph / JSON-LD. */
   photo: '/images/hero-image.png',
   avatarWebp: '/images/hero-avatar.webp',
+  portrait: { src: '/images/hero-image.webp', width: 480, height: 480 },
   headline:
     'I build machine-learning models, data pipelines and analytics products for community sport.',
   pitch:
@@ -52,32 +52,6 @@ export const profile: Profile = {
     phone: '0478 944 105',
   },
 };
-
-/**
- * Cooper's own match photos behind the hero name, in the order they crossfade. The tracking
- * overlay boxes and tags Cooper only: never add a box or tag for another player.
- */
-export const heroShots: HeroShot[] = [
-  {
-    src: '/images/hero-bowling.webp',
-    srcSmall: '/images/hero-bowling-1000.webp',
-    width: 2000,
-    height: 1333,
-    alt: `${identity.name} bowling in a club cricket match`,
-    subject: { x: 868, y: 405, w: 347, h: 637, tag: 'BOWLER · DENNY' },
-    ball: { x: 916, y: 428 },
-  },
-  {
-    src: '/images/hero-batting.webp',
-    srcSmall: '/images/hero-batting-1000.webp',
-    width: 2000,
-    height: 1333,
-    alt: `${identity.name} batting in a club cricket match`,
-    push: true,
-    subject: { x: 628, y: 548, w: 494, h: 474, tag: 'BATTER · DENNY' },
-    ball: { x: 682, y: 860 },
-  },
-];
 
 /** Jobs, most recent first. Within a job, `roles` are most recent first. */
 export const experience: Job[] = [

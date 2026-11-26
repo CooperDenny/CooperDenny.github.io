@@ -115,6 +115,8 @@ export type Profile = {
   photo: string;
   /** Small round portrait, used on /links/. */
   avatarWebp: string;
+  /** The hero's round profile picture (480 px square WebP; shown at 240 px or smaller per 2× rule). */
+  portrait: { src: string; width: number; height: number };
   headline: string;
   pitch: string;
   resumeSummary: string;
@@ -128,26 +130,6 @@ export type ContactChannel = {
   href: string;
   display: string;
   icon: IconName;
-};
-
-/**
- * One of Cooper's match photos behind the hero name, with its tracking overlay.
- * Coordinates are in the photo's own pixels. Only ever box or tag Cooper, never another player.
- */
-export type HeroShot = {
-  /** Full-size WebP (2000 px wide). */
-  src: string;
-  /** 1000 px wide copy for phones. */
-  srcSmall: string;
-  width: number;
-  height: number;
-  alt: string;
-  /** Subject sits left of centre: frame the photo so he clears the name. */
-  push?: boolean;
-  /** Cooper's tracking box and its tag, e.g. 'BOWLER · DENNY'. */
-  subject: { x: number; y: number; w: number; h: number; tag: string };
-  /** Where the ball is, for the reticle. */
-  ball: { x: number; y: number };
 };
 
 /** A home-page section: one definition drives its anchor id, nav link and heading. */

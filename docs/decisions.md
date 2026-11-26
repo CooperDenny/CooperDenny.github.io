@@ -31,9 +31,10 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
 | [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo (*superseded by D26*) |
 | [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
-| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero |
+| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero (*hero replaced by D29*) |
 | [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
 | [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
+| [D29](#d29-the-hero-is-a-profile-picture-not-match-photos) | The hero is a profile picture, not match photos |
 
 ---
 
@@ -67,7 +68,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 
 **Decision.** Plain `<img>` tags (the `no-img-element` lint rule is disabled per line). Every image is self-hosted in `public/images/` as WebP, sized to at most 2× its display size. The hero uses a `<picture>` with a 5 KB mobile avatar and a 14 KB desktop portrait.
 
-**Consequences.** Images load fast and can't break due to someone else's server. New images must be resized before committing ([how](editing-content.md#add-a-logo)). `hero-image.png` is kept only for social-preview images.
+**Consequences.** Images load fast and can't break due to someone else's server. New images must be resized before committing ([how](editing-content.md#add-a-logo)). `hero-image.png` is kept for social-preview images; its 480px WebP copy, `hero-image.webp`, is the hero's profile picture (D29).
 
 ### D05. Fonts load via `<link>`; icons are inline SVG
 
@@ -309,7 +310,7 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 **Consequences.** The repository gains four hero WebPs (about 450 KB in all; phones load the 1000px copies, 46–84 KB) and a small canvas engine in `lib/charts/` (`HeroMast` and `ChartConsole` are client components). Adding or changing a photo means hand-placing its overlay coordinates, and only Cooper may be tagged ([how](editing-content.md#the-hero-photos-and-charts)). `hero-image.webp` (the old desktop portrait) is gone; `hero-image.png` stays for Open Graph and JSON-LD. Project pages follow: a light header with mowing stripes and a display title.
 
-*Partly reversed by [D28](#d28-a-quieter-hero-and-shorter-sections): the chart console, the HUD frame counter, the proof strip and the core-stack line are gone.*
+*Partly reversed by [D28](#d28-a-quieter-hero-and-shorter-sections): the chart console, the HUD frame counter, the proof strip and the core-stack line are gone. The photo masthead itself is replaced by a profile picture in [D29](#d29-the-hero-is-a-profile-picture-not-match-photos); the theme, type and details stand.*
 
 ### D27. The résumé is called a CV
 
@@ -330,3 +331,15 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - **Length:** the home page shows each job's first three highlights (`homeHighlights()`); the CV still lists every one, so PlayHQ's bullets are ordered strongest first, with the churn model second. The Brownlow card drops its "Method, iteration & evaluation" disclosure: the method is on the season write-ups, and the card keeps its one 56% 3-vote figure, its caption and links to every season (D11). The Tooling skills group (Jupyter, VS Code, Jira, Confluence, Excel), already off the CV, is removed.
 
 **Consequences.** The home page loads no canvas code and is shorter on every screen. Nothing was reworded or invented: content was only removed or reordered, and the CV's text is unchanged (still two pages, D22). The Brownlow question, approach and accuracy note no longer live in `profile.ts`; the write-ups under `public/projects/afl-brownlow-*` are their home.
+
+### D29. The hero is a profile picture, not match photos
+
+**Context.** With the hero stripped back (D28), Cooper asked to "scrap the cricket hero at the top and just have my profile picture". Of the two photos in the repository he chose the heart-sunglasses one (`hero-image.png`), which already fronts link previews and `/links/`, over the jumper headshot (`profile-photo.jpg`).
+
+**Decision.**
+- The hero is Cooper's round profile picture with the copy on the white band: above the copy on phones (104px, 136px from 600px), beside it on desktop (300px). It's `hero-image.webp`, the 480px WebP the pre-D26 site used, restored from history, so the 2× rule of D04 holds at every size.
+- The photo masthead goes: `HeroMast` (crossfade, drift, tracking overlay), the four match WebPs (about 450 KB), `heroShots`, `HeroShot`, `trackOverlay()`, the `--on-photo` and `--scrim` tokens, the pause and play icons and `lib/motion/reducedMotion.ts`.
+- The name keeps its delivery underline, now navy (`--band-accent`) with the SVG ball (D28) resting past it. The role and location tags become a navy pill and an outlined pill.
+- No pause button: the hero's only motion is CSS that plays once in under two seconds, below WCAG 2.2.2's five-second threshold. The CLAUDE.md rule is updated to match.
+
+**Consequences.** The home page ships no hero JavaScript (`Hero` is a server component) and about 450 KB less imagery. The "only ever tag Cooper" rule has nothing to apply to now; it comes back with any photo overlay. `profile-photo.jpg` stays in `public/images/` unused, available if Cooper wants the headshot instead: that would be a new square WebP and one change to `profile.portrait`.

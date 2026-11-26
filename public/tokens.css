@@ -59,10 +59,6 @@
   --mow: #f2f5ef; /* faint mowing stripes on light bands; decorative only */
   --hover-tint: rgba(15, 31, 23, 0.05);
 
-  /* The hero photos: white on a navy scrim. Small text on a photo always sits on --scrim. */
-  --on-photo: #ffffff;
-  --scrim: rgba(9, 20, 40, 0.86);
-  --scrim-soft: rgba(9, 20, 40, 0.42);
 
   /* Code */
   --code-bg: #f4f6f2;
