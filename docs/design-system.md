@@ -59,16 +59,30 @@ All tokens live in [`public/tokens.css`](../public/tokens.css) on `:root`. They'
 | `--code-bg` | `#f4f6f2` | Code blocks on project pages |
 | `--shadow` / `--shadow-glow` | soft green-grey / navy ring | Card elevation / hover lift |
 
-**The band.** The nav and the hero copy sit on a band that is the same white as the page, so the hero runs into the content:
+**The band.** The nav (and the mobile menu sheet) sit on a band that is the same white as the page:
 
 | Token | Value | Use |
 |---|---|---|
-| `--band` | `#fbfcfa` | Band background (hero, mobile menu sheet) |
+| `--band` | `#fbfcfa` | Band background (nav, mobile menu sheet) |
 | `--band-text` / `--band-muted` | `#0f1f17` / `#3d4d43` | Text on the band |
 | `--band-accent` / `--band-accent-ink` | `#16305c` / `#ffffff` | Primary buttons, the live dot |
 | `--band-line` | `rgba(15, 31, 23, 0.12)` | Rules on the band |
 
-On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette.
+On the band, always use the `--band-*` tokens, not `--accent`, so the band can change without touching the page palette. `--band` is also read for `theme-color` and by the project pages, so changing it changes the browser bar and every project header too.
+
+**The hero.** The home hero is a deep navy band under the light nav ([D31](decisions.md#d31-the-hero-is-a-navy-band)). In the hero, use only these:
+
+| Token | Value | Use |
+|---|---|---|
+| `--hero` | `#0f2142` | Hero background, and the gap round the photo |
+| `--hero-text` | `#ffffff` | Name, headline, the delivery rule, the photo's ring, focus outlines (15.95:1) |
+| `--hero-muted` | `#c3cee0` | Pitch and the location tag (10.05:1) |
+| `--hero-line` | `rgba(255, 255, 255, 0.5)` | Ghost-button and tag outlines (about 5:1 as an edge) |
+| `--hero-accent` / `--hero-accent-ink` | `#ffffff` / `#16305c` | The primary CV button and the role tag: white with navy text (13.03:1) |
+| `--hero-accent-hover` / `--hero-hover` | `#dfe6f1` / `rgba(255, 255, 255, 0.1)` | Primary and ghost button hover |
+| `--hero-glow` | `rgba(255, 255, 255, 0.06)` | A soft light behind the photo; decorative only |
+
+The red ball is 2.3:1 on `--hero`; it's decoration (`aria-hidden`), and its shine and drop shadow carry it.
 
 ### Type, shape, motion and layout
 
@@ -150,13 +164,13 @@ Every layout must work from **320px to 1440px wide with no horizontal scroll**. 
 
 ## The hero
 
-The home hero (`components/home/Hero.tsx`) is server-rendered and deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections), [D29](decisions.md#d29-the-hero-is-a-profile-picture-not-match-photos)), all on the white band:
+The home hero (`components/home/Hero.tsx`) is server-rendered and deliberately quiet ([D28](decisions.md#d28-a-quieter-hero-and-shorter-sections), [D29](decisions.md#d29-the-hero-is-a-profile-picture-not-match-photos)), on a navy band (D31):
 
-1. **The profile picture** (`profile.portrait`): a round crop with a white gap and a navy `--band-accent` ring. On phones it sits beside the role and location tags at 72px (88px from 600px), served from the 160px `hero-avatar.webp` through `srcset`; on desktop it is 240px, beside the copy, from the 480px `hero-image.webp`.
-2. **The copy**: the role and location tags (a navy pill and an outlined one), the name in display type on **one line**, the headline, the pitch and the actions: CV, LinkedIn (labelled, since it's the fastest way to reach Cooper), and Email and GitHub as icons.
+1. **The profile picture** (`profile.portrait`): a round crop with a navy gap and a white ring. On phones it sits beside the role and location tags at 72px (88px from 600px), served from the 160px `hero-avatar.webp` through `srcset`; on desktop it is 240px, beside the copy, from the 480px `hero-image.webp`.
+2. **The copy**: the role and location tags (a white pill and an outlined one), the name in display type on **one line**, the headline, the pitch and the actions: CV, LinkedIn (labelled, since it's the fastest way to reach Cooper), and Email and GitHub as icons.
 
 The hero is kept short on purpose: about 465px on a 390px phone and 445px on desktop, so the next section starts on the first screen. Every piece is a direct grid item of `.hero__inner`, placed by `grid-template-areas` at each breakpoint.
-3. **The delivery underline**: the name's second line carries a navy rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. It plays once, in under two seconds, so the hero needs no pause button.
+3. **The delivery underline**: the name's second line carries a white rule that draws as an SVG cricket ball (`ui/CricketBall`, with a curved stitched seam) rolls in and comes to rest just past its end. It plays once, in under two seconds, so the hero needs no pause button.
 
 There is no photo masthead, tracking overlay, chart console, HUD, proof strip or core-stack line any more (D28, D29). The portrait is data in `content/profile.ts`; see [Editing content](editing-content.md#the-profile-picture).
 
@@ -173,8 +187,8 @@ Home-page and CV styles live in `app/globals.css`, in BEM-style blocks (`.block_
 | `.bullets` | `ui/Bullets` | Navy ball bullets |
 | `.card` | — | Surface, border, radius, shadow |
 | `.section` (+ `--alt`) | `ui/Section` | One heading, no label above it; `.section__header` ends in **the crease**: a hairline with one short tick |
-| `.hero__photo` | Hero | The round profile picture with its navy ring |
-| `.tag` (+ `--ghost`), `.live` | Hero | Role and location tags: a navy pill and an outlined one; the breathing dot |
+| `.hero__photo` | Hero | The round profile picture with its white ring |
+| `.tag` (+ `--ghost`), `.live` | Hero | Role and location tags: a white pill and an outlined one; the breathing dot. `.hero .btn--*` invert the buttons for the navy band |
 | `.delivery` | Hero + `ui/CricketBall` | The name's underline: a rule that draws as the SVG ball rolls to rest just past its end |
 | `.metrics` | FeaturedProjectCard | Metric rows (label, bar for percentages, value) |
 | `.project` (+ `::before` / `::after`) | ProjectCard | **The seam**: a stitched navy line draws across the top on hover, the ball riding it; the whole card is a link |

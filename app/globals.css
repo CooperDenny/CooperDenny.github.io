@@ -429,13 +429,18 @@ h2 {
 }
 
 /* ---------- Hero ----------
-   Compact by design (D29): the profile picture sits beside the tags on phones and beside the copy
+   A deep navy band under the light nav (D31), using only --hero-* tokens. Compact by design (D29): the profile picture sits beside the tags on phones and beside the copy
    on desktop, and the name is one line, so the hero ends well inside the first screen (D06). */
 
 .hero {
   position: relative;
-  background: var(--band);
-  color: var(--band-text);
+  background:
+    radial-gradient(ellipse 60% 90% at 82% 45%, var(--hero-glow), transparent 70%),
+    var(--hero);
+  color: var(--hero-text);
+}
+.hero :focus-visible {
+  outline-color: var(--hero-text);
 }
 .hero__inner {
   max-width: var(--container);
@@ -451,21 +456,20 @@ h2 {
     'ctas ctas';
   column-gap: 14px;
   align-items: center;
-  border-bottom: 1px solid var(--band-line);
 }
 
-/* The profile picture: a round crop with a white gap and a navy ring. */
+/* The profile picture: a round crop with a navy gap and a white ring. */
 .hero__photo {
   grid-area: photo;
   width: 72px;
   height: 72px;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--surface-2);
-  border: 3px solid var(--band);
+  background: var(--hero);
+  border: 3px solid var(--hero);
   box-shadow:
-    0 0 0 2px var(--band-accent),
-    var(--shadow);
+    0 0 0 2px var(--hero-text),
+    0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 .hero__name {
@@ -474,7 +478,7 @@ h2 {
   font-size: clamp(1.875rem, 9.4vw, 2.75rem); /* one line, ball included, from 320px */
   line-height: 0.9;
   font-weight: 900;
-  color: var(--band-text);
+  color: var(--hero-text);
   white-space: nowrap;
 }
 .hero__name-line {
@@ -489,7 +493,7 @@ h2 {
   display: inline-block;
 }
 
-/* The delivery underline: a navy rule that draws as the ball rolls to rest just past its end. */
+/* The delivery underline: a white rule that draws as the ball rolls to rest just past its end. */
 .delivery {
   position: absolute;
   left: 0;
@@ -502,7 +506,7 @@ h2 {
   position: absolute;
   inset: 0;
   border-radius: var(--radius-pill);
-  background: var(--band-accent);
+  background: var(--hero-text);
   transform-origin: left center;
   animation: trail 900ms var(--ease-ball) 380ms both;
 }
@@ -513,7 +517,7 @@ h2 {
   width: 18px;
   height: 18px;
   margin-top: -9px;
-  filter: drop-shadow(0 2px 4px rgba(15, 31, 23, 0.25));
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
   animation: roll 900ms var(--ease-ball) 380ms both;
 }
 /* Motion only, never opacity: if animations stall (a background tab), the text is still there.
@@ -558,8 +562,8 @@ h2 {
   min-height: 26px;
   padding: 4px 10px;
   border-radius: var(--radius-pill);
-  background: var(--band-accent);
-  color: var(--band-accent-ink);
+  background: var(--hero-accent);
+  color: var(--hero-accent-ink);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   line-height: 16px;
@@ -569,14 +573,14 @@ h2 {
 }
 .tag--ghost {
   background: transparent;
-  color: var(--band-muted);
-  box-shadow: inset 0 0 0 1px var(--control-line);
+  color: var(--hero-muted);
+  box-shadow: inset 0 0 0 1px var(--hero-line);
 }
 .tag .live {
-  background: var(--band-accent-ink);
+  background: var(--hero-accent-ink);
 }
 .tag .live::after {
-  border-color: var(--band-accent-ink);
+  border-color: var(--hero-accent-ink);
 }
 
 .hero__headline {
@@ -594,7 +598,7 @@ h2 {
   margin-top: 8px;
   font-size: 0.9375rem;
   line-height: 1.55;
-  color: var(--band-muted);
+  color: var(--hero-muted);
 }
 .hero__ctas {
   grid-area: ctas;
@@ -607,6 +611,23 @@ h2 {
 .hero__ctas .btn--ghost:not(.btn--icon) {
   flex: 1 1 auto;
   padding: 0 14px;
+}
+/* Buttons inverted for the navy band. */
+.hero .btn--primary {
+  background: var(--hero-accent);
+  color: var(--hero-accent-ink);
+}
+.hero .btn--primary:hover {
+  background: var(--hero-accent-hover);
+  box-shadow: none;
+}
+.hero .btn--ghost {
+  border-color: var(--hero-line);
+  color: var(--hero-text);
+}
+.hero .btn--ghost:hover {
+  border-color: var(--hero-text);
+  background: var(--hero-hover);
 }
 .show-mobile {
   display: inline;
@@ -678,8 +699,8 @@ h2 {
     height: 240px;
     border-width: 6px;
     box-shadow:
-      0 0 0 3px var(--band-accent),
-      var(--shadow);
+      0 0 0 3px var(--hero-text),
+      0 16px 40px rgba(0, 0, 0, 0.4);
   }
   .hero__name {
     margin-top: 14px;

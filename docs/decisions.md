@@ -36,6 +36,7 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
 | [D29](#d29-the-hero-is-a-profile-picture-not-match-photos) | The hero is a profile picture, not match photos |
 | [D30](#d30-linkedin-is-the-main-contact) | LinkedIn is the main contact |
+| [D31](#d31-the-hero-is-a-navy-band) | The hero is a navy band |
 
 ---
 
@@ -352,3 +353,15 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 **Decision.** LinkedIn takes email's place as the labelled action: "LinkedIn" in the hero (CV stays primary) and in the sticky phone bar, "Message me on LinkedIn" as Contact's primary button, and Contact's intro says LinkedIn is the fastest way to reach him. Email stays one tap away: an icon button in the hero, and listed in Contact, on the CV and in JSON-LD. `contactChannels()` keeps its order (email first) for the CV header and the contact list.
 
 **Consequences.** The main contact action now opens LinkedIn in a new tab instead of a mail client. If Cooper's preference changes, the switch is in `Hero.tsx`, `Contact.tsx`, `MobileCta.tsx` and the Contact intro in `content/sections.ts`.
+
+### D31. The hero is a navy band
+
+**Context.** With the compact profile-picture hero (D29) on the same white as the page, Cooper suggested a darker background for contrast. The all-dark navy theme of D24 and D25 had been rejected as "very Claude-y", so the darkness is kept to the hero.
+
+**Decision.**
+- The hero sits on deep navy (`--hero`, `#0f2142`), with a soft light behind the photo. The nav, the mobile menu and everything below stay on the light theme; there is still one theme and no theme script (D26).
+- The hero gets its own `--hero-*` tokens rather than a dark `--band`, because `--band` also sets the nav, the mobile menu sheet, `theme-color` and every project-page header.
+- Inverted for the band: white name, headline and delivery rule; `--hero-muted` pitch; a white role tag and an outlined location tag; a white CV button with navy text; outlined white LinkedIn, Email and GitHub buttons; a white ring round the photo; white focus outlines. Every text pair is at least 10:1, and outlines are about 5:1.
+- The red ball stays red: still the only red on the site.
+
+**Consequences.** The top of the page now has a clear edge, and the photo and name stand out. Anything added to the hero must use `--hero-*` tokens; the CLAUDE.md rule says so. Project pages are unchanged (their headers read `--band`).

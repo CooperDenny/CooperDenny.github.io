@@ -56,6 +56,17 @@
   --band-accent-ink: #ffffff;
   --band-line: rgba(15, 31, 23, 0.12);
   --nav-bg: rgba(251, 252, 250, 0.88);
+
+  /* The hero: a deep navy band under the light nav (D31). In the hero, use these, never --band-* or --accent. */
+  --hero: #0f2142;
+  --hero-text: #ffffff; /* 15.95:1 */
+  --hero-muted: #c3cee0; /* 10.05:1 */
+  --hero-line: rgba(255, 255, 255, 0.5); /* outlines; about 5:1 as an edge */
+  --hero-accent: #ffffff; /* the primary button and the role tag */
+  --hero-accent-ink: #16305c; /* 13.03:1 on --hero-accent */
+  --hero-accent-hover: #dfe6f1;
+  --hero-hover: rgba(255, 255, 255, 0.1);
+  --hero-glow: rgba(255, 255, 255, 0.06); /* soft light behind the photo; decorative only */
   --mow: #f2f5ef; /* faint mowing stripes on light bands; decorative only */
   --hover-tint: rgba(15, 31, 23, 0.05);
 
