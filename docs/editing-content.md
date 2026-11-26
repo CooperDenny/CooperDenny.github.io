@@ -10,7 +10,7 @@ Recipes for every common change. Each one says **which file to edit**, shows **w
 - [Profile: headline, pitch, summary](#profile-headline-pitch-summary)
 - [Name, role, employer, location](#name-role-employer-location)
 - [Experience](#experience) — [add a job](#add-a-job) · [record a promotion](#record-a-promotion) · [add a logo](#add-a-logo)
-- [Projects](#projects) — [edit a card](#edit-a-project-card) · [add a project](#add-a-project) · [the featured project](#the-featured-project)
+- [Projects](#projects) — [edit a project](#edit-a-project) · [add a project](#add-a-project) · [the featured project](#the-featured-project)
 - [Project pages](#project-pages) — [edit wording](#edit-a-project-pages-wording) · [update a report after re-knitting](#update-a-report-after-re-knitting-it)
 - [Skills](#skills)
 - [Education](#education)
@@ -85,7 +85,7 @@ Add an object at the top of the list:
     'Lead with the outcome, then how — a number if you have a real one.',
     // strongest first: the home page shows the first three, the CV shows every one
   ],
-  stack: ['SQL', 'Python', 'dbt'],        // shown as chips; keep to the tools you actually used here
+  stack: ['SQL', 'Python', 'dbt'],        // shown as one plain "Tools" line; keep to the tools you actually used here
 },
 ```
 
@@ -103,23 +103,23 @@ roles: [
 ],
 ```
 
-The job card then shows the current title, and a "Promoted from …" line for each earlier role. The CV lists every role with its dates. Also update `role` in [`content/identity.json`](../content/identity.json), then run `python3 scripts/build-project-pages.py`.
+The job's row then shows the current title, and a "Promoted from …" line for each earlier role. The CV lists every role with its dates. Also update `role` in [`content/identity.json`](../content/identity.json), then run `python3 scripts/build-project-pages.py`.
 
 ### Add a logo
 
-Put the file in `public/images/` as `logo-<name>.webp`, **at most 240px on the long side** (it's shown at 48–56px, so 240px is ample even on high-density screens). Any converter works, for example [Squoosh](https://squoosh.app/), or `cwebp -resize 240 0 logo.png -o logo-name.webp`. Host logos locally; don't hotlink ([why](decisions.md#d04-images-are-plain-img-self-hosted-webp)). SVG is fine too, as with `logo-monash.svg`.
+Put the file in `public/images/` as `logo-<name>.webp`, **at most 240px on the long side** (it's shown at 40px, so 240px is ample even on high-density screens). Any converter works, for example [Squoosh](https://squoosh.app/), or `cwebp -resize 240 0 logo.png -o logo-name.webp`. Host logos locally; don't hotlink ([why](decisions.md#d04-images-are-plain-img-self-hosted-webp)). SVG is fine too, as with `logo-monash.svg`.
 
 ---
 
 ## Projects
 
-The home page has one **featured project** (the Brownlow model), a grid of **project cards** (`projects`), and a compact **Earlier work** list of title links (`earlierProjects`), all in [`content/profile.ts`](../content/profile.ts). Entries in both `projects` and `earlierProjects` have the same shape, so to demote or promote a project, move its entry from one list to the other ([why](decisions.md#d20-lower-signal-projects-are-listed-not-carded)).
+The home page has one **featured project** (the Brownlow model), one ruled row per **project** (`projects`), and a compact **Earlier work** list of title links (`earlierProjects`), all in [`content/profile.ts`](../content/profile.ts). Entries in both `projects` and `earlierProjects` have the same shape, so to demote or promote a project, move its entry from one list to the other ([why](decisions.md#d20-lower-signal-projects-are-listed-not-carded)).
 
-### Edit a project card
+### Edit a project
 
-Each card in `projects` has a `oneLiner` (the one sentence shown on the card), a `summary` (the longer version used on the CV) and a `stack`.
+Each entry in `projects` has a `oneLiner` (the one sentence shown in its row), a `summary` (the longer version used on the CV) and a `stack`.
 
-Keep `oneLiner` to **one sentence**: the card is a teaser, and the project page has the detail ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
+Keep `oneLiner` to **one sentence**: the row is a teaser, and the project page has the detail ([why](decisions.md#d06-the-home-page-is-designed-against-drop-off)).
 
 ### Add a project
 
@@ -166,14 +166,15 @@ To put a project on the printed CV, add `onResume: true` to its card, and check 
 
 ### The featured project
 
-`featuredProject` is the large Brownlow card. Keep it as **one consolidated card** linking to every season's write-up; don't add a card per season. It shows the title, `oneLiner`, the metric marked `onCard` and the links; the method lives on the write-ups, and `summary` and `iteration` are used on the CV. Its `metrics` each have four fields:
+`featuredProject` is the Brownlow model, the one featured entry. Keep it as **one consolidated entry** linking to every season's write-up; don't add one per season. It shows the title, `oneLiner`, the tools, the links and a small results table of every metric (the one marked `onCard` first, by `resultRows()`), with `resultsCaption` under it saying what the figures were scored on. The method lives on the write-ups; `summary` and `iteration` are used on the CV. Its `metrics` each have these fields:
 
 | Field | Used for |
 |---|---|
-| `value` | The big number on the tile, e.g. `'r = 0.93'` |
-| `short` | The tile caption, 2–4 words |
-| `label` | The full description (tooltip) |
+| `value` | The figure in the results table's right column, e.g. `'r = 0.93'` |
+| `label` | The row's description in the results table: say plainly what was measured |
+| `short` | A 2–4 word name (React key; for tight spaces) |
 | `sentence` | The clause used on the CV, where the metrics are joined into one sentence |
+| `onCard` | Optional: leads the results table |
 
 **Never use game-level accuracy as a headline metric** for the Brownlow model. It sits at the all-zeros baseline ([decision D11](decisions.md#d11-brownlow-results-are-reported-without-headline-accuracy)).
 
@@ -205,7 +206,7 @@ All seven `/projects/<slug>/` pages are produced by a generator. **Don't edit th
 { label: 'Data engineering', items: ['dbt / dbt Cloud', 'Snowflake', 'Fivetran'] },
 ```
 
-Skills are plain text on purpose: recruiters scan and search for keywords ([why](decisions.md#d07-skills-are-text-not-logos)). Don't add collaboration tools (Slack, Teams, Zoom, Google Drive, Office); they read as padding.
+Each group renders as one ruled row: the label, then the items as one comma-separated line. Skills are plain text on purpose: recruiters scan and search for keywords ([why](decisions.md#d07-skills-are-text-not-logos)). Don't add collaboration tools (Slack, Teams, Zoom, Google Drive, Office); they read as padding.
 
 A group with `onResume: false` is shown on the website but left off the printed CV (none is, at the moment).
 
@@ -217,7 +218,7 @@ Edit `education` in [`content/profile.ts`](../content/profile.ts). `result` is s
 
 Edit `profile.contact` in [`content/profile.ts`](../content/profile.ts). LinkedIn is the fastest way to reach Cooper, so it's the labelled button in the hero and the sticky phone bar and the primary button in Contact; email is an icon button ([D30](decisions.md#d30-linkedin-is-the-main-contact)). Every contact surface reads from there: the hero buttons, the contact section, the sticky mobile bar, the CV header, the structured data and the `/links/` page.
 
-`instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `contactChannels()` in `content/selectors.ts` is the professional set used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
+`instagram`, `facebook`, `spotify` and `phone` are personal, so they appear **only** on `/links/` (the Instagram bio link). `phone` is stored as displayed (`'0478 944 105'`); `waHref()` in `lib/links.ts` turns it into a `https://wa.me/61…` WhatsApp link (message or call); `/links/` shows it as "WhatsApp", not as a number. `x` appears only on `/links/` too ([D32](decisions.md#d32-the-home-page-is-a-scorebook)). `contactChannels()` in `content/selectors.ts` is the professional set (email, LinkedIn, GitHub) used everywhere else; `linkInBioChannels()` sets the `/links/` order. To add a link to `/links/`, add it to `ContactLinks` in `content/types.ts`, fill it in here, and list it in `linkInBioChannels()`. Never link to `/links/` from the site or add it to the sitemap ([D19](decisions.md#d19-the-link-in-bio-page-is-unlisted)).
 
 ## Section headings and navigation
 
@@ -245,7 +246,7 @@ The nav menu is generated from this list, in this order. Changing an `id` update
 
 ## The profile picture
 
-`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src` (`/images/hero-image.webp`, a 480px square WebP for desktop, shown at 240px), `srcSmall` (the 160px `/images/hero-avatar.webp`, shown at 72–88px on phones and also used on `/links/`), `width` and `height`. Each file is at most 2× the size it's shown at, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change the photo, export both square WebPs with EXIF stripped (480px under about 40 KB, 160px under about 8 KB) and update the fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
+`profile.portrait` in [`content/profile.ts`](../content/profile.ts) is the round photo in the hero: `src` (`/images/hero-image.webp`, a 480px square WebP for desktop, shown at 220px), `srcSmall` (the 160px `/images/hero-avatar.webp`, shown at 72–88px on phones and also used on `/links/`), `width` and `height`. Each file is at most 2× the size it's shown at, per [D04](decisions.md#d04-images-are-plain-img-self-hosted-webp). To change the photo, export both square WebPs with EXIF stripped (480px under about 40 KB, 160px under about 8 KB) and update the fields. The face should sit near the centre, because the image is cropped to a circle. `profile.photo` (`hero-image.png`) is the separate copy used for link previews and JSON-LD.
 
 ## Site settings: URL, analytics, fonts
 

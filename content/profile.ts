@@ -107,7 +107,7 @@ export const experience: Job[] = [
   },
 ];
 
-/** The large featured card (the Brownlow model — one card for both seasons). */
+/** The featured project (the Brownlow model: one entry for every season). */
 export const featuredProject: FeaturedProject = {
   slug: 'afl-brownlow',
   title: 'AFL Brownlow Medal Prediction Model',
@@ -133,10 +133,11 @@ export const featuredProject: FeaturedProject = {
       label: 'Games where the model picked the 3-vote player, from 46 on the field',
       short: '3-vote player found',
       sentence: 'the 3-vote player identified in 56% of games',
-      // The one figure on the home card: r and MAE read as confusing without context (D24).
+      // Leads the home-page results table: the plainest of the three to read (D24, D32).
       onCard: true,
     },
   ],
+  resultsCaption: 'Scored on the 2024 season, which the model never saw in training.',
   iteration:
     'v1 (2023) over-rated ruckmen such as Max Gawn; v2 (2024) added player position, lifting r from 0.885 to 0.928 and cutting MAE from 2.17 to 2.01. In 2025 it found the 3-vote player in 59% of games, its best yet.',
   stack: ['R', 'Ordinal regression', 'tidyverse', 'Feature engineering'],
@@ -148,7 +149,7 @@ export const featuredProject: FeaturedProject = {
   ],
 };
 
-/** Project cards under the featured card, in display order. */
+/** Project rows under the featured project, in display order. */
 export const projects: Project[] = [
   pageProject('eildon-park-cricket-club', {
     oneLiner: 'Designed, built and still run my cricket club’s platform: every senior season since 1989/90 joined to live Play Cricket data, plus an admin portal, email, video and an MCP server.',

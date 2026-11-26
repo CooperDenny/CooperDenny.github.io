@@ -30,11 +30,11 @@ export type Metric = {
   value: string;
   /** Full description (tooltip, screen readers). */
   label: string;
-  /** Two-to-four-word caption for the compact metric tiles. */
+  /** Two-to-four-word caption, for tight spaces. */
   short: string;
   /** Clause used in running prose, e.g. on the CV. */
   sentence: string;
-  /** Shown on the home-page featured card. The CV always lists every metric. */
+  /** Leads the home-page results table (the CV lists every metric in its own order). */
   onCard?: boolean;
 };
 
@@ -44,11 +44,11 @@ export type Link = {
   href: string;
 };
 
-/** A project card on the home page (and optionally the CV). */
+/** A project row on the home page (and optionally the CV). */
 export type Project = {
   slug: string;
   title: string;
-  /** One sentence for the home-page card. Full detail lives on the project page. */
+  /** One sentence for the home-page row. Full detail lives on the project page. */
   oneLiner: string;
   /** Longer description, used on the CV. */
   summary: string;
@@ -66,13 +66,15 @@ export type ProjectList = {
   projects: Project[];
 };
 
-/** The large featured card: a project plus its results and how it improved. */
+/** The featured project: a project plus its results and how it improved. */
 export type FeaturedProject = Project & {
   metrics: Metric[];
+  /** Caption under the home-page results table: what the figures were scored on. */
+  resultsCaption: string;
   iteration: string;
 };
 
-/** A labelled group of skills, shown as chips. */
+/** A labelled group of skills, shown as one plain comma-separated line. */
 export type SkillGroup = {
   label: string;
   items: string[];

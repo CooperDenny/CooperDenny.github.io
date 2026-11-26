@@ -1,27 +1,24 @@
 import ActionLink from '@/components/ui/ActionLink';
 import Icon from '@/components/ui/Icon';
-import Section, { SectionHeading } from '@/components/ui/Section';
+import Section from '@/components/ui/Section';
 import SmartLink from '@/components/ui/SmartLink';
 import { CV_HREF, SECTIONS } from '@/content/sections';
 import { contactChannel, contactChannels } from '@/content/selectors';
 import type { ContactChannel, ContactLinks } from '@/content/types';
 
-/** Closing call to action plus every contact channel. */
+/** Closing call to action (LinkedIn first, D30) plus the professional contact channels as ruled rows. */
 export default function Contact({ contact }: { contact: ContactLinks }) {
   const linkedin = contactChannel(contact, 'linkedin');
   return (
-    <Section section={SECTIONS.contact} className="contact" bare>
-      <div className="container contact__inner">
-        <div>
-          <SectionHeading section={SECTIONS.contact} />
-          <div className="hero__ctas">
-            <ActionLink href={linkedin.href} variant="primary" icon={linkedin.icon}>
-              Message me on LinkedIn
-            </ActionLink>
-            <ActionLink href={CV_HREF} variant="ghost" icon="fileLines">
-              CV
-            </ActionLink>
-          </div>
+    <Section section={SECTIONS.contact} className="contact">
+      <div className="contact__grid">
+        <div className="actions">
+          <ActionLink href={linkedin.href} variant="primary" icon={linkedin.icon}>
+            Message me on LinkedIn
+          </ActionLink>
+          <ActionLink href={CV_HREF} variant="ghost" icon="fileLines">
+            CV
+          </ActionLink>
         </div>
         <ChannelList channels={contactChannels(contact)} />
       </div>

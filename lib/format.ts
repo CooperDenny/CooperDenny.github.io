@@ -5,5 +5,8 @@ export const dateRange = (start: string, end: string) => `${start} – ${end}`;
 export const listSentence = (items: string[]) =>
   new Intl.ListFormat('en', { style: 'long', type: 'conjunction' }).format(items);
 
+/** ["R", "SQL"] → "R, SQL": the plain tools line under jobs, projects and skill groups. */
+export const commaList = (items: string[]) => items.join(', ');
+
 /** Join truthy class names. */
 export const cx = (...names: (string | false | null | undefined)[]) => names.filter(Boolean).join(' ');

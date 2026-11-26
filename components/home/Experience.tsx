@@ -1,59 +1,55 @@
 import Bullets from '@/components/ui/Bullets';
-import Chips from '@/components/ui/Chips';
 import Logo from '@/components/ui/Logo';
 import Section from '@/components/ui/Section';
+import Tools from '@/components/ui/Tools';
 import { SECTIONS } from '@/content/sections';
 import { currentRole, homeHighlights, previousRoles, tenure } from '@/content/selectors';
 import type { Job, Role } from '@/content/types';
 import { dateRange } from '@/lib/format';
 
-/** Experience section: one card per job, most recent first. */
+/** Experience section: one ruled row per job, most recent first, dates in the left column. */
 export default function Experience({ jobs }: { jobs: Job[] }) {
   return (
     <Section section={SECTIONS.experience}>
-      <ol className="timeline">
+      <ol className="ledger">
         {jobs.map((job) => (
-          <JobCard key={job.company} job={job} />
+          <JobRow key={job.company} job={job} />
         ))}
       </ol>
     </Section>
   );
 }
 
-function JobCard({ job }: { job: Job }) {
+function JobRow({ job }: { job: Job }) {
   return (
-    <li className="job card">
-      <JobHeader job={job} />
-      {previousRoles(job).map((role) => (
-        <Promotion key={role.title} from={role} />
-      ))}
-      <p className="job__summary">{job.summary}</p>
-      <Bullets items={homeHighlights(job)} />
-      <Chips items={job.stack} label="Tools used" />
-    </li>
-  );
-}
-
-function JobHeader({ job }: { job: Job }) {
-  return (
-    <div className="job__head">
-      <Logo src={job.logo} alt={job.logoAlt} width={56} height={56} />
-      <div className="job__title">
-        <h3>{currentRole(job).title}</h3>
-        <p className="job__company">{job.company}</p>
-        <p className="job__dates">
-          {tenure(job)} <span className="job__type">· {job.employmentType}</span>
-        </p>
+    <li className="ledger__row job">
+      <p className="ledger__meta">
+        <span className="figure">{tenure(job)}</span>
+        <span className="ledger__note">{job.employmentType}</span>
+      </p>
+      <div className="ledger__body">
+        <div className="entry__head">
+          <Logo src={job.logo} alt={job.logoAlt} width={56} height={56} />
+          <div>
+            <h3>{currentRole(job).title}</h3>
+            <p className="entry__org">{job.company}</p>
+          </div>
+        </div>
+        {previousRoles(job).map((role) => (
+          <Promotion key={role.title} from={role} />
+        ))}
+        <p className="job__summary">{job.summary}</p>
+        <Bullets items={homeHighlights(job)} />
+        <Tools items={job.stack} />
       </div>
-    </div>
+    </li>
   );
 }
 
 function Promotion({ from }: { from: Role }) {
   return (
     <p className="job__promo">
-      <span className="job__promo-badge">Promoted</span>
-      from {from.title} ({dateRange(from.start, from.end)})
+      Promoted from {from.title} <span className="figure">({dateRange(from.start, from.end)})</span>
     </p>
   );
 }

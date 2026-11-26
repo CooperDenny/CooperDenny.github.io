@@ -1,7 +1,7 @@
 import ActionLink from '@/components/ui/ActionLink';
 import CricketBall from '@/components/ui/CricketBall';
 import { CV_HREF, HERO_ACTIONS_ID } from '@/content/sections';
-import { contactChannel, nameLines } from '@/content/selectors';
+import { contactChannel, nameLines, roleAt } from '@/content/selectors';
 import type { Profile } from '@/content/types';
 
 type HeroProfile = Pick<
@@ -9,8 +9,9 @@ type HeroProfile = Pick<
   'name' | 'role' | 'employer' | 'location' | 'portrait' | 'headline' | 'pitch' | 'contact'
 >;
 
-// Kept short: on a phone the photo sits beside the tags and the name is one line, so the first
+// Kept short: on a phone the photo sits beside the role line and the name is one line, so the first
 // screen holds photo, name, role, headline, pitch and the two actions that matter (D06, D29).
+// Plain paper closed by a double ink rule, like the top of a scorebook page (D32).
 // Every piece is a direct grid item of .hero__inner, which places them per breakpoint.
 export default function Hero({ profile }: { profile: HeroProfile }) {
   const [first, rest] = nameLines(profile.name);
@@ -30,12 +31,9 @@ export default function Hero({ profile }: { profile: HeroProfile }) {
           alt={profile.name}
           fetchPriority="high"
         />
-        <p className="hero__eyebrow">
-          <span className="tag">
-            <span className="live" aria-hidden="true" />
-            {profile.role} · {profile.employer}
-          </span>
-          <span className="tag tag--ghost">{profile.location}</span>
+        <p className="hero__role">
+          {roleAt(profile)}
+          <span className="hero__place">{profile.location}</span>
         </p>
         <h1 className="hero__name">
           <span className="hero__name-line">{first}</span>{' '}
@@ -62,7 +60,7 @@ function HeroActions({ contact }: { contact: HeroProfile['contact'] }) {
   const linkedin = contactChannel(contact, 'linkedin');
   const iconLinks = [contactChannel(contact, 'email'), contactChannel(contact, 'github')];
   return (
-    <div className="hero__ctas" id={HERO_ACTIONS_ID}>
+    <div className="actions hero__actions" id={HERO_ACTIONS_ID}>
       <ActionLink href={CV_HREF} variant="primary" icon="fileLines">
         <span className="show-mobile">CV</span>
         <span className="hide-mobile">View CV</span>

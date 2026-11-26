@@ -8,16 +8,14 @@ import type {
   FeaturedProject,
   Job,
   Metric,
+  Profile,
   Project,
   ResumeEntry,
   SkillGroup,
 } from '@/content/types';
 
-/**
- * The professional contact methods (hero, contact section, CV, JSON-LD), normalised for
- * rendering. Order here is display order. Personal socials are deliberately left out: see linkInBioChannels().
- */
-export function contactChannels(c: ContactLinks): ContactChannel[] {
+/** Every contact method, normalised for rendering. Use contactChannels() or linkInBioChannels() to pick. */
+function allChannels(c: ContactLinks): ContactChannel[] {
   return [
     { key: 'email', label: 'Email', href: `mailto:${c.email}`, display: c.email, icon: 'envelope' },
     { key: 'linkedin', label: 'LinkedIn', href: c.linkedin.href, display: c.linkedin.handle, icon: 'linkedin' },
@@ -25,6 +23,13 @@ export function contactChannels(c: ContactLinks): ContactChannel[] {
     { key: 'x', label: 'X', href: c.x.href, display: c.x.handle, icon: 'x' },
   ];
 }
+
+/**
+ * The professional contact methods (hero, contact section, CV, JSON-LD), in display order.
+ * X and the personal socials are left out: they appear only on /links/ (D32, see linkInBioChannels()).
+ */
+export const contactChannels = (c: ContactLinks): ContactChannel[] =>
+  allChannels(c).filter((ch) => ch.key !== 'x');
 
 /**
  * Every link on the unlisted /links/ page (the Instagram bio link), in display order:
@@ -46,7 +51,7 @@ export function linkInBioChannels(c: ContactLinks, siteHref: string): ContactCha
 
 /** A single contact channel by key, normalised for rendering. */
 export function contactChannel(c: ContactLinks, key: ContactChannel['key']): ContactChannel {
-  return contactChannels(c).find((ch) => ch.key === key)!;
+  return allChannels(c).find((ch) => ch.key === key)!;
 }
 
 /** The job's current (most recent) role. */
@@ -61,14 +66,14 @@ export const HOME_HIGHLIGHTS = 3;
 /** A job's leading highlights for the home page (put the strongest first in profile.ts). */
 export const homeHighlights = (job: Job) => job.highlights.slice(0, HOME_HIGHLIGHTS);
 
-/** Metrics shown on the home-page featured card (the CV lists them all). */
-export const cardMetrics = (p: FeaturedProject) => p.metrics.filter((m) => m.onCard);
+/** Rows of the home-page results table: the leading metric first, then the rest in their order. */
+export const resultRows = (p: FeaturedProject): Metric[] => [
+  ...p.metrics.filter((m) => m.onCard),
+  ...p.metrics.filter((m) => !m.onCard),
+];
 
-/** A percentage metric's value as a number (for its meter bar), or undefined if it isn't one. */
-export function metricPercent(m: Metric): number | undefined {
-  const match = /^(\d+(?:\.\d+)?)%$/.exec(m.value);
-  return match ? Number(match[1]) : undefined;
-}
+/** "Data Scientist at PlayHQ": the hero's plain role line. */
+export const roleAt = (p: Pick<Profile, 'role' | 'employer'>) => `${p.role} at ${p.employer}`;
 
 /** CV project entries: the featured project (with its results) then any flagged side projects. */
 export function resumeProjects(featured: FeaturedProject, projects: Project[]): ResumeEntry[] {

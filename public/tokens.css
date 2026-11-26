@@ -8,8 +8,9 @@
      - public/projects/report.css (knitr report overrides)
 
    One theme: "Test match day", light. There is no dark mode or theme switch (decision D26).
-   Flannel-white pages, turf ink, a navy cap for the accent, and the leather-red ball as the
-   only red on the site. Change a value here and every page follows.
+   The home page is drawn as a scorebook (D32): flannel-white paper, turf ink, ruled lines and
+   tabular figures, a navy cap for the accent, and the leather-red ball as the only red on the
+   site. Change a value here and every page follows.
 
    Every text colour meets WCAG AA (≥ 4.5:1) against every background it sits on —
    re-check contrast if you change a colour (table: docs/design-system.md#contrast).
@@ -47,8 +48,8 @@
   --ball-shade: #5e0914;
   --ball-seam: #fff3e0; /* the stitched seam on the ball; decorative only */
 
-  /* The band (nav + hero copy): the same white as the page, so the hero runs into the content.
-     On the band, use these, never --accent directly. */
+  /* The band (nav and hero): the same white as the page, so the hero runs into the content.
+     In the nav and hero, use these, never --accent directly. */
   --band: #fbfcfa;
   --band-text: #0f1f17;
   --band-muted: #3d4d43;
@@ -57,16 +58,9 @@
   --band-line: rgba(15, 31, 23, 0.12);
   --nav-bg: rgba(251, 252, 250, 0.88);
 
-  /* The hero: a deep navy band under the light nav (D31). In the hero, use these, never --band-* or --accent. */
-  --hero: #0f2142;
-  --hero-text: #ffffff; /* 15.95:1 */
-  --hero-muted: #c3cee0; /* 10.05:1 */
-  --hero-line: rgba(255, 255, 255, 0.5); /* outlines; about 5:1 as an edge */
-  --hero-accent: #ffffff; /* the primary button and the role tag */
-  --hero-accent-ink: #16305c; /* 13.03:1 on --hero-accent */
-  --hero-accent-hover: #dfe6f1;
-  --hero-hover: rgba(255, 255, 255, 0.1);
-  --hero-glow: rgba(255, 255, 255, 0.06); /* soft light behind the photo; decorative only */
+  /* Scorebook rules (D32): structure comes from ruled lines, not boxes. */
+  --rule: #c3cdc0; /* hairline between rows; decorative only */
+  --rule-heavy: #0f1f17; /* the ink rule that opens each section and closes the hero */
   --mow: #f2f5ef; /* faint mowing stripes on light bands; decorative only */
   --hover-tint: rgba(15, 31, 23, 0.05);
 

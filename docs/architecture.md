@@ -84,7 +84,7 @@ If you're about to type a fact a second time, it already has a home:
 |---|---|---|
 | Home/CV copy and the hero's profile picture | `content/profile.ts` | Next |
 | Name, role, employer, location | `content/identity.json` | Next, generator |
-| Project pages: slug, title, teaser, order | `content/projects.json` | Next (cards, sitemap), generator |
+| Project pages: slug, title, teaser, order | `content/projects.json` | Next (project rows, sitemap), generator |
 | Project-page copy | `scripts/project_pages/content.py` | generator |
 | Icon SVG paths | `content/icons.json` | Next, generator |
 | URL, GA ID, fonts URL | `config/site.json` | Next, generator |
@@ -109,20 +109,23 @@ Any component can then be rendered with any data (for a test, a preview, or a se
 A component's main function reads like an outline. Markup details live in named sub-components underneath it, in the same file:
 
 ```tsx
-function JobCard({ job }: { job: Job }) {
+function JobRow({ job }: { job: Job }) {
   return (
-    <li className="job card">
-      <JobHeader job={job} />
-      {previousRoles(job).map((role) => <Promotion key={role.title} from={role} />)}
-      <p className="job__summary">{job.summary}</p>
-      <Bullets items={job.highlights} />
-      <Chips items={job.stack} label="Tools used" />
+    <li className="ledger__row job">
+      <p className="ledger__meta">…{tenure(job)}…</p>
+      <div className="ledger__body">
+        …
+        {previousRoles(job).map((role) => <Promotion key={role.title} from={role} />)}
+        <p className="job__summary">{job.summary}</p>
+        <Bullets items={homeHighlights(job)} />
+        <Tools items={job.stack} />
+      </div>
     </li>
   );
 }
 ```
 
-Data shaping (tenure, contact channels, CV entries, the hero's name lines) lives in `content/selectors.ts`, not in JSX. The same rule applies to the generator: `ReportPage._pipeline()` lists *what* happens to a report, and each `Transform` class holds *how*.
+Data shaping (tenure, contact channels, CV entries, the results table's row order, the hero's name and role lines) lives in `content/selectors.ts`, not in JSX. The same rule applies to the generator: `ReportPage._pipeline()` lists *what* happens to a report, and each `Transform` class holds *how*.
 
 ### Rule 4: Extend with data or new classes, not edits (open/closed)
 
@@ -132,7 +135,7 @@ Data shaping (tenure, contact channels, CV entries, the hero's name lines) lives
 
 ### Rule 5: Narrow interfaces
 
-Components take the smallest props that do the job (interface segregation): `Chips` takes `string[]`; `Hero` takes a `Pick<Profile, …>`; `Footer` takes three strings. Python protocols are equally small: a `Transform` has one method, `apply(src) -> src`.
+Components take the smallest props that do the job (interface segregation): `Tools` takes `string[]`; `Hero` takes a `Pick<Profile, …>`; `Footer` takes three strings. Python protocols are equally small: a `Transform` has one method, `apply(src) -> src`.
 
 ---
 
@@ -197,14 +200,14 @@ components/
     ActionLink.tsx               Link styled as a button — every CTA
     SmartLink.tsx                <a> that opens external URLs in a new tab, safely
     Icon.tsx                     Inline SVG from content/icons.json
-    Chips.tsx · Bullets.tsx      Tag list · bulleted list
-    Logo.tsx                     Organisation logo on a white tile
-    Section.tsx                  <section> + heading from a SectionDef (also exports SectionHeading)
+    Tools.tsx · Bullets.tsx      Plain comma-separated tools line · bulleted list
+    Logo.tsx                     Small organisation logo beside an entry's title
+    Section.tsx                  <section> + ink rule + plain heading from a SectionDef
     CricketBall.tsx              The SVG ball at the end of the hero's delivery underline
   home/                          The home page's sections
     Hero.tsx                     Profile picture, name, headline, pitch, CTAs (server-rendered)
-    Experience.tsx               Job cards with promotion lines (first three highlights; the CV has all)
-    Projects.tsx                 FeaturedProjectCard.tsx + ProjectCard.tsx grid + ProjectLinkList.tsx
+    Experience.tsx               Ruled job rows with promotion lines (first three highlights; the CV has all)
+    Projects.tsx                 FeaturedProjectCard.tsx (results table) + ProjectRow.tsx rows + ProjectLinkList.tsx
     Skills.tsx · Education.tsx · Contact.tsx
   layout/                        Site chrome
     Navbar.tsx                   Top bar, mobile menu ('use client')
@@ -230,7 +233,7 @@ config/
   site.ts                        siteConfig: resolved URL, SEO strings, themeColor from tokens.css
 
 lib/
-  format.ts                      dateRange(), listSentence(), cx()
+  format.ts                      dateRange(), listSentence(), commaList(), cx()
   links.ts                       isExternal(), externalAttrs(), waHref(), prettyUrl()
   seo.ts                         Metadata, viewport, JSON-LD
 

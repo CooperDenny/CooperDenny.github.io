@@ -31,12 +31,13 @@ Each record has the **context** (the problem), the **decision**, and its **conse
 | [D23](#d23-the-cricket-club-page-has-a-full-feature-tour) | The cricket club page has a full feature tour |
 | [D24](#d24-navy-band-cyan-accent-and-archivo) | Navy band, cyan accent and Archivo (*superseded by D26*) |
 | [D25](#d25-one-dark-theme) | One dark theme (*superseded by D26*) |
-| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero (*hero replaced by D29*) |
+| [D26](#d26-test-match-day-light-theme-playhq-type-and-a-photo-hero) | "Test match day": light theme, PlayHQ type and a photo hero (*hero replaced by D29; home layout by D32*) |
 | [D27](#d27-the-résumé-is-called-a-cv) | The résumé is called a CV |
 | [D28](#d28-a-quieter-hero-and-shorter-sections) | A quieter hero and shorter sections |
 | [D29](#d29-the-hero-is-a-profile-picture-not-match-photos) | The hero is a profile picture, not match photos |
 | [D30](#d30-linkedin-is-the-main-contact) | LinkedIn is the main contact |
-| [D31](#d31-the-hero-is-a-navy-band) | The hero is a navy band |
+| [D31](#d31-the-hero-is-a-navy-band) | The hero is a navy band (*superseded by D32*) |
+| [D32](#d32-the-home-page-is-a-scorebook) | The home page is a scorebook |
 
 ---
 
@@ -356,6 +357,8 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 
 ### D31. The hero is a navy band
 
+*Superseded by [D32](#d32-the-home-page-is-a-scorebook): the hero is paper again.*
+
 **Context.** With the compact profile-picture hero (D29) on the same white as the page, Cooper suggested a darker background for contrast. The all-dark navy theme of D24 and D25 had been rejected as "very Claude-y", so the darkness is kept to the hero.
 
 **Decision.**
@@ -365,3 +368,19 @@ When editing the page, keep to these rules; then it needs no routine refresh. Sc
 - The red ball stays red: still the only red on the site.
 
 **Consequences.** The top of the page now has a clear edge, and the photo and name stand out. Anything added to the hero must use `--hero-*` tokens; the CLAUDE.md rule says so. Project pages are unchanged (their headers read `--band`).
+
+### D32. The home page is a scorebook
+
+**Context.** Cooper felt the navy hero (D31) "looks a bit off" and asked for the site to look less like generated AI work. A critique of the home page (November 2026) found the usual tells: a card around every entry, about 45 chips, monospace labels used as decoration, a pulsing role pill, stock headings ("Where I’ve worked", "Let’s talk"), a big-number metric strip in the Brownlow card, and decoration standing in for structure (the photo glow, the crease ticks, alternating section bands, a glass nav). Cooper accepted every recommendation and chose the "scorebook" direction.
+
+**Decision.** The home page is drawn like a cricket scorebook: ink on paper, structure from ruled lines, figures in columns.
+- **No boxes.** Jobs, projects, education, skills and contact are rows split by hairlines (`--rule`); each section opens on a 2px ink rule (`--rule-heavy`) and a plain heading. On desktop every row has the same 14rem left column (dates, or the skill group) so figures line up down the page. No cards, shadows, glows, alternating bands or glass: the nav and phone bar are solid paper.
+- **The hero** is paper again, in `--band-*` tokens, closed by a double ink rule. The role pill and live dot became a plain line ("Data Scientist at PlayHQ", location under it). The `--hero-*` tokens are gone. The profile picture (D29), the one-line name with the red ball (D28) and LinkedIn first (D30) stay.
+- **Plain headings:** Experience, Projects, Skills, Education, Contact.
+- **No chips.** Tools are one plain "Tools" line under each job and project; skills are one comma-separated line per group.
+- **Monospace only for figures** (dates and results, `.figure`, with tabular numerals). Labels are Barlow.
+- **Only the Brownlow model gets a featured treatment:** its claim and write-up links beside a small results table: 56% 3-vote recall first, then r = 0.93 and MAE 2.0, each with a plain label, and a caption saying they were scored on the unseen 2024 season. The meter bar is gone. With a label on every row, r and MAE no longer need hiding, which amends D24's one-figure card. Accuracy is still never shown (D11).
+- **X leaves the professional set** (`contactChannels()`): it's not on the home page, the CV or the JSON-LD any more, only on `/links/`.
+- Buttons are square-cornered (`--radius-sm`), not pills.
+
+**Consequences.** The page reads as one system, made of rules, columns and type, and says less about itself. Anything new on the home page should be a ruled row, not a box. Barlow, Barlow Condensed and IBM Plex Mono stay (the PlayHQ connection, D26). Project pages keep their own layout and tokens for now; they could move to the scorebook in a later change.
